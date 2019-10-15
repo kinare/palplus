@@ -1,0 +1,167 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Palplus UAA",
+        "description": "Palplus Swagger API description",
+        "contact": {
+            "email": "michaelkinare@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "basePath": "/api/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "summary": "User Registration",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "login successful"
+                    },
+                    "401": {
+                        "description": "Login Failed"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "summary": "User login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User password",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "login successful"
+                    },
+                    "401": {
+                        "description": "Login Failed"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "summary": "User logout",
+                "responses": {
+                    "200": {
+                        "description": "logout successful"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/auth/user": {
+            "get": {
+                "summary": "Current user",
+                "responses": {
+                    "200": {
+                        "description": "User object"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/auth/activate/{code}": {
+            "get": {
+                "summary": "activate user account",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Activation Code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Activation Successfull"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AuthController": {
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Order"
+            }
+        }
+    },
+    "securityDefinitions": {
+        "passport": {
+            "type": "oauth2",
+            "flow": "password",
+            "tokenUrl": "/oauth/token",
+            "scopes": {}
+        }
+    }
+}
