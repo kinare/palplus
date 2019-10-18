@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\MemberResource;
 use App\Members;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class MembersController extends BaseController
 {
