@@ -22,6 +22,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::namespace('Auth')->group(function (){
             Route::post('login', 'AuthController@login');
             Route::post('register', 'AuthController@register');
+            Route::post('otp', 'AuthController@registerByPhone');
             Route::get('activate/{token}', 'AuthController@activate');
 
             //password reset
@@ -35,6 +36,16 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('logout', 'AuthController@logout');
                 Route::get('user', 'AuthController@user');
             });
+        });
+    });
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::group(['prefix' => 'member'], function () {
+            Route::resource('/', 'MembersController');
+            Route::get('/{id}', 'MembersController@show');
+            Route::patch('/{id}', 'MembersController@update');
+            Route::delete('/{id}', 'MembersController@destroy');
+            Route::delete('/{id}/force', 'MembersController@forceDestroy');
         });
     });
 

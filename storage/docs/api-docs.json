@@ -16,7 +16,10 @@
     "paths": {
         "/auth/register": {
             "post": {
-                "summary": "User Registration",
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User  Registration",
                 "parameters": [
                     {
                         "name": "name",
@@ -29,6 +32,20 @@
                         "name": "email",
                         "in": "query",
                         "description": "email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_code",
+                        "in": "query",
+                        "description": "country code",
                         "required": true,
                         "type": "string"
                     },
@@ -49,10 +66,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "login successful"
+                        "description": "Success"
                     },
-                    "401": {
-                        "description": "Login Failed"
+                    "400": {
+                        "description": "Not found"
                     },
                     "500": {
                         "description": "internal server error"
@@ -62,6 +79,9 @@
         },
         "/auth/login": {
             "post": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "User login",
                 "parameters": [
                     {
@@ -81,10 +101,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "login successful"
+                        "description": "Success"
                     },
-                    "401": {
-                        "description": "Login Failed"
+                    "400": {
+                        "description": "Not found"
                     },
                     "500": {
                         "description": "internal server error"
@@ -94,10 +114,16 @@
         },
         "/auth/logout": {
             "get": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "User logout",
                 "responses": {
                     "200": {
-                        "description": "logout successful"
+                        "description": "Success"
+                    },
+                    "500": {
+                        "description": "internal server error"
                     }
                 },
                 "security": [
@@ -109,10 +135,19 @@
         },
         "/auth/user": {
             "get": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Current user",
                 "responses": {
                     "200": {
-                        "description": "User object"
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
                     }
                 },
                 "security": [
@@ -124,38 +159,101 @@
         },
         "/auth/activate/{code}": {
             "get": {
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "activate user account",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/member": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Retrieve list of members",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Create New Member",
                 "parameters": [
                     {
-                        "name": "code",
-                        "in": "path",
-                        "description": "Activation Code",
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "setting_id",
+                        "in": "query",
+                        "description": "setting_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "profile_id",
+                        "in": "query",
+                        "description": "profile_id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Activation Successfull"
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },
-    "definitions": {
-        "AuthController": {
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            },
-            "type": "object",
-            "xml": {
-                "name": "Order"
-            }
-        }
-    },
+    "definitions": {},
     "securityDefinitions": {
         "passport": {
             "type": "oauth2",

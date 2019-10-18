@@ -2,84 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MemberResource;
 use App\Members;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class MembersController extends Controller
+class MembersController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        parent::__construct(Members::class, MemberResource::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * @SWG\Get(
+     *   path="/member",
+     *   tags={"Member"},
+     *   summary="Retrieve list of members",
+     *   security={
+     *     {"passport": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * @SWG\Post(
+     *   path="/member",
+     *   tags={"Member"},
+     *   summary="Create New Member",
+     *   security={
+     *     {"passport": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="query",description="group id",required=true,type="integer"),
+     *   @SWG\Parameter(name="user_id",in="query",description="user_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="setting_id",in="query",description="setting_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="profile_id",in="query",description="profile_id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([d.
+            'group_id' => 'required',
+            'user_id'  => 'required',
+            'setting_id'  => 'required',
+            'profile_id'  => 'required'
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Members  $members
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Members $members)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Members  $members
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Members $members)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Members  $members
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Members $members)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Members  $members
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Members $members)
-    {
-        //
+        return parent::store($request);
     }
 }
