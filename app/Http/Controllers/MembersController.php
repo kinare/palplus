@@ -46,7 +46,7 @@ class MembersController extends BaseController
      *   @SWG\Parameter(name="profile_id",in="query",description="profile_id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
-     *   @SWG\Response(response=500, description="internal server error")
+     *   @SWG\Response(response=500, description="internal server errors")
      * )
      *
      */
