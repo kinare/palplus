@@ -242,7 +242,7 @@
                         "description": "Not found"
                     },
                     "500": {
-                        "description": "internal server error"
+                        "description": "internal server errors"
                     }
                 },
                 "security": [
