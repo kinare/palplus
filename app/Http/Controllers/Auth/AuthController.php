@@ -197,6 +197,7 @@ class AuthController extends Controller
      *   path="/auth/activate/{code}",
      *   tags={"Auth"},
      *   summary="activate user account",
+     *   @SWG\Parameter(name="code",in="path",description="Activation code",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

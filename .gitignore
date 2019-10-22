@@ -10,3 +10,4 @@ Homestead.yaml
 npm-debug.loggit
 yarn-error.log
 .idea/
+.env

@@ -159,6 +159,15 @@
                     "Auth"
                 ],
                 "summary": "activate user account",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Activation code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -170,6 +179,186 @@
                         "description": "internal server error"
                     }
                 }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "All Users List",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/user/admins": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Admins User List",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/user/admin/make/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Make user an admin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/user/admin/loose/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "revoke user admin right",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/user/activate/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Activate a user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/user/deactivate/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Dectivate a user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },

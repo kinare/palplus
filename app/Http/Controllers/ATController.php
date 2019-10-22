@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use AfricasTalking\SDK\AfricasTalking;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class ATController extends Controller
 {
