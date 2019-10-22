@@ -100,7 +100,7 @@ class AuthController extends Controller
      *   path="/auth/login",
      *   tags={"Auth"},
      *   summary="User login",
-     *   @SWG\Parameter(name="email",in="query",description="User email",required=true,type="string"),
+     *   @SWG\Parameter(name="phone",in="query",description="User phone",required=true,type="string"),
      *   @SWG\Parameter(name="password",in="query",description="User password",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -111,12 +111,12 @@ class AuthController extends Controller
     public  function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'phone' => 'required|string',
             'password' => 'required|string',
             'remember_me' => 'boolean',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('phone', $request->phone)->first();
 
         if (!$user || !Hash::check($request->password, $user->password))
             return response()->json([

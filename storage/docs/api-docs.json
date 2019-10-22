@@ -81,9 +81,9 @@
                 "summary": "User login",
                 "parameters": [
                     {
-                        "name": "email",
+                        "name": "phone",
                         "in": "query",
-                        "description": "User email",
+                        "description": "User phone",
                         "required": true,
                         "type": "string"
                     },
@@ -206,7 +206,7 @@
             }
         },
         "/user/admins": {
-            "post": {
+            "get": {
                 "tags": [
                     "User"
                 ],
