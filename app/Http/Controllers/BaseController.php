@@ -76,7 +76,6 @@ abstract class BaseController extends Controller
         }
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -155,6 +154,5 @@ abstract class BaseController extends Controller
         if ($result instanceof Collection){
             return $this->resource ? $this->resource::collection($result) : $result;
         }
-
     }
 }
