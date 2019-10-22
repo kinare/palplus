@@ -8,12 +8,7 @@
         },
         "version": "1.0.0"
     },
-    "host": "35.200.214.94",
     "basePath": "/api/",
-    "schemes": [
-        "http",
-        "https"
-    ],
     "paths": {
         "/auth/register": {
             "post": {
