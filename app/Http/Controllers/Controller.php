@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 /**
  * @SWG\Swagger(
  *   basePath="/api/",
+ *   host="35.200.214.94",
  *   schemes={"http", "https"},
  *   @SWG\Info(
  *     title="Palplus UAA",

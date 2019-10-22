@@ -8,6 +8,7 @@
         },
         "version": "1.0.0"
     },
+    "host": "35.200.214.94",
     "basePath": "/api/",
     "schemes": [
         "http",
@@ -174,82 +175,6 @@
                         "description": "internal server error"
                     }
                 }
-            }
-        },
-        "/member": {
-            "get": {
-                "tags": [
-                    "Member"
-                ],
-                "summary": "Retrieve list of members",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Member"
-                ],
-                "summary": "Create New Member",
-                "parameters": [
-                    {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "group id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "user_id",
-                        "in": "query",
-                        "description": "user_id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "setting_id",
-                        "in": "query",
-                        "description": "setting_id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "profile_id",
-                        "in": "query",
-                        "description": "profile_id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server errors"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
             }
         }
     },
