@@ -28,7 +28,7 @@
                         "name": "email",
                         "in": "query",
                         "description": "email",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
@@ -39,9 +39,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "country_code",
+                        "name": "country",
                         "in": "query",
-                        "description": "country code",
+                        "description": "country",
                         "required": true,
                         "type": "string"
                     },

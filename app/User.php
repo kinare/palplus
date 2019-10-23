@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'country_code', 'phone', 'password', 'verification_code'
+        'name', 'email', 'country', 'phone', 'password', 'verification_code'
     ];
 
     /**
@@ -41,6 +41,6 @@ class User extends Authenticatable
 
     public function activated() : bool
     {
-        return $this->active && $this->verification_code === '';
+        return $this->active && $this->verification_code === '' && $this->phone_verified;
     }
 }
