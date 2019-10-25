@@ -6,6 +6,7 @@ use App\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AdminResource;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -26,69 +27,67 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * @SWG\Get(
+     *   path="/admin",
+     *   tags={"Admin Auth"},
+     *   summary="Current Admin",
+     *  security={
+     *     {"passport": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * )
+     * @param $id
+     * @return AdminResource|JsonResponse
      */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        return new AdminResource( Admin::find($id));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Admin $admin)
+    public function update(Request $request, $id)
     {
-        //
+        $admin = Admin::find($id);
+        $admin->fill($request->all());
+        $admin->save();
+        return new AdminResource($admin);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Admin $admin)
+    public function activate($id)
     {
-        //
+        $admin = Admin::find($id);
+        $admin->active = true;
+        $admin->save();
+        return new AdminResource($admin);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Admin $admin)
+    public function deactivate($id)
     {
-        //
+        $admin = Admin::find($id);
+        $admin->active = false;
+        $admin->save();
+        return new AdminResource($admin);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Admin $admin)
+    public function delete($id)
     {
-        //
+        $admin = Admin::find($id);
+        $admin->delete();
+        return response()->json([
+            'message' => 'deleted successfully'
+        ], 200);
+    }
+
+    public function forceDelete($id)
+    {
+        $admin = Admin::find($id);
+        $admin->forceDelete();
+        return response()->json([
+            'message' => 'deleted successfully'
+        ], 200);
     }
 }

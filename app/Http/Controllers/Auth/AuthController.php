@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -29,7 +30,7 @@ class AuthController extends Controller
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="email",in="query",description="email",required=false,type="string"),
      *   @SWG\Parameter(name="phone",in="query",description="phone",required=true,type="string"),
-     *   @SWG\Parameter(name="country",in="query",description="country",required=true,type="string"),
+     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=true,type="string"),
      *   @SWG\Parameter(name="password",in="query",description="password",required=true,type="string"),
      *   @SWG\Parameter(name="password_confirmation",in="query",description="password",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -44,16 +45,17 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'string|email|unique:users',
             'phone' => 'required|string|unique:users',
-            'country' => 'required|string',
+            'country_code' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
 
-        //verify phone number
-
+        //validate phone number
+        $phone = $request->phone[0] === '0'  ? substr($request->phone, 1) : $request->phone;
+        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
         $user = new User([
             'name' => $request->name,
             'email' => $request->email ?: $request->phone,
-            'phone' => $request->phone,
+            'phone' => $country_code.$phone,
             'country' => $request->country_code,
             'password' => Hash::make($request->password),
             'verification_code' => $this->generateCode(),
@@ -67,31 +69,6 @@ class AuthController extends Controller
         ]);
     }
 
-    public function registerEmail(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
-        ]);
-
-
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'verification_code' => Str::random(60),
-        ]);
-
-        $user->save();
-
-        $user->notify(new SignupActivate($user));
-
-        return response()->json([
-            'message' => 'Successfully registered'
-        ], 201);
-    }
-
     /**
      * @param Request $request
      * @return JsonResponse
@@ -101,6 +78,7 @@ class AuthController extends Controller
      *   tags={"Auth"},
      *   summary="User login",
      *   @SWG\Parameter(name="phone",in="query",description="User phone",required=true,type="string"),
+     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=true,type="string"),
      *   @SWG\Parameter(name="password",in="query",description="User password",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -112,10 +90,16 @@ class AuthController extends Controller
     {
         $request->validate([
             'phone' => 'required|string',
+            'country_code' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('phone', $request->phone)->first();
+        //validate phone number
+        $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
+        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
+
+        $validPhone = $country_code.$phone;
+        $user = User::where('phone', $validPhone)->first();
         if (!$user || !Hash::check($request->password, $user->password))
             return response()->json([
                 'message' => 'Login failed. Check your email or password'
@@ -130,9 +114,10 @@ class AuthController extends Controller
                 'grant_type' => 'password',
                 'client_id' => env('PASSPORT_CLIENT_ID'),
                 'client_secret' => env('PASSPORT_CLIENT_SECRET'),
-                'username' => $request->phone,
+                'username' => $validPhone,
                 'password' => $request->password,
-                'scope' => '',
+                'provider' => 'users',
+
             ];
             $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
             $response = app()->handle($tokenRequest);

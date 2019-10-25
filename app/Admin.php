@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use SMartins\PassportMultiauth\HasMultiAuthApiTokens;
-use Storage;
 
 class Admin extends Authenticatable
 {
@@ -20,7 +18,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'active', 'activation_token', 'avatar',
+        'name', 'email', 'phone', 'password', 'active', 'invitation_token', 'avatar',
     ];
 
     /**
@@ -40,16 +38,4 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    protected $appends = ['avatar_url'];
-
-    public function getAvatarUrlAttribute()
-    {
-        return Storage::url('avatars/admins/'.$this->id.'/'.$this->avatar);
-    }
-
-    public function activated() : bool
-    {
-        return $this->active && $this->activation_token === '';
-    }
 }

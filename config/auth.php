@@ -49,12 +49,8 @@ return [
         'admin' => [
             'driver' => 'passport',
             'provider' => 'admins',
-            'hash' => false,
         ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Admin::class,
-        ],
+
     ],
 
     /*
@@ -80,9 +76,8 @@ return [
             'model' => App\User::class,
         ],
         'admins' => [
-            'provider' => 'admins',
-            'table' => 'password_resets',
-            'expire' => 60,
+            'driver' => 'eloquent',
+            'model' => App\Admin::class,
         ],
 
         // 'users' => [
@@ -112,6 +107,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
     ],
 
     /*
@@ -122,7 +123,7 @@ return [
     | Here you may define the amount of seconds before a password confirmation
     | times out and the user is prompted to re-enter their password via the
     | confirmation screen. By default, the timeout lasts for three hours.
-    |
+    |s
     */
 
     'password_timeout' => 10800,

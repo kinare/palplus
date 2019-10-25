@@ -2,9 +2,10 @@
 
 //Admin
 Route::namespace('Admin')->group(function (){
+    Route::post('invite', 'AdminAuthController@invite');
+    Route::post('validate', 'AdminAuthController@validateToken');
+    Route::post('create', 'AdminAuthController@register');
     Route::post('login', 'AdminAuthController@login');
-    Route::post('register', 'AdminAuthController@register');
-    Route::get('activate/{token}', 'AdminAuthController@activate');
 
     //password reset
     Route::group(['prefix' => 'password'], function (){
@@ -18,6 +19,9 @@ Route::namespace('Admin')->group(function (){
         Route::get('admin', 'AdminAuthController@user');
         Route::resource('/', 'AdminController');
     });
+
+
+
 });
 
 

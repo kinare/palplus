@@ -39,16 +39,10 @@ Route::group(['middleware' => ['json.response']], function () {
         });
     });
 
+    //store Routes
+    Route::prefix('admin')->group(base_path('routes/admin.php'));
+
     Route::group(['middleware' => 'auth:api'], function () {
-
-        Route::group(['prefix' => 'member'], function () {
-            Route::resource('/', 'MembersController');
-            Route::get('/{id}', 'MembersController@show');
-            Route::patch('/{id}', 'MembersController@update');
-            Route::delete('/{id}', 'MembersController@destroy');
-            Route::delete('/{id}/force', 'MembersController@forceDestroy');
-        });
-
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', 'UserController@index');
             Route::post('/', 'UserController@store');

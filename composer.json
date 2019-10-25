@@ -15,6 +15,7 @@
         "laravel/framework": "^6.2",
         "laravel/passport": "^7.5",
         "laravel/tinker": "^1.0",
+        "smartins/passport-multiauth": "^4.1",
         "zircote/swagger-php": "2.*"
     },
     "require-dev": {
