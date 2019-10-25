@@ -9,15 +9,25 @@ Route::namespace('Admin')->group(function (){
 
     //password reset
     Route::group(['prefix' => 'password'], function (){
-        Route::post('create', 'AdminAuthController@create');
-        Route::get('find/{token}', 'AdminAuthController@find');
-        Route::post('reset', 'AdminAuthController@reset');
+        Route::post('request', 'AdminPasswordResetController@create');
+        Route::get('validate/{token}', 'AdminPasswordResetController@find');
+        Route::post('/', 'AdminPasswordResetController@reset');
+    });
+
+    Route::group(['middleware' => 'multiauth:admin'], function () {
+        Route::get('logout', 'AdminAuthController@logout');
+        Route::get('me', 'AdminAuthController@me');
     });
 
     Route::group(['middleware' => 'auth:admin'], function () {
-        Route::get('logout', 'AdminAuthController@logout');
-        Route::get('admin', 'AdminAuthController@user');
-        Route::resource('/', 'AdminController');
+        Route::get('/', 'AdminController@index');
+        Route::get('/activate/{id}', 'AdminController@activate');
+        Route::get('/deactivate/{id}', 'AdminController@deactivate');
+        Route::get('/{id}', 'AdminController@show');
+        Route::patch('/{id}', 'AdminController@update');
+        Route::delete('/{id}', 'AdminController@destroy');
+        Route::delete('/{id}/force', 'AdminController@forceDestroy');
+
     });
 
 

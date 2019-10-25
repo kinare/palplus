@@ -12,17 +12,15 @@ class PasswordResetRequest extends Notification
     use Queueable;
 
     protected $token;
-    protected $provider;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token, $provider)
+    public function __construct($token)
     {
         $this->token = $token;
-        $this->provider = $provider;
     }
 
     /**
@@ -44,7 +42,7 @@ class PasswordResetRequest extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/api/auth/'.$this->provider.'/password/find/'.$this->token);
+        $url = url('/api/admin/password/find/'.$this->token);
 
         return (new MailMessage)
                     ->line('You are receiving this request because we received a password reset request for your account')

@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    use PasswordResetTrait;
 
     /**
      * @param Request $request
@@ -133,7 +132,7 @@ class AuthController extends Controller
      *   tags={"Auth"},
      *   summary="User logout",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -159,7 +158,7 @@ class AuthController extends Controller
      *   tags={"Auth"},
      *   summary="Current user",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Admin;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Resources\AdminResource;
+use App\Http\Resources\UserResource;
 use App\Notifications\AdminInviteNotice;
 use App\User;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ class AdminAuthController extends Controller
      *   tags={"Admin Auth"},
      *   summary="Invite Admin",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="email",in="query",description="Email Address",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -56,9 +57,6 @@ class AdminAuthController extends Controller
      *   path="/admin/validate",
      *   tags={"Admin Auth"},
      *   summary="Validate admin invitation token",
-     *  security={
-     *     {"passport": {}},
-     *   },
      *   @SWG\Parameter(name="token",in="query",description="Invitation token",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -89,9 +87,6 @@ class AdminAuthController extends Controller
      *   path="/admin/create",
      *   tags={"Admin Auth"},
      *   summary="Validate admin invitation token",
-     *  security={
-     *     {"passport": {}},
-     *   },
      *   @SWG\Parameter(name="id",in="query",description="id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="query",description="Name",required=true,type="string"),
      *   @SWG\Parameter(name="phone",in="query",description="Phone Number",required=true,type="string"),
@@ -150,7 +145,7 @@ class AdminAuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $admin = Admin::where('email', $request->email)->firstOrFail();
+        $admin = Admin::where('email', $request->email)->first();
         if (!$admin || !Hash::check($request->password, $admin->password))
             return response()->json([
                 'message' => 'Login failed. Check your email or password'
@@ -182,9 +177,9 @@ class AdminAuthController extends Controller
      * @SWG\Get(
      *   path="/admin/logout",
      *   tags={"Admin Auth"},
-     *   summary="Adminlogout",
+     *   summary="Admin logout",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -198,6 +193,28 @@ class AdminAuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @return UserResource
+     *
+     * @SWG\Get(
+     *   path="/admin/me",
+     *   tags={"Admin Auth"},
+     *   summary="Current Admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     *
+     */
+    public function me(Request $request)
+    {
+        return new UserResource($request->user());
     }
 
 

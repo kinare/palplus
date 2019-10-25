@@ -15,54 +15,27 @@ class UserController extends BaseController
     }
 
     /**
-     * @SWG\Get(
-     *   path="/user",
-     *   tags={"User"},
-     *   summary="All Users List",
-     *  security={
-     *     {"passport": {}},
-     *   },
-     *   @SWG\Response(response=200, description="Success"),
-     *   @SWG\Response(response=400, description="Not found"),
-     *   @SWG\Response(response=500, description="internal server error")
-     *
-     * )
-     */
+ * @SWG\Get(
+ *   path="/user",
+ *   tags={"User"},
+ *   summary="All Users List",
+ *  security={
+ *     {"bearer": {}},
+ *   },
+ *   @SWG\Response(response=200, description="Success"),
+ *   @SWG\Response(response=400, description="Not found"),
+ *   @SWG\Response(response=500, description="internal server error")
+ *
+ * )
+ */
 
     /**
      * @SWG\Get(
-     *   path="/user/admins",
+     *   path="/user/{id}",
      *   tags={"User"},
-     *   summary="Admins User List",
+     *   summary="Retrieve User",
      *  security={
-     *     {"passport": {}},
-     *   },
-     *   @SWG\Response(response=200, description="Success"),
-     *   @SWG\Response(response=400, description="Not found"),
-     *   @SWG\Response(response=500, description="internal server error")
-     *
-     * )
-     */
-
-    public function admins()
-    {
-        try{
-            return $this->response($this->model::where('is_admin', true)->get());
-        }catch (Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
-        }
-    }
-
-
-    /**
-     * @SWG\Get(
-     *   path="/user/admin/make/{id}",
-     *   tags={"User"},
-     *   summary="Make user an admin",
-     *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="User Id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -72,48 +45,6 @@ class UserController extends BaseController
      * )
      */
 
-    public function makeAdmin($id)
-    {
-        try{
-            $user = $this->model::find($id);
-            $user->is_admin = true;
-            $user->save();
-            return $this->response($user);
-        }catch (Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
-        }
-    }
-
-    /**
-     * @SWG\Get(
-     *   path="/user/admin/loose/{id}",
-     *   tags={"User"},
-     *   summary="revoke user admin right",
-     *  security={
-     *     {"passport": {}},
-     *   },
-     *   @SWG\Parameter(name="id",in="path",description="User Id",required=true,type="string"),
-     *   @SWG\Response(response=200, description="Success"),
-     *   @SWG\Response(response=400, description="Not found"),
-     *   @SWG\Response(response=500, description="internal server error")
-     *
-     * )
-     */
-    public function looseAdmin($id)
-    {
-        try{
-            $user = $this->model::find($id);
-            $user->is_admin = false;
-            $user->save();
-            return $this->response($user);
-        }catch (Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
-        }
-    }
 
     /**
      * @SWG\Get(
@@ -121,7 +52,7 @@ class UserController extends BaseController
      *   tags={"User"},
      *   summary="Activate a user",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="User Id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -150,7 +81,7 @@ class UserController extends BaseController
      *   tags={"User"},
      *   summary="Dectivate a user",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="User Id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -173,6 +104,55 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * @SWG\Patch(
+     *   path="/user/{id}",
+     *   tags={"User"},
+     *   summary="Update a user",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="name",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="email",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="country_code",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="phone",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="password",in="path",description="password",required=false,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+    /**
+     * @SWG\Delete(
+     *   path="/user/{id}",
+     *   tags={"User"},
+     *   summary="Soft delete a user",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+    /**
+     * @SWG\Delete(
+     *   path="/user/{id}/force",
+     *   tags={"User"},
+     *   summary="Force delete a user",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
 
 
 }

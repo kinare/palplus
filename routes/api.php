@@ -27,9 +27,9 @@ Route::group(['middleware' => ['json.response']], function () {
 
             //password reset
             Route::group(['prefix' => 'password'], function (){
-                Route::post('create', 'AuthController@create');
-                Route::get('find/{token}', 'AuthController@find');
-                Route::post('reset', 'AuthController@reset');
+                Route::post('request', 'UserPasswordResetController@create');
+                Route::get('validate/{token}', 'UserPasswordResetController@find');
+                Route::post('/', 'UserPasswordResetController@reset');
             });
 
             Route::group(['middleware' => 'auth:api'], function () {
@@ -46,11 +46,8 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', 'UserController@index');
             Route::post('/', 'UserController@store');
-            Route::get('/admins', 'UserController@admins');
             Route::get('/activate/{id}', 'UserController@activate');
             Route::get('/deactivate/{id}', 'UserController@deactivate');
-            Route::get('/admin/make/{id}', 'UserController@makeAdmin');
-            Route::get('/admin/loose/{id}', 'UserController@looseAdmin');
             Route::get('/{id}', 'UserController@show');
             Route::patch('/{id}', 'UserController@update');
             Route::delete('/{id}', 'UserController@destroy');

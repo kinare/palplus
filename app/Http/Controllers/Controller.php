@@ -21,13 +21,15 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  *
  * @SWG\SecurityScheme(
- * securityDefinition="passport",
- * type="oauth2",
- * tokenUrl="/oauth/token",
- * flow="password",
- * scopes={}
+ * securityDefinition="bearer",
+ * type="apiKey",
+ * name="Authorization",
+ * in="header",
+ * description="Auth Bearer Token Format as 'Bearer <access_token>'",
  * )
  * */
+
+
 
 
 class Controller extends BaseController

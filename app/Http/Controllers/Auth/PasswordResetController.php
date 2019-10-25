@@ -8,9 +8,17 @@ use App\PasswordReset;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
+    private $model;
+
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
 
     public function create(Request $request)
     {
@@ -18,23 +26,23 @@ class PasswordResetController extends Controller
             'email' => 'required|string|email'
         ]);
 
-        $user = User::whereEmail($request->email)->first();
+        $model = $this->model::whereEmail($request->email)->first();
 
-        if (!$user)
+        if (!$model)
             return response()->json([
                 'message' => 'We can\'t find a user with that email address.'
             ], 404);
 
         $passwordReset = PasswordReset::updateOrCreate(
-            ['email' => $user->email],
+            ['email' => $model->email],
             [
-                'email' => $user->email,
-                'token' => str_random(60)
+                'email' => $model->email,
+                'token' => Str::random(60)
             ]
         );
 
-        if ($user && $passwordReset)
-            $user->notify(new PasswordResetRequest($passwordReset->token));
+        if ($model && $passwordReset)
+            $model->notify(new PasswordResetRequest($passwordReset->token));
 
         return response()->json([
            'message' => 'we have emailed your password reset link.'
@@ -87,20 +95,21 @@ class PasswordResetController extends Controller
                 'message' => 'This password reset token is invalid!.'
             ], 404);
 
-        $user = User::whereEmail($request->email)->first();
+        $model = $this->model::whereEmail($request->email)->first();
 
-        if (!$user)
+        if (!$model)
             return response()->json([
                 'message' => 'We can\'t find a user with that email'
             ], 404);
 
-        $user->password = bcrypt($request->password);
-        $user->save();
-
+        $model->password = Hash::make($request->password);
+        $model->save();
         $passwordRest->delete();
 
-        $user->notify(new PasswordResetSuccess());
+        $model->notify(new PasswordResetSuccess());
 
-        return response()->json($user);
+        return response()->json([
+            'message' => 'successfully reset password'
+        ]);
     }
 }

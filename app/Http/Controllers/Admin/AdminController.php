@@ -3,60 +3,85 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AdminResource;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AdminController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index()
-    {
-        try{
-            return AdminResource::collection(Admin::paginate(15));
-        }catch (Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ], 500);
-        }
-    }
 
+    public function __construct()
+    {
+        parent::__construct(Admin::class, AdminResource::class);
+    }
 
     /**
      * @SWG\Get(
      *   path="/admin",
-     *   tags={"Admin Auth"},
-     *   summary="Current Admin",
+     *   tags={"Admins"},
+     *   summary="",
      *  security={
-     *     {"passport": {}},
+     *     {"bearer": {}},
      *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
      *
      * )
-     * @param $id
-     * @return AdminResource|JsonResponse
      */
-    public function show($id)
-    {
-        return new AdminResource( Admin::find($id));
-    }
 
-    public function update(Request $request, $id)
-    {
-        $admin = Admin::find($id);
-        $admin->fill($request->all());
-        $admin->save();
-        return new AdminResource($admin);
-    }
+    /**
+     * @SWG\Get(
+     *   path="/admin/{id}",
+     *   tags={"Admins"},
+     *   summary="Retrieve an Admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
 
+    /**
+     * @SWG\Patch(
+     *   path="/admin/{id}",
+     *   tags={"Admins"},
+     *   summary="Update an Admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="name",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="phone",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="email",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="super_admin",in="path",description="name",required=false,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+
+    /**
+     * @SWG\Get(
+     *   path="/admin/activate/{id}",
+     *   tags={"Admins"},
+     *   summary="Activate an admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
     public function activate($id)
     {
         $admin = Admin::find($id);
@@ -65,6 +90,20 @@ class AdminController extends Controller
         return new AdminResource($admin);
     }
 
+    /**
+     * @SWG\Get(
+     *   path="/admin/deactivate/{id}",
+     *   tags={"Admins"},
+     *   summary="deactivate an admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
     public function deactivate($id)
     {
         $admin = Admin::find($id);
@@ -73,21 +112,37 @@ class AdminController extends Controller
         return new AdminResource($admin);
     }
 
-    public function delete($id)
-    {
-        $admin = Admin::find($id);
-        $admin->delete();
-        return response()->json([
-            'message' => 'deleted successfully'
-        ], 200);
-    }
+    /**
+     * @SWG\Delete(
+     *   path="/admin/{id}",
+     *   tags={"Admins"},
+     *   summary="Soft delete an Admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
 
-    public function forceDelete($id)
-    {
-        $admin = Admin::find($id);
-        $admin->forceDelete();
-        return response()->json([
-            'message' => 'deleted successfully'
-        ], 200);
-    }
+    /**
+     * @SWG\Delete(
+     *   path="/admin/{id}/force",
+     *   tags={"Admins"},
+     *   summary="Force delete an Admin",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+
+
+
 }

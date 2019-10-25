@@ -38,7 +38,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
@@ -68,12 +68,7 @@
                     "500": {
                         "description": "internal server error"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         },
         "/admin/create": {
@@ -122,12 +117,7 @@
                     "500": {
                         "description": "internal server error"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         },
         "/admin/login": {
@@ -170,7 +160,7 @@
                 "tags": [
                     "Admin Auth"
                 ],
-                "summary": "Adminlogout",
+                "summary": "Admin logout",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -181,7 +171,28 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/me": {
+            "get": {
+                "tags": [
+                    "Admin Auth"
+                ],
+                "summary": "Current Admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
                     }
                 ]
             }
@@ -189,9 +200,9 @@
         "/admin": {
             "get": {
                 "tags": [
-                    "Admin Auth"
+                    "Admins"
                 ],
-                "summary": "Current Admin",
+                "summary": "",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -205,9 +216,284 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
+            }
+        },
+        "/admin/{id}": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Retrieve an Admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Soft delete an Admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Update an Admin",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "super_admin",
+                        "in": "path",
+                        "description": "name",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/activate/{id}": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Activate an admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/deactivate/{id}": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "deactivate an admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Force delete an Admin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/admin/password/request": {
+            "post": {
+                "tags": [
+                    "Admin Auth"
+                ],
+                "summary": "Password reset request",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/admin/password/validate/{token}": {
+            "get": {
+                "tags": [
+                    "Admin Auth"
+                ],
+                "summary": "Validate password request token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/admin/password": {
+            "post": {
+                "tags": [
+                    "Admin Auth"
+                ],
+                "summary": "Set Admin Password",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password confirmation",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
             }
         },
         "/auth/register": {
@@ -331,7 +617,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
@@ -355,7 +641,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
@@ -372,6 +658,125 @@
                         "in": "path",
                         "description": "Activation code",
                         "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/auth/password/request": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Password reset request",
+                "parameters": [
+                    {
+                        "name": "country_code",
+                        "in": "query",
+                        "description": "country code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/auth/password/validate/{token}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Validate password request token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/auth/password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Set User Password",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_code",
+                        "in": "query",
+                        "description": "country code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "password confirmation",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "description": "token",
+                        "required": false,
                         "type": "string"
                     }
                 ],
@@ -407,41 +812,17 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
         },
-        "/user/admins": {
+        "/user/{id}": {
             "get": {
                 "tags": [
                     "User"
                 ],
-                "summary": "Admins User List",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            }
-        },
-        "/user/admin/make/{id}": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Make user an admin",
+                "summary": "Retrieve User",
                 "parameters": [
                     {
                         "name": "id",
@@ -464,24 +845,72 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
-            }
-        },
-        "/user/admin/loose/{id}": {
-            "get": {
+            },
+            "delete": {
                 "tags": [
                     "User"
                 ],
-                "summary": "revoke user admin right",
+                "summary": "Soft delete a user",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update a user",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "name",
                         "in": "path",
-                        "description": "User Id",
+                        "description": "name",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_code",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "path",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "path",
+                        "description": "password",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -497,7 +926,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
@@ -530,7 +959,7 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
                     }
                 ]
             }
@@ -563,7 +992,31 @@
                 },
                 "security": [
                     {
-                        "passport": []
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/{id}/force": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Force delete a user",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
                     }
                 ]
             }
@@ -571,11 +1024,11 @@
     },
     "definitions": {},
     "securityDefinitions": {
-        "passport": {
-            "type": "oauth2",
-            "flow": "password",
-            "tokenUrl": "/oauth/token",
-            "scopes": {}
+        "bearer": {
+            "type": "apiKey",
+            "description": "Auth Bearer Token Format as 'Bearer <access_token>'",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
