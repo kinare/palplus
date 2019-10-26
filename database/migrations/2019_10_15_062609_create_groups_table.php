@@ -17,7 +17,10 @@ class CreateGroupsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('description');
-            $table->string('avatar');
+            $table->string('avatar')->nullable();
+            $table->enum('access_level', ['private', 'private'])->default('public');
+            $table->string('country');
+            $table->string('currency');
             $table->unsignedInteger('setting_id');
             $table->unsignedInteger('type_id');
             $table->unsignedInteger('loan_setting_id');

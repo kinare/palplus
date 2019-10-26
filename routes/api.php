@@ -53,6 +53,45 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::delete('/{id}', 'UserController@destroy');
             Route::delete('/{id}/force', 'UserController@forceDestroy');
         });
+
+
+        Route::group(['prefix' => 'group'], function () {
+            Route::get('/', 'GroupController@index');
+            Route::post('/', 'GroupController@store');
+            Route::get('/{id}', 'GroupController@show');
+            Route::patch('/{id}', 'GroupController@update');
+            Route::delete('/{id}', 'GroupController@destroy');
+            Route::delete('/{id}/force', 'GroupController@forceDestroy');
+        });
+
+        Route::group(['prefix' => 'member'], function () {
+            Route::get('/', 'MembersController@index');
+            Route::post('/', 'MembersController@store');
+            Route::get('/{id}', 'MembersController@show');
+            Route::patch('/{id}', 'MembersController@update');
+            Route::delete('/{id}', 'MembersController@destroy');
+            Route::delete('/{id}/force', 'MembersController@forceDestroy');
+        });
+
+        Route::group(['prefix' => 'activity-typ'], function () {
+            Route::get('/', 'ActivityType@index');
+            Route::post('/', 'ActivityType@store');
+            Route::get('/{id}', 'ActivityType@show');
+            Route::patch('/{id}', 'ActivityType@update');
+            Route::delete('/{id}', 'ActivityType@destroy');
+            Route::delete('/{id}/force', 'ActivityType@forceDestroy');
+        });
+
+        Route::group(['prefix' => 'activity'], function () {
+            Route::get('/', 'GroupActivity@index');
+            Route::post('/', 'GroupActivity@store');
+            Route::post('/join', 'GroupActivity@join');
+            Route::post('/leave', 'GroupActivity@leave');
+            Route::get('/{id}', 'GroupActivity@show');
+            Route::patch('/{id}', 'GroupActivity@update');
+            Route::delete('/{id}', 'GroupActivity@destroy');
+            Route::delete('/{id}/force', 'GroupActivity@forceDestroy');
+        });
     });
 
 });

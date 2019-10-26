@@ -49,7 +49,9 @@ abstract class BaseController extends Controller
     {
         try{
             $model = new $this->model();
-            $model->fill($request->all());
+            $data = $request->all();
+            $data['user_id'] = $request->user()->id;
+            $model->fill($data);
             $model->save();
             return $this->response($model);
         }catch (Exception $exception){
