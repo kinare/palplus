@@ -33,6 +33,7 @@ Route::group(['middleware' => ['json.response']], function () {
             });
 
             Route::group(['middleware' => 'auth:api'], function () {
+                Route::post('refresh', 'AuthController@refresh');
                 Route::get('logout', 'AuthController@logout');
                 Route::get('user', 'AuthController@user');
             });

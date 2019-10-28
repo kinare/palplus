@@ -120,6 +120,9 @@ class AuthController extends Controller
             ];
             $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
             $response = app()->handle($tokenRequest);
+            $response = json_decode($response->getContent(), true);
+            $response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
+            $response = collect($response);
             return $response;
     }
 
@@ -204,6 +207,46 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Account successfully activated. login to continue'
         ], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+
+     * @SWG\Post(
+     *   path="/auth/refresh",
+     *   tags={"Auth"},
+     *   summary="Refresh token",
+     *   security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="refresh_token",in="query",description="token",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     */
+    public function refresh(Request $request)
+    {
+        $request->validate([
+            'refresh_token' => 'string|required'
+        ]);
+
+        $form_params = [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $request->refresh_token,
+            'client_id' => env('PASSPORT_CLIENT_ID'),
+            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+            'provider' => 'users',
+            'scope' => '',
+
+        ];
+        $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
+        $response = app()->handle($tokenRequest);
+
+        return $response;
+
     }
 
     /**

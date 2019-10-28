@@ -86831,7 +86831,7 @@ var Auth = {
     login: function login(_ref, data) {
       var dispatch = _ref.dispatch;
       window.api.call("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].login, data).then(function (res) {
-        window.auth.login(res.data);
+        // window.auth.login(res.data);
         dispatch("user");
       });
     },

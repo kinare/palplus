@@ -8,10 +8,13 @@ use App\Http\Resources\AdminResource;
 use App\Http\Resources\UserResource;
 use App\Notifications\AdminInviteNotice;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 
 class AdminAuthController extends Controller
@@ -167,8 +170,12 @@ class AdminAuthController extends Controller
         ];
         $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
         $response = app()->handle($tokenRequest);
+        $response = json_decode($response->getContent(), true);
+        $response['expires_in'] = Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
+        $response = collect($response);
         return $response;
     }
+
 
     /**
      * @param Request $request
@@ -215,6 +222,47 @@ class AdminAuthController extends Controller
     public function me(Request $request)
     {
         return new UserResource($request->user());
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+
+     * @SWG\Post(
+     *   path="/admin/refresh",
+     *   tags={"Admin Auth"},
+     *   summary="Refresh token",
+     *     security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="refresh_token",in="query",description="token",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     */
+
+    public function refresh(Request $request)
+    {
+        $request->validate([
+            'refresh_token' => 'string|required'
+        ]);
+
+        $form_params = [
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $request->refresh_token,
+            'client_id' => env('PASSPORT_CLIENT_ID'),
+            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+            'provider' => 'admins',
+            'scope' => '',
+
+        ];
+        $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
+        $response = app()->handle($tokenRequest);
+
+        return $response;
+
     }
 
 

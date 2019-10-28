@@ -15,7 +15,7 @@ const Auth = {
   actions: {
     login: ({ dispatch }, data) => {
       window.api.call("post", endpoints.login, data).then(res => {
-        window.auth.login(res.data);
+        // window.auth.login(res.data);
         dispatch("user");
       });
     },
