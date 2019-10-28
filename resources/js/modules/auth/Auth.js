@@ -14,7 +14,7 @@ class Auth {
     //set token if present
     if (this.check()) {
       window.axios.defaults.headers.common["Authorization"] =
-        "Bearer " + this.token;
+        this.token_type + ' ' + this.token;
     }
   }
 
@@ -45,12 +45,9 @@ class Auth {
   login(data) {
     //persist items to local storage
     window.localStorage.setItem("token", data.access_token);
-    window.localStorage.setItem("expires_in", JSON.stringify(data.expires_in));
-    window.localStorage.setItem(
-      "refresh_token",
-      JSON.stringify(data.refresh_token)
-    );
-    window.localStorage.setItem("token_type", JSON.stringify(data.token_type));
+    window.localStorage.setItem("expires_in", data.expires_in);
+    window.localStorage.setItem("refresh_token", data.refresh_token);
+    window.localStorage.setItem("token_type", data.token_type);
 
     //make items available globally
     this.token = data.access_token;

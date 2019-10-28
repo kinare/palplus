@@ -11,15 +11,17 @@
               </b-navbar-item>
           </template>
           <template slot="end">
-          <b-navbar-item :class="{ 'is-active': filter === 'buy' }">
-            <span class="menuitem" @click="setPropertyType('buy')">
+          <b-navbar-item >
+            <span class="menuitem">
                 About
             </span>
           </b-navbar-item>
 
-          <b-navbar-item tag="router-link" :to="{ path: '/listing' }">
-              <span class="menuitem">Login</span>
-          </b-navbar-item>
+              <b-navbar-item  tag="div">
+                  <router-link to="/auth/login" class="button is-primary">
+                      <strong>Login</strong>
+                  </router-link>
+              </b-navbar-item>
           </template>
       </b-navbar>
   </div>

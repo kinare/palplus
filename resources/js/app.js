@@ -11,6 +11,16 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Toasted from "vue-toasted";
+import Validator from "./utils/validation/validate";
+import Helper from "./utils/helpers/helper";
+import Filters from "./utils/filters/filters";
+import Auth from "./modules/auth/Auth";
+import Api from "./modules/api/Api";
+import Listener from "./mixins/Listener";
+import IsOnline from "./mixins/OnlineChecker";
+
+
 
 library.add(fas, fab, far);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -21,9 +31,24 @@ Vue.use(Buefy, {
     defaultIconPack: "fas"
 });
 
+Vue.use(Toasted);
+
+window.auth = new Auth();
+window.Event = new Vue();
+window.validator = new Validator();
+window.helper = new Helper();
+window.api = new Api(process.env.VUE_APP_API);
+Vue.prototype.appName = process.env.VUE_APP_NAME;
+
+Filters.forEach(f => {
+    Vue.filter(f.name, f.execute);
+});
+
+
 
 const app = new Vue({
     el: '#app',
     router,
-    store
+    store,
+    mixins: [Listener, IsOnline]
 });

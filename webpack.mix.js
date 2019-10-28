@@ -1,19 +1,5 @@
 const mix = require('laravel-mix');
 
-mix.webpackConfig({
-    module: {
-        rules: [
-            {
-                enforce: 'pre',
-                test: /\.(js|vue)$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/
-            }
-        ]
-    }
-});
-
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -27,3 +13,10 @@ mix.webpackConfig({
 
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
+
+mix.babelConfig({
+    plugins: [
+        '@babel/plugin-syntax-dynamic-import',
+        "@babel/plugin-proposal-class-properties"
+    ],
+});

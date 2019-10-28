@@ -5,7 +5,7 @@
     <div class="content has-text-left">
       <!--        user name-->
       <b-field label="User Name">
-        <b-input type="text" v-model="formData.username"></b-input>
+        <b-input type="text" v-model="formData.email"></b-input>
       </b-field>
 
       <!--        Password-->
@@ -30,9 +30,6 @@
       </b-field>
 
       <div class="has-text-centered is-size-7">
-        Dont have an account?
-        <router-link to="/auth/signup">Sign up Here</router-link> <br />
-
         Forgot your password?
         <router-link to="/auth/reset">Reset Password</router-link> <br />
       </div>
@@ -52,7 +49,7 @@ export default {
   data: function() {
     return {
       formData: {
-        username: "",
+        email: "",
         password: ""
       }
     };

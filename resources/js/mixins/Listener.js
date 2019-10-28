@@ -2,7 +2,7 @@ const listener = {
   mounted: function() {
     //Global Event Listeners
     Event.$on("userLoggedIn", () => {
-      window.location = "/";
+      window.location = "/dashboard";
     });
 
     Event.$on("userLoggedOut", () => {

@@ -1,7 +1,7 @@
 class Api {
   baseUrl = "";
   constructor(url) {
-    this.baseUrl = url;
+    this.baseUrl = 'http://localhost:8000/api/';
     this.intercept();
   }
 
