@@ -17,7 +17,7 @@ class Group extends BaseModel
 
     public function members()
     {
-        return $this->hasMany('Members', 'group_id', 'id');
+        return $this->hasMany('App\Members')->where('deleted_at', NULL);
     }
 
     public function settings()

@@ -73,6 +73,20 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::patch('/{id}', 'GroupController@update');
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
+                Route::get('/members/{group_id}', 'GroupController@members');
+                Route::post('/join/{user_id}/{group_id}', 'GroupController@join');
+                Route::post('/leave/{member_id}/{group_id}', 'GroupController@leave');
+                Route::post('/make-admin/{member_id}/{group_id}', 'GroupController@makeAdmin');
+                Route::post('/revoke-admin/{member_id}/{group_id}', 'GroupController@revokeAdmin');
+            });
+
+            Route::group(['prefix' => 'expenses'], function () {
+                Route::get('/', 'GroupExpensesController@index');
+                Route::post('/', 'GroupExpensesController@store');
+                Route::get('/{id}', 'GroupExpensesController@show');
+                Route::patch('/{id}', 'GroupExpensesController@update');
+                Route::delete('/{id}', 'GroupExpensesController@destroy');
+                Route::delete('/{id}/force', 'GroupExpensesController@forceDestroy');
             });
 
             Route::group(['prefix' => 'activity'], function () {
