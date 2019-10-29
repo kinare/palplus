@@ -15,18 +15,20 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code')->unique();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('access_level', ['private', 'private'])->default('public');
+            $table->enum('access_level', ['public', 'private'])->default('public');
             $table->string('country');
             $table->string('currency');
-            $table->unsignedInteger('setting_id');
             $table->unsignedInteger('type_id');
-            $table->unsignedInteger('loan_setting_id');
-            $table->unsignedInteger('withdrawal_setting_id');
-            $table->unsignedInteger('wallet_id');
-            $table->unsignedInteger('created_by');
+            $table->unsignedInteger('setting_id')->nullable();
+            $table->unsignedInteger('loan_setting_id')->nullable();
+            $table->unsignedInteger('withdrawal_setting_id')->nullable();
+            $table->unsignedInteger('wallet_id')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

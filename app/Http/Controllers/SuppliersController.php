@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\GroupAttachment;
+use App\Suppliers;
 use Illuminate\Http\Request;
 
-class GroupAttachmentController extends Controller
+class SuppliersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class GroupAttachmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\GroupAttachment  $groupAttachment
+     * @param  \App\Suppliers  $suppliers
      * @return \Illuminate\Http\Response
      */
-    public function show(GroupAttachment $groupAttachment)
+    public function show(Suppliers $suppliers)
     {
         //
     }
@@ -52,10 +52,10 @@ class GroupAttachmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\GroupAttachment  $groupAttachment
+     * @param  \App\Suppliers  $suppliers
      * @return \Illuminate\Http\Response
      */
-    public function edit(GroupAttachment $groupAttachment)
+    public function edit(Suppliers $suppliers)
     {
         //
     }
@@ -64,10 +64,10 @@ class GroupAttachmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\GroupAttachment  $groupAttachment
+     * @param  \App\Suppliers  $suppliers
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GroupAttachment $groupAttachment)
+    public function update(Request $request, Suppliers $suppliers)
     {
         //
     }
@@ -75,10 +75,10 @@ class GroupAttachmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\GroupAttachment  $groupAttachment
+     * @param  \App\Suppliers  $suppliers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GroupAttachment $groupAttachment)
+    public function destroy(Suppliers $suppliers)
     {
         //
     }

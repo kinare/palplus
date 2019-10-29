@@ -12,7 +12,7 @@ class Group extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'access_level', 'country', 'currency'
+        'name', 'description', 'access_level', 'type_id', 'country', 'currency'
     ];
 
     public function members()
@@ -32,7 +32,7 @@ class Group extends BaseModel
 
     public function type()
     {
-        return $this->hasMany('GroupType', 'id', 'type_id');
+        return $this->hasOne('GroupType', 'id', 'type_id');
     }
 
     public function invitations()
@@ -47,7 +47,7 @@ class Group extends BaseModel
 
     public function wallet()
     {
-        return $this->hasMany('Wallet', 'id', 'wallet_id');
+        return $this->hasOne('Wallet', 'id', 'wallet_id');
     }
 
     public function attachments()

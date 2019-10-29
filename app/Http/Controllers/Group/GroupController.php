@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Group;
 
 use App\Group;
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\GroupResource;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class GroupController extends BaseController
 {
@@ -37,8 +39,10 @@ class GroupController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="type_id",in="query",description="group type id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="query",description="Group Name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="Group Description",required=true,type="string"),
+     *   @SWG\Parameter(name="avatar",in="query",description="avatar",required=true,type="string"),
      *   @SWG\Parameter(name="access_level",in="query",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="query",description="country",required=true,type="string"),
      *   @SWG\Parameter(name="currency",in="query",description="currency",required=true,type="string"),
@@ -49,6 +53,24 @@ class GroupController extends BaseController
      * )
      */
 
+    public function store(Request $request)
+    {
+        try{
+            $model = new $this->model();
+            $data = $request->all();
+            $model->fill($data);
+            $model->created_by = $request->user()->id;
+            $model->code = Str::random(60);
+            $model->save();
+            return $this->response($model);
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+    }
+
     /**
      * @SWG\Patch(
      *   path="/group/{id}",
@@ -57,6 +79,7 @@ class GroupController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="query",description="Group Name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="Group Description",required=true,type="string"),
      *   @SWG\Parameter(name="access_level",in="query",description="access level",required=true,type="string"),
@@ -75,6 +98,7 @@ class GroupController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -90,6 +114,7 @@ class GroupController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -105,6 +130,7 @@ class GroupController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -128,6 +154,7 @@ class GroupController extends BaseController
      *
      * )
      */
+
     public function join()
     {
 

@@ -10,176 +10,6 @@
     },
     "basePath": "/api/",
     "paths": {
-        "/activity-type": {
-            "get": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Retrieve Activity Types",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Create Activity Typ",
-                "parameters": [
-                    {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "Group id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/activity-type/{id}": {
-            "get": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Retrieve Activity Typ",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Delete Activity Typ",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
-            "patch": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Update Activity Typ",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Group Name",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "description",
-                        "in": "query",
-                        "description": "Group Description",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "access_level",
-                        "in": "query",
-                        "description": "access level",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/activity-type/{id}/force": {
-            "delete": {
-                "tags": [
-                    "Activity Type"
-                ],
-                "summary": "Force delete Activity Typ",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
         "/admin/invite": {
             "post": {
                 "tags": [
@@ -1029,6 +859,210 @@
                 }
             }
         },
+        "/activity-type": {
+            "get": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Retrieve Activity Types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Create Activity Type",
+                "parameters": [
+                    {
+                        "name": "activity",
+                        "in": "query",
+                        "description": "activity",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity-type/{id}": {
+            "get": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Retrieve Activity Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Delete Activity Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Update Activity Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "activity",
+                        "in": "query",
+                        "description": "activity",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Activity Description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity-type/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Activity Type"
+                ],
+                "summary": "Force delete Activity Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity": {
             "get": {
                 "tags": [
@@ -1264,6 +1298,13 @@
                 "summary": "Create Group",
                 "parameters": [
                     {
+                        "name": "type_id",
+                        "in": "query",
+                        "description": "group type id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "name",
                         "in": "query",
                         "description": "Group Name",
@@ -1274,6 +1315,13 @@
                         "name": "description",
                         "in": "query",
                         "description": "Group Description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "avatar",
+                        "in": "query",
+                        "description": "avatar",
                         "required": true,
                         "type": "string"
                     },
@@ -1323,6 +1371,15 @@
                     "Group"
                 ],
                 "summary": "Retrieve Group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1345,6 +1402,15 @@
                     "Group"
                 ],
                 "summary": "Delete Group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1368,6 +1434,13 @@
                 ],
                 "summary": "Update Group",
                 "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "name": "name",
                         "in": "query",
@@ -1414,6 +1487,15 @@
                     "Group"
                 ],
                 "summary": "Force delete Group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1490,6 +1572,210 @@
                         "name": "group_id",
                         "in": "query",
                         "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-type": {
+            "get": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Retrieve Group Types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Create Group Type",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-type/{id}": {
+            "get": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Retrieve Group Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Delete Group Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Update Group Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "group Description",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-type/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Group Type"
+                ],
+                "summary": "Force delete Group Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
                         "required": true,
                         "type": "string"
                     }

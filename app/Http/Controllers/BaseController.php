@@ -52,6 +52,7 @@ abstract class BaseController extends Controller
             $data = $request->all();
             $data['user_id'] = $request->user()->id;
             $model->fill($data);
+            $model->created_by = $request->user()->id;
             $model->save();
             return $this->response($model);
         }catch (Exception $exception){
@@ -90,6 +91,7 @@ abstract class BaseController extends Controller
         try{
             $model = $this->model::find($id);
             $model->fill($request->all());
+            $model->modified_by = $request->user()->id;
             $model->save();
             return $this->response($model);
         }catch (Exception $exception){

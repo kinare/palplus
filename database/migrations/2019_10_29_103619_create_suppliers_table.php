@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupTypesTable extends Migration
+class CreateSuppliersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateGroupTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_types', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type');
+            $table->string('name');
+            $table->string('location')->nullable();
             $table->string('description')->nullable();
-            $table->string('created_by')->nullable();
-            $table->string('modified_by')->nullable();
+            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->string('currency');
+            $table->decimal('amount_paid', 8, 2);
+            $table->decimal('amount_pending', 8, 2);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +35,6 @@ class CreateGroupTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_types');
+        Schema::dropIfExists('suppliers');
     }
 }

@@ -15,12 +15,10 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('group_id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('setting_id');
-            $table->unsignedInteger('profile_id');
+            $table->unsignedInteger('group_id');
             $table->boolean('is_admin')->nullable();
-            $table->boolean('active')->default(false);
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
