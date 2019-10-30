@@ -1107,7 +1107,21 @@
                         "type": "string"
                     },
                     {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "itinerary",
                         "in": "query",
                         "description": "description",
                         "required": true,
@@ -1126,6 +1140,69 @@
                         "description": "end date",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "cut_off_date",
+                        "in": "query",
+                        "description": "cut off date",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contacts",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "slots",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "featured",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "booking_fee",
+                        "in": "query",
+                        "description": "booking fee",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "installments",
+                        "in": "query",
+                        "description": "installments",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "booking_fee_amount",
+                        "in": "query",
+                        "description": "booking_fee_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "instalment_amount",
+                        "in": "query",
+                        "description": "instalment_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "total_cost",
+                        "in": "query",
+                        "description": "total_cost",
+                        "required": true,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -1152,6 +1229,15 @@
                     "Activity"
                 ],
                 "summary": "Retrieve Activity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1174,6 +1260,15 @@
                     "Activity"
                 ],
                 "summary": "Delete Activity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1198,6 +1293,13 @@
                 "summary": "Update Activity",
                 "parameters": [
                     {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Group id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "activity_type_id",
                         "in": "query",
                         "description": "Activity type id",
@@ -1205,7 +1307,21 @@
                         "type": "string"
                     },
                     {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "itinerary",
                         "in": "query",
                         "description": "description",
                         "required": true,
@@ -1224,6 +1340,69 @@
                         "description": "end date",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "cut_off_date",
+                        "in": "query",
+                        "description": "cut off date",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "contacts",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "slots",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "featured",
+                        "in": "query",
+                        "description": "contacts",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "booking_fee",
+                        "in": "query",
+                        "description": "booking fee",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "installments",
+                        "in": "query",
+                        "description": "installments",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "booking_fee_amount",
+                        "in": "query",
+                        "description": "booking_fee_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "instalment_amount",
+                        "in": "query",
+                        "description": "instalment_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "total_cost",
+                        "in": "query",
+                        "description": "total_cost",
+                        "required": true,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -1247,9 +1426,51 @@
         "/activity/{id}/force": {
             "delete": {
                 "tags": [
-                    "Activity Type"
+                    "Activity"
                 ],
                 "summary": "Force delete Activity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity by group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1710,9 +1931,9 @@
         "/expense": {
             "get": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
-                "summary": "Retrieve Expenses",
+                "summary": "Retrieve Expense",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1732,7 +1953,7 @@
             },
             "post": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Create expense",
                 "parameters": [
@@ -1828,7 +2049,7 @@
         "/expense/{id}": {
             "get": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Retrieve expense",
                 "parameters": [
@@ -1859,7 +2080,7 @@
             },
             "delete": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Delete expense",
                 "parameters": [
@@ -1890,7 +2111,7 @@
             },
             "patch": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Update expense",
                 "parameters": [
@@ -2007,7 +2228,7 @@
         "/expense/{id}/force": {
             "delete": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Force delete expense",
                 "parameters": [
@@ -2040,7 +2261,7 @@
         "/expense/group/{group_id}/": {
             "get": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
                 "summary": "Force delete expense",
                 "parameters": [
@@ -2073,9 +2294,9 @@
         "/expense/activity/{activity_id}/": {
             "get": {
                 "tags": [
-                    "Expenses"
+                    "Expense"
                 ],
-                "summary": "Group Expenses",
+                "summary": "Group Expense",
                 "parameters": [
                     {
                         "name": "activity_id",

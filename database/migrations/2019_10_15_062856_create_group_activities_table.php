@@ -32,6 +32,8 @@ class CreateGroupActivitiesTable extends Migration
             $table->decimal('booking_fee_amount', 8, 2)->nullable();
             $table->decimal('instalment_amount', 8, 2)->nullable();
             $table->decimal('total_cost', 8, 2)->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

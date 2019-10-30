@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Group;
 
-use App\GroupExpenses;
-use App\Http\Resources\GroupExpensesResource;
+use App\GroupExpense;
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\GroupExpenseResource;
 use Faker\Provider\Base;
 use Illuminate\Http\Request;
 
-class GroupExpensesController extends BaseController
+class GroupExpenseController extends BaseController
 {
-    public function __construct($model = GroupExpenses::class, $resource = GroupExpensesResource::class)
+    public function __construct($model = GroupExpense::class, $resource = GroupExpenseResource::class)
     {
         parent::__construct($model, $resource);
     }
@@ -17,8 +18,8 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Get(
      *   path="/expense",
-     *   tags={"Expenses"},
-     *   summary="Retrieve Expenses",
+     *   tags={"Expense"},
+     *   summary="Retrieve Expense",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -32,7 +33,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Post(
      *   path="/expense",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Create expense",
      *  security={
      *     {"bearer": {}},
@@ -57,7 +58,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Patch(
      *   path="/expense/{id}",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Update expense",
      *  security={
      *     {"bearer": {}},
@@ -85,7 +86,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Get(
      *   path="/expense/{id}",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Retrieve expense",
      *  security={
      *     {"bearer": {}},
@@ -101,7 +102,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Delete(
      *   path="/expense/{id}",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Delete expense",
      *  security={
      *     {"bearer": {}},
@@ -117,7 +118,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Delete(
      *   path="/expense/{id}/force",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Force delete expense",
      *  security={
      *     {"bearer": {}},
@@ -133,7 +134,7 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Get(
      *   path="/expense/group/{group_id}/",
-     *   tags={"Expenses"},
+     *   tags={"Expense"},
      *   summary="Force delete expense",
      *  security={
      *     {"bearer": {}},
@@ -150,7 +151,7 @@ class GroupExpensesController extends BaseController
     public function byGroup($group_id)
     {
         try{
-            return GroupExpensesResource::collection(GroupExpenses::where('group_id', $group_id )->get());
+            return GroupExpenseResource::collection(GroupExpense::where('group_id', $group_id )->get());
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
@@ -161,8 +162,8 @@ class GroupExpensesController extends BaseController
     /**
      * @SWG\Get(
      *   path="/expense/activity/{activity_id}/",
-     *   tags={"Expenses"},
-     *   summary="Group Expenses",
+     *   tags={"Expense"},
+     *   summary="Group Expense",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -176,7 +177,7 @@ class GroupExpensesController extends BaseController
     public function byActivity($activity_id)
     {
         try{
-            return GroupExpensesResource::collection(GroupExpenses::where('activity_id', $activity_id )->get());
+            return GroupExpenseResource::collection(GroupExpense::where('activity_id', $activity_id )->get());
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

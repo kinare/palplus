@@ -80,22 +80,22 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::post('/revoke-admin/{member_id}/{group_id}', 'GroupController@revokeAdmin');
             });
 
-            Route::group(['prefix' => 'expenses'], function () {
-                Route::get('/', 'GroupExpensesController@index');
-                Route::post('/', 'GroupExpensesController@store');
-                Route::get('/{id}', 'GroupExpensesController@show');
-                Route::patch('/{id}', 'GroupExpensesController@update');
-                Route::delete('/{id}', 'GroupExpensesController@destroy');
-                Route::delete('/{id}/force', 'GroupExpensesController@forceDestroy');
+            Route::group(['prefix' => 'expense'], function () {
+                Route::get('/', 'GroupExpenseController@index');
+                Route::post('/', 'GroupExpenseController@store');
+                Route::get('/{id}', 'GroupExpenseController@show');
+                Route::patch('/{id}', 'GroupExpenseController@update');
+                Route::delete('/{id}', 'GroupExpenseController@destroy');
+                Route::delete('/{id}/force', 'GroupExpenseController@forceDestroy');
             });
 
             Route::group(['prefix' => 'activity'], function () {
-                Route::get('/', 'GroupController@index');
-                Route::post('/', 'GroupController@store');
-                Route::get('/{id}', 'GroupController@show');
-                Route::patch('/{id}', 'GroupController@update');
-                Route::delete('/{id}', 'GroupController@destroy');
-                Route::delete('/{id}/force', 'GroupController@forceDestroy');
+                Route::get('/', 'GroupActivityController@index');
+                Route::post('/', 'GroupActivityController@store');
+                Route::get('/{id}', 'GroupActivityController@show');
+                Route::patch('/{id}', 'GroupActivityController@update');
+                Route::delete('/{id}', 'GroupActivityController@destroy');
+                Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');
             });
 
             Route::group(['prefix' => 'activity-type'], function () {
@@ -119,22 +119,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
         });
 
-
-
-
-
-
-
-//        Route::group(['prefix' => 'activity'], function () {
-//            Route::get('/', 'GroupActivity@index');
-//            Route::post('/', 'GroupActivity@store');
-//            Route::post('/join', 'GroupActivity@join');
-//            Route::post('/leave', 'GroupActivity@leave');
-//            Route::get('/{id}', 'GroupActivity@show');
-//            Route::patch('/{id}', 'GroupActivity@update');
-//            Route::delete('/{id}', 'GroupActivity@destroy');
-//            Route::delete('/{id}/force', 'GroupActivity@forceDestroy');
-//        });
     });
 
 });

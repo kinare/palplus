@@ -20,8 +20,17 @@ export default new Router({
     },
     {
       path: "/dashboard",
-      name: "Dashboard",
-      component: Dashboard
+      component: Dashboard,
+      children : [
+        {
+          path : '',
+          name: "Dashboard",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/stats/Stats"),
+            menu : () => import(/* webpackChunkName: "about" */ "../views/stats/Menu")
+          },
+        },
+      ]
     },
 
     {
