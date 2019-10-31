@@ -2,6 +2,7 @@
 
 use App\Admin;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class SuperAdmin extends Seeder
 {
@@ -12,14 +13,14 @@ class SuperAdmin extends Seeder
      */
     public function run()
     {
-        Admin::whereEmail('michaelkinare@gmail.com')->delete();
+        Admin::truncate();
         Admin::insert([
             'name' => 'palplus',
             'email' => 'michaelkinare@gmail.com',
             'phone' => '0708338855',
-            'super_admin' => true,
+            'access_type' => 'editor',
             'active' => true,
-            'password' => \Illuminate\Support\Facades\Hash::make('admin@palplus.19'),
+            'password' => Hash::make('admin@palplus.19'),
         ]);
     }
 }

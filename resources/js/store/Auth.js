@@ -3,11 +3,21 @@ import endpoints from "./endpoints";
 const Auth = {
   namespaced: true,
   state: {
-    user: {}
+    user: {},
+    admin : {
+      access_type: "",
+      email: "",
+      id: '',
+      name: "",
+      phone: "",
+    }
   },
   mutations: {
     SET_USER: (state, user) => {
       state.user = user;
+    },
+    SET_ADMIN : (state, admin) => {
+      state.admin = admin
     }
   },
   getters: {},
@@ -21,7 +31,7 @@ const Auth = {
     },
 
     register: (context, data) => {
-      window.api.call("post", endpoints.register, data).then(() => {
+      window.api.call("post", endpoints.create, data).then(() => {
         Event.$emit("userSignedUp");
       });
     },
@@ -36,6 +46,12 @@ const Auth = {
     user: context => {
       window.api.call("get", endpoints.user).then(res => {
         context.commit("SET_USER", res.data);
+      });
+    },
+
+    validate: (context, token) => {
+      window.api.call("post", endpoints.validate, {token : token}).then(res => {
+        context.commit("SET_ADMIN", res.data.data);
       });
     },
 

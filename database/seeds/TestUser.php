@@ -12,14 +12,21 @@ class TestUser extends Seeder
      */
     public function run()
     {
-        User::wherePhone('+254708338855')->delete();
+        User::truncate();
         User::insert([
-            'name' => 'Michael Kamau',
+            'name' => 'Michael',
             'email' => 'mykmau93@gmail.com',
             'phone' => '+254708338855',
             'country_code' => '254',
             'password' => \Illuminate\Support\Facades\Hash::make('test@palplus.19'),
-        ]);
+        ],
+            [
+                'name' => 'Alvin',
+                'email' => 'otienoalvin44@gmail.com',
+                'phone' => '+254799581989',
+                'country_code' => '254',
+                'password' => \Illuminate\Support\Facades\Hash::make('1234'),
+            ]);
 
 
     }

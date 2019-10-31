@@ -35,6 +35,20 @@ const listener = {
       this.$toasted.show(status + " " + messsage, toastObject);
     });
 
+    Event.$on("ApiSuccess", (status, messsage) => {
+      let toastObject = {
+        position: "top-center",
+        keepOnHover: true,
+        iconPack: "fontawesome",
+        duration: 5000,
+        type: "success",
+        icon: "check-circle",
+        closeOnSwipe: true
+      };
+
+      this.$toasted.show(status + " " + messsage, toastObject);
+    });
+
     //internet connection listener
     Event.$on("noInternet", () => {
       this.$toasted.show("No internet connection", {

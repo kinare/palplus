@@ -40,7 +40,7 @@ class AdminInviteNotice extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/admin/invitation/'. $notifiable->invitation_token);
+        $url = url('/auth/invitation/'. $notifiable->invitation_token);
 
         return (new MailMessage)
                     ->line('You have been invited to be an admin in Palplus.')

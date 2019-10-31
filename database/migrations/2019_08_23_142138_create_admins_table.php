@@ -19,8 +19,10 @@ class CreateAdminsTable extends Migration
             $table->string('phone')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password')->nullable();
-            $table->boolean('super_admin')->default(false);
+            $table->enum('access_type', array('viewer', 'editor'))->default('viewer');
             $table->string('invitation_token')->nullable();
+            $table->dateTime('wef')->nullable();
+            $table->dateTime('wet')->nullable();
             $table->string('avatar')->default('avatar.png');
             $table->boolean('phone_verified')->unique()->nullable();
             $table->dateTime('phone_verified_at')->unique()->nullable();

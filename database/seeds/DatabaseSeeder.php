@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
          $this->call(SuperAdmin::class);
          $this->call(TestUser::class);
+         $this->call(ActivityTypesSeed::class);
+         $this->call(GroupTypesSeed::class);
     }
 }

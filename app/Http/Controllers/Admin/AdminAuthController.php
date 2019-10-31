@@ -38,14 +38,16 @@ class AdminAuthController extends Controller
     public function invite(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:admins'
+            'email' => 'required|email|unique:admins',
+            'access_type' => 'required',
+            'phone' => 'string',
+            'name' => 'required',
+            'status' => 'required',
         ]);
 
-        $admin = new Admin([
-            'email' => $request->email,
-            'invitation_token' => Str::random(60)
-        ]);
-
+        $admin = new Admin();
+        $admin->fill($request->all());
+        $admin->invitation_token = Str::random(60);
         $admin->save();
 
         $admin->notify(new AdminInviteNotice());
@@ -78,10 +80,8 @@ class AdminAuthController extends Controller
                 'message' => 'Invalid token'
             ], 404);
 
-        $admin->invitation_token = null;
         $admin->email_verified_at = now();
         $admin->save();
-
         return new AdminResource($admin);
     }
 
@@ -112,15 +112,10 @@ class AdminAuthController extends Controller
         ]);
 
         $admin = Admin::find($request->id);
-
-        if ($admin->active)
-            return response()->json([
-            'message' => 'Admin already exits'
-            ], 400);
-
         $admin->fill($request->all());
-        $admin->password = Hash::make($request->password);
         $admin->active = true;
+        $admin->invitation_token = null;
+        $admin->password = Hash::make($request->password);
         $admin->save();
         return new AdminResource($admin);
     }

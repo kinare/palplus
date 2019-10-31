@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
+import AuthCheck from "./middleware/Auth";
+import nextFactory from "./middleware/MiddlewareFactory";
 import NotFound from "../views/error/NotFound";
 import Home from "../views/Home";
 import Dashboard from "../views/dashboard/Dashboard";
@@ -7,9 +9,11 @@ import Auth from "../views/auth/Auth";
 import Login from "../views/auth/Login";
 import PasswordRequest from "../views/auth/PasswordRequest";
 import Password from "../views/auth/Password";
+import Invitation from "../views/auth/Invitation";
 Vue.use(Router);
 
-export default new Router({
+
+const router =new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -32,7 +36,8 @@ export default new Router({
           components : {
             content : () => import(/* webpackChunkName: "about" */ "../views/stats/Stats"),
             menu : () => import(/* webpackChunkName: "about" */ "../views/stats/Menu")
-          }
+          },
+          meta: { middleware: AuthCheck }
         },
         {
           path : 'wallet',
@@ -76,7 +81,8 @@ export default new Router({
             content : () => import(/* webpackChunkName: "about" */ "../views/member/MemberList"),
           }
         },
-      ]
+      ],
+      meta: { middleware: AuthCheck }
     },
 
     {
@@ -98,6 +104,10 @@ export default new Router({
         {
           path : 'password/:token',
           component : Password
+        },
+        {
+          path : 'invitation/:token',
+          component : Invitation
         }
       ]
     },
@@ -109,3 +119,26 @@ export default new Router({
     }
   ]
 });
+
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = Array.isArray(to.meta.middleware)
+        ? to.meta.middleware
+        : [to.meta.middleware];
+
+    const context = {
+      from,
+      next,
+      router,
+      to
+    };
+    const nextMiddleware = nextFactory(context, middleware, 1);
+
+    return middleware[0]({ ...context, next: nextMiddleware });
+  }
+
+  return next();
+});
+
+export default router;

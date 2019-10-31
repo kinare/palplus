@@ -3,39 +3,20 @@ import endpoints from "./endpoints";
 const Auth = {
   namespaced: true,
   state: {
-    user: {}
+    admins: {}
   },
   mutations: {
-    SET_USER: (state, user) => {
-      state.user = user;
+    SET_ADMINS: (state, admins) => {
+      state.admins = admins;
     }
   },
   getters: {},
 
   actions: {
-    login: ({ dispatch }, data) => {
-      window.api.call("post", endpoints.login, data).then(res => {
-        window.auth.login(res.data);
-        dispatch("user");
-      });
-    },
-
-    register: (context, data) => {
-      window.api.call("post", endpoints.register, data).then(() => {
-        Event.$emit("userSignedUp");
-      });
-    },
-
-    verifyGoogleToken: (context, token) => {
-      console.log(token);
-      window.api.call("get", endpoints.verifyGoogle(token)).then(res => {
-        window.auth.login(res.data);
-      });
-    },
-
-    user: context => {
-      window.api.call("get", endpoints.user).then(res => {
-        context.commit("SET_USER", res.data);
+    invite : (context, data) => {
+      window.api.call("post", endpoints.inviteAdmin, data).then(res => {
+        Event.$emit("ApiSuccess", 200, res.data.message);
+        this.router.push('dashboard/admins')
       });
     },
 

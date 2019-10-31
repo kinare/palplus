@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import Auth from "./Auth";
+import Admin from "./Admin";
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const vuexLocalStorage = new VuexPersist({
 
 export default new Vuex.Store({
     modules: {
-        Auth : Auth
+        Auth : Auth,
+        Admin : Admin
     },
     state: {},
     mutations: {},

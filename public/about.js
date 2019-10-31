@@ -93,7 +93,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -105,6 +104,24 @@ __webpack_require__.r(__webpack_exports__);
     BButton: buefy_src_components_button_Button__WEBPACK_IMPORTED_MODULE_2__["default"],
     BInput: buefy_src_components_input_Input__WEBPACK_IMPORTED_MODULE_1__["default"],
     BField: buefy_src_components_field_Field__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      admin: {
+        access_type: '',
+        name: '',
+        email: '',
+        phone: '',
+        status: '',
+        wef: '',
+        wet: ''
+      }
+    };
+  },
+  methods: {
+    saveAdmin: function saveAdmin() {
+      this.$store.dispatch('Admin/invite', this.admin);
+    }
   }
 });
 
@@ -642,7 +659,17 @@ var render = function() {
                   _c(
                     "b-select",
                     {
-                      attrs: { expanded: "", placeholder: "Select Access type" }
+                      attrs: {
+                        expanded: "",
+                        placeholder: "Select Access type"
+                      },
+                      model: {
+                        value: _vm.admin.access_type,
+                        callback: function($$v) {
+                          _vm.$set(_vm.admin, "access_type", $$v)
+                        },
+                        expression: "admin.access_type"
+                      }
                     },
                     [
                       _c("option", [_vm._v("Editor")]),
@@ -666,7 +693,14 @@ var render = function() {
                 { attrs: { label: "Full Names" } },
                 [
                   _c("b-input", {
-                    attrs: { type: "text", placeholder: "Full Names" }
+                    attrs: { type: "text", placeholder: "Names" },
+                    model: {
+                      value: _vm.admin.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.admin, "name", $$v)
+                      },
+                      expression: "admin.name"
+                    }
                   })
                 ],
                 1
@@ -681,10 +715,17 @@ var render = function() {
             [
               _c(
                 "b-field",
-                { attrs: { label: "Username" } },
+                { attrs: { label: "Phone" } },
                 [
                   _c("b-input", {
-                    attrs: { type: "text", placeholder: "Username" }
+                    attrs: { type: "text", placeholder: "Phone" },
+                    model: {
+                      value: _vm.admin.phone,
+                      callback: function($$v) {
+                        _vm.$set(_vm.admin, "phone", $$v)
+                      },
+                      expression: "admin.phone"
+                    }
                   })
                 ],
                 1
@@ -701,28 +742,17 @@ var render = function() {
             [
               _c(
                 "b-field",
-                { attrs: { label: "Phone" } },
-                [
-                  _c("b-input", {
-                    attrs: { type: "text", placeholder: "Full Names" }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "column" },
-            [
-              _c(
-                "b-field",
                 { attrs: { label: "Email" } },
                 [
                   _c("b-input", {
-                    attrs: { type: "text", placeholder: "Full Names" }
+                    attrs: { type: "email", placeholder: "email" },
+                    model: {
+                      value: _vm.admin.email,
+                      callback: function($$v) {
+                        _vm.$set(_vm.admin, "email", $$v)
+                      },
+                      expression: "admin.email"
+                    }
                   })
                 ],
                 1
@@ -741,13 +771,51 @@ var render = function() {
                 [
                   _c(
                     "b-select",
-                    { attrs: { expanded: "", placeholder: "Select status" } },
+                    {
+                      attrs: { expanded: "", placeholder: "Select status" },
+                      model: {
+                        value: _vm.admin.status,
+                        callback: function($$v) {
+                          _vm.$set(_vm.admin, "status", $$v)
+                        },
+                        expression: "admin.status"
+                      }
+                    },
                     [
                       _c("option", [_vm._v("Active")]),
                       _vm._v(" "),
                       _c("option", [_vm._v("Inactive")])
                     ]
                   )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "column" },
+            [
+              _c(
+                "b-field",
+                { attrs: { label: "WEF date" } },
+                [
+                  _c("b-datepicker", {
+                    attrs: {
+                      "show-week-number": true,
+                      placeholder: "Click to select...",
+                      icon: "calendar-today"
+                    },
+                    model: {
+                      value: _vm.admin.wef,
+                      callback: function($$v) {
+                        _vm.$set(_vm.admin, "wef", $$v)
+                      },
+                      expression: "admin.wef"
+                    }
+                  })
                 ],
                 1
               )
@@ -763,13 +831,20 @@ var render = function() {
             [
               _c(
                 "b-field",
-                { attrs: { label: "WEF date" } },
+                { attrs: { label: "WET date" } },
                 [
                   _c("b-datepicker", {
                     attrs: {
-                      "show-week-number": _vm.showWeekNumber,
+                      "show-week-number": true,
                       placeholder: "Click to select...",
                       icon: "calendar-today"
+                    },
+                    model: {
+                      value: _vm.admin.wet,
+                      callback: function($$v) {
+                        _vm.$set(_vm.admin, "wet", $$v)
+                      },
+                      expression: "admin.wet"
                     }
                   })
                 ],
@@ -779,27 +854,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "column" },
-            [
-              _c(
-                "b-field",
-                { attrs: { label: "WET date" } },
-                [
-                  _c("b-datepicker", {
-                    attrs: {
-                      "show-week-number": _vm.showWeekNumber,
-                      placeholder: "Click to select...",
-                      icon: "calendar-today"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
+          _c("div", { staticClass: "column" }),
           _vm._v(" "),
           _c("div", { staticClass: "column" })
         ]),
@@ -812,7 +867,14 @@ var render = function() {
               [
                 _c(
                   "b-button",
-                  { attrs: { type: "is-primary", expanded: "" } },
+                  {
+                    attrs: { type: "is-primary", expanded: "" },
+                    on: {
+                      click: function($event) {
+                        return _vm.saveAdmin()
+                      }
+                    }
+                  },
                   [_vm._v("Submit")]
                 )
               ],
