@@ -89393,7 +89393,7 @@ function () {
 
     _defineProperty(this, "baseUrl", "");
 
-    this.baseUrl = 'http://localhost:8000/api/';
+    this.baseUrl = 'http://35.200.214.94/api/';
     this.intercept();
   }
 
