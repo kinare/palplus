@@ -24,11 +24,57 @@ export default new Router({
       children : [
         {
           path : '',
+          redirect: '/dashboard/stats'
+        },
+        {
+          path : 'stats',
           name: "Dashboard",
           components : {
             content : () => import(/* webpackChunkName: "about" */ "../views/stats/Stats"),
             menu : () => import(/* webpackChunkName: "about" */ "../views/stats/Menu")
-          },
+          }
+        },
+        {
+          path : 'wallet',
+          name: "Palplus Wallet",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/wallet/List"),
+          }
+        },
+        {
+          path : 'currency',
+          name: "Currency Rates",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/currency/List"),
+          }
+        },
+        {
+          path : 'admins',
+          name: "Admin",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/admin/AdminList"),
+          }
+        },
+        {
+          path : 'admin/card/:id?',
+          name: "Admin Card",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/admin/AdminCard"),
+          }
+        },
+        {
+          path : 'groups',
+          name: "Groups",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/group/GroupList"),
+          }
+        },
+        {
+          path : 'members',
+          name: "Members",
+          components : {
+            content : () => import(/* webpackChunkName: "about" */ "../views/member/MemberList"),
+          }
         },
       ]
     },

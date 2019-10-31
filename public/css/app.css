@@ -33815,6 +33815,7 @@ label.panel-block:hover {
   border: 2px solid #7a7a7a;
   -webkit-transition: background 150ms ease-out;
   transition: background 150ms ease-out;
+  background: transparent;
 }
 
 .b-checkbox.checkbox input[type=checkbox]:checked + .check {
@@ -33977,6 +33978,11 @@ label.panel-block:hover {
 
 .b-checkbox.checkbox .control-label {
   padding-left: 0.5em;
+}
+
+.b-checkbox.checkbox.button {
+  display: -webkit-box;
+  display: flex;
 }
 
 .b-checkbox.checkbox[disabled] {
@@ -34516,6 +34522,10 @@ label.panel-block:hover {
   width: 100%;
 }
 
+.datepicker .dropdown.is-disabled {
+  opacity: 1;
+}
+
 .datepicker .dropdown-item,
 .datepicker .dropdown .dropdown-menu .has-link a,
 .dropdown .dropdown-menu .has-link .datepicker a {
@@ -34906,7 +34916,7 @@ label.panel-block:hover {
 }
 
 @media screen and (max-width: 1023px) {
-  .dropdown.is-mobile-modal .dropdown-menu {
+  .dropdown.is-mobile-modal > .dropdown-menu {
     position: fixed;
     width: calc(100vw - 40px);
     max-width: 460px;
@@ -34922,8 +34932,8 @@ label.panel-block:hover {
     z-index: 50;
   }
 
-  .dropdown.is-mobile-modal .dropdown-menu .dropdown-item,
-  .dropdown.is-mobile-modal .dropdown-menu .has-link a {
+  .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > .dropdown-item,
+  .dropdown .dropdown-menu .has-link .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > a {
     padding: 1rem 1.5rem;
   }
 }
@@ -35033,12 +35043,17 @@ label.panel-block:hover {
   box-shadow: none;
 }
 
-.field.is-floating-label .taginput .taginput-container.is-focusable {
+.field.is-floating-label .taginput .taginput-container {
   padding-top: 0.475em;
 }
 
-.field.is-floating-label .taginput .taginput-container.is-focusable.is-focused {
+.field.is-floating-label .taginput .taginput-container.is-focused {
   box-shadow: none;
+}
+
+.field.is-floating-label .taginput .counter {
+  float: none;
+  text-align: right;
 }
 
 .field.is-floating-in-label {
@@ -35112,8 +35127,13 @@ label.panel-block:hover {
   margin-top: calc(3.25em / 2 - (1.5rem * 3 / 4) / 2);
 }
 
-.field.is-floating-in-label .taginput .taginput-container.is-focusable {
+.field.is-floating-in-label .taginput .taginput-container {
   padding-top: calc(3.25em / 2 - (1.5rem * 3 / 4) / 2 + (0.275em - 1px));
+}
+
+.field.is-floating-in-label .taginput .counter {
+  float: none;
+  text-align: right;
 }
 
 .field.is-floating-in-label.has-numberinput .b-numberinput .control .button {
@@ -35277,11 +35297,6 @@ label.panel-block:hover {
 .notification .media {
   padding-top: 0;
   border: 0;
-}
-
-.notification > .delete {
-  right: 0.5rem !important;
-  top: 0.5rem !important;
 }
 
 .modal.is-full-screen > .animation-content,
@@ -35869,6 +35884,11 @@ label.panel-block:hover {
 
 .b-radio.radio .control-label {
   padding-left: 0.5em;
+}
+
+.b-radio.radio.button {
+  display: -webkit-box;
+  display: flex;
 }
 
 .b-radio.radio[disabled] {
@@ -37685,6 +37705,92 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   width: 100%;
 }
 
+.b-tabs.is-vertical {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+}
+
+.b-tabs.is-vertical .tabs ul {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+          flex-direction: column;
+  border-bottom-color: transparent;
+}
+
+.b-tabs.is-vertical .tabs ul li {
+  width: 100%;
+}
+
+.b-tabs.is-vertical .tabs ul li a {
+  -webkit-box-pack: left;
+          justify-content: left;
+}
+
+.b-tabs.is-vertical .tabs.is-boxed li a {
+  border-bottom-color: transparent !important;
+  border-right-color: #dbdbdb !important;
+  border-radius: 4px 0 0 4px;
+}
+
+.b-tabs.is-vertical .tabs.is-boxed li.is-active a {
+  border-bottom-color: #dbdbdb !important;
+  border-right-color: transparent !important;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li + li {
+  margin-left: 0;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li:first-child a {
+  border-radius: 4px 4px 0 0;
+}
+
+.b-tabs.is-vertical .tabs.is-toggle li:last-child a {
+  border-radius: 0 0 4px 4px;
+}
+
+.b-tabs.is-vertical .tabs.is-fullwidth li a {
+  height: 100%;
+}
+
+.b-tabs.is-vertical .tab-content {
+  -webkit-box-flex: 1;
+          flex-grow: 1;
+}
+
+.b-tabs.is-vertical.is-right {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+          flex-direction: row-reverse;
+}
+
+.b-tabs.is-vertical.is-right .tabs ul a {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+          flex-direction: row-reverse;
+}
+
+.b-tabs.is-vertical.is-right .tabs ul a .icon:first-child {
+  margin-right: 0;
+  margin-left: 0.5em;
+}
+
+.b-tabs.is-vertical.is-right .tabs.is-boxed li a {
+  border-bottom-color: transparent !important;
+  border-right-color: transparent !important;
+  border-left-color: #dbdbdb !important;
+  border-radius: 0 4px 4px 0;
+}
+
+.b-tabs.is-vertical.is-right .tabs.is-boxed li.is-active a {
+  border-bottom-color: #dbdbdb !important;
+  border-right-color: #dbdbdb !important;
+  border-left-color: transparent !important;
+}
+
 .tag .has-ellipsis {
   max-width: 10em;
   overflow: hidden;
@@ -37765,6 +37871,10 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .timepicker .dropdown,
 .timepicker .dropdown-trigger {
   width: 100%;
+}
+
+.timepicker .dropdown.is-disabled {
+  opacity: 1;
 }
 
 .timepicker .dropdown-item,

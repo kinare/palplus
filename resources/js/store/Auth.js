@@ -15,7 +15,7 @@ const Auth = {
   actions: {
     login: ({ dispatch }, data) => {
       window.api.call("post", endpoints.login, data).then(res => {
-        // window.auth.login(res.data);
+        window.auth.login(res.data);
         dispatch("user");
       });
     },
@@ -39,8 +39,8 @@ const Auth = {
       });
     },
 
-    logout: (context, accessToken) => {
-      window.api.call("post", endpoints.logout, { accessToken }).then(() => {
+    logout: (context) => {
+      window.api.call("get", endpoints.logout ).then(() => {
         window.auth.logout();
       });
     }

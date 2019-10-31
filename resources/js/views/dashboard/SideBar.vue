@@ -1,71 +1,74 @@
 <template>
-    <div class="column has-background-white is-2" style="border-radius : 6px">
-        <div class="content has-text-centered">
-            <figure class="image is-96x96 is-inline-block">
-                <img class="is-rounded" src="https://bulma.io/images/placeholders/96x96.png">
-            </figure>
-        </div>
-        <b-dropdown aria-role="list">
-            <button class="button is-white is-small" slot="trigger">
-                User Name &nbsp; <font-awesome-icon icon="caret-down"/>
-            </button>
-            <b-dropdown-item aria-role="listitem">Profile</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem">Another action</b-dropdown-item>
-            <b-dropdown-item aria-role="listitem">Something else</b-dropdown-item>
-        </b-dropdown>
-        <hr >
-        <div class="container has-text-left">
-            <b-menu>
-                <b-menu-list label="General">
-                    <b-menu-item tag="router-link" to="dashboard" label="Dashboard"></b-menu-item>
-                </b-menu-list>
+    <div class="column  is-3">
+        <div class="box" style="border-radius:0; box-shadow:none">
 
-                <b-menu-list label="Administration">
-                    <b-menu-item>
-                        <template slot="label" slot-scope="props">
-                            Palplus Admins
-                        </template>
-                        <b-menu-item tag="router-link" to="dashboard/admins" label="View Admin"></b-menu-item>
-                        <b-menu-item tag="router-link" to="dashboard/new-admin" label="New Admin"></b-menu-item>
-                    </b-menu-item>
-                </b-menu-list>
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-48x48">
+                        <img class="is-rounded" src="https://bulma.io/images/placeholders/48x48.png">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>John Smith</strong>
+                            <br>
+                            <font-awesome-icon class="has-text-success" icon="circle"/> online
+                        </p>
+                    </div>
+                </div>
+            </article>
 
-                <b-menu-list label="Groups">
-                    <b-menu-item tag="router-link" to="dashboard/groups" label="Groups"></b-menu-item>
-                    <b-menu-item tag="router-link" to="dashboard/activities" label="Activities"></b-menu-item>
-                </b-menu-list>
-
-                <b-menu-list label="Members">
-                    <b-menu-item tag="router-link" to="dashboard/members" label="Member"></b-menu-item>
-                </b-menu-list>
-
-                <b-menu-list label="Wallet">
-                    <b-menu-item tag="router-link" to="dashboard/members" label="Group Wallets"></b-menu-item>
-                    <b-menu-item tag="router-link" to="dashboard/members" label="Member Wallets"></b-menu-item>
-                </b-menu-list>
-
-                <b-menu-list label="Transactions">
-                    <b-menu-item>
-                        <template slot="label" slot-scope="props">
-                            Transactions
-                        </template>
-                        <b-menu-item tag="router-link" to="dashboard/withdrawal-requests" label="Withdrawal Requests"></b-menu-item>
-                        <b-menu-item tag="router-link" to="dashboard/withdrawals"label="Withdrawals"></b-menu-item>
-                        <b-menu-item tag="router-link" to="dashboard/deposits" label="Deposits"></b-menu-item>
-                    </b-menu-item>
-                </b-menu-list>
-
-                <b-menu-list label="Loans">
-                    <b-menu-item label="Loans">
-                        <b-menu-item tag="router-link" to="dashboard/loans-pending" label="Pending"></b-menu-item>
-                        <b-menu-item tag="router-link" to="dashboard/loans-paid" label="Paid"></b-menu-item>
-                    </b-menu-item>
-                </b-menu-list>
-
-                <b-menu-list label="Investments">
-                    <b-menu-item tag="router-link" to="dashboard/investment-opportunities" label="Opportunities"></b-menu-item>
-                </b-menu-list>
-            </b-menu>
+            <hr >
+            <div class="container has-text-left">
+                <aside class="menu">
+                    <ul class="menu-list">
+                        <li><router-link to="/dashboard/stats"><font-awesome-icon icon="tachometer-alt"/> Dashboard</router-link></li>
+                        <li><router-link to="/dashboard/wallet"><font-awesome-icon icon="wallet"/> Palplus Wallets</router-link></li>
+                        <li><router-link to="/dashboard/currency"><font-awesome-icon icon="coins"/> Currency Rates</router-link></li>
+                        <li>
+                            <a @click="isActive === 'admins' ? isActive = '' : isActive = 'admins'" :class="{'is-active' : isActive === 'admins'}">
+                                <font-awesome-icon icon="user-cog"/> Palplus Admins
+                                <span class="is-pulled-right">
+                                <font-awesome-icon :icon="isActive !== 'admins' ? 'caret-down' : 'caret-up'"/>
+                            </span>
+                            </a>
+                            <ul :style="isActive !== 'admins' ? 'display:none' : ''">
+                                <li><router-link to="/dashboard/admin/card"><font-awesome-icon icon="user-plus"/> New Admin</router-link></li>
+                                <li><router-link to="/dashboard/admins"><font-awesome-icon icon="users"/> View Admins</router-link></li>
+                            </ul>
+                        </li>
+                        <li><router-link to="/dashboard/groups"><font-awesome-icon icon="users"/> Groups</router-link></li>
+                        <li><router-link to="/dashboard/members"><font-awesome-icon icon="user-friends"/> Members</router-link></li>
+                        <li>
+                            <a @click="isActive === 'transacts' ? isActive = '' : isActive = 'transacts'">
+                                <font-awesome-icon icon="receipt"/> Transactions
+                                <span class="is-pulled-right">
+                                <font-awesome-icon :icon="isActive !== 'transacts' ? 'caret-down' : 'caret-up'"/>
+                            </span>
+                            </a>
+                            <ul :style="isActive !== 'transacts' ? 'display:none' : ''">
+                                <li><router-link to="/dashboard/withdrawal-requests"><font-awesome-icon icon="users"/> Withdrawal requests</router-link></li>
+                                <li><router-link to="/dashboard/withdrawals"><font-awesome-icon icon="user-plus"/> Withdrawals</router-link></li>
+                                <li><router-link to="/dashboard/deposits"><font-awesome-icon icon="user-plus"/> Deposits</router-link></li>
+                            </ul>
+                        </li>
+                        <li><router-link to="/dashboard/investment-opportunities"><font-awesome-icon icon="user-friends"/> Investment Opportunities</router-link></li>
+                        <li>
+                            <a @click="isActive === 'loans' ? isActive = '' : isActive = 'loans'">
+                                <font-awesome-icon icon="user-cog"/> Loans
+                                <span class="is-pulled-right">
+                                <font-awesome-icon :icon="isActive !== 'loans' ? 'caret-down' : 'caret-up'"/>
+                            </span>
+                            </a>
+                            <ul :style="isActive !== 'loans' ? 'display:none' : ''">
+                                <li><router-link to="/dashboard/loans/pending"><font-awesome-icon icon="users"/> Pending</router-link></li>
+                                <li><router-link to="loans/paid"><font-awesome-icon icon="user-plus"/> Paid</router-link></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
         </div>
     </div>
 </template>
@@ -74,19 +77,24 @@
     import BDropdown from "buefy/src/components/dropdown/Dropdown";
     import BDropdownItem from "buefy/src/components/dropdown/DropdownItem";
     import BMenu from "buefy/src/components/menu/Menu";
+    import BMenuList from "buefy/src/components/menu/MenuList";
     export default {
         name: "SideBar",
-        components: {BMenu, BDropdownItem, BDropdown},
+        components: {BMenuList, BMenu, BDropdownItem, BDropdown},
         data() {
             return {
-                isActive: true
+                isActive: ''
             }
         }
     }
 </script>
 
 <style scoped>
-.side-menu{
-
+a.router-link-active{
+    background-color: #6d488e!important;
+    color: #fff!important;
 }
+    .menu-list li{
+        margin: 20px 0;
+    }
 </style>

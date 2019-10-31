@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header/>
-    <div class="section">
+    <div class="section" style="padding: 1rem;">
       <div class="columns">
 
 <!--        side bar-->
