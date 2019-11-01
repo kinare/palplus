@@ -16,11 +16,11 @@ class SuperAdmin extends Seeder
         Admin::truncate();
         Admin::insert([
             'name' => 'palplus',
-            'email' => 'michaelkinare@gmail.com',
+            'email' => 'admin@palplus.com',
             'phone' => '0708338855',
             'access_type' => 'editor',
             'active' => true,
-            'password' => Hash::make('admin@palplus.19'),
+            'password' => Hash::make('allowme@1'),
         ]);
     }
 }
