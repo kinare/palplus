@@ -89189,7 +89189,10 @@ var app = new Vue({
   el: '#app',
   router: _router_router__WEBPACK_IMPORTED_MODULE_0__["default"],
   store: _store_store__WEBPACK_IMPORTED_MODULE_1__["default"],
-  mixins: [_mixins_Listener__WEBPACK_IMPORTED_MODULE_14__["default"], _mixins_OnlineChecker__WEBPACK_IMPORTED_MODULE_15__["default"]]
+  mixins: [_mixins_Listener__WEBPACK_IMPORTED_MODULE_14__["default"], _mixins_OnlineChecker__WEBPACK_IMPORTED_MODULE_15__["default"]],
+  created: function created() {
+    alert("http://localhost:8000/api/");
+  }
 });
 
 /***/ }),

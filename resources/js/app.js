@@ -48,5 +48,8 @@ const app = new Vue({
     el: '#app',
     router,
     store,
-    mixins: [Listener, IsOnline]
+    mixins: [Listener, IsOnline],
+    created(){
+        alert(process.env.MIX_VUE_APP_API);
+    }
 });
