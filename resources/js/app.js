@@ -44,8 +44,6 @@ Filters.forEach(f => {
     Vue.filter(f.name, f.execute);
 });
 
-
-
 const app = new Vue({
     el: '#app',
     router,
