@@ -17,6 +17,8 @@ class CreateLoanStatusesTable extends Migration
             $table->bigIncrements('id');
             $table->string('status')->unique();
             $table->string('description');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

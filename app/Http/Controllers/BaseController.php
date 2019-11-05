@@ -16,7 +16,7 @@ abstract class BaseController extends Controller
     protected $model;
     protected $resource;
 
-    public function __construct($model, $resource = null)
+    public function __construct($model = null , $resource = null)
     {
         $this->model = $model;
         $this->resource = $resource;
@@ -50,7 +50,6 @@ abstract class BaseController extends Controller
         try{
             $model = new $this->model();
             $data = $request->all();
-            $data['user_id'] = $request->user()->id;
             $model->fill($data);
             $model->created_by = $request->user()->id;
             $model->save();

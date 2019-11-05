@@ -1,7 +1,7 @@
 class Api {
   baseUrl = "";
   constructor(url) {
-    this.baseUrl = 'http://35.200.214.94/api/';
+    this.baseUrl = url;
     this.intercept();
   }
 

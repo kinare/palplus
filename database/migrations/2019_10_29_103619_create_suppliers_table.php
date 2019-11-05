@@ -23,6 +23,8 @@ class CreateSuppliersTable extends Migration
             $table->string('currency');
             $table->decimal('amount_paid', 8, 2);
             $table->decimal('amount_pending', 8, 2);
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

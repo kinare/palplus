@@ -20,6 +20,8 @@ class CreateContributionsTable extends Migration
             $table->unsignedInteger('target');
             $table->unsignedInteger('amount');
             $table->unsignedInteger('balance');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

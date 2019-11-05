@@ -17,6 +17,8 @@ class CreateGroupSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('public')->default(false);
             $table->string('wallpaper')->default(false);
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

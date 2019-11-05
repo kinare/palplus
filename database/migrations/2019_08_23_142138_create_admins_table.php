@@ -29,6 +29,8 @@ class CreateAdminsTable extends Migration
             $table->boolean('active')->default(false);
             $table->boolean('email_verified')->default(false);
             $table->timestamp('email_verified_at')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

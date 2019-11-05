@@ -859,6 +859,238 @@
                 }
             }
         },
+        "/currency": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Retrieve Currencies",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Create currency",
+                "parameters": [
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "short_description",
+                        "in": "query",
+                        "description": "short_description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/currency/{id}": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Retrieve Currency",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Delete currency",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Update currency",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "short_description",
+                        "in": "query",
+                        "description": "short_description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/currency/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Force delete Activity Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity-type": {
             "get": {
                 "tags": [
@@ -2528,6 +2760,252 @@
                 ]
             }
         },
+        "/investment-opportunity": {
+            "get": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Retrieve Investment Opportunity",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Create Investment Opportunity",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "image",
+                        "in": "query",
+                        "description": "image",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "featured",
+                        "in": "query",
+                        "description": "featured",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/investment-opportunity/{id}": {
+            "get": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Retrieve Investment Opportunity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment opportunity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Delete Investment Opportunity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment opportunity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Update Investment Opportunity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Investment opportunity id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "image",
+                        "in": "query",
+                        "description": "image",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "featured",
+                        "in": "query",
+                        "description": "featured",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/investment-opportunity/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Force delete Investment Opportunity",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment opportunity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/member": {
             "get": {
                 "tags": [
@@ -2884,6 +3362,30 @@
                 ]
             }
         },
+        "/user/{id}/force": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Force delete a user",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/user/activate/{id}": {
             "get": {
                 "tags": [
@@ -2950,12 +3452,180 @@
                 ]
             }
         },
-        "/user/{id}/force": {
-            "delete": {
+        "/user/wallet": {
+            "get": {
                 "tags": [
                     "User"
                 ],
-                "summary": "Force delete a user",
+                "summary": "My wallet",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Profile",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/nok": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Next of Kin",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/groups": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Groups",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/transactions": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Transactions",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/accounts": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Accounts",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/payments": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Payments",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/loan": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Loan",
                 "responses": {
                     "200": {
                         "description": "Success"

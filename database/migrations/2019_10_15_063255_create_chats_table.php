@@ -22,6 +22,8 @@ class CreateChatsTable extends Migration
             $table->enum('status', ['delivered', 'read'])->default('delivered');
             $table->dateTime('delivered_at')->nullable();
             $table->dateTime('read_at')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

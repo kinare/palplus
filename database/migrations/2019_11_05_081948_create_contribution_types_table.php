@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApproversTable extends Migration
+class CreateContributionTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateApproversTable extends Migration
      */
     public function up()
     {
-        Schema::create('approvers', function (Blueprint $table) {
+        Schema::create('contribution_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('group_id');
-            $table->unsignedInteger('member_id');
-            $table->boolean('active')->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +26,6 @@ class CreateApproversTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approvers');
+        Schema::dropIfExists('contribution_types');
     }
 }

@@ -20,6 +20,8 @@ class CreateNotificationsTable extends Migration
             $table->unsignedInteger('to');
             $table->string('subject');
             $table->string('message');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

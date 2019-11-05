@@ -89131,7 +89131,7 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
+/* harmony import */ var _router_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/router */ "./resources/js/router/router.js");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! buefy */ "./node_modules/buefy/dist/esm/index.js");
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
@@ -89180,8 +89180,8 @@ window.auth = new _modules_auth_Auth__WEBPACK_IMPORTED_MODULE_12__["default"]();
 window.Event = new Vue();
 window.validator = new _utils_validation_validate__WEBPACK_IMPORTED_MODULE_9__["default"]();
 window.helper = new _utils_helpers_helper__WEBPACK_IMPORTED_MODULE_10__["default"]();
-window.api = new _modules_api_Api__WEBPACK_IMPORTED_MODULE_13__["default"](process.env.VUE_APP_API);
-Vue.prototype.appName = process.env.VUE_APP_NAME;
+window.api = new _modules_api_Api__WEBPACK_IMPORTED_MODULE_13__["default"]("http://localhost:8000/api/");
+Vue.prototype.appName = "PALPLUS";
 _utils_filters_filters__WEBPACK_IMPORTED_MODULE_11__["default"].forEach(function (f) {
   Vue.filter(f.name, f.execute);
 });
@@ -89191,7 +89191,6 @@ var app = new Vue({
   store: _store_store__WEBPACK_IMPORTED_MODULE_1__["default"],
   mixins: [_mixins_Listener__WEBPACK_IMPORTED_MODULE_14__["default"], _mixins_OnlineChecker__WEBPACK_IMPORTED_MODULE_15__["default"]]
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -89393,7 +89392,7 @@ function () {
 
     _defineProperty(this, "baseUrl", "");
 
-    this.baseUrl = 'http://35.200.214.94/api/';
+    this.baseUrl = url;
     this.intercept();
   }
 

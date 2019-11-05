@@ -16,6 +16,8 @@ class CreateLoanSettingsTable extends Migration
         Schema::create('loan_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('group_id');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

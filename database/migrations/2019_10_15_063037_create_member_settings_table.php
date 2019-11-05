@@ -18,6 +18,8 @@ class CreateMemberSettingsTable extends Migration
             $table->boolean('notification')->default(false);
             $table->boolean('seen')->default(true);
             $table->string('wallpaper')->default(false);
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

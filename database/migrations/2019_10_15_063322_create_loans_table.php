@@ -15,7 +15,7 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('member_id');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('loan_status_id');
             $table->unsignedInteger('loan_period_id');
@@ -25,6 +25,9 @@ class CreateLoansTable extends Migration
             $table->decimal('instalments', 8, 2);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->boolean('overdue')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

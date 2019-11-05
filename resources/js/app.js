@@ -37,8 +37,8 @@ window.auth = new Auth();
 window.Event = new Vue();
 window.validator = new Validator();
 window.helper = new Helper();
-window.api = new Api(process.env.VUE_APP_API);
-Vue.prototype.appName = process.env.VUE_APP_NAME;
+window.api = new Api(process.env.MIX_VUE_APP_API);
+Vue.prototype.appName = process.env.MIX_VUE_APP_NAME;
 
 Filters.forEach(f => {
     Vue.filter(f.name, f.execute);

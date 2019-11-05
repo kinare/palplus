@@ -16,7 +16,13 @@ class CreateWalletsTable extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('type', ['group', 'member']);
-            $table->decimal('balance');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('group_id')->nullable();
+            $table->decimal('total_balance');
+            $table->decimal('total_deposits');
+            $table->decimal('total_withdrawals');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

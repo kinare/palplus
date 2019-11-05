@@ -55,4 +55,36 @@ class User extends Authenticatable
     {
         return $this->where('phone', $phone)->first();
     }
+
+    public function wallet(){
+        return $this->hasOne('App\Wallet')->where('deleted_at', NUll);
+    }
+
+    public function profile(){
+        return $this->hasOne('App\Profile')->where('deleted_at', NUll);
+    }
+
+    public function nok(){
+        return $this->hasOne('App\NextOfKin')->where('deleted_at', NUll);
+    }
+
+    public function groups(){
+        return $this->hasManyThrough('App\Group', 'App\Members', 'user_id', 'id');
+    }
+
+    public function transactions(){
+        return $this->hasManyThrough('App\Transaction', 'App\Wallet', 'user_id', 'id');
+    }
+
+    public function accounts(){
+        return $this->hasOne('App\Account')->where('deleted_at', NUll);
+    }
+
+    public function payments(){
+        return $this->hasManyThrough('App\Payment', 'App\Wallet', 'user_id', 'id');
+    }
+
+    public function loans(){
+        return $this->hasMany('App\Loan')->where('deleted_at', NUll);
+    }
 }

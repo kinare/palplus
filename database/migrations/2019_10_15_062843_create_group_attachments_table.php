@@ -18,6 +18,8 @@ class CreateGroupAttachmentsTable extends Migration
             $table->unsignedInteger('group_id');
             $table->string('attachment');
             $table->string('path');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

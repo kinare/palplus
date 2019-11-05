@@ -44,11 +44,42 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::prefix('admin')->group(base_path('routes/admin.php'));
 
     Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::namespace('Investment')->group(function (){
+            Route::group(['prefix' => 'investment-opportunity'], function () {
+                Route::get('/', 'InvestmentOpportunityController@index');
+                Route::post('/', 'InvestmentOpportunityController@store');
+                Route::get('/{id}', 'InvestmentOpportunityController@show');
+                Route::patch('/{id}', 'InvestmentOpportunityController@update');
+                Route::delete('/{id}', 'InvestmentOpportunityController@destroy');
+                Route::delete('/{id}/force', 'InvestmentOpportunityController@forceDestroy');
+            });
+        });
+
+        Route::namespace('Currency')->group(function (){
+            Route::group(['prefix' => 'currency'], function () {
+                Route::get('/', 'CurrencyController@index');
+                Route::post('/', 'CurrencyController@store');
+                Route::get('/{id}', 'CurrencyController@show');
+                Route::patch('/{id}', 'CurrencyController@update');
+                Route::delete('/{id}', 'CurrencyController@destroy');
+                Route::delete('/{id}/force', 'CurrencyController@forceDestroy');
+            });
+        });
+
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', 'UserController@index');
             Route::post('/', 'UserController@store');
             Route::get('/activate/{id}', 'UserController@activate');
             Route::get('/deactivate/{id}', 'UserController@deactivate');
+            Route::get('/wallet', 'UserController@wallet');
+            Route::get('/profile', 'UserController@profile');
+            Route::get('/nok', 'UserController@nok');
+            Route::get('/groups', 'UserController@groups');
+            Route::get('/transactions/{type?}', 'UserController@transactions');
+            Route::get('/accounts', 'UserController@accounts');
+            Route::get('/payments', 'UserController@payments');
+            Route::get('/loans', 'UserController@loans');
             Route::get('/{id}', 'UserController@show');
             Route::patch('/{id}', 'UserController@update');
             Route::delete('/{id}', 'UserController@destroy');

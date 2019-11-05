@@ -15,15 +15,16 @@ class CreateNextOfKinTable extends Migration
     {
         Schema::create('next_of_kin', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('member_id');
+            $table->unsignedInteger('user_id');
             $table->string('name');
             $table->string('gender');
-            $table->decimal('age');
-            $table->string('relationship');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('address');
-            $table->string('postal_code');
+            $table->date('dob');
+            $table->string('relationship')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('physical_address');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

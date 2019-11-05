@@ -18,6 +18,8 @@ class CreateInvitationsTable extends Migration
             $table->string('invitation_code');
             $table->unsignedInteger('group_id');
             $table->dateTime('expiry_date');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

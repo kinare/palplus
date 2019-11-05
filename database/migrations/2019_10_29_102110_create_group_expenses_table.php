@@ -25,6 +25,8 @@ class CreateGroupExpensesTable extends Migration
             $table->string('document_no')->nullable();
             $table->decimal('total', 8, 2);
             $table->binary('photo')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
