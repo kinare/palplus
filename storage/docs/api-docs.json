@@ -2127,12 +2127,179 @@
                 ]
             }
         },
+        "/group/make-approver": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Make Member an approver",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "Member_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "approver_type",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/revoke-approver": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Revoke Member approver",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "Member_id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "approver_type",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group/members/{group_id}": {
             "get": {
                 "tags": [
                     "Group"
                 ],
                 "summary": "Group members",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/approvers/{group_id}/{approver_type}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Approvers",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "approver_type",
+                        "in": "path",
+                        "description": "Approver type i.e LOAN, WITHDRAWAL",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/admins/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group admins",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -3206,6 +3373,388 @@
                     "Member"
                 ],
                 "summary": "Deavtivate Member",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/nok": {
+            "get": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "All Next of Kins",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "Create Next of Kin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "User Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "gender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "dob",
+                        "in": "query",
+                        "description": "Date of Birth",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "relationship",
+                        "in": "query",
+                        "description": "relationship",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "physical_address",
+                        "in": "query",
+                        "description": "physical address",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/nok/{id}": {
+            "get": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "Retrieve Next of Kin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Next of kin Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "Soft delete a Next of Kin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Next of kin Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "Update a Next of Kin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Next of kin Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "gender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "dob",
+                        "in": "query",
+                        "description": "Date of Birth",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "relationship",
+                        "in": "query",
+                        "description": "relationship",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "physical_address",
+                        "in": "query",
+                        "description": "physical address",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/nok/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Next of Kin"
+                ],
+                "summary": "Force delete a Next of Kin",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Next of kin Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/profile": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update Profile",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "dob",
+                        "in": "query",
+                        "description": "Date of Birth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "gender",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "physical_address",
+                        "in": "query",
+                        "description": "physical_address",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/profile/{id}": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Retrieve Profile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

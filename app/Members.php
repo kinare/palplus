@@ -14,4 +14,5 @@ class Members extends BaseModel
     {
         return $this->belongsTo("App\User")->withTrashed();
     }
+
 }

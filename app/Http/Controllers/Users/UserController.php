@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\LoansResource;
@@ -14,7 +15,6 @@ use App\Http\Resources\WalletResource;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Type;
 
 class UserController extends BaseController
 {

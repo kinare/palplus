@@ -67,23 +67,39 @@ Route::group(['middleware' => ['json.response']], function () {
             });
         });
 
-        Route::group(['prefix' => 'user'], function () {
-            Route::get('/', 'UserController@index');
-            Route::post('/', 'UserController@store');
-            Route::get('/activate/{id}', 'UserController@activate');
-            Route::get('/deactivate/{id}', 'UserController@deactivate');
-            Route::get('/wallet', 'UserController@wallet');
-            Route::get('/profile', 'UserController@profile');
-            Route::get('/nok', 'UserController@nok');
-            Route::get('/groups', 'UserController@groups');
-            Route::get('/transactions/{type?}', 'UserController@transactions');
-            Route::get('/accounts', 'UserController@accounts');
-            Route::get('/payments', 'UserController@payments');
-            Route::get('/loans', 'UserController@loans');
-            Route::get('/{id}', 'UserController@show');
-            Route::patch('/{id}', 'UserController@update');
-            Route::delete('/{id}', 'UserController@destroy');
-            Route::delete('/{id}/force', 'UserController@forceDestroy');
+        Route::namespace('Users')->group(function (){
+            Route::group(['prefix' => 'user'], function () {
+                Route::get('/', 'UserController@index');
+                Route::post('/', 'UserController@store');
+                Route::get('/activate/{id}', 'UserController@activate');
+                Route::get('/deactivate/{id}', 'UserController@deactivate');
+                Route::get('/wallet', 'UserController@wallet');
+                Route::get('/profile', 'UserController@profile');
+                Route::get('/nok', 'UserController@nok');
+                Route::get('/groups', 'UserController@groups');
+                Route::get('/transactions/{type?}', 'UserController@transactions');
+                Route::get('/accounts', 'UserController@accounts');
+                Route::get('/payments', 'UserController@payments');
+                Route::get('/loans', 'UserController@loans');
+                Route::get('/{id}', 'UserController@show');
+                Route::patch('/{id}', 'UserController@update');
+                Route::delete('/{id}', 'UserController@destroy');
+                Route::delete('/{id}/force', 'UserController@forceDestroy');
+            });
+
+            Route::group(['prefix' => 'profile'], function () {
+                Route::get('/{id}', 'ProfileController@show');
+                Route::post('/', 'ProfileController@store');
+            });
+
+            Route::group(['prefix' => 'nok'], function () {
+                Route::get('/', 'NextOfKinController@index');
+                Route::post('/', 'NextOfKinController@store');
+                Route::get('/{id}', 'NextOfKinController@show');
+                Route::patch('/{id}', 'NextOfKinController@update');
+                Route::delete('/{id}', 'NextOfKinController@destroy');
+                Route::delete('/{id}/force', 'NextOfKinController@forceDestroy');
+            });
         });
 
         Route::group(['prefix' => 'member'], function () {
@@ -97,6 +113,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
 //        groups
         Route::namespace('Group')->group(function (){
+
             Route::group(['prefix' => 'group'], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
@@ -105,10 +122,14 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
                 Route::get('/members/{group_id}', 'GroupController@members');
+                Route::get('/admins/{group_id}', 'GroupController@admins');
+                Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
                 Route::post('/join/{user_id}/{group_id}', 'GroupController@join');
                 Route::post('/leave/{member_id}/{group_id}', 'GroupController@leave');
                 Route::post('/make-admin/{member_id}/{group_id}', 'GroupController@makeAdmin');
                 Route::post('/revoke-admin/{member_id}/{group_id}', 'GroupController@revokeAdmin');
+                Route::post('/make-approver', 'GroupController@makeApprover');
+                Route::post('/revoke-approver', 'GroupController@revokeApprover');
             });
 
             Route::group(['prefix' => 'expense'], function () {
@@ -124,6 +145,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupActivityController@index');
                 Route::post('/', 'GroupActivityController@store');
                 Route::get('/{id}', 'GroupActivityController@show');
+                Route::get('/group/{id}', 'GroupActivityController@byGroup');
                 Route::patch('/{id}', 'GroupActivityController@update');
                 Route::delete('/{id}', 'GroupActivityController@destroy');
                 Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');

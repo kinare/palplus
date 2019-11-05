@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\NextOfKin;
+use App\ApprovalEntries;
 use Illuminate\Http\Request;
 
-class NextOfKinController extends Controller
+class ApprovalEntriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class NextOfKinController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\NextOfKin  $nextOfKin
+     * @param  \App\ApprovalEntries  $approvalEntries
      * @return \Illuminate\Http\Response
      */
-    public function show(NextOfKin $nextOfKin)
+    public function show(ApprovalEntries $approvalEntries)
     {
         //
     }
@@ -52,10 +52,10 @@ class NextOfKinController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\NextOfKin  $nextOfKin
+     * @param  \App\ApprovalEntries  $approvalEntries
      * @return \Illuminate\Http\Response
      */
-    public function edit(NextOfKin $nextOfKin)
+    public function edit(ApprovalEntries $approvalEntries)
     {
         //
     }
@@ -64,10 +64,10 @@ class NextOfKinController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\NextOfKin  $nextOfKin
+     * @param  \App\ApprovalEntries  $approvalEntries
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NextOfKin $nextOfKin)
+    public function update(Request $request, ApprovalEntries $approvalEntries)
     {
         //
     }
@@ -75,10 +75,10 @@ class NextOfKinController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\NextOfKin  $nextOfKin
+     * @param  \App\ApprovalEntries  $approvalEntries
      * @return \Illuminate\Http\Response
      */
-    public function destroy(NextOfKin $nextOfKin)
+    public function destroy(ApprovalEntries $approvalEntries)
     {
         //
     }

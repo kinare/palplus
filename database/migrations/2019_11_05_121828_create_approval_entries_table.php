@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNextOfKinTable extends Migration
+class CreateApprovalEntriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateNextOfKinTable extends Migration
      */
     public function up()
     {
-        Schema::create('next_of_kin', function (Blueprint $table) {
+        Schema::create('approval_entries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
-            $table->string('name');
-            $table->enum('gender', ['male', 'female', 'other']);
-            $table->date('dob');
-            $table->string('relationship')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->string('physical_address');
+            $table->unsignedInteger('approver_type_id');
+            $table->unsignedInteger('member_id');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
@@ -37,6 +32,6 @@ class CreateNextOfKinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('next_of_kin');
+        Schema::dropIfExists('approval_entries');
     }
 }

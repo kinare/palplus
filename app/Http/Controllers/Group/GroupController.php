@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Group;
 
+use App\Approver;
+use App\ApproverTypes;
 use App\Group;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ApproverResourcce;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MemberResource;
 use App\Members;
@@ -71,7 +74,7 @@ class GroupController extends BaseController
             $member->group_id = $model->id;
             $member->user_id = $request->user()->id;
             $member->is_admin = true;
-            $member->modified_by = $request->user()->id;
+            $member->created_by = $request->user()->id;
             $member->save();
             return $this->response($model);
         }catch (Exception $exception){
@@ -365,6 +368,125 @@ class GroupController extends BaseController
     }
 
     /**
+     * @SWG\Post(
+     *   path="/group/make-approver",
+     *   tags={"Group"},
+     *   summary="Make Member an approver",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="member_id",in="query",description="Member_id",required=true,type="string"),
+     *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
+     *  @SWG\Parameter(name="approver_type",in="query",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function makeApprover(Request $request){
+        try{
+
+            $request->validate([
+                'member_id' => 'required',
+                'group_id' => 'required',
+                'approver_type' => 'required'
+            ]);
+
+            $member = Members::where(['id' => $request->member_id, 'group_id' => $request->group_id])->first();
+            if (!$member)
+                return response()->json([
+                    'message' => 'Member Not found'
+                ], 404);
+
+            $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
+            if (!$user->is_admin)
+                return response()->json([
+                    'message' => 'Unauthorised'
+                ], 404);
+
+            $approver = new Approver();
+            $approver->approver_type_id = ApproverTypes::type($request->approver_type)->id;
+            $approver->group_id = $request->group_id;
+            $approver->member_id = $request->member_id;
+            $approver->created_by = $request->user()->id;
+            $approver->save();
+
+//            $member->is_approver = true;
+            $member->modified_by = $request->user()->id;
+            $member->save();
+
+            return response()->json([
+                'message' =>  $member->user()->first()->name . ' is a group approver'
+            ], 200);
+
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/group/revoke-approver",
+     *   tags={"Group"},
+     *   summary="Revoke Member approver",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="member_id",in="query",description="Member_id",required=true,type="string"),
+     *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
+     *  @SWG\Parameter(name="approver_type",in="query",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function revokeApprover(Request $request){
+        try{
+            $request->validate([
+                'member_id' => 'required',
+                'group_id' => 'required',
+                'approver_type' => 'required'
+            ]);
+
+            $member = Members::where(['id' => $request->member_id, 'group_id' => $request->group_id])->first();
+            if (!$member)
+                return response()->json([
+                    'message' => 'Member Not found'
+                ], 404);
+
+            $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
+            if (!$user->is_admin)
+                return response()->json([
+                    'message' => 'Unauthorised'
+                ], 404);
+
+
+            $approver = Approver::where([
+                'member_id' => $request->member_id,
+                'group_id' => $request->group_id,
+                'approver_type_id' => ApproverTypes::type($request->approver_type)->id,
+            ])->firstOrFail();
+
+            $approver->delete();
+            $member->modified_by = $request->user()->id;
+            $member->save();
+
+            return response()->json([
+                'message' =>  $member->user()->first()->name . ' is no longer an approver'
+            ], 200);
+
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * @SWG\Get(
      *   path="/group/members/{group_id}",
      *   tags={"Group"},
@@ -384,6 +506,64 @@ class GroupController extends BaseController
         try{
            $group = Group::find($group_id);
            return MemberResource::collection($group->members()->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/approvers/{group_id}/{approver_type}",
+     *   tags={"Group"},
+     *   summary="Group Approvers",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *  @SWG\Parameter(name="approver_type",in="path",description="Approver type i.e LOAN, WITHDRAWAL",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function approvers($group_id, $approver_type)
+    {
+        try{
+             $approvers = Approver::where([
+                'approver_type_id' => ApproverTypes::type($approver_type)->id,
+                'group_id' => $group_id
+            ])->get();
+            return ApproverResourcce::collection($approvers);
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/admins/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group admins",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function admins($group_id)
+    {
+        try{
+            $group = Group::find($group_id);
+            return MemberResource::collection($group->members()->where('is_admin', true)->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

@@ -2,9 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Profile extends Model
+class Profile extends BaseModel
 {
-    //
+    protected $fillable = [
+      'user_id',
+      'dob',
+      'gender',
+      'physical_address',
+    ];
 }

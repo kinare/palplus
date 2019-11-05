@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembersTable extends Migration
+class CreateApproversTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('approvers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('member_id');
             $table->unsignedInteger('group_id');
-            $table->boolean('is_admin')->nullable();
-            $table->unsignedInteger('approver_id')->nullable();
-            $table->boolean('active')->default(true);
-            $table->string('created_by')->nullable();
-            $table->string('modified_by')->nullable();
+            $table->unsignedInteger('approver_type_id');
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +32,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('approvers');
     }
 }

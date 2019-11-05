@@ -41,7 +41,7 @@ class Group extends BaseModel
 
     public function approvers()
     {
-        return $this->hasMany('Approver', 'group_id', 'id');
+        return $this->hasMany('App\Approver')->where('deleted_at', NULL);
     }
 
     public function wallet()

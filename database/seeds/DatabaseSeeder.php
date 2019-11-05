@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
          $this->call(TestUser::class);
          $this->call(ActivityTypesSeed::class);
          $this->call(GroupTypesSeed::class);
+         $this->call(ApproverTypeSeeder::class);
     }
 }
