@@ -371,7 +371,7 @@ class GroupController extends BaseController
      *   },
      *  @SWG\Parameter(name="member_id",in="query",description="Member_id",required=true,type="string"),
      *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
-     *  @SWG\Parameter(name="approver_type",in="query",description="Group Id",required=true,type="string"),
+     *  @SWG\Parameter(name="approver_type",in="query",description="Approver type i.e LOAN, WITHDRAWAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -399,19 +399,19 @@ class GroupController extends BaseController
                     'message' => 'Unauthorised'
                 ], 404);
 
-            $approver = new Approver();
-            $approver->approver_type_id = ApproverTypes::type($request->approver_type)->id;
-            $approver->group_id = $request->group_id;
-            $approver->member_id = $request->member_id;
-            $approver->created_by = $request->user()->id;
-            $approver->save();
+            if ($request->approver_type === 'LOAN'){
+                $member->loan_approver = true;
+            }
 
-//            $member->is_approver = true;
+            if ($request->approver_type === 'WITHDRAWAL'){
+                $member->withdrawal_approver = true;
+            }
+
             $member->modified_by = $request->user()->id;
             $member->save();
 
             return response()->json([
-                'message' =>  $member->user()->first()->name . ' is a group approver'
+                'message' =>  $member->user()->first()->name . ' is a group '.mb_strtolower($request->approver_type).' approver'
             ], 200);
 
         }catch (Exception $e){
@@ -431,7 +431,7 @@ class GroupController extends BaseController
      *   },
      *  @SWG\Parameter(name="member_id",in="query",description="Member_id",required=true,type="string"),
      *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
-     *  @SWG\Parameter(name="approver_type",in="query",description="Group Id",required=true,type="string"),
+     *  @SWG\Parameter(name="approver_type",in="query",description="Approver type i.e LOAN, WITHDRAWAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -458,19 +458,19 @@ class GroupController extends BaseController
                     'message' => 'Unauthorised'
                 ], 404);
 
+            if ($request->approver_type === 'LOAN'){
+                $member->loan_approver = false;
+            }
 
-            $approver = Approver::where([
-                'member_id' => $request->member_id,
-                'group_id' => $request->group_id,
-                'approver_type_id' => ApproverTypes::type($request->approver_type)->id,
-            ])->firstOrFail();
+            if ($request->approver_type === 'WITHDRAWAL'){
+                $member->withdrawal_approver = false;
+            }
 
-            $approver->delete();
             $member->modified_by = $request->user()->id;
             $member->save();
 
             return response()->json([
-                'message' =>  $member->user()->first()->name . ' is no longer an approver'
+                'message' =>  $member->user()->first()->name . ' is no longer a '.mb_strtolower($request->approver_type).' approver'
             ], 200);
 
         }catch (Exception $e){
@@ -526,11 +526,15 @@ class GroupController extends BaseController
     public function approvers($group_id, $approver_type)
     {
         try{
-             $approvers = Approver::where([
-                'approver_type_id' => ApproverTypes::type($approver_type)->id,
-                'group_id' => $group_id
-            ])->get();
-            return ApproverResourcce::collection($approvers);
+
+            if ($approver_type === 'LOAN'){
+                return MemberResource::collection(Members::where('loan_approver', true)->get());
+            }
+
+            if ($approver_type === 'WITHDRAWAL'){
+                return MemberResource::collection(Members::where('withdrawal_approver', true)->get());
+            }
+
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

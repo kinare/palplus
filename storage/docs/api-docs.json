@@ -2137,7 +2137,7 @@
                     {
                         "name": "approver_type",
                         "in": "query",
-                        "description": "Group Id",
+                        "description": "Approver type i.e LOAN, WITHDRAWAL",
                         "required": true,
                         "type": "string"
                     }
@@ -2184,7 +2184,7 @@
                     {
                         "name": "approver_type",
                         "in": "query",
-                        "description": "Group Id",
+                        "description": "Approver type i.e LOAN, WITHDRAWAL",
                         "required": true,
                         "type": "string"
                     }

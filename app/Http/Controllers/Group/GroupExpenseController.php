@@ -135,7 +135,7 @@ class GroupExpenseController extends BaseController
      * @SWG\Get(
      *   path="/expense/group/{group_id}/",
      *   tags={"Expense"},
-     *   summary="Force delete expense",
+     *   summary="Expences for a group",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -163,7 +163,7 @@ class GroupExpenseController extends BaseController
      * @SWG\Get(
      *   path="/expense/activity/{activity_id}/",
      *   tags={"Expense"},
-     *   summary="Group Expense",
+     *   summary="Activity Expense",
      *  security={
      *     {"bearer": {}},
      *   },

@@ -18,7 +18,8 @@ class CreateMembersTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('group_id');
             $table->boolean('is_admin')->nullable();
-            $table->unsignedInteger('approver_id')->nullable();
+            $table->boolean('loan_approver')->nullable();
+            $table->boolean('withdrawal_approver')->nullable();
             $table->boolean('active')->default(true);
             $table->string('created_by')->nullable();
             $table->string('modified_by')->nullable();

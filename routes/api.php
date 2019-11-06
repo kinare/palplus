@@ -113,7 +113,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
 //        groups
         Route::namespace('Group')->group(function (){
-
             Route::group(['prefix' => 'group'], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
@@ -137,6 +136,8 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupExpenseController@index');
                 Route::post('/', 'GroupExpenseController@store');
                 Route::get('/{id}', 'GroupExpenseController@show');
+                Route::get('/group/{group_id}/', 'GroupExpenseController@byGroup');
+                Route::get('/activity/{activity_id}/', 'GroupExpenseController@byActivity');
                 Route::patch('/{id}', 'GroupExpenseController@update');
                 Route::delete('/{id}', 'GroupExpenseController@destroy');
                 Route::delete('/{id}/force', 'GroupExpenseController@forceDestroy');
@@ -169,10 +170,6 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}', 'GroupTypeController@destroy');
                 Route::delete('/{id}/force', 'GroupTypeController@forceDestroy');
             });
-
-
         });
-
     });
-
 });
