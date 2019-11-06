@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Group;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\GroupResource;
@@ -12,6 +13,7 @@ use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
+use App\Members;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -256,7 +258,12 @@ class UserController extends BaseController
     public function groups(Request $request)
     {
         try{
-            return new GroupResource($request->user()->groups()->get());
+            $memberships = Members::where('user_id', $request->user()->id)->get();
+            $groupIds = [];
+            foreach ($memberships as $membership){
+                array_push($groupIds, $membership->group_id);
+            }
+            return GroupResource::collection(Group::find($groupIds));
 
         }catch (Exception $exception){
             return response()->json([

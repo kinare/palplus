@@ -121,11 +121,12 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::patch('/{id}', 'GroupController@update');
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
+                Route::get('/me/{group_id}', 'GroupController@me');
                 Route::get('/members/{group_id}', 'GroupController@members');
                 Route::get('/admins/{group_id}', 'GroupController@admins');
                 Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
-                Route::post('/join/{user_id}/{group_id}', 'GroupController@join');
-                Route::post('/leave/{member_id}/{group_id}', 'GroupController@leave');
+                Route::post('/join/{group_id}', 'GroupController@join');
+                Route::post('/leave/{group_id}', 'GroupController@leave');
                 Route::post('/make-admin/{member_id}/{group_id}', 'GroupController@makeAdmin');
                 Route::post('/revoke-admin/{member_id}/{group_id}', 'GroupController@revokeAdmin');
                 Route::post('/make-approver', 'GroupController@makeApprover');

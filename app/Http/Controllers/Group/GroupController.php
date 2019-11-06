@@ -154,13 +154,12 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/join/{user_id}/{group_id}",
+     *   path="/group/join/{group_id}",
      *   tags={"Group"},
      *   summary="Join group",
      *  security={
      *     {"bearer": {}},
      *   },
-     *  @SWG\Parameter(name="user_id",in="query",description="user id",required=true,type="string"),
      *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -173,14 +172,13 @@ class GroupController extends BaseController
     {
         try{
             $request->validate([
-                'user_id' => 'required',
                 'group_id' => 'required'
             ]);
 
-            $user = User::find($request->user_id);
-            if (!$user)
+            $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
+            if ($member)
                 return response()->json([
-                    'message' => 'Member Not found'
+                    'message' => 'You are already a member'
                 ], 404);
 
 
@@ -196,13 +194,11 @@ class GroupController extends BaseController
                 ], 400);
 
             $member = new Members();
-            $member->user_id = $user->id;
+            $member->user_id = $request->user()->id;
             $member->group_id = $group->id;
             $member->save();
 
-            return response()->json([
-                'message' => 'You joined '. $group->name . ' successfully'
-            ], 200);
+            return new MemberResource($member);
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
@@ -212,13 +208,12 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/leave/{member_id}/{group_id}",
+     *   path="/group/leave/{group_id}",
      *   tags={"Group"},
      *   summary="Leave group",
      *  security={
      *     {"bearer": {}},
      *   },
-     *  @SWG\Parameter(name="member_id",in="query",description="Member_id",required=true,type="string"),
      *  @SWG\Parameter(name="group_id",in="query",description="Group Id",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -230,14 +225,13 @@ class GroupController extends BaseController
     {
         try{
             $request->validate([
-                'member_id' => 'required',
                 'group_id' => 'required'
             ]);
 
-            $member = Members::find($request->member_id);
+            $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id]);
             if (!$member)
                 return response()->json([
-                    'message' => 'Member Not found'
+                    'message' => 'You are not a member in this group'
                 ], 404);
 
 
@@ -252,7 +246,7 @@ class GroupController extends BaseController
                     'message' => 'Sorry, This is a private group pay your dues first'
                 ], 400);
 
-            $member->delete();
+            $member->forceDelete();
             return response()->json([
                 'message' => 'You left '. $group->name . ' successfully'
             ], 200);
@@ -564,6 +558,32 @@ class GroupController extends BaseController
         try{
             $group = Group::find($group_id);
             return MemberResource::collection($group->members()->where('is_admin', true)->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/me/{group_id}",
+     *   tags={"Group"},
+     *   summary="Current Member",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function me(Request $request, $group_id)
+    {
+        try{
+            return new MemberResource(Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

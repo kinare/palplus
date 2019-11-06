@@ -1355,7 +1355,7 @@
                     {
                         "name": "itinerary",
                         "in": "query",
-                        "description": "description",
+                        "description": "itinerary",
                         "required": true,
                         "type": "string"
                     },
@@ -1390,30 +1390,30 @@
                     {
                         "name": "slots",
                         "in": "query",
-                        "description": "contacts",
+                        "description": "slots",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "featured",
                         "in": "query",
-                        "description": "contacts",
+                        "description": "featured",
                         "required": true,
-                        "type": "boolean"
+                        "type": "integer"
                     },
                     {
                         "name": "booking_fee",
                         "in": "query",
                         "description": "booking fee",
                         "required": true,
-                        "type": "boolean"
+                        "type": "integer"
                     },
                     {
                         "name": "installments",
                         "in": "query",
                         "description": "installments",
                         "required": true,
-                        "type": "boolean"
+                        "type": "integer"
                     },
                     {
                         "name": "booking_fee_amount",
@@ -1555,7 +1555,7 @@
                     {
                         "name": "itinerary",
                         "in": "query",
-                        "description": "description",
+                        "description": "itinerary",
                         "required": true,
                         "type": "string"
                     },
@@ -1590,14 +1590,14 @@
                     {
                         "name": "slots",
                         "in": "query",
-                        "description": "contacts",
+                        "description": "slots",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "featured",
                         "in": "query",
-                        "description": "contacts",
+                        "description": "featured",
                         "required": true,
                         "type": "integer"
                     },
@@ -1967,20 +1967,13 @@
                 ]
             }
         },
-        "/group/join/{user_id}/{group_id}": {
+        "/group/join/{group_id}": {
             "post": {
                 "tags": [
                     "Group"
                 ],
                 "summary": "Join group",
                 "parameters": [
-                    {
-                        "name": "user_id",
-                        "in": "query",
-                        "description": "user id",
-                        "required": true,
-                        "type": "string"
-                    },
                     {
                         "name": "group_id",
                         "in": "query",
@@ -2007,20 +2000,13 @@
                 ]
             }
         },
-        "/group/leave/{member_id}/{group_id}": {
+        "/group/leave/{group_id}": {
             "post": {
                 "tags": [
                     "Group"
                 ],
                 "summary": "Leave group",
                 "parameters": [
-                    {
-                        "name": "member_id",
-                        "in": "query",
-                        "description": "Member_id",
-                        "required": true,
-                        "type": "string"
-                    },
                     {
                         "name": "group_id",
                         "in": "query",
@@ -2300,6 +2286,39 @@
                     "Group"
                 ],
                 "summary": "Group admins",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/me/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Current Member",
                 "parameters": [
                     {
                         "name": "group_id",
