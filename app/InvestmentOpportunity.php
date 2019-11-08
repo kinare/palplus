@@ -13,4 +13,11 @@ class InvestmentOpportunity extends BaseModel
       'featured',
       'amount',
     ];
+
+    protected $appends = ['avatar_url'];
+
+    public function getAvatarUrlAttribute()
+    {
+        return url('/') .'/investments/investments/'.$this->created_by.'/'.$this->image;
+    }
 }

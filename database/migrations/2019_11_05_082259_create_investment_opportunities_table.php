@@ -17,7 +17,7 @@ class CreateInvestmentOpportunitiesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('description');
-            $table->binary('image')->nullable();
+            $table->string('image')->nullable();
             $table->boolean('featured')->default(false);
             $table->boolean('amount')->default(false);
             $table->unsignedInteger('created_by')->nullable();

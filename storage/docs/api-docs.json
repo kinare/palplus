@@ -3338,38 +3338,44 @@
                     "Investment Opportunity"
                 ],
                 "summary": "Create Investment Opportunity",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "title",
-                        "in": "query",
+                        "in": "formData",
                         "description": "title",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "description",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "image",
-                        "in": "query",
+                        "in": "formData",
                         "description": "image",
                         "required": false,
-                        "type": "string"
+                        "type": "file"
                     },
                     {
                         "name": "featured",
-                        "in": "query",
+                        "in": "formData",
                         "description": "featured",
                         "required": false,
                         "type": "string"
                     },
                     {
                         "name": "amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "amount",
                         "required": false,
                         "type": "string"
@@ -3461,45 +3467,51 @@
                     "Investment Opportunity"
                 ],
                 "summary": "Update Investment Opportunity",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "Investment opportunity id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "title",
-                        "in": "query",
+                        "in": "formData",
                         "description": "title",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "description",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "image",
-                        "in": "query",
+                        "in": "formData",
                         "description": "image",
                         "required": false,
-                        "type": "string"
+                        "type": "file"
                     },
                     {
                         "name": "featured",
-                        "in": "query",
+                        "in": "formData",
                         "description": "featured",
                         "required": false,
                         "type": "string"
                     },
                     {
                         "name": "amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "amount",
                         "required": false,
                         "type": "string"
