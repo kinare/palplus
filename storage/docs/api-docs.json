@@ -1091,6 +1091,351 @@
                 ]
             }
         },
+        "/supplier": {
+            "get": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Retrieve Supplier",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Create Supplier",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount_paid",
+                        "in": "query",
+                        "description": "amount_paid",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "amount_pending",
+                        "in": "query",
+                        "description": "amount_pending",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/supplier/{id}": {
+            "get": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Retrieve a Supplier",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "supplier id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Delete Supplier",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "supplier id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Update Supplier",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "supplier id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount_paid",
+                        "in": "query",
+                        "description": "amount_paid",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "amount_pending",
+                        "in": "query",
+                        "description": "amount_pending",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/supplier/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Supplier"
+                ],
+                "summary": "Force delete Supplier",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "supplier id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/wallet": {
+            "get": {
+                "tags": [
+                    "Wallets"
+                ],
+                "summary": "Retrieve Wallets",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/wallet/{id}": {
+            "get": {
+                "tags": [
+                    "Wallets"
+                ],
+                "summary": "Retrieve a Wallet",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "wallet id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity-type": {
             "get": {
                 "tags": [
@@ -1926,6 +2271,13 @@
                         "description": "access level",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "avatar",
+                        "required": false,
+                        "type": "file"
                     }
                 ],
                 "responses": {
@@ -3186,6 +3538,30 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gender": {
+            "get": {
+                "tags": [
+                    "Gender"
+                ],
+                "summary": "Retrieve Genders",
                 "responses": {
                     "200": {
                         "description": "Success"

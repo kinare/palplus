@@ -68,6 +68,10 @@ Route::group(['middleware' => ['json.response']], function () {
         });
 
         Route::namespace('Users')->group(function (){
+            Route::group(['prefix' => 'gender'], function () {
+                Route::get('/', 'GenderController@index');
+            });
+
             Route::group(['prefix' => 'user'], function () {
                 Route::get('/', 'UserController@index');
                 Route::post('/', 'UserController@store');
@@ -101,6 +105,24 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}/force', 'NextOfKinController@forceDestroy');
             });
         });
+
+        Route::namespace('Finance')->group(function (){
+            Route::group(['prefix' => 'wallet'], function () {
+                Route::get('/', 'WalletController@index');
+                Route::get('/{id}', 'WalletController@show');
+            });
+
+            Route::group(['prefix' => 'supplier'], function () {
+                Route::get('/', 'SuppliersController@index');
+                Route::post('/', 'SuppliersController@store');
+                Route::get('/{id}', 'SuppliersController@show');
+                Route::patch('/{id}', 'SuppliersController@update');
+                Route::delete('/{id}', 'SuppliersController@destroy');
+                Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
+            });
+        });
+
+
 
         Route::group(['prefix' => 'member'], function () {
             Route::get('/', 'MembersController@index');

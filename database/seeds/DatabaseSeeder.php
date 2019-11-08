@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
          $this->call(ActivityTypesSeed::class);
          $this->call(GroupTypesSeed::class);
          $this->call(ApproverTypeSeeder::class);
+         $this->call(GenderSeed::class);
     }
 }

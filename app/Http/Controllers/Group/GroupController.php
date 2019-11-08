@@ -134,6 +134,7 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="name",in="formData",description="Group Name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="formData",description="Group Description",required=true,type="string"),
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
+     *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
