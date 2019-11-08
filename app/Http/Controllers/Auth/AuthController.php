@@ -255,7 +255,7 @@ class AuthController extends Controller
      */
     public function generateCode()
     {
-        $code = rand(1000,9999);
+        $code = rand(1000,99999);
 
         $exists = User::where('verification_code', $code)->first();
 

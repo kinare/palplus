@@ -2681,7 +2681,7 @@
                 "tags": [
                     "Expense"
                 ],
-                "summary": "Force delete expense",
+                "summary": "Expences for a group",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -2714,7 +2714,7 @@
                 "tags": [
                     "Expense"
                 ],
-                "summary": "Group Expense",
+                "summary": "Activity Expense",
                 "parameters": [
                     {
                         "name": "activity_id",
