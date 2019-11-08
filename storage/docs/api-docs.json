@@ -1749,52 +1749,59 @@
                     "Group"
                 ],
                 "summary": "Create Group",
+                "operationId": "add-template",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "type_id",
-                        "in": "query",
+                        "in": "formData",
                         "description": "group type id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "name",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group Name",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group Description",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "avatar",
-                        "in": "query",
+                        "in": "formData",
                         "description": "avatar",
-                        "required": true,
-                        "type": "string"
+                        "required": false,
+                        "type": "file"
                     },
                     {
                         "name": "access_level",
-                        "in": "query",
+                        "in": "formData",
                         "description": "access level",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "country",
-                        "in": "query",
+                        "in": "formData",
                         "description": "country",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "currency",
-                        "in": "query",
+                        "in": "formData",
                         "description": "currency",
                         "required": true,
                         "type": "string"
@@ -1967,7 +1974,7 @@
                 ]
             }
         },
-        "/group/join/{group_id}": {
+        "/group/join": {
             "post": {
                 "tags": [
                     "Group"
@@ -2000,7 +2007,7 @@
                 ]
             }
         },
-        "/group/leave/{group_id}": {
+        "/group/leave": {
             "post": {
                 "tags": [
                     "Group"
@@ -2033,7 +2040,7 @@
                 ]
             }
         },
-        "/group/make-admin/{member_id}/{group_id}": {
+        "/group/make-admin": {
             "post": {
                 "tags": [
                     "Group"
@@ -2073,7 +2080,7 @@
                 ]
             }
         },
-        "/group/revoke-admin/{member_id}/{group_id}": {
+        "/group/revoke-admin": {
             "post": {
                 "tags": [
                     "Group"

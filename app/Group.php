@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
 class Group extends BaseModel
 {
     /**
@@ -52,5 +54,12 @@ class Group extends BaseModel
     public function attachments()
     {
         return $this->hasMany('GroupAttachment', 'group_id', 'id');
+    }
+
+    protected $appends = ['avatar_url'];
+
+    public function getAvatarUrlAttribute()
+    {
+        return url('/') .'/avatars/groups/'.$this->code.'/'.$this->avatar;
     }
 }

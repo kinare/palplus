@@ -12,8 +12,11 @@ use App\Http\Resources\MemberResource;
 use App\Members;
 use App\User;
 use Exception;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravolt\Avatar\Facade as Avatar;
 
 class GroupController extends BaseController
 {
@@ -37,21 +40,38 @@ class GroupController extends BaseController
      * )
      */
 
+    public function index()
+    {
+        try{
+
+
+            return $this->response($this->model::orderBy('id', 'DESC')->get());
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+    }
+
     /**
      * @SWG\Post(
-     *   path="/group",
-     *   tags={"Group"},
-     *   summary="Create Group",
+     *  path="/group",
+     *  tags={"Group"},
+     *  summary="Create Group",
+     *  operationId="add-template",
+     *  produces={"application/json"},
+     *  consumes={"multipart/form-data"},
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="type_id",in="query",description="group type id",required=true,type="string"),
-     *   @SWG\Parameter(name="name",in="query",description="Group Name",required=true,type="string"),
-     *   @SWG\Parameter(name="description",in="query",description="Group Description",required=true,type="string"),
-     *   @SWG\Parameter(name="avatar",in="query",description="avatar",required=true,type="string"),
-     *   @SWG\Parameter(name="access_level",in="query",description="access level",required=true,type="string"),
-     *   @SWG\Parameter(name="country",in="query",description="country",required=true,type="string"),
-     *   @SWG\Parameter(name="currency",in="query",description="currency",required=true,type="string"),
+     *   @SWG\Parameter(name="type_id",in="formData",description="group type id",required=true,type="string"),
+     *   @SWG\Parameter(name="name",in="formData",description="Group Name",required=true,type="string"),
+     *   @SWG\Parameter(name="description",in="formData",description="Group Description",required=true,type="string"),
+     *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
+     *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
+     *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
+     *   @SWG\Parameter(name="currency",in="formData",description="currency",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -67,6 +87,22 @@ class GroupController extends BaseController
             $model->fill($data);
             $model->created_by = $request->user()->id;
             $model->code = Str::random(60);
+
+            if ($request->hasFile('avatar')){
+                $attachment = [];
+                $attachment['file'] = $request->file('avatar');
+                $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
+
+                if (Storage::exists("groups/" . $model->code . '/' . $attachment['filename']))
+                    $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
+
+                Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
+                $model->avatar = $attachment['filename'];
+            }else{
+                $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
+                Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
+                $model->avatar =  'avatar.png';
+            }
             $model->save();
 
             //make first member admin
@@ -103,6 +139,37 @@ class GroupController extends BaseController
      *
      * )
      */
+    public function update(Request $request, $id)
+    {
+        try{
+            $model = $this->model::find($id);
+            $model->fill($request->all());
+            $model->modified_by = $request->user()->id;
+            if ($request->hasFile('avatar')){
+                $attachment = [];
+                $attachment['file'] = $request->file('avatar');
+                $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
+
+                if (Storage::exists("groups/" . $model->code . '/' . $attachment['filename']))
+                    $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
+
+                Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
+                $model->avatar = $attachment['filename'];
+            }
+            $model->save();
+            return $this->response($model);
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+
+
+
+
+
+    }
 
     /**
      * @SWG\Get(
@@ -154,7 +221,7 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/join/{group_id}",
+     *   path="/group/join",
      *   tags={"Group"},
      *   summary="Join group",
      *  security={
@@ -208,7 +275,7 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/leave/{group_id}",
+     *   path="/group/leave",
      *   tags={"Group"},
      *   summary="Leave group",
      *  security={
@@ -260,7 +327,7 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/make-admin/{member_id}/{group_id}",
+     *   path="/group/make-admin",
      *   tags={"Group"},
      *   summary="Leave group",
      *  security={
@@ -312,7 +379,7 @@ class GroupController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/group/revoke-admin/{member_id}/{group_id}",
+     *   path="/group/revoke-admin",
      *   tags={"Group"},
      *   summary="Leave group",
      *  security={
