@@ -14,10 +14,9 @@ class ActivityTypesSeed extends Seeder
     {
         ActivityType::truncate();
         ActivityType::insert([
-            ['activity' => 'meeting', 'description' => 'group meeting'],
-            ['activity' => 'project', 'description' => 'group project'],
-            ['activity' => 'events', 'description' => 'event activity'],
-            ['activity' => 'tour', 'description' => 'tour and travel'],
+            ['activity' => 'group-meeting', 'description' => 'Group Meeting'],
+            ['activity' => 'group-project', 'description' => 'Group Project'],
+            ['activity' => 'group-event/tour', 'description' => 'Group Event/Tour'],
         ]);
     }
 }

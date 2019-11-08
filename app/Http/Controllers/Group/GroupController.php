@@ -59,7 +59,6 @@ class GroupController extends BaseController
      *  path="/group",
      *  tags={"Group"},
      *  summary="Create Group",
-     *  operationId="add-template",
      *  produces={"application/json"},
      *  consumes={"multipart/form-data"},
      *  security={
@@ -126,13 +125,15 @@ class GroupController extends BaseController
      *   path="/group/{id}",
      *   tags={"Group"},
      *   summary="Update Group",
+     *  produces={"application/json"},
+     *  consumes={"multipart/form-data"},
      *  security={
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
-     *   @SWG\Parameter(name="name",in="query",description="Group Name",required=true,type="string"),
-     *   @SWG\Parameter(name="description",in="query",description="Group Description",required=true,type="string"),
-     *   @SWG\Parameter(name="access_level",in="query",description="access level",required=true,type="string"),
+     *   @SWG\Parameter(name="name",in="formData",description="Group Name",required=true,type="string"),
+     *   @SWG\Parameter(name="description",in="formData",description="Group Description",required=true,type="string"),
+     *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

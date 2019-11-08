@@ -1749,7 +1749,6 @@
                     "Group"
                 ],
                 "summary": "Create Group",
-                "operationId": "add-template",
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -1893,6 +1892,12 @@
                     "Group"
                 ],
                 "summary": "Update Group",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -1903,21 +1908,21 @@
                     },
                     {
                         "name": "name",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group Name",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group Description",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "access_level",
-                        "in": "query",
+                        "in": "formData",
                         "description": "access level",
                         "required": true,
                         "type": "string"
@@ -3447,13 +3452,6 @@
                 "summary": "Create Next of Kin",
                 "parameters": [
                     {
-                        "name": "user_id",
-                        "in": "query",
-                        "description": "User Id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -3704,48 +3702,54 @@
                     "Profile"
                 ],
                 "summary": "Update Profile",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
-                        "name": "user_id",
-                        "in": "query",
-                        "description": "user id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
-                        "in": "query",
+                        "in": "formData",
                         "description": "name",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "email",
-                        "in": "query",
+                        "in": "formData",
                         "description": "email",
                         "required": false,
                         "type": "string"
                     },
                     {
                         "name": "dob",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Date of Birth",
                         "required": false,
                         "type": "string"
                     },
                     {
                         "name": "gender",
-                        "in": "query",
+                        "in": "formData",
                         "description": "gender",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "physical_address",
-                        "in": "query",
+                        "in": "formData",
                         "description": "physical_address",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "profile photo",
+                        "required": true,
+                        "type": "file"
                     }
                 ],
                 "responses": {

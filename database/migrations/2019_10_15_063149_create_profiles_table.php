@@ -19,6 +19,7 @@ class CreateProfilesTable extends Migration
             $table->date('dob');
             $table->enum('gender', ['male', 'female', 'other']);
             $table->string('physical_address');
+            $table->string('avatar')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

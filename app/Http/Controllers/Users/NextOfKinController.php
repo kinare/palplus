@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\NextOfKinResource;
 use App\NextOfKin;
+use Exception;
 use Illuminate\Http\Request;
 
 class NextOfKinController extends BaseController
@@ -37,7 +38,6 @@ class NextOfKinController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="user_id",in="query",description="User Id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="gender",in="query",description="gender",required=true,type="string"),
      *   @SWG\Parameter(name="dob",in="query",description="Date of Birth",required=true,type="string"),
@@ -51,6 +51,23 @@ class NextOfKinController extends BaseController
      *
      * )
      */
+    public function store(Request $request)
+    {
+        try{
+            $model = new $this->model();
+            $data = $request->all();
+            $model->fill($data);
+            $model->created_by = $request->user()->id;
+            $model->user_id = $request->user()->id;
+            $model->save();
+            return $this->response($model);
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+    }
 
     /**
      * @SWG\Patch(

@@ -14,10 +14,10 @@ class GroupTypesSeed extends Seeder
     {
         GroupType::truncate();
         GroupType::insert([
-            ['type' => 'Mary-go-round', 'description' => 'Mary go round group'],
-            ['type' => 'Tours-and-travel',  'description' => 'Tours and travel group'],
-            ['type' => 'Fundraising',  'description' => 'Fund raising group'],
-            ['type' => 'Investment',  'description' => 'Investment opportunities']
+            ['type' => 'Mary-go-round', 'description' => 'Mary Go Round'],
+            ['type' => 'Tours-and-travel',  'description' => 'Tours and Travel'],
+            ['type' => 'Fundraising',  'description' => 'Fund Raising'],
+            ['type' => 'Saving-and-investments',  'description' => 'Savings and Investments']
         ]);
     }
 }
