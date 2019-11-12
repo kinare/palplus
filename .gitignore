@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
-/public/avatars
+public/avatars/*
+public/investments/*
 /public/storage
 /storage/*.key
 /vendor
