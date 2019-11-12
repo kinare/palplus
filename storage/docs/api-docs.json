@@ -859,6 +859,404 @@
                 }
             }
         },
+        "/contribution/categories": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve Contribution Categories",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/contribution": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve all Contributions",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Contribute",
+                "parameters": [
+                    {
+                        "name": "contribution_types_id",
+                        "in": "query",
+                        "description": "contribution_types_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/contribution/periods": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve Contribution Periods",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/contribution/types": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve Contributions types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Create Contributions type",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_categories_id",
+                        "in": "query",
+                        "description": "contribution_categories_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_periods_id",
+                        "in": "query",
+                        "description": "contribution_periods_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "target_amount",
+                        "in": "query",
+                        "description": "target amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount per set period",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/contribution/types/{id}": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve Contributions type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Contribution type id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Delete Contributions type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Contribution type id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Update Contributions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Contribution type id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_categories_id",
+                        "in": "query",
+                        "description": "contribution_categories_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_periods_id",
+                        "in": "query",
+                        "description": "contribution_periods_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "target_amount",
+                        "in": "query",
+                        "description": "target amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount per set period",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/contribution/types/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Force delete Contributions Type",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Contribution type id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/currency": {
             "get": {
                 "tags": [
@@ -1063,7 +1461,7 @@
                 "tags": [
                     "Currency"
                 ],
-                "summary": "Force delete Activity Type",
+                "summary": "Force delete currency",
                 "parameters": [
                     {
                         "name": "id",
@@ -3106,6 +3504,129 @@
                 ]
             }
         },
+        "/group-request": {
+            "get": {
+                "tags": [
+                    "Group Request"
+                ],
+                "summary": "all requests",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-request/join": {
+            "post": {
+                "tags": [
+                    "Group Request"
+                ],
+                "summary": "Request to join group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-request/approve": {
+            "post": {
+                "tags": [
+                    "Group Request"
+                ],
+                "summary": "Approve Group Join Request",
+                "parameters": [
+                    {
+                        "name": "request_code",
+                        "in": "query",
+                        "description": "request_code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-request/decline": {
+            "post": {
+                "tags": [
+                    "Group Request"
+                ],
+                "summary": "Decline Group Join Request",
+                "parameters": [
+                    {
+                        "name": "request_code",
+                        "in": "query",
+                        "description": "request_code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group-type": {
             "get": {
                 "tags": [
@@ -3288,6 +3809,143 @@
                         "name": "id",
                         "in": "path",
                         "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/invitation": {
+            "get": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "all invitations",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/invitation/invite": {
+            "post": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Invite user to a group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "User phone number",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/invitation/accept": {
+            "post": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Accept group invitation",
+                "parameters": [
+                    {
+                        "name": "invitation_code",
+                        "in": "query",
+                        "description": "invitation_code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/invitation/decline": {
+            "post": {
+                "tags": [
+                    "Invitation"
+                ],
+                "summary": "Decline group invitation",
+                "parameters": [
+                    {
+                        "name": "invitation_code",
+                        "in": "query",
+                        "description": "invitation_code",
                         "required": true,
                         "type": "string"
                     }
@@ -4593,6 +5251,30 @@
                     "User"
                 ],
                 "summary": "My Loan",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/contributions": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Contributions",
                 "responses": {
                     "200": {
                         "description": "Success"

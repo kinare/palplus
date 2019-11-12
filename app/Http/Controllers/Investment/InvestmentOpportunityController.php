@@ -50,7 +50,6 @@ class InvestmentOpportunityController extends BaseController
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
-     *
      * )
      */
 
@@ -113,6 +112,7 @@ class InvestmentOpportunityController extends BaseController
     public function update(Request $request, $id)
     {
         try{
+            $request->all();
             $model = $this->model::find($id);
             $model->fill($request->all());
             $model->modified_by = $request->user()->id;

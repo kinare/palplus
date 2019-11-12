@@ -15,11 +15,10 @@ class CreateContributionsTable extends Migration
     {
         Schema::create('contributions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('contribution_types_id');
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('member_id');
-            $table->unsignedInteger('target');
-            $table->unsignedInteger('amount');
-            $table->unsignedInteger('balance');
+            $table->decimal('amount', 8, 2);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

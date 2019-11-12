@@ -48,7 +48,6 @@ class CurrencyController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Patch(
      *   path="/currency/{id}",
@@ -105,7 +104,7 @@ class CurrencyController extends BaseController
      * @SWG\Delete(
      *   path="/currency/{id}/force",
      *   tags={"Currency"},
-     *   summary="Force delete Activity Type",
+     *   summary="Force delete currency",
      *  security={
      *     {"bearer": {}},
      *   },

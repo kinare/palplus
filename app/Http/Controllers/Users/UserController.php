@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Contribution;
 use App\Group;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\AccountResource;
+use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\LoansResource;
 use App\Http\Resources\NextOfKinResource;
@@ -373,6 +375,36 @@ class UserController extends BaseController
     {
         try{
             return new LoansResource($request->user()->loans()->get());
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/user/contributions",
+     *   tags={"User"},
+     *   summary="My Contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function contributions(Request $request)
+    {
+        try{
+            $groups = Members::where('user_id', $request->user()->id)->get();
+            $memberships = [];
+            foreach ($groups as $group){
+                array_push($memberships, $group->id);
+            }
+            return  ContributionResource::collection(Contribution::whereIn('member_id', $memberships)->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

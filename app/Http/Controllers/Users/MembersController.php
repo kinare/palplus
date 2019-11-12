@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\MemberResource;
 use App\Members;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MembersController extends BaseController
 {
@@ -144,6 +145,26 @@ class MembersController extends BaseController
      */
     public function deactivate($id)
     {
+
+    }
+
+    public static function member(array $data) : Members
+    {
+        $member = new Members();
+        $member->group_id = $data['group_id'];
+        $member->user_id = $data['user_id'];
+        $member->created_by = Auth::user()->id;
+        $member->save();
+        return $member;
+    }
+
+    public static function isAdmin($group_id) : bool
+    {
+        return Members::where([
+            'user_id' => Auth::user()->id,
+            'group_id' => $group_id
+        ])->first()->is_admin;
+
 
     }
 }

@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
          $this->call(GroupTypesSeed::class);
          $this->call(ApproverTypeSeeder::class);
          $this->call(GenderSeed::class);
+         $this->call(ContributionCategoriesSeed::class);
+         $this->call(ContributionPeriodsSeed::class);
     }
 }

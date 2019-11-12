@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInvitationsTable extends Migration
+class CreateContributionCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateInvitationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('invitations', function (Blueprint $table) {
+        Schema::create('contribution_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('invitation_code');
-            $table->unsignedInteger('group_id');
-            $table->unsignedInteger('user_id');
-            $table->string('phone')->nullable();
-            $table->enum('status', ['pending', 'accepted', 'declined'])->default('pending');
-            $table->dateTime('expiry_date')->nullable();
+            $table->string('category');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
@@ -35,6 +30,6 @@ class CreateInvitationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invitations');
+        Schema::dropIfExists('contribution_categories');
     }
 }

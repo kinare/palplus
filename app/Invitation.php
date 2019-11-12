@@ -2,9 +2,13 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 
-class Invitation extends Model
+class Invitation extends BaseModel
 {
-    //
+    protected $fillable = [
+        'invitation_code',
+        'group_id',
+        'user_id',
+        'phone',
+    ];
 }

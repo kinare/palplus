@@ -85,6 +85,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/accounts', 'UserController@accounts');
                 Route::get('/payments', 'UserController@payments');
                 Route::get('/loans', 'UserController@loans');
+                Route::get('/contributions', 'UserController@contributions');
                 Route::get('/{id}', 'UserController@show');
                 Route::patch('/{id}', 'UserController@update');
                 Route::delete('/{id}', 'UserController@destroy');
@@ -122,8 +123,6 @@ Route::group(['middleware' => ['json.response']], function () {
             });
         });
 
-
-
         Route::group(['prefix' => 'member'], function () {
             Route::get('/', 'MembersController@index');
             Route::post('/', 'MembersController@store');
@@ -133,8 +132,48 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::delete('/{id}/force', 'MembersController@forceDestroy');
         });
 
-//        groups
+        /*contributions*/
+        Route::namespace('Contributions')->group(function (){
+            Route::group(['prefix' => 'contribution'], function () {
+                Route::group(['prefix' => 'categories'], function () {
+                    Route::get('/', 'ContributionCategoryController@index');
+                });
+
+                Route::group(['prefix' => 'periods'], function () {
+                    Route::get('/', 'ContributionPeriodController@index');
+                });
+
+                Route::group(['prefix' => 'types'], function () {
+                    Route::get('/', 'ContributionTypeController@index');
+                    Route::post('/', 'ContributionTypeController@store');
+                    Route::get('/{id}', 'ContributionTypeController@show');
+                    Route::patch('/{id}', 'ContributionTypeController@update');
+                    Route::delete('/{id}', 'ContributionTypeController@destroy');
+                    Route::delete('/{id}/force', 'ContributionTypeController@forceDestroy');
+                });
+                Route::group(['prefix' => ''], function () {
+                    Route::post('/', 'ContributionController@contribute');
+                });
+            });
+        });
+
+        /*Groups*/
         Route::namespace('Group')->group(function (){
+
+            Route::group(['prefix' => 'invitation'], function () {
+                Route::get('/', 'InvitationController@index');
+                Route::post('/invite', 'InvitationController@invite');
+                Route::post('/accept', 'InvitationController@accept');
+                Route::post('/decline', 'InvitationController@decline');
+            });
+
+            Route::group(['prefix' => 'group-request'], function () {
+                Route::get('/', 'GroupRequestsController@index');
+                Route::post('/join', 'GroupRequestsController@request');
+                Route::post('/approve', 'GroupRequestsController@approve');
+                Route::post('/decline', 'GroupRequestsController@decline');
+            });
+
             Route::group(['prefix' => 'group'], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
@@ -146,10 +185,10 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/members/{group_id}', 'GroupController@members');
                 Route::get('/admins/{group_id}', 'GroupController@admins');
                 Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
-                Route::post('/join/{group_id}', 'GroupController@join');
-                Route::post('/leave/{group_id}', 'GroupController@leave');
-                Route::post('/make-admin/{member_id}/{group_id}', 'GroupController@makeAdmin');
-                Route::post('/revoke-admin/{member_id}/{group_id}', 'GroupController@revokeAdmin');
+                Route::post('/join', 'GroupController@join');
+                Route::post('/leave', 'GroupController@leave');
+                Route::post('/make-admin', 'GroupController@makeAdmin');
+                Route::post('/revoke-admin', 'GroupController@revokeAdmin');
                 Route::post('/make-approver', 'GroupController@makeApprover');
                 Route::post('/revoke-approver', 'GroupController@revokeApprover');
             });
