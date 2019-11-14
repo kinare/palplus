@@ -1313,12 +1313,7 @@
                     "500": {
                         "description": "internal server error"
                     }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -5412,6 +5407,39 @@
                         "description": "group_id",
                         "required": false,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/deposit": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Deposit to wallet",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": false,
+                        "type": "number"
                     }
                 ],
                 "responses": {

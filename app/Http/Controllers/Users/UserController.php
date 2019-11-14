@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Users;
 
 use App\Contribution;
 use App\Group;
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\ContributionResource;
@@ -17,6 +18,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Members;
 use App\User;
+use App\Wallet;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -439,6 +441,31 @@ class UserController extends BaseController
                 'message' => $exception->getMessage()
             ]);
         }
+    }
+
+
+    /**
+     * @SWG\Post(
+     *   path="/user/deposit",
+     *   tags={"User"},
+     *   summary="Deposit to wallet",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=false,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function deposit(Request $request){
+
+        $wallet = Wallet::where('user_id', $request->user()->id)->first();
+        AccountingController::credit($wallet, $request->amount);
+        return response()->json([
+            'message' => 'Deposit successful'
+        ], 200);
     }
 
 
