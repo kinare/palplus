@@ -1073,6 +1073,39 @@
                 ]
             }
         },
+        "/contribution/types/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "Contributions"
+                ],
+                "summary": "Retrieve all group contributions Contributions",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/contribution/types/{id}": {
             "get": {
                 "tags": [
@@ -3048,6 +3081,39 @@
                     "Group"
                 ],
                 "summary": "Group admins",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/contriburions/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Contriburions",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -5275,6 +5341,39 @@
                     "User"
                 ],
                 "summary": "My Contributions",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/contributions/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "My Group Contributions",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

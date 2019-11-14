@@ -86,6 +86,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/payments', 'UserController@payments');
                 Route::get('/loans', 'UserController@loans');
                 Route::get('/contributions', 'UserController@contributions');
+                Route::get('/contributions/group/{group_id}', 'UserController@contributionByGroup');
                 Route::get('/{id}', 'UserController@show');
                 Route::patch('/{id}', 'UserController@update');
                 Route::delete('/{id}', 'UserController@destroy');
@@ -147,6 +148,7 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/', 'ContributionTypeController@index');
                     Route::post('/', 'ContributionTypeController@store');
                     Route::get('/{id}', 'ContributionTypeController@show');
+                    Route::get('/group/{group_id}', 'ContributionTypeController@byGroup');
                     Route::patch('/{id}', 'ContributionTypeController@update');
                     Route::delete('/{id}', 'ContributionTypeController@destroy');
                     Route::delete('/{id}/force', 'ContributionTypeController@forceDestroy');
@@ -184,6 +186,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/me/{group_id}', 'GroupController@me');
                 Route::get('/members/{group_id}', 'GroupController@members');
                 Route::get('/admins/{group_id}', 'GroupController@admins');
+                Route::get('/contriburions/{group_id}', 'GroupController@contriburions');
                 Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
                 Route::post('/join', 'GroupController@join');
                 Route::post('/leave', 'GroupController@leave');

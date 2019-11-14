@@ -396,15 +396,44 @@ class UserController extends BaseController
      *
      * )
      */
+
     public function contributions(Request $request)
     {
         try{
+
             $groups = Members::where('user_id', $request->user()->id)->get();
             $memberships = [];
             foreach ($groups as $group){
                 array_push($memberships, $group->id);
             }
             return  ContributionResource::collection(Contribution::whereIn('member_id', $memberships)->get());
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/user/contributions/group/{group_id}",
+     *   tags={"User"},
+     *   summary="My Group Contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group_id",required=false,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+    public function contributionByGroup(Request $request, $group_id){
+        try{
+            $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first();
+            return ContributionResource::collection(Contribution::where('member_id', $member->id)->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

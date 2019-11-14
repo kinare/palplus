@@ -29,6 +29,32 @@ class ContributionTypeController extends BaseController
      * )
      */
 
+    /**
+     * @SWG\Get(
+     *   path="/contribution/types/group/{group_id}",
+     *   tags={"Contributions"},
+     *   summary="Retrieve all group contributions Contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+
+    public function byGroup($group_id)
+    {
+        try{
+            return ContributionTypeResource::collection(ContributionType::where('group_id', $group_id)->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     /**
      * @SWG\Post(

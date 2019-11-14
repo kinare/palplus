@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Group;
 
 use App\Approver;
 use App\ApproverTypes;
+use App\Contribution;
 use App\Group;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ApproverResourcce;
+use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MemberResource;
 use App\Members;
@@ -612,10 +614,37 @@ class GroupController extends BaseController
     }
 
     /**
+ * @SWG\Get(
+ *   path="/group/admins/{group_id}",
+ *   tags={"Group"},
+ *   summary="Group admins",
+ *  security={
+ *     {"bearer": {}},
+ *   },
+ *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+ *   @SWG\Response(response=200, description="Success"),
+ *   @SWG\Response(response=400, description="Not found"),
+ *   @SWG\Response(response=500, description="internal server error")
+ *
+ * )
+ */
+    public function admins($group_id)
+    {
+        try{
+            $group = Group::find($group_id);
+            return MemberResource::collection($group->members()->where('is_admin', true)->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * @SWG\Get(
-     *   path="/group/admins/{group_id}",
+     *   path="/group/contriburions/{group_id}",
      *   tags={"Group"},
-     *   summary="Group admins",
+     *   summary="Group Contriburions",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -626,11 +655,10 @@ class GroupController extends BaseController
      *
      * )
      */
-    public function admins($group_id)
+    public function contriburions($group_id)
     {
         try{
-            $group = Group::find($group_id);
-            return MemberResource::collection($group->members()->where('is_admin', true)->get());
+            return ContributionResource::collection(Contribution::where('group_id', $group_id)->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
