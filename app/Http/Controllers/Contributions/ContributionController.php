@@ -9,6 +9,7 @@ use App\Http\Controllers\MembersController;
 use App\Http\Resources\ContributionResource;
 use App\Members;
 use App\User;
+use App\Wallet;
 use Illuminate\Http\Request;
 
 class ContributionController extends BaseController
@@ -59,6 +60,20 @@ class ContributionController extends BaseController
             'amount' => 'required',
         ]);
 
+        //validate wallet
+        $wallet = Wallet::where('user_id', $request->user()->id)->first();
+        if (!$wallet)
+            return response()->json([
+                'message' => 'Please setup your wallet to continue'
+            ], 401);
+
+
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds. top up to continue'
+            ], 401);
+
+
         $type = ContributionType::find($request->contribution_types_id);
         $member = Members::where([
             'user_id' => $request->user()->id,
@@ -66,14 +81,15 @@ class ContributionController extends BaseController
         ])->first();
 
         $contribution = new Contribution();
-
         $contribution->contribution_types_id = $type->id;
         $contribution->group_id = $type->group_id;
         $contribution->member_id = $member->id;
         $contribution->amount = $request->amount;
         $contribution->created_by = $request->user()->id;
         $contribution->save();
-        return $this->response($contribution);
+        return response()->json([
+            'message' => 'Contribution Successful'
+        ], 200);
     }
 
 

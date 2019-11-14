@@ -30,6 +30,7 @@ class AuthController extends Controller
      *   @SWG\Parameter(name="email",in="query",description="email",required=false,type="string"),
      *   @SWG\Parameter(name="phone",in="query",description="phone",required=true,type="string"),
      *   @SWG\Parameter(name="country_code",in="query",description="country code",required=true,type="string"),
+     *   @SWG\Parameter(name="currency_id",in="query",description="currency id",required=true,type="integer"),
      *   @SWG\Parameter(name="password",in="query",description="password",required=true,type="string"),
      *   @SWG\Parameter(name="password_confirmation",in="query",description="password",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
@@ -45,6 +46,7 @@ class AuthController extends Controller
             'email' => 'string|email|unique:users',
             'phone' => 'required|string|unique:users',
             'country_code' => 'required|string',
+            'currency_id' => 'required',
             'password' => 'required|string|confirmed',
         ]);
 
@@ -56,6 +58,7 @@ class AuthController extends Controller
             'email' => $request->email ?: $request->phone,
             'phone' => $country_code.$phone,
             'country' => $request->country_code,
+            'currency_id' => $request->currency_id,
             'password' => Hash::make($request->password),
             'verification_code' => $this->generateCode(),
         ]);
@@ -255,7 +258,7 @@ class AuthController extends Controller
      */
     public function generateCode()
     {
-        $code = rand(1000,99999);
+        $code = rand(10000,99999);
 
         $exists = User::where('verification_code', $code)->first();
 

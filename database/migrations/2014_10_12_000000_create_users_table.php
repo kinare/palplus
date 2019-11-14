@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
             $table->string('country_code')->nullable();
+            $table->unsignedInteger('currency_id');
             $table->string('location')->nullable();
             $table->boolean('active')->default(false);
             $table->boolean('phone_verified')->default(false);

@@ -154,6 +154,7 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::delete('/{id}/force', 'ContributionTypeController@forceDestroy');
                 });
                 Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'ContributionController@index');
                     Route::post('/', 'ContributionController@contribute');
                 });
             });
@@ -187,6 +188,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/members/{group_id}', 'GroupController@members');
                 Route::get('/admins/{group_id}', 'GroupController@admins');
                 Route::get('/contriburions/{group_id}', 'GroupController@contriburions');
+                Route::get('/wallet/{group_id}', 'GroupController@wallet');
                 Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
                 Route::post('/join', 'GroupController@join');
                 Route::post('/leave', 'GroupController@leave');

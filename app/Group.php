@@ -13,7 +13,7 @@ class Group extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'access_level', 'type_id', 'country', 'currency'
+        'name', 'description', 'access_level', 'type_id', 'country', 'currency_id'
     ];
 
     public function members()

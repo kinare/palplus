@@ -15,12 +15,13 @@ class CreateWalletsTable extends Migration
     {
         Schema::create('wallets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type', ['group', 'member']);
+            $table->enum('type', ['Group', 'User']);
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('group_id')->nullable();
-            $table->decimal('total_balance');
-            $table->decimal('total_deposits');
-            $table->decimal('total_withdrawals');
+            $table->unsignedInteger('currency_id');
+            $table->decimal('total_balance', 8, 2)->default(0);
+            $table->decimal('total_deposits', 8, 2)->default(0);;
+            $table->decimal('total_withdrawals', 8, 2)->default(0);;
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

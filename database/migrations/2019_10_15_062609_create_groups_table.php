@@ -21,7 +21,7 @@ class CreateGroupsTable extends Migration
             $table->string('avatar')->nullable();
             $table->enum('access_level', ['public', 'private'])->default('public');
             $table->string('country');
-            $table->string('currency');
+            $table->unsignedInteger('currency_id');
             $table->unsignedInteger('type_id');
             $table->unsignedInteger('setting_id')->nullable();
             $table->unsignedInteger('loan_setting_id')->nullable();

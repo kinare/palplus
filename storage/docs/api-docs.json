@@ -565,6 +565,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "currency_id",
+                        "in": "query",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "password",
                         "in": "query",
                         "description": "password",
@@ -2575,11 +2582,11 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency",
+                        "name": "currency_id",
                         "in": "formData",
-                        "description": "currency",
+                        "description": "currency_id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -3114,6 +3121,39 @@
                     "Group"
                 ],
                 "summary": "Group Contriburions",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/wallet/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Wallet",
                 "parameters": [
                     {
                         "name": "group_id",

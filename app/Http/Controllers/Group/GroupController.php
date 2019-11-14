@@ -11,8 +11,10 @@ use App\Http\Resources\ApproverResourcce;
 use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\WalletResource;
 use App\Members;
 use App\User;
+use App\Wallet;
 use Exception;
 use Faker\Provider\Image;
 use Illuminate\Http\Request;
@@ -45,8 +47,6 @@ class GroupController extends BaseController
     public function index()
     {
         try{
-
-
             return $this->response($this->model::orderBy('id', 'DESC')->get());
         }catch (Exception $exception){
             return response()->json([
@@ -72,7 +72,7 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
-     *   @SWG\Parameter(name="currency",in="formData",description="currency",required=true,type="string"),
+     *   @SWG\Parameter(name="currency_id",in="formData",description="currency_id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -659,6 +659,32 @@ class GroupController extends BaseController
     {
         try{
             return ContributionResource::collection(Contribution::where('group_id', $group_id)->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/wallet/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group Wallet",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function wallet($group_id)
+    {
+        try{
+            return new WalletResource(Wallet::where('group_id', $group_id)->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
