@@ -1,85 +1,120 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Loan;
 
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\LoanSettingResource;
 use App\LoanSetting;
 use Illuminate\Http\Request;
 
-class LoanSettingController extends Controller
+class LoanSettingController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = LoanSetting::class, $resource = LoanSettingResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @SWG\Get(
+     *   path="/loan/settings",
+     *   tags={"Loan Settings"},
+     *   summary="Retrieve Loan Settings",
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @SWG\Post(
+     *   path="/loan/settings",
+     *   tags={"Loan Settings"},
+     *   summary="Create Loan Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="query",description="group id",required=true,type="integer"),
+     *   @SWG\Parameter(name="qualification_period",in="query",description="qualification period",required=true,type="integer"),
+     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
+     *   @SWG\Parameter(name="limit_rate",in="query",description="limit rate",required=true,type="number"),
+     *   @SWG\Parameter(name="interest_rate",in="query",description="interest_rate",required=true,type="number"),
+     *   @SWG\Parameter(name="fixed_late_payment",in="query",description="fixed_late_payment (true/false)",required=true,type="integer"),
+     *   @SWG\Parameter(name="late_payment_rate",in="query",description="late_payment_rate",required=true,type="number"),
+     *   @SWG\Parameter(name="late_payment_amount",in="query",description="late_payment_amount",required=true,type="number"),
+     *   @SWG\Parameter(name="show_loans",in="query",description="show_loans",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\LoanSetting  $loanSetting
-     * @return \Illuminate\Http\Response
+     * @SWG\Patch(
+     *   path="/loan/settings/{id}",
+     *   tags={"Loan Settings"},
+     *   summary="Update Loan Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Setting id",required=true,type="string"),
+     *   @SWG\Parameter(name="qualification_period",in="query",description="qualification period",required=true,type="integer"),
+     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
+     *   @SWG\Parameter(name="limit_rate",in="query",description="limit rate",required=true,type="number"),
+     *   @SWG\Parameter(name="interest_rate",in="query",description="interest_rate",required=true,type="number"),
+     *   @SWG\Parameter(name="fixed_late_payment",in="query",description="fixed_late_payment (true/false)",required=true,type="integer"),
+     *   @SWG\Parameter(name="late_payment_rate",in="query",description="late_payment_rate",required=true,type="number"),
+     *   @SWG\Parameter(name="late_payment_amount",in="query",description="late_payment_amount",required=true,type="number"),
+     *   @SWG\Parameter(name="show_loans",in="query",description="show_loans",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function show(LoanSetting $loanSetting)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\LoanSetting  $loanSetting
-     * @return \Illuminate\Http\Response
+     * @SWG\Get(
+     *   path="/loan/settings/{id}",
+     *   tags={"Loan Settings"},
+     *   summary="Retrieve Loan Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Setting id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function edit(LoanSetting $loanSetting)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LoanSetting  $loanSetting
-     * @return \Illuminate\Http\Response
+     * @SWG\Delete(
+     *   path="/loan/settings/{id}",
+     *   tags={"Loan Settings"},
+     *   summary="Delete Loan Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Setting id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function update(Request $request, LoanSetting $loanSetting)
-    {
-        //
-    }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\LoanSetting  $loanSetting
-     * @return \Illuminate\Http\Response
+     * @SWG\Delete(
+     *   path="/loan/settings/{id}/force",
+     *   tags={"Loan Settings"},
+     *   summary="Force delete Loan Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Setting id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function destroy(LoanSetting $loanSetting)
-    {
-        //
-    }
+
+
 }

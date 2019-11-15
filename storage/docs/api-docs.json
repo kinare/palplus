@@ -4327,6 +4327,585 @@
                 ]
             }
         },
+        "/loan": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Retrieve Loans",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Create Loan Periods",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "loan_amount",
+                        "in": "query",
+                        "description": "loan_amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/limit/{group_id}": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Loan Limit",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/periods": {
+            "get": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Retrieve Loan Periods",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Create Loan Periods",
+                "parameters": [
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "period",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "days",
+                        "in": "query",
+                        "description": "days",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/periods/{id}": {
+            "get": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Retrieve Loan Periods",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Period id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Delete Loan Periods",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Period id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Update Loan Periods",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Period id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "period",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "days",
+                        "in": "query",
+                        "description": "days",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/periods/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Loan Periods"
+                ],
+                "summary": "Force delete Loan Periods",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Period id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/settings": {
+            "get": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Retrieve Loan Settings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Create Loan Settings",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification period",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "repayment_period",
+                        "in": "query",
+                        "description": "repayment period",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit_rate",
+                        "in": "query",
+                        "description": "limit rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "interest_rate",
+                        "in": "query",
+                        "description": "interest_rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "fixed_late_payment",
+                        "in": "query",
+                        "description": "fixed_late_payment (true/false)",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "late_payment_rate",
+                        "in": "query",
+                        "description": "late_payment_rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "late_payment_amount",
+                        "in": "query",
+                        "description": "late_payment_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_loans",
+                        "in": "query",
+                        "description": "show_loans",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/settings/{id}": {
+            "get": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Retrieve Loan Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Setting id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Delete Loan Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Setting id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Update Loan Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Setting id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification period",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "repayment_period",
+                        "in": "query",
+                        "description": "repayment period",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit_rate",
+                        "in": "query",
+                        "description": "limit rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "interest_rate",
+                        "in": "query",
+                        "description": "interest_rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "fixed_late_payment",
+                        "in": "query",
+                        "description": "fixed_late_payment (true/false)",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "late_payment_rate",
+                        "in": "query",
+                        "description": "late_payment_rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "late_payment_amount",
+                        "in": "query",
+                        "description": "late_payment_amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_loans",
+                        "in": "query",
+                        "description": "show_loans",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/settings/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Loan Settings"
+                ],
+                "summary": "Force delete Loan Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Loan Setting id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/gender": {
             "get": {
                 "tags": [

@@ -16,6 +16,7 @@ class CreateLoanPeriodsTable extends Migration
         Schema::create('loan_periods', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('period');
+            $table->unsignedInteger('days');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

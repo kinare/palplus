@@ -15,17 +15,18 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('user_id');
+            $table->string('code');
+            $table->unsignedInteger('member_id');
             $table->unsignedInteger('group_id');
-            $table->unsignedInteger('loan_status_id');
-            $table->unsignedInteger('loan_period_id');
-            $table->decimal('amount',8, 2);
-            $table->decimal('paid',8, 2);
-            $table->decimal('balance',8, 2);
-            $table->decimal('instalments', 8, 2);
+            $table->enum('status', ['pending', 'processing', 'approved', 'rejected', 'cleared'])->default('pending');
+            $table->unsignedInteger('approvals')->default(0);
+            $table->unsignedInteger('payment_period_id');
+            $table->decimal('loan_amount',8, 2);
+            $table->decimal('paid_amount',8, 2);
+            $table->decimal('balance_amount',8, 2);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->boolean('overdue')->nullable();
+            $table->boolean('overdue')->default(false);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

@@ -13,7 +13,6 @@ class CurrencyController extends BaseController
         parent::__construct($model, $resource);
     }
 
-
     /**
      * @SWG\Get(
      *   path="/currency",
@@ -112,7 +111,4 @@ class CurrencyController extends BaseController
      *
      * )
      */
-
-
-
 }

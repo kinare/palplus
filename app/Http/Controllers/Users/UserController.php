@@ -17,6 +17,7 @@ use App\Http\Resources\TransactionResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Members;
+use App\Transaction;
 use App\User;
 use App\Wallet;
 use Exception;
@@ -290,15 +291,10 @@ class UserController extends BaseController
      *
      * )
      */
-    public function transactions(Request $request,$type = null)
+    public function transactions(Request $request)
     {
         try{
-            if ($type){
-                return new TransactionResource($request->user()->transactions()->whereType($type)->get());
-            }else{
-                return new TransactionResource($request->user()->transactions()->get());
-            }
-
+           return TransactionResource::collection( Transaction::where('wallet_id', $request->user()->wallet()->first()->id)->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

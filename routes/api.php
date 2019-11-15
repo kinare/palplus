@@ -43,7 +43,42 @@ Route::group(['middleware' => ['json.response']], function () {
     //Admin Routes
     Route::prefix('admin')->group(base_path('routes/admin.php'));
 
+    Route::namespace('Currency')->group(function (){
+        Route::group(['prefix' => 'currency'], function () {
+            Route::get('/', 'CurrencyController@index');
+        });
+    });
+
     Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::namespace('Loan')->group(function (){
+            Route::group(['prefix' => 'loan'], function () {
+
+                Route::group(['prefix' => 'settings'], function () {
+                    Route::get('/', 'LoanSettingController@index');
+                    Route::post('/', 'LoanSettingController@store');
+                    Route::get('/{id}', 'LoanSettingController@show');
+                    Route::patch('/{id}', 'LoanSettingController@update');
+                    Route::delete('/{id}', 'LoanSettingController@destroy');
+                    Route::delete('/{id}/force', 'LoanSettingController@forceDestroy');
+                });
+
+                Route::group(['prefix' => 'periods'], function () {
+                    Route::get('/', 'LoanPeriodController@index');
+                    Route::post('/', 'LoanPeriodController@store');
+                    Route::get('/{id}', 'LoanPeriodController@show');
+                    Route::patch('/{id}', 'LoanPeriodController@update');
+                    Route::delete('/{id}', 'LoanPeriodController@destroy');
+                    Route::delete('/{id}/force', 'LoanPeriodController@forceDestroy');
+                });
+
+                Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'LoanController@index');
+                    Route::get('/limit{group_id}', 'LoanController@limit');
+                    Route::post('/', 'LoanController@loan');
+                });
+            });
+        });
 
         Route::namespace('Investment')->group(function (){
             Route::group(['prefix' => 'investment-opportunity'], function () {
@@ -58,7 +93,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::namespace('Currency')->group(function (){
             Route::group(['prefix' => 'currency'], function () {
-                Route::get('/', 'CurrencyController@index');
                 Route::post('/', 'CurrencyController@store');
                 Route::get('/{id}', 'CurrencyController@show');
                 Route::patch('/{id}', 'CurrencyController@update');
@@ -81,7 +115,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/profile', 'UserController@profile');
                 Route::get('/nok', 'UserController@nok');
                 Route::get('/groups', 'UserController@groups');
-                Route::get('/transactions/{type?}', 'UserController@transactions');
+                Route::get('/transactions', 'UserController@transactions');
                 Route::get('/accounts', 'UserController@accounts');
                 Route::get('/payments', 'UserController@payments');
                 Route::get('/loans', 'UserController@loans');

@@ -1,85 +1,105 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Loan;
 
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\LoanPeriodResource;
 use App\LoanPeriod;
 use Illuminate\Http\Request;
 
-class LoanPeriodController extends Controller
+class LoanPeriodController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+   public function __construct($model = LoanPeriod::class, $resource = LoanPeriodResource::class)
+   {
+       parent::__construct($model, $resource);
+   }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @SWG\Get(
+     *   path="/loan/periods",
+     *   tags={"Loan Periods"},
+     *   summary="Retrieve Loan Periods",
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @SWG\Post(
+     *   path="/loan/periods",
+     *   tags={"Loan Periods"},
+     *   summary="Create Loan Periods",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="period",in="query",description="period",required=true,type="string"),
+     *   @SWG\Parameter(name="days",in="query",description="days",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\LoanPeriod  $loanPeriod
-     * @return \Illuminate\Http\Response
+     * @SWG\Patch(
+     *   path="/loan/periods/{id}",
+     *   tags={"Loan Periods"},
+     *   summary="Update Loan Periods",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Period id",required=true,type="string"),
+     *   @SWG\Parameter(name="period",in="query",description="period",required=true,type="string"),
+     *   @SWG\Parameter(name="days",in="query",description="days",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function show(LoanPeriod $loanPeriod)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\LoanPeriod  $loanPeriod
-     * @return \Illuminate\Http\Response
+     * @SWG\Get(
+     *   path="/loan/periods/{id}",
+     *   tags={"Loan Periods"},
+     *   summary="Retrieve Loan Periods",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Period id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function edit(LoanPeriod $loanPeriod)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LoanPeriod  $loanPeriod
-     * @return \Illuminate\Http\Response
+     * @SWG\Delete(
+     *   path="/loan/periods/{id}",
+     *   tags={"Loan Periods"},
+     *   summary="Delete Loan Periods",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Period id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function update(Request $request, LoanPeriod $loanPeriod)
-    {
-        //
-    }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\LoanPeriod  $loanPeriod
-     * @return \Illuminate\Http\Response
+     * @SWG\Delete(
+     *   path="/loan/periods/{id}/force",
+     *   tags={"Loan Periods"},
+     *   summary="Force delete Loan Periods",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Loan Period id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
-    public function destroy(LoanPeriod $loanPeriod)
-    {
-        //
-    }
 }

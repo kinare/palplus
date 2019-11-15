@@ -2,9 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class LoanPeriod extends Model
+class LoanPeriod extends BaseModel
 {
-    //
+    protected $fillable = [
+        'period',
+        'days',
+    ];
 }

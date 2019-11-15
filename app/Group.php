@@ -62,4 +62,9 @@ class Group extends BaseModel
     {
         return url('/') .'/avatars/groups/'.$this->code.'/'.$this->avatar;
     }
+
+    public static function hasFunds(self $self) : bool
+    {
+        return $self->wallet()->total_balance > 0;
+    }
 }
