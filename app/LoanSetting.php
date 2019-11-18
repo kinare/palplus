@@ -22,6 +22,6 @@ class LoanSetting extends BaseModel
     }
 
     public function period(){
-        return $this->hasOne('App\LoanPeriod', 'repayment_period', 'id');
+        return $this->hasOne('App\LoanPeriod', 'id', 'repayment_period');
     }
 }

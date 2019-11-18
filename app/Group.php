@@ -65,6 +65,6 @@ class Group extends BaseModel
 
     public static function hasFunds(self $self) : bool
     {
-        return $self->wallet()->total_balance > 0;
+        return Wallet::where('group_id', $self->id)->first()->total_balance > 0;
     }
 }

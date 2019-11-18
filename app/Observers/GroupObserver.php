@@ -3,6 +3,9 @@
 namespace App\Observers;
 
 use App\Group;
+use App\GroupSetting;
+use App\Http\Controllers\GroupSettingController;
+use App\MemberSetting;
 use App\Wallet;
 
 class GroupObserver

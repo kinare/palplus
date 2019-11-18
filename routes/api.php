@@ -74,8 +74,9 @@ Route::group(['middleware' => ['json.response']], function () {
 
                 Route::group(['prefix' => ''], function () {
                     Route::get('/', 'LoanController@index');
-                    Route::get('/limit{group_id}', 'LoanController@limit');
+                    Route::get('/limit/{group_id}', 'LoanController@limit');
                     Route::post('/', 'LoanController@loan');
+                    Route::post('/approve', 'LoanController@approve');
                 });
             });
         });
@@ -102,6 +103,7 @@ Route::group(['middleware' => ['json.response']], function () {
         });
 
         Route::namespace('Users')->group(function (){
+
             Route::group(['prefix' => 'gender'], function () {
                 Route::get('/', 'GenderController@index');
             });
@@ -212,6 +214,12 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::post('/decline', 'GroupRequestsController@decline');
             });
 
+            Route::group(['prefix' => 'group-setting'], function () {
+                Route::get('/', 'GroupSettingController@index');
+                Route::get('/{id}', 'GroupSettingController@show');
+                Route::patch('/{id}', 'GroupSettingController@update');
+            });
+
             Route::group(['prefix' => 'group'], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
@@ -231,6 +239,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::post('/revoke-admin', 'GroupController@revokeAdmin');
                 Route::post('/make-approver', 'GroupController@makeApprover');
                 Route::post('/revoke-approver', 'GroupController@revokeApprover');
+                Route::get('/settings/{group_id}', 'GroupController@settings');
             });
 
             Route::group(['prefix' => 'expense'], function () {

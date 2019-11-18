@@ -114,9 +114,7 @@ class UserPasswordResetController extends PasswordResetController
         //validate phone number
         $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
         $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
-
         $validPhone = $country_code.$phone;
-
         $passwordRest = PasswordReset::where(
             ['token' => $request->token],
             ['email' => $validPhone]
@@ -150,15 +148,11 @@ class UserPasswordResetController extends PasswordResetController
      */
     public function generateCode()
     {
-        $code = rand(1000,9999);
-
+        $code = rand(10000,99999);
         $exists = User::where('verification_code', $code)->first();
-
         if ($exists)
             $this->generateCode();
-
         return $code;
-
     }
 
 }

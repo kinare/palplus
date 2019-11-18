@@ -16,6 +16,7 @@ use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
+use App\Loan;
 use App\Members;
 use App\Transaction;
 use App\User;
@@ -357,7 +358,7 @@ class UserController extends BaseController
 
     /**
      * @SWG\Get(
-     *   path="/user/loan",
+     *   path="/user/loans",
      *   tags={"User"},
      *   summary="My Loan",
      *  security={
@@ -369,10 +370,16 @@ class UserController extends BaseController
      *
      * )
      */
-    public function loan(Request $request)
+    public function loans(Request $request)
     {
         try{
-            return new LoansResource($request->user()->loans()->get());
+            $memberships = Members::where('user_id', $request->user()->id)->get();
+            $members = [];
+            foreach ($memberships as $membership){
+                array_push($members, $membership->id);
+            }
+
+            return LoansResource::collection(Loan::whereIn('member_id', $members)->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

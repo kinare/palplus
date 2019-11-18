@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\Group;
 
-use App\Approver;
-use App\ApproverTypes;
 use App\Contribution;
 use App\Group;
+use App\GroupSetting;
 use App\Http\Controllers\BaseController;
-use App\Http\Resources\ApproverResourcce;
 use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\GroupSettingResource;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\WalletResource;
 use App\Members;
-use App\User;
 use App\Wallet;
 use Exception;
-use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -73,10 +70,19 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
      *   @SWG\Parameter(name="currency_id",in="formData",description="currency_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="membership_fee",in="formData",description="has membership fee",required=true,type="integer"),
+     *   @SWG\Parameter(name="membership_fee_amount",in="formData",description="membership fee amount",required=false,type="number"),
+     *   @SWG\Parameter(name="contributions",in="formData",description="has contributions",required=false,type="integer"),
+     *   @SWG\Parameter(name="contribution_periods_id",in="formData",description="contribution_period_id",required=false,type="integer"),
+     *   @SWG\Parameter(name="contribution_amount",in="formData",description="contribution_amount",required=false,type="number"),
+     *   @SWG\Parameter(name="send_reminders",in="formData",description="send_reminders",required=false,type="integer"),
+     *   @SWG\Parameter(name="fixed_late_penalty",in="formData",description="fixed_late_penalty",required=false,type="integer"),
+     *   @SWG\Parameter(name="late_penalty_rate",in="formData",description="late_penalty_rate",required=false,type="number"),
+     *   @SWG\Parameter(name="late_penalty_amount",in="formData",description="late_penalty_amount",required=false,type="number"),
+     *   @SWG\Parameter(name="leaving_group_fee",in="formData",description="leaving_group_fee",required=false,type="number"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
-     *
      * )
      */
 
@@ -113,6 +119,10 @@ class GroupController extends BaseController
             $member->is_admin = true;
             $member->created_by = $request->user()->id;
             $member->save();
+
+            //init group settings
+            GroupSettingController::init($request, $model->id);
+
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
@@ -711,6 +721,33 @@ class GroupController extends BaseController
     {
         try{
             return new MemberResource(Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
+     * @SWG\Get(
+     *   path="/group/settings/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group Membership settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function settings(Request $request, $group_id)
+    {
+        try{
+            return new GroupSettingResource(GroupSetting::where(['group_id' => $group_id])->first());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

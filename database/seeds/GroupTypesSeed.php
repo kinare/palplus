@@ -16,7 +16,7 @@ class GroupTypesSeed extends Seeder
         GroupType::insert([
             ['type' => 'Mary-go-round', 'description' => 'Mary Go Round'],
             ['type' => 'Tours-and-travel',  'description' => 'Tours and Travel'],
-            ['type' => 'Fundraising',  'description' => 'Fund Raising'],
+            ['type' => 'Fundraising',  'description' => 'Fundraising'],
             ['type' => 'Saving-and-investments',  'description' => 'Savings and Investments']
         ]);
     }

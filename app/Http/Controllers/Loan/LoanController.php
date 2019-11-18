@@ -7,6 +7,7 @@ use App\Group;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\LoansResource;
 use App\Loan;
+use App\LoanApprovalEntry;
 use App\Members;
 use App\Wallet;
 use Illuminate\Http\Request;
@@ -23,6 +24,9 @@ class LoanController extends BaseController
      * @SWG\Get(
      *   path="/loan",
      *   tags={"Loan"},
+     *  security={
+     *     {"bearer": {}},
+     *   },
      *   summary="Retrieve Loans",
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -38,7 +42,7 @@ class LoanController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="group_id",in="query",description="group_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="group_id",in="path",description="group_id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -93,12 +97,12 @@ class LoanController extends BaseController
                 'message' => 'You dont qualify to apply for this loan. Contribute/save more to increase loan limit'
             ], 500);
 
-        if (Group::hasFunds($group))
+        if (!Group::hasFunds($group))
             return response()->json([
                 'message' => 'Insufficient group funds'
             ], 500);
 
-        if ($request->loan_amount > $this->limit($member)['limit'])
+        if ($request->loan_amount > $this->limit($member->group_id)['data']['limit'])
             return response()->json([
                 'message' => 'Your loan amount is over your limit'
             ], 500);
@@ -111,6 +115,7 @@ class LoanController extends BaseController
         $loan->group_id = $group->id;
         $loan->payment_period_id = $data['period'];
         $loan->loan_amount = $request->loan_amount;
+        $loan->balance_amount = $request->loan_amount;
         $loan->start_date =$data['start'];
         $loan->end_date =$data['end'];
         $loan->save();
@@ -143,8 +148,44 @@ class LoanController extends BaseController
 
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/loan/approve",
+     *   tags={"Loan"},
+     *   summary="Approve Member Loan",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
     public function approve(Request $request)
     {
+
+        $loan = Loan::whereCode($request->code)->first();
+
+        $approver = Members::member($loan->group_id);
+
+        if (!$approver->loan_approver)
+            return response()->json([
+                'message' => 'Unauthorized action. you are not an approver'
+            ], 500);
+
+        if (LoanApprovalEntry::hasApproved($loan))
+            return response()->json([
+                'message' => 'You have already approved'
+            ], 500);
+
+        if (count(LoanApprovalEntry::entries($loan)) === count(Members::approvers($loan->group_id)))
+
+        LoanApprovalEntry::make($loan);
+        $loan->status = 'approve';
+
+
+
         /*
          * Validate loan approver
          * check if loan is declined and reject request

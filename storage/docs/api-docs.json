@@ -2582,6 +2582,76 @@
                         "description": "currency_id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "membership_fee",
+                        "in": "formData",
+                        "description": "has membership fee",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "membership_fee_amount",
+                        "in": "formData",
+                        "description": "membership fee amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "contributions",
+                        "in": "formData",
+                        "description": "has contributions",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_periods_id",
+                        "in": "formData",
+                        "description": "contribution_period_id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_amount",
+                        "in": "formData",
+                        "description": "contribution_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "send_reminders",
+                        "in": "formData",
+                        "description": "send_reminders",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "fixed_late_penalty",
+                        "in": "formData",
+                        "description": "fixed_late_penalty",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "late_penalty_rate",
+                        "in": "formData",
+                        "description": "late_penalty_rate",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "late_penalty_amount",
+                        "in": "formData",
+                        "description": "late_penalty_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "leaving_group_fee",
+                        "in": "formData",
+                        "description": "leaving_group_fee",
+                        "required": false,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -3209,6 +3279,39 @@
                 ]
             }
         },
+        "/group/settings/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Membership settings",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/expense": {
             "get": {
                 "tags": [
@@ -3708,6 +3811,164 @@
                         "description": "request_code",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-setting": {
+            "get": {
+                "tags": [
+                    "Group Setting"
+                ],
+                "summary": "Retrieve Group Settings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group-setting/{id}": {
+            "get": {
+                "tags": [
+                    "Group Setting"
+                ],
+                "summary": "Retrieve Group Setting",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group setting id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Group Setting"
+                ],
+                "summary": "Update group Setting",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group setting id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "membership_fee",
+                        "in": "query",
+                        "description": "has membership fee",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "membership_fee_amount",
+                        "in": "query",
+                        "description": "membership fee amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "contributions",
+                        "in": "formData",
+                        "description": "has contributions",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_periods_id",
+                        "in": "query",
+                        "description": "contribution_period_id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_amount",
+                        "in": "query",
+                        "description": "contribution_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "send_reminders",
+                        "in": "query",
+                        "description": "send_reminders",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "fixed_late_penalty",
+                        "in": "query",
+                        "description": "fixed_late_penalty",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "late_penalty_rate",
+                        "in": "query",
+                        "description": "late_penalty_rate",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "late_penalty_amount",
+                        "in": "query",
+                        "description": "late_penalty_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "leaving_group_fee",
+                        "in": "query",
+                        "description": "leaving_group_fee",
+                        "required": false,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -4343,7 +4604,12 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -4393,10 +4659,43 @@
                 "parameters": [
                     {
                         "name": "group_id",
-                        "in": "query",
+                        "in": "path",
                         "description": "group_id",
                         "required": true,
                         "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/approve": {
+            "post": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Approve Member Loan",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "code",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -4433,7 +4732,12 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -4632,7 +4936,12 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -4679,21 +4988,21 @@
                         "name": "fixed_late_payment",
                         "in": "query",
                         "description": "fixed_late_payment (true/false)",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "late_payment_rate",
                         "in": "query",
                         "description": "late_payment_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "late_payment_amount",
                         "in": "query",
                         "description": "late_payment_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -4830,21 +5139,21 @@
                         "name": "fixed_late_payment",
                         "in": "query",
                         "description": "fixed_late_payment (true/false)",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "late_payment_rate",
                         "in": "query",
                         "description": "late_payment_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "late_payment_amount",
                         "in": "query",
                         "description": "late_payment_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -5925,7 +6234,7 @@
                 ]
             }
         },
-        "/user/loan": {
+        "/user/loans": {
             "get": {
                 "tags": [
                     "User"

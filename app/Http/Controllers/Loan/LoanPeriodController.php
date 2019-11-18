@@ -18,6 +18,9 @@ class LoanPeriodController extends BaseController
      * @SWG\Get(
      *   path="/loan/periods",
      *   tags={"Loan Periods"},
+     *   security={
+     *     {"bearer": {}},
+     *   },
      *   summary="Retrieve Loan Periods",
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
