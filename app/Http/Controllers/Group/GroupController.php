@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Group;
 
 use App\Contribution;
+use App\Currency;
 use App\Group;
 use App\GroupSetting;
 use App\Http\Controllers\BaseController;
@@ -44,7 +45,7 @@ class GroupController extends BaseController
     public function index()
     {
         try{
-            return $this->response($this->model::orderBy('id', 'DESC')->get());
+            return $this->response($this->model::where('access_level', 'public')->orderBy('id', 'DESC')->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()
@@ -69,7 +70,6 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
-     *   @SWG\Parameter(name="currency_id",in="formData",description="currency_id",required=true,type="integer"),
      *   @SWG\Parameter(name="contributions",in="formData",description="has contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_periods_id",in="formData",description="contribution_period_id",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_amount",in="formData",description="contribution_amount",required=false,type="number"),
@@ -109,6 +109,9 @@ class GroupController extends BaseController
                 Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
                 $model->avatar =  'avatar.png';
             }
+
+            //set currency
+            $model->currency_id = Currency::byCountry($model->country);
             $model->save();
 
             //make first member admin

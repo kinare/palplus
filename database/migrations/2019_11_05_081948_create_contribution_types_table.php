@@ -22,7 +22,7 @@ class CreateContributionTypesTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->decimal('amount', 8, 2);
-            $table->decimal('target_amount', 8, 2);
+            $table->decimal('target_amount', 8, 2)->nullable();
             $table->decimal('balance', 8, 2)->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();

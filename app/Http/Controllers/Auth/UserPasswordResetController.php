@@ -25,7 +25,6 @@ class UserPasswordResetController extends PasswordResetController
      *   path="/auth/password/request",
      *   tags={"Auth"},
      *   summary="Password reset request",
-     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=false,type="string"),
      *   @SWG\Parameter(name="phone",in="query",description="phone",required=false,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -34,26 +33,10 @@ class UserPasswordResetController extends PasswordResetController
      *
      */
 
-    /**
-     * @SWG\Get(
-     *   path="/auth/password/validate/{token}",
-     *   tags={"Auth"},
-     *   summary="Validate password request token",
-     *   @SWG\Parameter(name="token",in="path",description="token",required=false,type="string"),
-     *   @SWG\Response(response=200, description="Success"),
-     *   @SWG\Response(response=400, description="Not found"),
-     *   @SWG\Response(response=500, description="internal server error")
-     * )
-     *
-     */
-
-
-
     public function create(Request $request)
     {
         $request->validate([
             'phone' => 'required|string',
-            'country_code' => 'required|string',
             ]);
 
 //        //validate phone number
@@ -84,12 +67,24 @@ class UserPasswordResetController extends PasswordResetController
     }
 
     /**
+     * @SWG\Get(
+     *   path="/auth/password/validate/{token}",
+     *   tags={"Auth"},
+     *   summary="Validate password request token",
+     *   @SWG\Parameter(name="token",in="path",description="token",required=false,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     *
+     */
+
+    /**
      * @SWG\Post(
      *   path="/auth/password",
      *   tags={"Auth"},
      *   summary="Set User Password",
      *   @SWG\Parameter(name="phone",in="query",description="phone",required=false,type="string"),
-     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=false,type="string"),
      *   @SWG\Parameter(name="password",in="query",description="password",required=false,type="string"),
      *   @SWG\Parameter(name="password_confirmation",in="query",description="password confirmation",required=false,type="string"),
      *   @SWG\Parameter(name="token",in="query",description="token",required=false,type="string"),
@@ -104,7 +99,6 @@ class UserPasswordResetController extends PasswordResetController
     {
         $request->validate([
             'phone' => 'required|string',
-            'country_code' => 'required|string',
             'password' => 'required|string|confirmed',
             'token' => 'required|string',
         ]);

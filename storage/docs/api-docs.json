@@ -741,13 +741,6 @@
                 "summary": "Password reset request",
                 "parameters": [
                     {
-                        "name": "country_code",
-                        "in": "query",
-                        "description": "country code",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "name": "phone",
                         "in": "query",
                         "description": "phone",
@@ -807,13 +800,6 @@
                         "name": "phone",
                         "in": "query",
                         "description": "phone",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "country_code",
-                        "in": "query",
-                        "description": "country code",
                         "required": false,
                         "type": "string"
                     },
@@ -2587,6 +2573,13 @@
                         "name": "contribution_amount",
                         "in": "formData",
                         "description": "contribution_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "contribution_target_amount",
+                        "in": "formData",
+                        "description": "contribution_target_amount",
                         "required": false,
                         "type": "number"
                     },

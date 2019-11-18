@@ -14,7 +14,7 @@ class CurrencySeed extends Seeder
         \App\Currency::truncate();
         \App\Currency::insert([
             ['currency' => 'Kenya Shilling', 'short_description' => 'KES', 'country' => 'Kenya', 'rate' => '100'],
-            ['currency' => 'Us Dollar', 'short_description' => 'USD', 'country' => 'USA', 'rate' => '1'],
+            ['currency' => 'Us Dollar', 'short_description' => 'USD', 'country' => 'United States', 'rate' => '1'],
         ]);
     }
 }

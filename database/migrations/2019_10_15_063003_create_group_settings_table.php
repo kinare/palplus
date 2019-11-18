@@ -20,6 +20,7 @@ class CreateGroupSettingsTable extends Migration
             $table->decimal('membership_fee_amount', 8, 2)->default(0);
             $table->boolean('contributions')->default(false);
             $table->unsignedInteger('contribution_periods_id')->nullable();
+            $table->unsignedInteger('contribution_categories_id')->nullable();
             $table->decimal('contribution_amount', 8, 2)->nullable();
             $table->decimal('contribution_target_amount', 8, 2)->nullable();
             $table->boolean('send_reminders')->default(false);

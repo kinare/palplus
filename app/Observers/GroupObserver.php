@@ -2,8 +2,10 @@
 
 namespace App\Observers;
 
+use App\Contribution;
 use App\Group;
 use App\GroupSetting;
+use App\Http\Controllers\Contributions\ContributionController;
 use App\Http\Controllers\GroupSettingController;
 use App\MemberSetting;
 use App\Wallet;
@@ -20,6 +22,9 @@ class GroupObserver
     {
         //Init related models
         Wallet::make('Group', $group, $group->currency_id);
+
+        //init contributions
+        ContributionController::init($group);
     }
 
     /**
