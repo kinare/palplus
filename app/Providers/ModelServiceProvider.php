@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Contribution;
 use App\Group;
+use App\GroupSetting;
 use App\Observers\ContributionObserver;
 use App\Observers\GroupObserver;
+use App\Observers\GroupSettingObserver;
 use App\Observers\UserObserver;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -33,5 +35,6 @@ class ModelServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Contribution::observe(ContributionObserver::class);
         Group::observe(GroupObserver::class);
+        GroupSetting::observe(GroupSettingObserver::class);
     }
 }

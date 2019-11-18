@@ -22,9 +22,6 @@ class GroupObserver
     {
         //Init related models
         Wallet::make('Group', $group, $group->currency_id);
-
-        //init contributions
-        ContributionController::init($group);
     }
 
     /**

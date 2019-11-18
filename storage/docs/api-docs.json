@@ -2549,13 +2549,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency_id",
-                        "in": "formData",
-                        "description": "currency_id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
                         "name": "contributions",
                         "in": "formData",
                         "description": "has contributions",

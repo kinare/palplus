@@ -16,12 +16,12 @@ class CreateContributionTypesTable extends Migration
         Schema::create('contribution_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('group_id');
-            $table->unsignedInteger('contribution_periods_id');
-            $table->unsignedInteger('contribution_categories_id');
+            $table->unsignedInteger('contribution_periods_id')->nullable();
+            $table->unsignedInteger('contribution_categories_id')->nullable();
             $table->unsignedInteger('activity_id')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->decimal('amount', 8, 2);
+            $table->decimal('amount', 8, 2)->nullable();
             $table->decimal('target_amount', 8, 2)->nullable();
             $table->decimal('balance', 8, 2)->nullable();
             $table->unsignedInteger('created_by')->nullable();
