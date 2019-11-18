@@ -169,12 +169,12 @@ class ContributionTypeController extends BaseController
                 $contrib->save();
                 break;
             case 'Tours-and-travel' :
-
+                //Todo Generate form event
                 break;
             case 'Fundraising' :
+                dump($settings);
                 $contrib = new ContributionType();
                 $contrib->group_id = $group->id;
-                $contrib->contribution_periods_id = $settings->contribution_periods_id;
                 $contrib->contribution_categories_id = $settings->contribution_categories_id;
                 $contrib->name = ContributionCategory::find($settings->contribution_categories_id)->category;
                 $contrib->description = 'Fundraising for '.$contrib->name;

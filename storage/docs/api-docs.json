@@ -2556,6 +2556,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "contribution_categories_id",
+                        "in": "formData",
+                        "description": "contribution_categories_id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "contribution_periods_id",
                         "in": "formData",
                         "description": "contribution_period_id",
