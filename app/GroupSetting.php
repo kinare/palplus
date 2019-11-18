@@ -12,6 +12,7 @@ class GroupSetting extends BaseModel
         'contributions',
         'contribution_periods_id',
         'contribution_amount',
+        'contribution_target_amount',
         'send_reminders',
         'fixed_late_penalty',
         'late_penalty_rate',

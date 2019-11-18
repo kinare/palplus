@@ -73,6 +73,7 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="contributions",in="formData",description="has contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_periods_id",in="formData",description="contribution_period_id",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_amount",in="formData",description="contribution_amount",required=false,type="number"),
+     *   @SWG\Parameter(name="contribution_target_amount",in="formData",description="contribution_target_amount",required=false,type="number"),
      *   @SWG\Parameter(name="send_reminders",in="formData",description="send_reminders",required=false,type="integer"),
      *   @SWG\Parameter(name="fixed_late_penalty",in="formData",description="fixed_late_penalty",required=false,type="integer"),
      *   @SWG\Parameter(name="late_penalty_rate",in="formData",description="late_penalty_rate",required=false,type="number"),

@@ -21,6 +21,7 @@ class CreateGroupSettingsTable extends Migration
             $table->boolean('contributions')->default(false);
             $table->unsignedInteger('contribution_periods_id')->nullable();
             $table->decimal('contribution_amount', 8, 2)->nullable();
+            $table->decimal('contribution_target_amount', 8, 2)->nullable();
             $table->boolean('send_reminders')->default(false);
             $table->boolean('fixed_late_penalty')->default(false);
             $table->decimal('late_penalty_rate', 8, 2)->default(0);
