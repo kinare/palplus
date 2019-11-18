@@ -20,7 +20,7 @@ class GroupSettingController extends BaseController
      * @SWG\Get(
      *   path="/group-setting",
      *   tags={"Group Setting"},
-     *   summary="Retrieve Group Settings",
+     *   summary="Retrieve Group Membership Settings",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -43,7 +43,7 @@ class GroupSettingController extends BaseController
      * @SWG\Patch(
      *   path="/group-setting/{id}",
      *   tags={"Group Setting"},
-     *   summary="Update group Setting",
+     *   summary="Update group Membership Setting",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -70,7 +70,7 @@ class GroupSettingController extends BaseController
      * @SWG\Get(
      *   path="/group-setting/{id}",
      *   tags={"Group Setting"},
-     *   summary="Retrieve Group Setting",
+     *   summary="Retrieve Group Membership Setting",
      *  security={
      *     {"bearer": {}},
      *   },

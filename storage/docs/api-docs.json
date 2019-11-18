@@ -558,13 +558,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "country_code",
-                        "in": "query",
-                        "description": "country code",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "currency_id",
                         "in": "query",
                         "description": "currency id",
@@ -610,13 +603,6 @@
                         "name": "phone",
                         "in": "query",
                         "description": "User phone",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "country_code",
-                        "in": "query",
-                        "description": "country code",
                         "required": true,
                         "type": "string"
                     },
@@ -2584,20 +2570,6 @@
                         "type": "integer"
                     },
                     {
-                        "name": "membership_fee",
-                        "in": "formData",
-                        "description": "has membership fee",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "membership_fee_amount",
-                        "in": "formData",
-                        "description": "membership fee amount",
-                        "required": false,
-                        "type": "number"
-                    },
-                    {
                         "name": "contributions",
                         "in": "formData",
                         "description": "has contributions",
@@ -3836,7 +3808,7 @@
                 "tags": [
                     "Group Setting"
                 ],
-                "summary": "Retrieve Group Settings",
+                "summary": "Retrieve Group Membership Settings",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -3860,7 +3832,7 @@
                 "tags": [
                     "Group Setting"
                 ],
-                "summary": "Retrieve Group Setting",
+                "summary": "Retrieve Group Membership Setting",
                 "parameters": [
                     {
                         "name": "id",
@@ -3891,7 +3863,7 @@
                 "tags": [
                     "Group Setting"
                 ],
-                "summary": "Update group Setting",
+                "summary": "Update group Membership Setting",
                 "parameters": [
                     {
                         "name": "id",

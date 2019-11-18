@@ -56,13 +56,12 @@ class UserPasswordResetController extends PasswordResetController
             'country_code' => 'required|string',
             ]);
 
-        //validate phone number
-        $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
-        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
+//        //validate phone number
+//        $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
+//        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
+//        $validPhone = $country_code.$phone;
 
-        $validPhone = $country_code.$phone;
-
-        $model =User::wherePhone($validPhone)->first();
+        $model = User::wherePhone($request->phone)->first();
 
         if (!$model)
             return response()->json([
@@ -82,7 +81,6 @@ class UserPasswordResetController extends PasswordResetController
             return response()->json([
                 'message' => ATController::sendSms((array)$model->phone, $passwordReset->token)
             ]);
-
     }
 
     /**
@@ -111,13 +109,9 @@ class UserPasswordResetController extends PasswordResetController
             'token' => 'required|string',
         ]);
 
-        //validate phone number
-        $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
-        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
-        $validPhone = $country_code.$phone;
         $passwordRest = PasswordReset::where(
             ['token' => $request->token],
-            ['email' => $validPhone]
+            ['email' => $request->phone]
         )->first();
 
         if (!$passwordRest)
@@ -125,7 +119,7 @@ class UserPasswordResetController extends PasswordResetController
                 'message' => 'This password reset token is invalid!.'
             ], 404);
 
-        $model = User::wherePhone($validPhone)->first();
+        $model = User::wherePhone($request->phone)->first();
 
         if (!$model)
             return response()->json([

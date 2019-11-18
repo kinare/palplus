@@ -14,6 +14,8 @@ class GroupSettingResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['access_level'] = $this->group()->first()->access_level;
+        return $data;
     }
 }

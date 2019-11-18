@@ -19,4 +19,8 @@ class GroupSetting extends BaseModel
         'leaving_group_fee',
         'group_id'
     ];
+
+    public function group(){
+        return $this->hasOne('App\Group', 'id', 'group_id');
+    }
 }

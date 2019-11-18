@@ -29,7 +29,6 @@ class AuthController extends Controller
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="email",in="query",description="email",required=false,type="string"),
      *   @SWG\Parameter(name="phone",in="query",description="phone",required=true,type="string"),
-     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=true,type="string"),
      *   @SWG\Parameter(name="currency_id",in="query",description="currency id",required=true,type="integer"),
      *   @SWG\Parameter(name="password",in="query",description="password",required=true,type="string"),
      *   @SWG\Parameter(name="password_confirmation",in="query",description="password",required=true,type="string"),
@@ -45,18 +44,14 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'string|email|unique:users',
             'phone' => 'required|string|unique:users',
-            'country_code' => 'required|string',
             'currency_id' => 'required',
             'password' => 'required|string|confirmed',
         ]);
 
-        //validate phone number
-        $phone = $request->phone[0] === '0'  ? substr($request->phone, 1) : $request->phone;
-        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
         $user = new User([
             'name' => $request->name,
             'email' => $request->email ?: $request->phone,
-            'phone' => $country_code.$phone,
+            'phone' =>$request->phone,
             'country' => $request->country_code,
             'currency_id' => $request->currency_id,
             'password' => Hash::make($request->password),
@@ -80,7 +75,6 @@ class AuthController extends Controller
      *   tags={"Auth"},
      *   summary="User login",
      *   @SWG\Parameter(name="phone",in="query",description="User phone",required=true,type="string"),
-     *   @SWG\Parameter(name="country_code",in="query",description="country code",required=true,type="string"),
      *   @SWG\Parameter(name="password",in="query",description="User password",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
@@ -92,20 +86,14 @@ class AuthController extends Controller
     {
         $request->validate([
             'phone' => 'required|string',
-            'country_code' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        //validate phone number
-        $phone = $request->phone[0] === '0' ? substr($request->phone, 1) : $request->phone;
-        $country_code = $request->country_code[0] !== '+'  ? '+'.$request->country_code : $request->country_code;
-
-        $validPhone = $country_code.$phone;
-        $user = User::where('phone', $validPhone)->first();
+        $user = User::where('phone', $request->phone)->first();
         if (!$user || !Hash::check($request->password, $user->password))
             return response()->json([
                 'message' => 'Login failed. Check your email or password'
-            ], 401);
+            ] , 401);
 
         if (!$user->activated())
             return response()->json([
@@ -116,7 +104,7 @@ class AuthController extends Controller
                 'grant_type' => 'password',
                 'client_id' => env('PASSPORT_CLIENT_ID'),
                 'client_secret' => env('PASSPORT_CLIENT_SECRET'),
-                'username' => $validPhone,
+                'username' => $request->phone,
                 'password' => $request->password,
                 'provider' => 'users',
 

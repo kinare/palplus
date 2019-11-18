@@ -70,8 +70,6 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
      *   @SWG\Parameter(name="currency_id",in="formData",description="currency_id",required=true,type="integer"),
-     *   @SWG\Parameter(name="membership_fee",in="formData",description="has membership fee",required=true,type="integer"),
-     *   @SWG\Parameter(name="membership_fee_amount",in="formData",description="membership fee amount",required=false,type="number"),
      *   @SWG\Parameter(name="contributions",in="formData",description="has contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_periods_id",in="formData",description="contribution_period_id",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_amount",in="formData",description="contribution_amount",required=false,type="number"),
