@@ -3282,6 +3282,39 @@
                 ]
             }
         },
+        "/group/projects/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Projects",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/expense": {
             "get": {
                 "tags": [
@@ -3782,7 +3815,7 @@
                         "in": "query",
                         "description": "contribution_frequency",
                         "required": false,
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "enable_reminders",
@@ -3961,7 +3994,7 @@
                         "in": "query",
                         "description": "contribution_frequency",
                         "required": false,
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "enable_reminders",

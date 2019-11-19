@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Group;
 use App\Contribution;
 use App\Currency;
 use App\Group;
+use App\GroupProject;
 use App\GroupSetting;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Resources\GroupProjectResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupSettingResource;
 use App\Http\Resources\MemberResource;
@@ -731,7 +733,6 @@ class GroupController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Get(
      *   path="/group/settings/{group_id}",
@@ -751,6 +752,32 @@ class GroupController extends BaseController
     {
         try{
             return new GroupSettingResource(GroupSetting::where(['group_id' => $group_id])->first());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/projects/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group Projects",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function projects(Request $request, $group_id)
+    {
+        try{
+            return GroupProjectResource::collection(GroupProject::where(['group_id' => $group_id])->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
