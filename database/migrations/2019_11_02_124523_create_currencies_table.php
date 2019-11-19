@@ -18,7 +18,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('currency');
             $table->string('short_description');
             $table->string('country');
-            $table->decimal('rate', 8, 2);
+            $table->decimal('rate', 8, 2)->default(0);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

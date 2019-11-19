@@ -17,6 +17,9 @@ class CurrencyController extends BaseController
      * @SWG\Get(
      *   path="/currency",
      *   tags={"Currency"},
+     *  security={
+     *     {"bearer": {}},
+     *   },
      *   summary="Retrieve Currencies",
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),

@@ -43,12 +43,6 @@ Route::group(['middleware' => ['json.response']], function () {
     //Admin Routes
     Route::prefix('admin')->group(base_path('routes/admin.php'));
 
-    Route::namespace('Currency')->group(function (){
-        Route::group(['prefix' => 'currency'], function () {
-            Route::get('/', 'CurrencyController@index');
-        });
-    });
-
     Route::group(['middleware' => 'auth:api'], function () {
 
         Route::namespace('Loan')->group(function (){
@@ -94,6 +88,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::namespace('Currency')->group(function (){
             Route::group(['prefix' => 'currency'], function () {
+                Route::get('/', 'CurrencyController@index');
                 Route::post('/', 'CurrencyController@store');
                 Route::get('/{id}', 'CurrencyController@show');
                 Route::patch('/{id}', 'CurrencyController@update');
@@ -200,6 +195,15 @@ Route::group(['middleware' => ['json.response']], function () {
         /*Groups*/
         Route::namespace('Group')->group(function (){
 
+            Route::group(['prefix' => 'project'], function () {
+                Route::get('/', 'GroupProjectController@index');
+                Route::post('/', 'GroupProjectController@store');
+                Route::get('/{id}', 'GroupProjectController@show');
+                Route::patch('/{id}', 'GroupProjectController@update');
+                Route::delete('/{id}', 'GroupProjectController@destroy');
+                Route::delete('/{id}/force', 'GroupProjectController@forceDestroy');
+            });
+
             Route::group(['prefix' => 'invitation'], function () {
                 Route::get('/', 'InvitationController@index');
                 Route::post('/invite', 'InvitationController@invite');
@@ -252,6 +256,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}', 'GroupExpenseController@destroy');
                 Route::delete('/{id}/force', 'GroupExpenseController@forceDestroy');
             });
+
 
             Route::group(['prefix' => 'activity'], function () {
                 Route::get('/', 'GroupActivityController@index');
