@@ -59,7 +59,6 @@ class ContributionTypeController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Post(
      *   path="/contribution/types",
@@ -81,7 +80,6 @@ class ContributionTypeController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
 
     /**
      * @SWG\Patch(
@@ -154,45 +152,4 @@ class ContributionTypeController extends BaseController
      *
      * )
      */
-
-    public static function init(Group $group){
-        $settings = GroupSetting::where('group_id', $group->id)->first();
-        switch (GroupType::find($group->type_id)->type){
-            case 'Mary-go-round' :
-                ContributionType::init([
-                   'group_id' => $group->id,
-                   'contribution_periods_id'  => $settings->contribution_periods_id,
-                   'name'  => 'Savings',
-                   'description'  => $group->name.' contributions',
-                   'amount'  => $settings->contribution_amount,
-                   'target_amount'  => $settings->contribution_target_amount
-                ]);
-                break;
-            case 'Tours-and-travel' :
-                //Todo Generate form event
-                break;
-            case 'Fundraising' :
-                ContributionType::init([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $settings->contribution_periods_id,
-                    'contribution_categories_id' => $settings->contribution_categories_id,
-                    'name'  => ContributionCategory::find($settings->contribution_categories_id)->category,
-                    'description'  => 'Fundraising for '.$group->name,
-                    'amount'  => $settings->contribution_amount,
-                    'target_amount'  => $settings->contribution_target_amount
-                ]);
-                break;
-            case 'Saving-and-investments' :
-                ContributionType::init([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $settings->contribution_periods_id,
-                    'contribution_categories_id' => $settings->contribution_categories_id,
-                    'name'  => 'Savings',
-                    'description'  => 'Group Savings',
-                ]);
-                break;
-        }
-    }
-
-
 }

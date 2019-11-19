@@ -259,7 +259,6 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}/force', 'GroupExpenseController@forceDestroy');
             });
 
-
             Route::group(['prefix' => 'activity'], function () {
                 Route::get('/', 'GroupActivityController@index');
                 Route::post('/', 'GroupActivityController@store');
