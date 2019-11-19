@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Contribution;
 use App\Group;
+use App\GroupProject;
 use App\GroupSetting;
 use App\Observers\ContributionObserver;
 use App\Observers\GroupObserver;
+use App\Observers\GroupProjectObserver;
 use App\Observers\GroupSettingObserver;
 use App\Observers\UserObserver;
 use App\User;
@@ -36,5 +38,6 @@ class ModelServiceProvider extends ServiceProvider
         Contribution::observe(ContributionObserver::class);
         Group::observe(GroupObserver::class);
         GroupSetting::observe(GroupSettingObserver::class);
+        GroupProject::observe(GroupProjectObserver::class);
     }
 }

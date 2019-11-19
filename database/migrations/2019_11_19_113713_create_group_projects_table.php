@@ -25,7 +25,7 @@ class CreateGroupProjectsTable extends Migration
             $table->string('location')->nullable();;
             $table->boolean('allow_contributions')->default(false);
             $table->decimal('contribution_amount', 8, 2)->nullable();;
-            $table->enum('contribution_frequency', ['daily', 'weekly', 'monthly', 'yearly'])->nullable();;
+            $table->unsignedInteger('contribution_frequency')->nullable();;
             $table->boolean('enable_reminders')->default(false);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();

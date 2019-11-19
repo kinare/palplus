@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Contributions;
 
+use App\Contribution;
 use App\ContributionCategory;
 use App\ContributionType;
 use App\Group;
@@ -156,38 +157,39 @@ class ContributionTypeController extends BaseController
 
     public static function init(Group $group){
         $settings = GroupSetting::where('group_id', $group->id)->first();
-
         switch (GroupType::find($group->type_id)->type){
             case 'Mary-go-round' :
-                $contrib = new ContributionType();
-                $contrib->group_id = $group->id;
-                $contrib->contribution_periods_id = $settings->contribution_periods_id;
-                $contrib->name = 'Contribution';
-                $contrib->description = 'Periodic Group Contribution';
-                $contrib->amount = $settings->contribution_amount;
-                $contrib->target_amount = $settings->contribution_target_amount;
-                $contrib->save();
+                ContributionType::init([
+                   'group_id' => $group->id,
+                   'contribution_periods_id'  => $settings->contribution_periods_id,
+                   'name'  => 'Savings',
+                   'description'  => $group->name.' contributions',
+                   'amount'  => $settings->contribution_amount,
+                   'target_amount'  => $settings->contribution_target_amount
+                ]);
                 break;
             case 'Tours-and-travel' :
                 //Todo Generate form event
                 break;
             case 'Fundraising' :
-                dump($settings);
-                $contrib = new ContributionType();
-                $contrib->group_id = $group->id;
-                $contrib->contribution_categories_id = $settings->contribution_categories_id;
-                $contrib->name = ContributionCategory::find($settings->contribution_categories_id)->category;
-                $contrib->description = 'Fundraising for '.$contrib->name;
-                $contrib->amount = $settings->contribution_amount;
-                $contrib->target_amount = $settings->contribution_target_amount;
-                $contrib->save();
+                ContributionType::init([
+                    'group_id' => $group->id,
+                    'contribution_periods_id'  => $settings->contribution_periods_id,
+                    'contribution_categories_id' => $settings->contribution_categories_id,
+                    'name'  => ContributionCategory::find($settings->contribution_categories_id)->category,
+                    'description'  => 'Fundraising for '.$group->name,
+                    'amount'  => $settings->contribution_amount,
+                    'target_amount'  => $settings->contribution_target_amount
+                ]);
                 break;
             case 'Saving-and-investments' :
-                $contrib = new ContributionType();
-                $contrib->group_id = $group->id;
-                $contrib->name = 'Savings';
-                $contrib->description = 'Group Savings';
-                $contrib->save();
+                ContributionType::init([
+                    'group_id' => $group->id,
+                    'contribution_periods_id'  => $settings->contribution_periods_id,
+                    'contribution_categories_id' => $settings->contribution_categories_id,
+                    'name'  => 'Savings',
+                    'description'  => 'Group Savings',
+                ]);
                 break;
         }
     }
