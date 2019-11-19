@@ -7,15 +7,17 @@ use Illuminate\Support\Facades\Auth;
 class ContributionType extends BaseModel
 {
     protected $fillable = [
-      'group_id',
-      'contribution_periods_id',
-      'contribution_categories_id',
-      'activity_id',
-      'name',
-      'description',
-      'amount',
-      'target_amount',
-      'balance',
+        'group_id',
+        'contribution_periods_id',
+        'contribution_categories_id',
+        'activity_id',
+        'name',
+        'description',
+        'amount',
+        'target_amount',
+        'balance',
+        'project_id',
+        'membership_fee',
     ];
 
     public static function init(array $type) : self
