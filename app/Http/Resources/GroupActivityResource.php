@@ -14,6 +14,8 @@ class GroupActivityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data =  parent::toArray($request);
+        $data['is_member'] = $this->hasJoined($this->group_id) ? true : false;
+        return $data;
     }
 }

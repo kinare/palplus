@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Group;
 
 use App\Contribution;
+use App\ContributionType;
 use App\Currency;
 use App\Group;
 use App\GroupActivity;
@@ -10,6 +11,7 @@ use App\GroupProject;
 use App\GroupSetting;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupProjectResource;
 use App\Http\Resources\GroupResource;
@@ -790,7 +792,7 @@ class GroupController extends BaseController
     /**
      * @SWG\Get(
      *   path="/group/activities/{group_id}",
-     *   tags={"Activity"},
+     *   tags={"Group"},
      *   summary="Activity by group",
      *  security={
      *     {"bearer": {}},
@@ -812,4 +814,6 @@ class GroupController extends BaseController
             ],500);
         }
     }
+
+
 }

@@ -2163,6 +2163,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "has_contributions",
+                        "in": "formData",
+                        "description": "has_contributions",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "featured",
                         "in": "formData",
                         "description": "featured",
@@ -2384,6 +2391,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "has_contributions",
+                        "in": "formData",
+                        "description": "has_contributions",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "featured",
                         "in": "formData",
                         "description": "featured",
@@ -2464,6 +2478,199 @@
                         "description": "activity id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contributions/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Retrieve Activity contribution types",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/join": {
+            "post": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Join activity",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/leave": {
+            "post": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Leave activity",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/pay": {
+            "post": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Pay for activity",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "contribution_type_id",
+                        "in": "query",
+                        "description": "contribution type id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/members/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Members",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -3326,7 +3533,7 @@
         "/group/activities/{group_id}": {
             "get": {
                 "tags": [
-                    "Activity"
+                    "Group"
                 ],
                 "summary": "Activity by group",
                 "parameters": [

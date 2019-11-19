@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\ActivityMembers;
 use App\Contribution;
 use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
+use App\Observers\ActivityMemberObserver;
 use App\Observers\ActivityObserver;
 use App\Observers\ContributionObserver;
 use App\Observers\GroupObserver;
@@ -42,5 +44,6 @@ class ModelServiceProvider extends ServiceProvider
         GroupSetting::observe(GroupSettingObserver::class);
         GroupProject::observe(GroupProjectObserver::class);
         GroupActivity::observe(ActivityObserver::class);
+        ActivityMembers::observe(ActivityMemberObserver::class);
     }
 }

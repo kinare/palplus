@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\ContributionType;
 use App\GroupActivity;
 
 class ActivityObserver
@@ -14,7 +15,37 @@ class ActivityObserver
      */
     public function created(GroupActivity $activity)
     {
-//        if ($activity->)
+        if ($activity->has_contributions){
+
+            if ($activity->booking_fee){
+                ContributionType::init([
+                    'group_id'  => $activity->group_id,
+                    'booking_fee'  => $activity->booking_fee,
+                    'name'  => 'Booking Fee',
+                    'description'  => $activity->name.' booking fee',
+                    'amount'  => $activity->booking_fee_amount,
+                    'target_amount'  => $activity->total_cost,
+                    'activity_id' => $activity->id
+                ]);
+            }
+
+            if ($activity->installments){
+                for ($i = 0; $i <= (int)$activity->no_of_installments; $i++){
+                    ContributionType::init([
+                        'group_id'  => $activity->group_id,
+                        'name'  => 'Instalment '.($i + 1),
+                        'description'  => 'Instalments for '.$activity->name,
+                        'amount'  => $activity->instalment_amount,
+                        'target_amount'  => $activity->total_cost,
+                        'activity_id' => $activity->id
+                    ]);
+                }
+
+            }
+
+        }
+
+
     }
 
     /**

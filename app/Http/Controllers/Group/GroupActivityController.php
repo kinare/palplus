@@ -2,9 +2,19 @@
 
 namespace App\Http\Controllers\Group;
 
+use App\ActivityMembers;
+use App\Contribution;
+use App\ContributionType;
 use App\GroupActivity;
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
+use App\Http\Resources\MemberResource;
+use App\Members;
+use App\Transaction;
+use App\User;
+use App\Wallet;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -184,4 +194,218 @@ class GroupActivityController extends BaseController
      *
      * )
      */
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/contributions/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Retrieve Activity contribution types",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function activityContributionTypes(Request $request, $activity_id){
+        try{
+            return ContributionTypeResource::collection(ContributionType::where('activity_id', $activity_id )->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/activity/join",
+     *   tags={"Activity"},
+     *   summary="Join activity",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="member_id",in="query",description="member id",required=true,type="integer"),
+     *   @SWG\Parameter(name="activity_id",in="query",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function join(Request $request){
+        try{
+            $request->validate([
+                'member_id' => 'required',
+                'activity_id' => 'required',
+            ]);
+
+            $activity = GroupActivity::find($request->activity_id);
+
+            if ($activity->isMember($request->member_id))
+                return response()->json([
+                    'message' => 'You are already a member in this activity'
+                ], 500);
+
+            if (!$activity->canJoin())
+                return response()->json([
+                    'message' => 'Sorry, Joining period expired'
+                ], 500);
+
+            if (!$activity->hasSlots())
+                return response()->json([
+                    'message' => 'Sorry, no slot available'
+                ], 500);
+
+            $actMember = new ActivityMembers();
+            $actMember->group_id = $activity->group_id;
+            $actMember->member_id = Members::member($activity->group_id)->id;
+            $actMember->activity_id = $activity->id;
+            $actMember->status = $activity->booking_fee ? 'inactive' : 'active';
+            $actMember->save();
+
+            return response()->json([
+                'message' => 'Succesfully joined '.$activity->name
+            ], 200);
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+
+
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/activity/leave",
+     *   tags={"Activity"},
+     *   summary="Leave activity",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="member_id",in="query",description="member id",required=true,type="integer"),
+     *   @SWG\Parameter(name="activity_id",in="query",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function leave(Request $request){
+        try{
+            $request->validate([
+                'member_id' => 'required',
+                'activity_id' => 'required',
+            ]);
+
+            $activity = GroupActivity::find($request->activity_id);
+
+            if (!$activity->isMember($request->member_id))
+                return response()->json([
+                    'message' => 'You are not a member in this activity'
+                ], 500);
+
+            $member = ActivityMembers::where('member_id', $request->member_id)->first();
+            $member->forceDelete();
+
+            return response()->json([
+                'message' => 'You have successfully left '.$activity->name
+            ], 200);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/activity/pay",
+     *   tags={"Activity"},
+     *   summary="Pay for activity",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="member_id",in="query",description="member id",required=true,type="integer"),
+     *   @SWG\Parameter(name="contribution_type_id",in="query",description="contribution type id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function pay(Request $request){
+        try{
+            $request->validate([
+                'member_id' => 'required',
+                'contribution_type_id' => 'required',
+                'amount' => 'required',
+            ]);
+
+            $myWallet = Wallet::where('user_id',$request->user()->id )->first();
+            $groupWallet = Wallet::where('group_id',Members::find($request->member_id)->group_id)->first();
+
+            if (!$myWallet->canWithdraw($request->amount))
+                return response()->json([
+                    'message' => 'Insufficient Funds'
+                ], 200);
+
+            AccountingController::transact($myWallet, $groupWallet, $request->amount);
+
+            if (ContributionType::find($request->contribution_type_id)->booking_fee){
+                $member = ActivityMembers::where('member_id', $request->member_id)->first();
+                $member->status = 'active';
+                $member->save();
+            }
+
+            return response()->json([
+                'message' => 'Transaction successful'
+            ], 200);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/members/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity Members",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function members($activity_id){
+        try{
+
+            $actMembers = ActivityMembers::where('activity_id', $activity_id)->get();
+            $members = [];
+
+            foreach ($actMembers as $actMember){
+                array_push($members, $actMember->member_id);
+            }
+
+            return MemberResource::collection(Members::whereIn('id', $members)->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
 }

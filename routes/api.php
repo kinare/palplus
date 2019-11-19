@@ -264,10 +264,14 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupActivityController@index');
                 Route::post('/', 'GroupActivityController@store');
                 Route::get('/{id}', 'GroupActivityController@show');
-                Route::get('/group/{id}', 'GroupActivityController@byGroup');
+                Route::get('/contributions/{activity_id}', 'GroupActivityController@activityContributionTypes');
                 Route::patch('/{id}', 'GroupActivityController@update');
                 Route::delete('/{id}', 'GroupActivityController@destroy');
                 Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');
+                Route::post('/join', 'GroupActivityController@join');
+                Route::post('/leave', 'GroupActivityController@leave');
+                Route::post('/pay', 'GroupActivityController@pay');
+                Route::get('/members/{activity_id}', 'GroupActivityController@members');
             });
 
             Route::group(['prefix' => 'activity-type'], function () {

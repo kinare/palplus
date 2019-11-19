@@ -18,6 +18,7 @@ class ContributionType extends BaseModel
         'balance',
         'project_id',
         'membership_fee',
+        'booking_fee',
     ];
 
     public static function init(array $type) : self
