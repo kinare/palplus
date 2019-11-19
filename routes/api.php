@@ -245,6 +245,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::post('/revoke-approver', 'GroupController@revokeApprover');
                 Route::get('/settings/{group_id}', 'GroupController@settings');
                 Route::get('/projects/{group_id}', 'GroupController@projects');
+                Route::get('/activities/{group_id}', 'GroupController@activities');
             });
 
             Route::group(['prefix' => 'expense'], function () {

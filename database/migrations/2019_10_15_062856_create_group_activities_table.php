@@ -19,6 +19,7 @@ class CreateGroupActivitiesTable extends Migration
             $table->unsignedInteger('activity_type_id');
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('itinerary')->nullable();
             $table->string('contacts')->nullable();
             $table->dateTime('start_date');
@@ -26,11 +27,11 @@ class CreateGroupActivitiesTable extends Migration
             $table->dateTime('cut_off_date')->nullable();
             $table->unsignedInteger('slots')->nullable();
             $table->boolean('featured')->default(false);
-            $table->boolean('booking_fee')->nullable();
-            $table->boolean('installments')->nullable();
+            $table->boolean('booking_fee')->default(false);
+            $table->boolean('installments')->default(false);
             $table->unsignedInteger('no_of_installments')->nullable();
-            $table->decimal('booking_fee_amount', 8, 2)->nullable();
-            $table->decimal('instalment_amount', 8, 2)->nullable();
+            $table->decimal('booking_fee_amount', 8, 2)->default(0);
+            $table->decimal('instalment_amount', 8, 2)->default(0);
             $table->decimal('total_cost', 8, 2)->nullable();
             $table->string('created_by')->nullable();
             $table->string('modified_by')->nullable();

@@ -2078,117 +2078,137 @@
                     "Activity"
                 ],
                 "summary": "Create Activity",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "group_id",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "activity_type_id",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Activity type id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "name",
-                        "in": "query",
+                        "in": "formData",
                         "description": "name",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "description",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "avatar",
+                        "required": false,
+                        "type": "file"
+                    },
+                    {
                         "name": "itinerary",
-                        "in": "query",
+                        "in": "formData",
                         "description": "itinerary",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "start_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "start date",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "end_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "end date",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "cut_off_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "cut off date",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "contacts",
-                        "in": "query",
+                        "in": "formData",
                         "description": "contacts",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "slots",
-                        "in": "query",
+                        "in": "formData",
                         "description": "slots",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "featured",
-                        "in": "query",
+                        "in": "formData",
                         "description": "featured",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "booking_fee",
-                        "in": "query",
+                        "in": "formData",
                         "description": "booking fee",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "installments",
-                        "in": "query",
+                        "in": "formData",
                         "description": "installments",
-                        "required": true,
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "no_of_installments",
+                        "in": "formData",
+                        "description": "no_of_installments",
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "booking_fee_amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "booking_fee_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "instalment_amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "instalment_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "total_cost",
-                        "in": "query",
+                        "in": "formData",
                         "description": "total_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     }
                 ],
@@ -2280,115 +2300,136 @@
                 "summary": "Update Activity",
                 "parameters": [
                     {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "group_id",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Group id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "activity_type_id",
-                        "in": "query",
+                        "in": "formData",
                         "description": "Activity type id",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "name",
-                        "in": "query",
+                        "in": "formData",
                         "description": "name",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "description",
-                        "in": "query",
+                        "in": "formData",
                         "description": "description",
                         "required": true,
                         "type": "string"
                     },
                     {
+                        "name": "avatar",
+                        "in": "formData",
+                        "description": "avatar",
+                        "required": false,
+                        "type": "file"
+                    },
+                    {
                         "name": "itinerary",
-                        "in": "query",
+                        "in": "formData",
                         "description": "itinerary",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "start_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "start date",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "end_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "end date",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "name": "cut_off_date",
-                        "in": "query",
+                        "in": "formData",
                         "description": "cut off date",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "contacts",
-                        "in": "query",
+                        "in": "formData",
                         "description": "contacts",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "slots",
-                        "in": "query",
+                        "in": "formData",
                         "description": "slots",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "featured",
-                        "in": "query",
+                        "in": "formData",
                         "description": "featured",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "booking_fee",
-                        "in": "query",
+                        "in": "formData",
                         "description": "booking fee",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "installments",
-                        "in": "query",
+                        "in": "formData",
                         "description": "installments",
-                        "required": true,
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "no_of_installments",
+                        "in": "formData",
+                        "description": "no_of_installments",
+                        "required": false,
                         "type": "integer"
                     },
                     {
                         "name": "booking_fee_amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "booking_fee_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "instalment_amount",
-                        "in": "query",
+                        "in": "formData",
                         "description": "instalment_amount",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "total_cost",
-                        "in": "query",
+                        "in": "formData",
                         "description": "total_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     }
                 ],
@@ -2421,39 +2462,6 @@
                         "name": "id",
                         "in": "path",
                         "description": "activity id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/activity/group/{group_id}": {
-            "get": {
-                "tags": [
-                    "Activity"
-                ],
-                "summary": "Activity by group",
-                "parameters": [
-                    {
-                        "name": "group_id",
-                        "in": "path",
-                        "description": "group id",
                         "required": true,
                         "type": "string"
                     }
@@ -3293,6 +3301,39 @@
                         "name": "group_id",
                         "in": "path",
                         "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/activities/{group_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity by group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
                         "required": true,
                         "type": "string"
                     }

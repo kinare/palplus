@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Group;
 use App\Contribution;
 use App\Currency;
 use App\Group;
+use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupProjectResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupSettingResource;
@@ -782,6 +784,32 @@ class GroupController extends BaseController
             return response()->json([
                 'message' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/activities/{group_id}",
+     *   tags={"Activity"},
+     *   summary="Activity by group",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function activities($group_id)
+    {
+        try{
+            return GroupActivityResource::collection(GroupActivity::where('group_id', $group_id )->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
         }
     }
 

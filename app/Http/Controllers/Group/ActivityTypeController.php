@@ -47,7 +47,6 @@ class ActivityTypeController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Patch(
      *   path="/activity-type/{id}",
