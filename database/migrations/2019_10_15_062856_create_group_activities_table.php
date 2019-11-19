@@ -26,6 +26,7 @@ class CreateGroupActivitiesTable extends Migration
             $table->dateTime('end_date');
             $table->dateTime('cut_off_date')->nullable();
             $table->unsignedInteger('slots')->nullable();
+            $table->boolean('has_contributions')->default(false);
             $table->boolean('featured')->default(false);
             $table->boolean('booking_fee')->default(false);
             $table->boolean('installments')->default(false);

@@ -52,6 +52,7 @@ class GroupActivityController extends BaseController
      *   @SWG\Parameter(name="cut_off_date",in="formData",description="cut off date",required=false,type="string"),
      *   @SWG\Parameter(name="contacts",in="formData",description="contacts",required=false,type="string"),
      *   @SWG\Parameter(name="slots",in="formData",description="slots",required=false,type="integer"),
+     *   @SWG\Parameter(name="has_contributions",in="formData",description="has_contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="featured",in="formData",description="featured",required=false,type="integer"),
      *   @SWG\Parameter(name="booking_fee",in="formData",description="booking fee",required=false,type="integer"),
      *   @SWG\Parameter(name="installments",in="formData",description="installments",required=false,type="integer"),
@@ -101,7 +102,6 @@ class GroupActivityController extends BaseController
 
     }
 
-
     /**
      * @SWG\Patch(
      *   path="/activity/{id}",
@@ -122,6 +122,7 @@ class GroupActivityController extends BaseController
      *   @SWG\Parameter(name="cut_off_date",in="formData",description="cut off date",required=false,type="string"),
      *   @SWG\Parameter(name="contacts",in="formData",description="contacts",required=false,type="string"),
      *   @SWG\Parameter(name="slots",in="formData",description="slots",required=false,type="integer"),
+     *   @SWG\Parameter(name="has_contributions",in="formData",description="has_contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="featured",in="formData",description="featured",required=false,type="integer"),
      *   @SWG\Parameter(name="booking_fee",in="formData",description="booking fee",required=false,type="integer"),
      *   @SWG\Parameter(name="installments",in="formData",description="installments",required=false,type="integer"),
@@ -183,6 +184,4 @@ class GroupActivityController extends BaseController
      *
      * )
      */
-
-
 }
