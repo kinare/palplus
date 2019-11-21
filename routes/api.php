@@ -70,6 +70,7 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/', 'LoanController@index');
                     Route::get('/limit/{group_id}', 'LoanController@limit');
                     Route::post('/', 'LoanController@loan');
+                    Route::post('/pay', 'LoanController@pay');
                     Route::post('/approve', 'LoanController@approve');
                     Route::post('/decline', 'LoanController@decline');
                 });

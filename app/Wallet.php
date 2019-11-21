@@ -3,6 +3,8 @@
 namespace App;
 
 
+use Illuminate\Support\Facades\Auth;
+
 class Wallet extends BaseModel
 {
     protected $fillable = [
@@ -40,4 +42,16 @@ class Wallet extends BaseModel
             throw $exception;
         }
     }
+
+    public static function mine() : self
+    {
+        return self::where('user_id', Auth::user()->id)->first();
+    }
+
+    public static function group($group_id) : self
+    {
+        return self::where('group_id', $group_id)->first();
+    }
+
+
 }

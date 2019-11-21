@@ -15,8 +15,8 @@ class ContributionResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['contribution_type'] = $this->type()->first()->name;
-        $data['group'] = $this->group()->first()->name;
+        $data['contribution_type'] = $this->type()->first()->name ?: null;
+        $data['group'] = $this->group()->first()->name ?: null;
         return $data;
     }
 }

@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Loan;
 
 use App\Contribution;
 use App\Group;
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\LoansResource;
 use App\Loan;
 use App\LoanApprovalEntry;
 use App\Members;
 use App\NotificationTypes;
+use App\Observers\LoanObserver;
 use App\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -149,19 +152,19 @@ class LoanController extends BaseController
         if ($loan->status === 'declined')
             return response()->json([
                 'message' => 'Loan application was declined'
-            ], 500);
+            ], 403);
 
         $approver = Members::member($loan->group_id);
 
         if (!$approver->loan_approver)
             return response()->json([
                 'message' => 'Unauthorized action. you are not an approver'
-            ], 500);
+            ], 401);
 
         if (LoanApprovalEntry::hasApproved($loan))
             return response()->json([
                 'message' => 'You have already approved'
-            ], 500);
+            ], 403);
 
         LoanApprovalEntry::make($loan);
 
@@ -175,7 +178,7 @@ class LoanController extends BaseController
 
         return response()->json([
             'message' => 'Loan approved successfully'
-        ], 500);
+        ], 200);
     }
 
     /**
@@ -199,18 +202,76 @@ class LoanController extends BaseController
         if (!$approver->loan_approver)
             return response()->json([
                 'message' => 'Unauthorized action. you are not an approver'
-            ], 500);
+            ], 401);
 
         $loan->status = 'declined';
         $loan->save();
 
         return response()->json([
             'message' => 'Loan application declined'
-        ], 500);
+        ], 200);
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/loan/pay",
+     *   tags={"Loan"},
+     *   summary="Pay Member Loan",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="loan_id",in="query",description="loan_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
     public function pay(Request $request)
     {
+        $request->validate([
+            'loan_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $loan = Loan::find($request->loan_id);
+        $wallet = Wallet::mine();
+        $groupWallet = Wallet::group($loan->group_id);
+
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds balance: '.$wallet->total_balance
+            ], 403);
+
+        AccountingController::transact(
+            $wallet,
+            $groupWallet,
+            $request->amount,
+            [
+                'model' => Loan::class,
+                'model_id' => $loan->id,
+                'description' => 'Loan Re-payment',
+                'account' => '',
+                'transaction_code' => Str::random(10).Carbon::now()->timestamp,
+            ]
+            );
+
+        $loan->balance_amount = (float)$loan->balance_amount - (float)$request->amount;
+        $loan->paid_amount = (float)$loan->paid_amount + (float)$request->amount;
+        $loan->save();
+
+        return response()->json([
+            'message' => 'Loan repayment successful. Loan balance: '.$loan->balance_amount.' pay before '.Carbon::parse($loan->end_date)->toDateString()
+        ], 403);
+
+
+
+
+
+
+
+
+
         /*
          * validate payment request
          * validate loan status and balance

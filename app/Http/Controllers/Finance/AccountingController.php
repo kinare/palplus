@@ -13,7 +13,7 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function credit(Wallet $wallet,  $amount, array $details = null)
+    private static function credit(Wallet $wallet,  $amount, array $details = null)
     {
         try{
             $wallet->total_balance = (float)$amount + (float)$wallet->total_balance;
@@ -34,7 +34,7 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function debit(Wallet $wallet, $amount, array $details = null)
+    private static function debit(Wallet $wallet, $amount, array $details = null)
     {
         try{
             $wallet->total_balance = (float)$wallet->total_balance - (float)$amount;
