@@ -55,11 +55,13 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function transact(Wallet $from, Wallet $to, $amount)
+    public static function transact(Wallet $from, Wallet $to, $amount, array $account = null)
     {
         try{
            self::debit($from, $amount);
            self::credit($to, $amount);
+
+//           Transaction::
         }catch (\Exception $exception){
             throw $exception;
         }

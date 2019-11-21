@@ -101,8 +101,16 @@ class GroupActivityController extends BaseController
                 Storage::disk('avatars')->put("activities/".$model->id.'/avatar.png', (string) $avatar);
                 $model->avatar =  'avatar.png';
             }
-
             $model->save();
+
+            //make first creator first member
+            $actMember = new ActivityMembers();
+            $actMember->group_id = $model->group_id;
+            $actMember->member_id = Members::member($model->group_id)->id;
+            $actMember->activity_id = $model->id;
+            $actMember->status = $model->booking_fee ? 'inactive' : 'active';
+            $actMember->save();
+
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
