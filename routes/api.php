@@ -117,6 +117,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/accounts', 'UserController@accounts');
                 Route::get('/payments', 'UserController@payments');
                 Route::get('/loans', 'UserController@loans');
+                Route::get('/notifications', 'UserController@notifications');
                 Route::get('/contributions', 'UserController@contributions');
                 Route::get('/contributions/group/{group_id}', 'UserController@contributionByGroup');
                 Route::post('/deposit', 'UserController@deposit');

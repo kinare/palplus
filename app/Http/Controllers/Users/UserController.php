@@ -11,6 +11,7 @@ use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\LoansResource;
 use App\Http\Resources\NextOfKinResource;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TransactionResource;
@@ -18,6 +19,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\WalletResource;
 use App\Loan;
 use App\Members;
+use App\Notification;
 use App\Transaction;
 use App\User;
 use App\Wallet;
@@ -467,5 +469,23 @@ class UserController extends BaseController
         return response()->json([
             'message' => 'Deposit successful'
         ], 200);
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/user/notifications",
+     *   tags={"User"},
+     *   summary="My Notifications",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function notifications(Request $request){
+        return NotificationResource::collection(Notification::where('user_id', $request->user()->id)->get());
     }
 }
