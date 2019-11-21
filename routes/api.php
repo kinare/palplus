@@ -71,6 +71,7 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/limit/{group_id}', 'LoanController@limit');
                     Route::post('/', 'LoanController@loan');
                     Route::post('/approve', 'LoanController@approve');
+                    Route::post('/decline', 'LoanController@decline');
                 });
             });
         });
@@ -246,6 +247,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/settings/{group_id}', 'GroupController@settings');
                 Route::get('/projects/{group_id}', 'GroupController@projects');
                 Route::get('/activities/{group_id}', 'GroupController@activities');
+                Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
             });
 
             Route::group(['prefix' => 'expense'], function () {

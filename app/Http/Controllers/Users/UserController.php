@@ -401,7 +401,6 @@ class UserController extends BaseController
      *
      * )
      */
-
     public function contributions(Request $request)
     {
         try{
@@ -434,7 +433,6 @@ class UserController extends BaseController
      *
      * )
      */
-
     public function contributionByGroup(Request $request, $group_id){
         try{
             $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first();
@@ -470,8 +468,4 @@ class UserController extends BaseController
             'message' => 'Deposit successful'
         ], 200);
     }
-
-
-
-
 }

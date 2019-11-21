@@ -23,12 +23,12 @@ class LoanApprovalEntry extends BaseModel
         return $self;
     }
 
-    public static function hasApproved(Loan $loan) : bool
+    public static function hasApproved(Loan $loan)
     {
         return self::where([
             'loan_id' => $loan->id,
             'approver_id' =>  Members::member($loan->group_id)->id,
-        ])->first() ? true : false;
+        ])->first();
 
     }
 

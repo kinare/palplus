@@ -18,7 +18,7 @@ class CreateLoansTable extends Migration
             $table->string('code');
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('group_id');
-            $table->enum('status', ['pending', 'processing', 'approved', 'rejected', 'cleared'])->default('pending');
+            $table->enum('status', ['pending', 'processing', 'approved', 'declined', 'cleared'])->default('pending');
             $table->unsignedInteger('approvals')->default(0);
             $table->unsignedInteger('payment_period_id');
             $table->decimal('loan_amount',8, 2);

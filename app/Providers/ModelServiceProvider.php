@@ -8,12 +8,14 @@ use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
+use App\Loan;
 use App\Observers\ActivityMemberObserver;
 use App\Observers\ActivityObserver;
 use App\Observers\ContributionObserver;
 use App\Observers\GroupObserver;
 use App\Observers\GroupProjectObserver;
 use App\Observers\GroupSettingObserver;
+use App\Observers\LoanObserver;
 use App\Observers\UserObserver;
 use App\User;
 use Illuminate\Support\ServiceProvider;
@@ -45,5 +47,6 @@ class ModelServiceProvider extends ServiceProvider
         GroupProject::observe(GroupProjectObserver::class);
         GroupActivity::observe(ActivityObserver::class);
         ActivityMembers::observe(ActivityMemberObserver::class);
+        Loan::observe(LoanObserver::class);
     }
 }

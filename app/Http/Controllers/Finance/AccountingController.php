@@ -13,7 +13,7 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function credit(Wallet $wallet,  $amount)
+    public static function credit(Wallet $wallet,  $amount, array $details = null)
     {
         try{
             $wallet->total_balance = (float)$amount + (float)$wallet->total_balance;
@@ -22,7 +22,7 @@ class AccountingController extends Controller
             $wallet->save();
 
             //record transaction
-            Transaction::record($wallet, 'credit', $amount);
+            Transaction::record($wallet, 'credit', $amount, $details);
         }catch (\Exception $exception){
             throw $exception;
         }
@@ -34,7 +34,7 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function debit(Wallet $wallet, $amount)
+    public static function debit(Wallet $wallet, $amount, array $details = null)
     {
         try{
             $wallet->total_balance = (float)$wallet->total_balance - (float)$amount;
@@ -43,7 +43,7 @@ class AccountingController extends Controller
             $wallet->save();
 
             //record transaction
-            Transaction::record($wallet, 'debit', $amount);
+            Transaction::record($wallet, 'debit', $amount, $details);
         }catch (\Exception $exception){
             throw $exception;
         }
@@ -55,13 +55,11 @@ class AccountingController extends Controller
      * @param $amount
      * @throws \Exception
      */
-    public static function transact(Wallet $from, Wallet $to, $amount, array $account = null)
+    public static function transact(Wallet $from, Wallet $to, $amount, array $details = null)
     {
         try{
-           self::debit($from, $amount);
-           self::credit($to, $amount);
-
-//           Transaction::
+           self::debit($from, $amount, $details);
+           self::credit($to, $amount, $details);
         }catch (\Exception $exception){
             throw $exception;
         }

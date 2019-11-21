@@ -3563,6 +3563,39 @@
                 ]
             }
         },
+        "/group/loan-settings/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Activity by group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/expense": {
             "get": {
                 "tags": [
@@ -5210,7 +5243,7 @@
                 "tags": [
                     "Loan"
                 ],
-                "summary": "Create Loan Periods",
+                "summary": "Apply loan",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -5284,6 +5317,39 @@
                     "Loan"
                 ],
                 "summary": "Approve Member Loan",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/decline": {
+            "post": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Decline Member Loan",
                 "parameters": [
                     {
                         "name": "code",

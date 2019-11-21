@@ -19,6 +19,9 @@ class CreateTransactionsTable extends Migration
             $table->enum('type', array('debit', 'credit'));
             $table->string('transaction_code')->nullable();
             $table->string('account_no')->nullable();
+            $table->string('description')->nullable();
+            $table->string('model')->nullable();
+            $table->unsignedInteger('model_id')->nullable();
             $table->decimal('amount',8, 2);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();

@@ -9,6 +9,7 @@ use App\Http\Resources\LoansResource;
 use App\Loan;
 use App\LoanApprovalEntry;
 use App\Members;
+use App\NotificationTypes;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -59,7 +60,7 @@ class LoanController extends BaseController
      * @SWG\Post(
      *   path="/loan",
      *   tags={"Loan"},
-     *   summary="Create Loan Periods",
+     *   summary="Apply loan",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -120,28 +121,6 @@ class LoanController extends BaseController
         $loan->end_date =$data['end'];
         $loan->save();
 
-        /*
-         * validations
-         * check if has previous loan ->ok
-         * check if has valid qualification period  ->ok
-         * check if has savings and above set limit ->ok
-         * check if group wallet has enough funds ->ok
-         *
-         * if ok!
-         *
-         * calculate loan amount and payment period
-         *  - using group loan settings ->ok
-         *
-         *
-         * save loan
-         *  - create loan for user (one entry) ->ok
-         *  - check no of approvers and attach to loan ->ok
-         *  - send notice to validators
-         *
-         * return response loan is awaiting approval
-         *
-         *
-         * */
         return response()->json([
             'message' => 'Your loan application has been successfully submitted for approval'
         ], 500);
@@ -167,6 +146,11 @@ class LoanController extends BaseController
 
         $loan = Loan::whereCode($request->code)->first();
 
+        if ($loan->status === 'declined')
+            return response()->json([
+                'message' => 'Loan application was declined'
+            ], 500);
+
         $approver = Members::member($loan->group_id);
 
         if (!$approver->loan_approver)
@@ -179,33 +163,50 @@ class LoanController extends BaseController
                 'message' => 'You have already approved'
             ], 500);
 
-        if (count(LoanApprovalEntry::entries($loan)) === count(Members::approvers($loan->group_id)))
-
         LoanApprovalEntry::make($loan);
-        $loan->status = 'approve';
 
+        if (count(LoanApprovalEntry::entries($loan)) === count(Members::approvers($loan->group_id))){
+            $loan->status = 'approved';
+        }else{
+            $loan->status = 'processing';
+        }
+        $loan->approvals++;
+        $loan->save();
 
-
-        /*
-         * Validate loan approver
-         * check if loan is declined and reject request
-         * find member loan and increase approvers count
-         * change status to processing if not last approver
-         * notify user if need be for the approval
-         * if last approver save loan with approved status
-         * transact amounts from group wallet to member wallet (observer)
-         * notify member of approved loan and wallet balance (observer)
-         * */
+        return response()->json([
+            'message' => 'Loan approved successfully'
+        ], 500);
     }
 
-    public function reject(Request $request)
+    /**
+     * @SWG\Post(
+     *   path="/loan/decline",
+     *   tags={"Loan"},
+     *   summary="Decline Member Loan",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function decline(Request $request)
     {
-        /*
-         * Validate loan approver
-         * find member loan and reject loan request
-         * change status to declined
-         * notify user if need be for the decline
-         * */
+        $loan = Loan::whereCode($request->code)->first();
+        $approver = Members::member($loan->group_id);
+        if (!$approver->loan_approver)
+            return response()->json([
+                'message' => 'Unauthorized action. you are not an approver'
+            ], 500);
+
+        $loan->status = 'declined';
+        $loan->save();
+
+        return response()->json([
+            'message' => 'Loan application declined'
+        ], 500);
     }
 
     public function pay(Request $request)

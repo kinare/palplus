@@ -16,8 +16,10 @@ use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupProjectResource;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupSettingResource;
+use App\Http\Resources\LoanSettingResource;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\WalletResource;
+use App\LoanSetting;
 use App\Members;
 use App\Wallet;
 use Exception;
@@ -808,6 +810,32 @@ class GroupController extends BaseController
     {
         try{
             return GroupActivityResource::collection(GroupActivity::where('group_id', $group_id )->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/loan-settings/{group_id}",
+     *   tags={"Group"},
+     *   summary="Activity by group",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function loanSettings($group_id)
+    {
+        try{
+            return LoanSettingResource::collection(LoanSetting::where('group_id', $group_id )->get());
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

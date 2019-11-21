@@ -15,13 +15,16 @@ class Transaction extends BaseModel
         'amount',
     ];
 
-    public static function record(Wallet $wallet, $type, $amount, $transaction_code = null, $account_no = null){
+    public static function record(Wallet $wallet, $type, $amount, array $details = null){
         $transaction = new self();
         $transaction->wallet_id = $wallet->id;
         $transaction->amount = $amount;
         $transaction->type = $type;
-        $transaction->transaction_code = $transaction_code;
-        $transaction->account_no = $account_no;
+        $transaction->transaction_code = $details ? $details['transaction_code'] : null;
+        $transaction->account_no = $details ? $details['account'] : null;
+        $transaction->model = $details ? $details['model'] : null;
+        $transaction->model_id = $details ? $details['model_id'] : null;
+        $transaction->description = $details ? $details['description'] : null;
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
     }
