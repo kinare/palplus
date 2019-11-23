@@ -58,7 +58,11 @@ class AccountingController extends Controller
     public static function transact(Wallet $from, Wallet $to, $amount, array $details = null)
     {
         try{
-           self::debit($from, $amount, $details);
+            /**
+             * Only transact with different wallets otherwise credit the wallet
+             */
+            if ($from->isNot($to))
+                self::debit($from, $amount, $details);
            self::credit($to, $amount, $details);
         }catch (\Exception $exception){
             throw $exception;

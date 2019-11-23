@@ -1,4 +1,4 @@
-class Validate {
+class Validator {
   constructor() {}
 
   field(field) {
@@ -208,4 +208,4 @@ class Validate {
   }
 }
 
-export default Validate;
+export default new Validator();

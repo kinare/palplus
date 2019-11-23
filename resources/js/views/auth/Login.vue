@@ -54,6 +54,12 @@ export default {
       }
     };
   },
+    beforeRouteEnter(to, from, next){
+      next(v => {
+          if (window.auth.check())
+              v.$router.push('/dashboard');
+      })
+    },
   methods: {
     login: function() {
       //todo validation

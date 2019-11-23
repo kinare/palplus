@@ -23,8 +23,10 @@ use App\Notification;
 use App\Transaction;
 use App\User;
 use App\Wallet;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends BaseController
 {
@@ -434,6 +436,9 @@ class UserController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      *
      * )
+     * @param Request $request
+     * @param $group_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function contributionByGroup(Request $request, $group_id){
         try{
@@ -461,11 +466,18 @@ class UserController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      *
      * )
+     * @throws Exception
      */
     public function deposit(Request $request){
 
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-        AccountingController::credit($wallet, $request->amount);
+        AccountingController::transact($wallet, $wallet, $request->amount,  [
+            'model' => Wallet::class,
+            'model_id' => $wallet->id,
+            'description' => 'Account Deposit',
+            'account' => '',
+            'transaction_code' => Str::random(10).Carbon::now()->timestamp,
+        ]);
         return response()->json([
             'message' => 'Deposit successful'
         ], 200);

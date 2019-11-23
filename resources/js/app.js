@@ -12,9 +12,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Toasted from "vue-toasted";
-import Validator from "./utils/validation/validate";
-import Helper from "./utils/helpers/helper";
-import Filters from "./utils/filters/filters";
+import { filters, helper, validator} from "./utils";
 import Auth from "./modules/auth/Auth";
 import Api from "./modules/api/Api";
 import Listener from "./mixins/Listener";
@@ -35,12 +33,12 @@ Vue.use(Toasted);
 
 window.auth = new Auth();
 window.Event = new Vue();
-window.validator = new Validator();
-window.helper = new Helper();
+window.helper = helper;
+window.validator = validator;
 window.api = new Api(process.env.MIX_VUE_APP_API);
 Vue.prototype.appName = process.env.MIX_VUE_APP_NAME;
 
-Filters.forEach(f => {
+filters.forEach(f => {
     Vue.filter(f.name, f.execute);
 });
 

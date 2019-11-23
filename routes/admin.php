@@ -28,7 +28,6 @@ Route::namespace('Admin')->group(function (){
         Route::patch('/{id}', 'AdminController@update');
         Route::delete('/{id}', 'AdminController@destroy');
         Route::delete('/{id}/force', 'AdminController@forceDestroy');
-
     });
 
 
