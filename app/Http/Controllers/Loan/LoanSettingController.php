@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Loan;
 
+use App\GroupSetting;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\LoanSettingResource;
 use App\LoanSetting;
 use Illuminate\Http\Request;
+use function GuzzleHttp\Promise\settle;
 
 class LoanSettingController extends BaseController
 {
@@ -50,6 +52,23 @@ class LoanSettingController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
+    public function store(Request $request)
+    {
+        try{
+            $setting = GroupSetting::where('group_id', $request->group_id)->first();
+
+            $model = $setting ? $setting : new $this->model();
+            $data = $request->all();
+            $model->fill($data);
+            $model->created_by = $request->user()->id;
+            $model->save();
+            return $this->response($model);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
 
     /**
      * @SWG\Patch(

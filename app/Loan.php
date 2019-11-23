@@ -50,7 +50,7 @@ class Loan extends BaseModel
         $savings = Contribution::amount($member);
         return [
             'limit' => ((float)$savings * (float)$settings->limit_rate)/100,
-            'period' => LoanPeriod::find($settings->repayment_period)->days,
+            'period' => LoanPeriod::find((int)$settings->repayment_period)->days,
             'rate' => $settings->interest_rate
         ];
     }
