@@ -49,7 +49,6 @@ class GroupController extends BaseController
      *
      * )
      */
-
     public function index()
     {
         try{
@@ -93,7 +92,6 @@ class GroupController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
     public function store(Request $request)
     {
         try{
@@ -261,7 +259,6 @@ class GroupController extends BaseController
      *
      * )
      */
-
     public function join(Request $request)
     {
         try{

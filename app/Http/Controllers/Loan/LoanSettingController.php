@@ -56,7 +56,6 @@ class LoanSettingController extends BaseController
     {
         try{
             $setting = GroupSetting::where('group_id', $request->group_id)->first();
-
             $model = $setting ? $setting : new $this->model();
             $data = $request->all();
             $model->fill($data);
@@ -137,6 +136,4 @@ class LoanSettingController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
-
 }
