@@ -44,7 +44,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::prefix('admin')->group(base_path('routes/admin.php'));
 
     //Dashboard Routes
-    Route::prefix('admin')->group(base_path('routes/dashboard.php'));
+    Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
     Route::group(['middleware' => 'auth:api'], function () {
 

@@ -50,8 +50,18 @@ class Loan extends BaseModel
         $savings = Contribution::amount($member);
         return [
             'limit' => ((float)$savings * (float)$settings->limit_rate)/100,
-            'period' => LoanPeriod::find($settings->period()->first()->id)->days,
+            'period' => LoanPeriod::find($settings->repayment_period)->days,
             'rate' => $settings->interest_rate
         ];
+    }
+
+    public static function total() : float
+    {
+        $loans = Loan::all();
+        $total = 0;
+        foreach ($loans as $loan){
+            $total += $loan->loan_amount;
+        }
+        return $total;
     }
 }

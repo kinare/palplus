@@ -53,5 +53,15 @@ class Wallet extends BaseModel
         return self::where('group_id', $group_id)->first();
     }
 
+    public static function total() : float
+    {
+        $wallets = Wallet::all();
+        $total = 0;
+        foreach ($wallets as $wallet){
+            $total += $wallet->total_balance;
+        }
+        return $total;
+    }
+
 
 }
