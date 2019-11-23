@@ -11,9 +11,9 @@ class WalletController extends Controller
 {
     /**
      * @SWG\Get(
-     *   path="/dashboard",
+     *   path="/dashboard/wallet",
      *   tags={"Dashboard"},
-     *   summary="Get dashboard stats",
+     *   summary="Get dashboard wallet",
      *  security={
      *     {"bearer": {}},
      *   },
