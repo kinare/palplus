@@ -128,6 +128,8 @@ class GroupController extends BaseController
             $member->group_id = $model->id;
             $member->user_id = $request->user()->id;
             $member->is_admin = true;
+            $member->loan_approver = true;
+            $member->withdrawal_approver = true;
             $member->created_by = $request->user()->id;
             $member->save();
 
