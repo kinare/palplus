@@ -55,7 +55,7 @@ class LoanSettingController extends BaseController
     public function store(Request $request)
     {
         try{
-            $setting = GroupSetting::where('group_id', $request->group_id)->first();
+            $setting = LoanSetting::where('group_id', $request->group_id)->first();
             $model = $setting ? $setting : new $this->model();
             $data = $request->all();
             $model->fill($data);

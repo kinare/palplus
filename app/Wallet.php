@@ -53,7 +53,7 @@ class Wallet extends BaseModel
         return self::where('group_id', $group_id)->first();
     }
 
-    public static function total(string $type = null , $balance = 'total_balance') : float
+    public static function total(string $balance = 'total_balance', string $type = null) : float
     {
         $wallets = $type ? Wallet::whereType($type)->get() : Wallet::all();
         $total = 0;
