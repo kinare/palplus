@@ -4417,6 +4417,39 @@
                 ]
             }
         },
+        "/project/contributions/{project_id}": {
+            "get": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Retrieve Group Project Contributions",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group-request": {
             "get": {
                 "tags": [

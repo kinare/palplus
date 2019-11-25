@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Group;
 
+use App\Contribution;
+use App\ContributionType;
 use App\GroupProject;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ContributionResource;
 use App\Http\Resources\GroupProjectResource;
 use Illuminate\Http\Request;
 
@@ -40,7 +43,7 @@ class GroupProjectController extends BaseController
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="estimated_cost",in="query",description="estimated_cost",required=true,type="number"),
-     *   @SWG\Parameter(name="actual_cost",in="query",description="actual_cost",required=true,type="number"),
+     *   @SWG\Parameter(name="actual_cost",in="query",description="actual_cost",required=false,type="number"),
      *   @SWG\Parameter(name="start_date",in="query",description="start_date",required=true,type="string"),
      *   @SWG\Parameter(name="end_date",in="query",description="end_date",required=true,type="string"),
      *   @SWG\Parameter(name="location",in="query",description="location",required=true,type="string"),
@@ -67,7 +70,7 @@ class GroupProjectController extends BaseController
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="estimated_cost",in="query",description="estimated_cost",required=true,type="number"),
-     *   @SWG\Parameter(name="actual_cost",in="query",description="actual_cost",required=true,type="number"),
+     *   @SWG\Parameter(name="actual_cost",in="query",description="actual_cost",required=false,type="number"),
      *   @SWG\Parameter(name="start_date",in="query",description="start_date",required=true,type="string"),
      *   @SWG\Parameter(name="end_date",in="query",description="end_date",required=true,type="string"),
      *   @SWG\Parameter(name="location",in="query",description="location",required=true,type="string"),
@@ -129,6 +132,26 @@ class GroupProjectController extends BaseController
      *
      * )
      */
+
+    /**
+     * @SWG\Get(
+     *   path="/project/contributions/{project_id}",
+     *   tags={"Group Project"},
+     *   summary="Retrieve Group Project Contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="project_id",in="path",description="Project id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function contributions($project_id){
+        $type = ContributionType::where('project_id', $project_id)->first();
+        return ContributionResource::collection(Contribution::where('contribution_types_id', $type->id)->get());
+    }
 
 
 

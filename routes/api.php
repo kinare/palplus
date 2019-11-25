@@ -205,6 +205,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupProjectController@index');
                 Route::post('/', 'GroupProjectController@store');
                 Route::get('/{id}', 'GroupProjectController@show');
+                Route::get('/contributions/{project_id}', 'GroupProjectController@contributions');
                 Route::patch('/{id}', 'GroupProjectController@update');
                 Route::delete('/{id}', 'GroupProjectController@destroy');
                 Route::delete('/{id}/force', 'GroupProjectController@forceDestroy');
