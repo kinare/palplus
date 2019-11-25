@@ -16,6 +16,8 @@ class CreateWithdrawalSettingsTable extends Migration
         Schema::create('withdrawal_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('group_id');
+            $table->string('qualification_period');
+            $table->boolean('show_withdrawal')->default(false);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

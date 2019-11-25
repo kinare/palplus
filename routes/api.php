@@ -160,6 +160,28 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}', 'SuppliersController@destroy');
                 Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
             });
+
+            Route::group(['prefix' => 'withdrawal'], function () {
+
+                Route::group(['prefix' => 'settings'], function () {
+                    Route::get('/', 'WithdrawalSettingController@index');
+                    Route::post('/', 'WithdrawalSettingController@store');
+                    Route::get('/{id}', 'WithdrawalSettingController@show');
+                    Route::patch('/{id}', 'WithdrawalSettingController@update');
+                    Route::delete('/{id}', 'WithdrawalSettingController@destroy');
+                    Route::delete('/{id}/force', 'WithdrawalSettingController@forceDestroy');
+                });
+
+                Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'SuppliersController@index');
+                    Route::post('/', 'SuppliersController@store');
+                    Route::get('/{id}', 'SuppliersController@show');
+                    Route::patch('/{id}', 'SuppliersController@update');
+                    Route::delete('/{id}', 'SuppliersController@destroy');
+                    Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
+                });
+
+            });
         });
 
         Route::group(['prefix' => 'member'], function () {

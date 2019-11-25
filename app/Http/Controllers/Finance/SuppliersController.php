@@ -51,7 +51,6 @@ class SuppliersController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Patch(
      *   path="/supplier/{id}",

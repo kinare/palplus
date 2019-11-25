@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Withdrawal extends Model
+class Withdrawal extends BaseModel
 {
-    //
+    protected $fillable = [
+        'group_id',
+        'member_id',
+        'amount',
+    ];
 }

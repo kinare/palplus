@@ -10,6 +10,7 @@ use App\Http\Controllers\GroupSettingController;
 use App\LoanSetting;
 use App\MemberSetting;
 use App\Wallet;
+use App\WithdrawalSetting;
 
 class GroupObserver
 {
@@ -26,6 +27,9 @@ class GroupObserver
 
         //init loan setting
         LoanSetting::init($group);
+
+        //withdrawal setting
+        WithdrawalSetting::init($group);
     }
 
     /**

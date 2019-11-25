@@ -18,7 +18,7 @@ class CreateLoanSettingsTable extends Migration
             $table->unsignedInteger('group_id');
             $table->decimal('qualification_period', 8, 2);
             $table->decimal('repayment_period', 8, 2);
-            $table->boolean('fixed_rate')->default(false);
+            $table->boolean('fixed_amount')->default(false);
             $table->decimal('limit_rate', 8,2)->nullable();
             $table->decimal('limit_amount', 8,2)->nullable();
             $table->decimal('interest_rate', 8,2)->default(0);

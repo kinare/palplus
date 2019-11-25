@@ -1,85 +1,134 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\WithdrawalSettingResource;
 use App\WithdrawalSetting;
 use Illuminate\Http\Request;
 
-class WithdrawalSettingController extends Controller
+class WithdrawalSettingController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = WithdrawalSetting::class, $resource = WithdrawalSettingResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @SWG\Get(
+     *   path="/withdrawal/settings",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Retrieve Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @SWG\Post(
+     *   path="/withdrawal/settings",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Create Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="query",description="group_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="qualification_period",in="query",description="qualification_period",required=true,type="number"),
+     *   @SWG\Parameter(name="show_withdrawal",in="query",description="show_withdrawal",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
+
     public function store(Request $request)
     {
-        //
+        try{
+            $setting = WithdrawalSetting::where('group_id', $request->group_id)->first();
+            $model = $setting ? $setting : new $this->model();
+            $data = $request->all();
+            $model->fill($data);
+            $model->created_by = $request->user()->id;
+            $model->save();
+            return $this->response($model);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\WithdrawalSetting  $withdrawalSetting
-     * @return \Illuminate\Http\Response
-     */
-    public function show(WithdrawalSetting $withdrawalSetting)
-    {
-        //
-    }
 
     /**
-     * Show the form for editing the specified resource.
+     * @SWG\Patch(
+     *   path="/withdrawal/settings/{id}",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Update Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Withdrawal Settings id",required=true,type="string"),
+     *   @SWG\Parameter(name="group_id",in="query",description="group_id",required=true,type="integer"),
+     *   @SWG\Parameter(name="qualification_period",in="query",description="qualification_period",required=true,type="number"),
+     *   @SWG\Parameter(name="show_withdrawal",in="query",description="show_withdrawal",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @param  \App\WithdrawalSetting  $withdrawalSetting
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function edit(WithdrawalSetting $withdrawalSetting)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
+     * @SWG\Get(
+     *   path="/withdrawal/settings/{id}",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Retrieve a Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Withdrawal Settings id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WithdrawalSetting  $withdrawalSetting
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function update(Request $request, WithdrawalSetting $withdrawalSetting)
-    {
-        //
-    }
 
     /**
-     * Remove the specified resource from storage.
+     * @SWG\Delete(
+     *   path="/withdrawal/settings/{id}",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Delete Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Withdrawal Settings id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @param  \App\WithdrawalSetting  $withdrawalSetting
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function destroy(WithdrawalSetting $withdrawalSetting)
-    {
-        //
-    }
+
+    /**
+     * @SWG\Delete(
+     *   path="withdrawal/settings/{id}/force",
+     *   tags={"Withdrawal Settings"},
+     *   summary="Force delete Withdrawal Settings",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="id",in="path",description="Withdrawal Settings id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
 }

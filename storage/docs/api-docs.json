@@ -1894,6 +1894,224 @@
                 ]
             }
         },
+        "/withdrawal/settings": {
+            "get": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Retrieve Withdrawal Settings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Create Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification_period",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_withdrawal",
+                        "in": "query",
+                        "description": "show_withdrawal",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/settings/{id}": {
+            "get": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Retrieve a Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Delete Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Update Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification_period",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_withdrawal",
+                        "in": "query",
+                        "description": "show_withdrawal",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "withdrawal/settings/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Force delete Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity-type": {
             "get": {
                 "tags": [
@@ -4134,7 +4352,7 @@
                         "name": "actual_cost",
                         "in": "query",
                         "description": "actual_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -4313,7 +4531,7 @@
                         "name": "actual_cost",
                         "in": "query",
                         "description": "actual_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {

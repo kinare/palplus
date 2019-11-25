@@ -17,7 +17,9 @@ use App\Observers\GroupProjectObserver;
 use App\Observers\GroupSettingObserver;
 use App\Observers\LoanObserver;
 use App\Observers\UserObserver;
+use App\Observers\WithdrawalObserver;
 use App\User;
+use App\Withdrawal;
 use Illuminate\Support\ServiceProvider;
 
 class ModelServiceProvider extends ServiceProvider
@@ -48,5 +50,6 @@ class ModelServiceProvider extends ServiceProvider
         GroupActivity::observe(ActivityObserver::class);
         ActivityMembers::observe(ActivityMemberObserver::class);
         Loan::observe(LoanObserver::class);
+        Withdrawal::observe(WithdrawalObserver::class);
     }
 }

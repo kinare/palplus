@@ -1,85 +1,99 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Group;
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\WithdrawalResource;
+use App\Members;
+use App\Wallet;
 use App\Withdrawal;
 use Illuminate\Http\Request;
 
-class WithdrawalController extends Controller
+class WithdrawalController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = Withdrawal::class, $resource = WithdrawalResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function withdraw(Request $request){
+        $request->validate([
+            'group_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $group = Group::find($request->group_id);
+        $member = Members::member($group->id);
+        $wallet = Wallet::group($group->id);
+
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds'
+            ], 403);
+
+        $withdrawal = new Withdrawal();
+        $withdrawal->group_id = $group->id;
+        $withdrawal->member_id = $member->id;
+        $withdrawal->amount = $request->amount;
+        $withdrawal->save();
+
+        return response()->json([
+            'message' => 'Successful. Your withdrawal request is being processed'
+        ], 403);
+
+
+
+
+
+        /*
+         * validate withdrawal request -ok
+         * get group -ok
+         * get member -ok
+         * get group wallet -ok
+         * validate if can withdraw -ok
+         *
+         * on observer
+
+         *
+         *
+         * */
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function approve(Request $request){
+        $request->validate([
+            'code' => 'required',
+        ]);
+
+        /*
+         * fetch the withdrawal record
+         * get group
+         * get approvers
+         * validate approver and  approval entry
+         * create approval entry
+         * if last approver change status to approved
+         *
+         * observer
+         * transact withdrawal to member wallet
+         * create member notice of successfull withdrawal
+         *
+         * */
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Withdrawal  $withdrawal
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Withdrawal $withdrawal)
-    {
-        //
-    }
+    public function decline(Request $request){
+        $request->validate([
+            'code' => 'required',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Withdrawal  $withdrawal
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Withdrawal $withdrawal)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Withdrawal  $withdrawal
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Withdrawal $withdrawal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Withdrawal  $withdrawal
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Withdrawal $withdrawal)
-    {
-        //
+        /*
+        * fetch the withdrawal record
+        * get group
+        * get approvers
+        * validate approver
+        * decline withdrawal
+        * observer
+        * notify member of decline
+        *
+        * */
     }
 }
