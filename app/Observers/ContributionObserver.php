@@ -5,8 +5,11 @@ namespace App\Observers;
 use App\Contribution;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountingController;
+use App\Loan;
 use App\Wallet;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Str;
 
 class ContributionObserver
 {
@@ -19,9 +22,18 @@ class ContributionObserver
      */
     public function created(Contribution $contribution)
     {
-        $from = Wallet::where('user_id', $contribution->created_by)->first();
-        $to = Wallet::where('group_id', $contribution->group_id)->first();
-        AccountingController::transact($from, $to, $contribution->amount);
+        AccountingController::transact(
+            Wallet::where('user_id', $contribution->created_by)->first(),
+            Wallet::where('group_id', $contribution->group_id)->first(),
+            $contribution->amount,
+            [
+                'model' => Contribution::class,
+                'model_id' => $contribution->id,
+                'description' => 'Contribution',
+                'account' => '',
+                'transaction_code' => Str::random(10).Carbon::now()->timestamp,
+            ]
+            );
     }
 
     /**
