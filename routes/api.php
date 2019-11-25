@@ -276,6 +276,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/projects/{group_id}', 'GroupController@projects');
                 Route::get('/activities/{group_id}', 'GroupController@activities');
                 Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
+                Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
                 Route::get('/type/{type_id}', 'GroupController@byType');
             });
 

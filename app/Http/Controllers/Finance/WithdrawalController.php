@@ -73,12 +73,16 @@ class WithdrawalController extends BaseController
 
         WithdrawalApprovalEntry::make($withdrawal);
 
-
-
-        if (count(WithdrawalApprovalEntry::entries($withdrawal)) === count(Members::approvers($withdrawal->group_id, 'WITHDRAWAL'))){
-            $withdrawal->status = 'approved';
+        if ($group->type()->first()->type === 'Saving-and-investments'){
+            //check 80% of approval
+            $totalApprovals =count(WithdrawalApprovalEntry::entries($withdrawal));
+            $totalApprovers = count(Members::where('group_id', $withdrawal->group_id)->get());
+            $percentageApproved = ($totalApprovals/$totalApprovers) * 100;
+            $withdrawal->status = $percentageApproved >= 80 ? 'approved' : 'processing';
         }else{
-            $withdrawal->status = 'processing';
+            $totaEntries = count(WithdrawalApprovalEntry::entries($withdrawal));
+            $totaApprovers = count(Members::approvers($withdrawal->group_id, 'WITHDRAWAL'));
+            $withdrawal->status = $totaApprovers === $totaEntries ? 'approved' : 'processing';
         }
         $withdrawal->approvals++;
         $withdrawal->save();
