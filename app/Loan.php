@@ -36,11 +36,10 @@ class Loan extends BaseModel
     {
         $settings = LoanSetting::settings($member->group_id);
         $savings = Contribution::amount($member);
-
         return [
             'start' =>  Carbon::now(),
-            'end' => Carbon::now()->addDays($settings->period()->first()->days),
-            'period' => $settings->period()->first()->id
+            'end' => Carbon::now()->addDays($settings->repayment_period),
+            'period' => $settings->repayment_period
         ];
     }
 
@@ -50,7 +49,7 @@ class Loan extends BaseModel
         $savings = Contribution::amount($member);
         return [
             'limit' => ((float)$savings * (float)$settings->limit_rate)/100,
-            'period' => LoanPeriod::find((int)$settings->repayment_period)->days,
+            'period' => $settings->repayment_period,
             'rate' => $settings->interest_rate
         ];
     }

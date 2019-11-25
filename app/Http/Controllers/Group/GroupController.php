@@ -213,6 +213,27 @@ class GroupController extends BaseController
      */
 
     /**
+     * @SWG\Get(
+     *   path="/group/type/{type_id}",
+     *   tags={"Group"},
+     *   summary="Retrieve Group by type",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="type_id",in="path",description="group type id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     * @param $type_id
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function byType($type_id){
+        return GroupResource::collection(Group::where('type_id', $type_id)->get());
+    }
+
+    /**
      * @SWG\Delete(
      *   path="/group/{id}",
      *   tags={"Group"},

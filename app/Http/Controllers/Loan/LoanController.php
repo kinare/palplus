@@ -117,7 +117,7 @@ class LoanController extends BaseController
         $loan->code = Str::random(60);
         $loan->member_id = $member->id;
         $loan->group_id = $group->id;
-        $loan->payment_period_id = $data['period'];
+        $loan->payment_period = $data['period'];
         $loan->loan_amount = $request->loan_amount;
         $loan->balance_amount = $request->loan_amount;
         $loan->start_date =$data['start'];

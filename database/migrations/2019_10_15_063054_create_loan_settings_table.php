@@ -16,11 +16,13 @@ class CreateLoanSettingsTable extends Migration
         Schema::create('loan_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('group_id');
-            $table->unsignedInteger('qualification_period');
-            $table->unsignedInteger('repayment_period');
-            $table->decimal('limit_rate', 8,2);
+            $table->decimal('qualification_period', 8, 2);
+            $table->decimal('repayment_period', 8, 2);
+            $table->boolean('fixed_rate')->default(false);
+            $table->decimal('limit_rate', 8,2)->nullable();
+            $table->decimal('limit_amount', 8,2)->nullable();
             $table->decimal('interest_rate', 8,2)->default(0);
-            $table->boolean('fixed_late_payment', 8,2)->default(false);
+            $table->boolean('fixed_late_payment')->default(false);
             $table->decimal('late_payment_rate', 8,2)->nullable();
             $table->decimal('late_payment_amount', 8,2)->nullable();
             $table->boolean('show_loans');

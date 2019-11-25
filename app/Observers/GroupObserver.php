@@ -7,6 +7,7 @@ use App\Group;
 use App\GroupSetting;
 use App\Http\Controllers\Contributions\ContributionController;
 use App\Http\Controllers\GroupSettingController;
+use App\LoanSetting;
 use App\MemberSetting;
 use App\Wallet;
 
@@ -22,6 +23,9 @@ class GroupObserver
     {
         //Init related models
         Wallet::make('Group', $group, $group->currency_id);
+
+        //init loan setting
+        LoanSetting::init($group);
     }
 
     /**
