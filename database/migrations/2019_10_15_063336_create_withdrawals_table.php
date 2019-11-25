@@ -15,7 +15,7 @@ class CreateWithdrawalsTable extends Migration
     {
         Schema::create('withdrawals', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('group_id');
+            $table->string('code');
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('approvers')->default(0);
