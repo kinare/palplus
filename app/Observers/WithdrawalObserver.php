@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Group;
 use App\Http\Controllers\AccountingController;
+use App\Http\Resources\MemberResource;
 use App\Loan;
 use App\Members;
 use App\Notification;
@@ -26,11 +27,38 @@ class WithdrawalObserver
     {
         $group = Group::find($withdrawal->group_id);
         $type = $group->type()->first()->type;
-        $member =Members::member($group->id);
+        $member = Members::member($group->id);
         dump($group);
 
-        if ($type === 'Mary-go-round' || $type === 'Saving-and-investments'){
+        if ($type === 'Saving-and-investments'){
+            $members = Members::where('group_id', $group->id);
 
+            foreach ($members as $memb){
+                Notification::make([
+                    'user_id' => $memb->id,
+                    'subject' => 'Withdrawal Request',
+                    'message' => 'Approve '.$member->user()->first()->name.' withdrawal of '.$withdrawal->amount,
+                    'payload' => $withdrawal->code,
+                    'notification_types_id' => NotificationTypes::getTypeId('WITHDRAWAL'),
+                ]);
+            }
+
+        }
+
+        if ($type === 'Mary-go-round'){
+            $approvers = Members::approvers($group->id, 'WITHDRAWAL');
+            foreach ($approvers as $approver){
+                Notification::make([
+                    'user_id' => $approver->id,
+                    'subject' => 'Withdrawal Request',
+                    'message' => 'Approve '.$member->user()->first()->name.' withdrawal of '.$withdrawal->amount,
+                    'payload' => $withdrawal->code,
+                    'notification_types_id' => NotificationTypes::getTypeId('WITHDRAWAL'),
+                ]);
+            }
+        }
+
+        if ($type === 'Tours-and-travel' || $type === 'Fundraising'){
             AccountingController::transact(
                 Wallet::group($group->id),
                 Wallet::mine(),
@@ -46,18 +74,12 @@ class WithdrawalObserver
 
             Notification::make([
                 'user_id' => $member->id,
-                'subject' => 'Withdrawal',
-                'message' => 'Your withdrawal of '.$withdrawal->amount.' is successfull',
-                'payload' => '',
-                'notification_types_id' => NotificationTypes::getTypeId('WITHDRAWAL'),
+                'subject' => 'Withdrawal Success',
+                'message' => 'Successfully withdrawal of '.$withdrawal->amount,
+                'payload' => $withdrawal->code,
+                'notification_types_id' => NotificationTypes::getTypeId('INFORMATION'),
             ]);
         }
-
-        if ($type === 'Tours-and-travel' || $type === 'Fundraising'){
-
-        }
-
-
         /*
          * validate group type
          * get group
@@ -82,7 +104,42 @@ class WithdrawalObserver
      */
     public function updated(Withdrawal $withdrawal)
     {
-        //
+        if ($withdrawal->isDirty('status')){
+
+            if ($withdrawal->status = 'approved'){
+                Notification::make([
+                    'user_id' => Members::find($withdrawal->member_id)->user_id,
+                    'subject' => 'Withdrawal Approval',
+                    'message' => 'Your Withdrawal of '.$withdrawal->amount.' has been approved',
+                    'payload' => '',
+                    'notification_types_id' => NotificationTypes::getTypeId('APPROVAL'),
+                ]);
+
+                //transact
+                AccountingController::transact(
+                    Wallet::group($withdrawal->group_id),
+                    Wallet::where('user_id', Members::find($withdrawal->member_id)->user_id)->first(),
+                    $withdrawal->amount,
+                    [
+                        'model' => Withdrawal::class,
+                        'model_id' => $withdrawal->id,
+                        'description' => 'Withdrawal',
+                        'account' => '',
+                        'transaction_code' => Str::random(10).Carbon::now()->timestamp,
+                    ]
+                );
+            }
+
+            if ($withdrawal->status === 'declined'){
+                Notification::make([
+                    'user_id' => Members::find($withdrawal->member_id)->user_id,
+                    'subject' => 'Loan Application',
+                    'message' => 'Your withdrawal of '.$withdrawal->loan_amount.' has been declined',
+                    'payload' => '',
+                    'notification_types_id' => NotificationTypes::getTypeId('APPROVAL'),
+                ]);
+            }
+        }
     }
 
     /**

@@ -19,6 +19,7 @@ class NotificationTypesSeed extends Seeder
             ['type' => 'INVITATION', 'description' => 'Group/Event Invitation notifications'],
             ['type' => 'PAYMENT', 'description' => 'Payment notifications'],
             ['type' => 'REMINDERS', 'description' => 'Reminder notices'],
+            ['type' => 'INFORMATION', 'description' => 'Information notices'],
         ]);
     }
 }

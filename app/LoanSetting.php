@@ -8,7 +8,7 @@ class LoanSetting extends BaseModel
         'group_id',
         'qualification_period',
         'repayment_period',
-        'fixed_rate',
+        'fixed_amount',
         'limit_rate',
         'limit_amount',
         'interest_rate',

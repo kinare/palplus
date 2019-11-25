@@ -6004,9 +6004,9 @@
                         "type": "integer"
                     },
                     {
-                        "name": "fixed_rate",
+                        "name": "fixed_amount",
                         "in": "query",
-                        "description": "fixed rate",
+                        "description": "fixed amount",
                         "required": true,
                         "type": "integer"
                     },
@@ -6165,6 +6165,13 @@
                         "name": "repayment_period",
                         "in": "query",
                         "description": "repayment period",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "fixed_amount",
+                        "in": "query",
+                        "description": "fixed amount",
                         "required": true,
                         "type": "integer"
                     },
