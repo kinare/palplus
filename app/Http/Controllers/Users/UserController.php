@@ -500,4 +500,6 @@ class UserController extends BaseController
     public function notifications(Request $request){
         return NotificationResource::collection(Notification::where('user_id', $request->user()->id)->get());
     }
+
+
 }

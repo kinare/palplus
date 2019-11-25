@@ -102,6 +102,16 @@ Route::group(['middleware' => ['json.response']], function () {
             });
         });
 
+        Route::namespace('Notification')->group(function (){
+            Route::group(['prefix' => 'notification'], function () {
+
+                Route::group(['prefix' => 'types'], function () {
+                    Route::get('/', 'NotificationTypesController@index');
+                });
+
+            });
+        });
+
         Route::namespace('Users')->group(function (){
 
             Route::group(['prefix' => 'gender'], function () {
@@ -173,12 +183,9 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
 
                 Route::group(['prefix' => ''], function () {
-                    Route::get('/', 'SuppliersController@index');
-                    Route::post('/', 'SuppliersController@store');
-                    Route::get('/{id}', 'SuppliersController@show');
-                    Route::patch('/{id}', 'SuppliersController@update');
-                    Route::delete('/{id}', 'SuppliersController@destroy');
-                    Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
+                    Route::post('/withdraw', 'WithdrawalController@withdraw');
+                    Route::post('/approve', 'WithdrawalController@approve');
+                    Route::post('/decline', 'WithdrawalController@decline');
                 });
 
             });

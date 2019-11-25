@@ -20,6 +20,21 @@ class WithdrawalController extends BaseController
         parent::__construct($model, $resource);
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/withdrawal/withdraw",
+     *   tags={"Withdraw"},
+     *   summary="Withdrawal request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="query",description="group id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
     public function withdraw(Request $request){
         $request->validate([
             'group_id' => 'required',
@@ -47,6 +62,21 @@ class WithdrawalController extends BaseController
         ], 403);
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/withdrawal/approval",
+     *   tags={"Withdraw"},
+     *   summary="Withdrawal approval",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
+     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
     public function approve(Request $request){
         $request->validate([
             'code' => 'required',
@@ -90,43 +120,40 @@ class WithdrawalController extends BaseController
         return response()->json([
             'message' => 'Withdrawal approved successfully'
         ], 200);
-
-
-
-
-
-
-
-
-        /*
-         * fetch the withdrawal record -ok
-         * get group -ok
-         * get approvers -ok
-         * validate approver and  approval entry
-         * create approval entry
-         * if last approver change status to approved
-         *
-         * observer
-         * transact withdrawal to member wallet
-         * create member notice of successfull withdrawal
-         *
-         * */
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/withdrawal/decline",
+     *   tags={"Withdraw"},
+     *   summary="Withdrawal delcine",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
+     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
     public function decline(Request $request){
         $request->validate([
             'code' => 'required',
         ]);
 
-        /*
-        * fetch the withdrawal record
-        * get group
-        * get approvers
-        * validate approver
-        * decline withdrawal
-        * observer
-        * notify member of decline
-        *
-        * */
+        $withdrawal = Withdrawal::whereCode($request->code)->first();
+        $member = Members::member($withdrawal->group_id);
+
+        if (!$member->withdrawal_approver)
+            return response()->json([
+                'message' => 'Unauthorized, you are not an approver'
+            ], 401);
+
+        $withdrawal->status = 'declined';
+        $withdrawal->modified_by = $request->user()->id;
+        $withdrawal->save();
+
+
     }
 }

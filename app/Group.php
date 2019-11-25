@@ -33,7 +33,7 @@ class Group extends BaseModel
 
     public function type()
     {
-        return $this->hasOne('GroupType', 'id', 'type_id');
+        return $this->belongsTo('App\GroupType', 'type_id', 'id')->where('deleted_at', null);
     }
 
     public function invitations()

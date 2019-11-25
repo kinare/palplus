@@ -107,13 +107,6 @@ class WithdrawalObserver
         if ($withdrawal->isDirty('status')){
 
             if ($withdrawal->status = 'approved'){
-                Notification::make([
-                    'user_id' => Members::find($withdrawal->member_id)->user_id,
-                    'subject' => 'Withdrawal Approval',
-                    'message' => 'Your Withdrawal of '.$withdrawal->amount.' has been approved',
-                    'payload' => '',
-                    'notification_types_id' => NotificationTypes::getTypeId('APPROVAL'),
-                ]);
 
                 //transact
                 AccountingController::transact(
@@ -128,6 +121,15 @@ class WithdrawalObserver
                         'transaction_code' => Str::random(10).Carbon::now()->timestamp,
                     ]
                 );
+
+                //notify
+                Notification::make([
+                    'user_id' => Members::find($withdrawal->member_id)->user_id,
+                    'subject' => 'Withdrawal Approval',
+                    'message' => 'Your Withdrawal of '.$withdrawal->amount.' has been approved',
+                    'payload' => '',
+                    'notification_types_id' => NotificationTypes::getTypeId('APPROVAL'),
+                ]);
             }
 
             if ($withdrawal->status === 'declined'){
