@@ -194,6 +194,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
 
                 Route::group(['prefix' => ''], function () {
+                    Route::get('/limit/{type}/{group_id}', 'WithdrawalController@limit');
                     Route::post('/withdraw', 'WithdrawalController@withdraw');
                     Route::post('/approve', 'WithdrawalController@approve');
                     Route::post('/decline', 'WithdrawalController@decline');

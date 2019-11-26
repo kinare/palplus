@@ -45,4 +45,19 @@ class Contribution extends BaseModel
         }
         return $value;
     }
+
+    public static function total($type = null, $id = null) : float
+    {
+        if ($type){
+            $contributions = $type === 'GROUP' ? Contribution::where('group_id', $id)->get() : Contribution::where('member_id', $id)->get();
+        }else{
+            $contributions = Contribution::all();
+        }
+
+        $total = 0;
+        foreach ($contributions as $contribution){
+            $total += (float)$contribution->amount;
+        }
+        return $total;
+    }
 }

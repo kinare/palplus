@@ -25,14 +25,14 @@ class WithdrawalObserver
     {
         $group = Group::find($withdrawal->group_id);
         $type = $group->type()->first()->type;
-        $member = Members::member($group->id);
+        $member = Members::find($withdrawal->member_id);
 
         if ($type === 'Saving-and-investments'){
             $members = Members::where('group_id', $group->id);
 
             foreach ($members as $memb){
                 Notification::make([
-                    'user_id' => $memb->id,
+                    'user_id' => $memb->user_id,
                     'subject' => 'Withdrawal Request',
                     'message' => 'Approve '.$member->user()->first()->name.' withdrawal of '.$withdrawal->amount,
                     'payload' => $withdrawal->code,
@@ -46,7 +46,7 @@ class WithdrawalObserver
             $approvers = Members::approvers($group->id, 'WITHDRAWAL');
             foreach ($approvers as $approver){
                 Notification::make([
-                    'user_id' => $approver->id,
+                    'user_id' => $approver->user_id,
                     'subject' => 'Withdrawal Request',
                     'message' => 'Approve '.$member->user()->first()->name.' withdrawal of '.$withdrawal->amount,
                     'payload' => $withdrawal->code,
@@ -70,7 +70,7 @@ class WithdrawalObserver
             );
 
             Notification::make([
-                'user_id' => $member->id,
+                'user_id' => $member->user_id,
                 'subject' => 'Withdrawal Success',
                 'message' => 'Successfully withdrawal of '.$withdrawal->amount,
                 'payload' => $withdrawal->code,

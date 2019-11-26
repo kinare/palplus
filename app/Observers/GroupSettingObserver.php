@@ -22,7 +22,7 @@ class GroupSettingObserver
         $settings = GroupSetting::where('group_id', $group->id)->first();
 
         switch (GroupType::find($group->type_id)->type){
-            case 'Mary-go-round' :
+            case 'Merry-go-round' :
                 ContributionType::init([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $settings->contribution_periods_id,
@@ -38,12 +38,12 @@ class GroupSettingObserver
             case 'Fundraising' :
                 ContributionType::init([
                     'group_id' => $group->id,
-                    'contribution_periods_id'  => $settings->contribution_periods_id,
+//                    'contribution_periods_id'  => $settings->contribution_periods_id,
                     'contribution_categories_id' => $settings->contribution_categories_id,
                     'name'  => ContributionCategory::find($settings->contribution_categories_id)->category,
                     'description'  => 'Fundraising for '.$group->name,
-                    'amount'  => $settings->contribution_amount,
-                    'target_amount'  => $settings->contribution_target_amount
+                    'amount'  => $settings->contribution_amount ?: 0,
+                    'target_amount'  => $settings->contribution_target_amount?: 0
                 ]);
                 break;
             case 'Saving-and-investments' :

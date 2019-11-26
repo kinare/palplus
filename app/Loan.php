@@ -54,13 +54,26 @@ class Loan extends BaseModel
         ];
     }
 
-    public static function total() : float
+    public static function total($type = null, $id = null) : array
     {
-        $loans = Loan::all();
+        if ($type !== null){
+            $loans = $type === 'GROUP' ? Loan::where('group_id', $id)->get() : Loan::where('member_id', $id)->get();
+        }else{
+            $loans = Loan::all();
+        }
+
         $total = 0;
+        $balance = 0;
+        $paid = 0;
         foreach ($loans as $loan){
             $total += $loan->loan_amount;
+            $balance += $loan->balance_amount;
+            $paid += $loan->paid_amount;
         }
-        return $total;
+        return [
+            'amount' => $total,
+            'balance' => $balance,
+            'paid' => $paid,
+        ];
     }
 }

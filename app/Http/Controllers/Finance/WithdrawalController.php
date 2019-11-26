@@ -21,6 +21,27 @@ class WithdrawalController extends BaseController
     }
 
     /**
+     * @SWG\Get(
+     *   path="/withdrawal/limit/{type}/{group_id}",
+     *   tags={"Withdraw"},
+     *   summary="withdrawal Limit",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="type",in="path",description="Type GROUP/PERSONAL",required=true,type="string"),
+     *   @SWG\Parameter(name="group_id",in="path",description="group_id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function limit($type, $group_id){
+        return [
+            'data' => Withdrawal::limit($type, $group_id)
+        ];
+    }
+
+    /**
      * @SWG\Post(
      *   path="/withdrawal/withdraw",
      *   tags={"Withdraw"},
@@ -51,7 +72,7 @@ class WithdrawalController extends BaseController
             ], 403);
 
         $withdrawal = new Withdrawal();
-        $withdrawal->code = Str::random(10).Carbon::now()->timestamp;
+        $withdrawal->code = Str::random(30).Carbon::now()->timestamp;
         $withdrawal->group_id = $group->id;
         $withdrawal->member_id = $member->id;
         $withdrawal->amount = $request->amount;
