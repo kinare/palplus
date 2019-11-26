@@ -85,14 +85,13 @@ class WithdrawalController extends BaseController
 
     /**
      * @SWG\Post(
-     *   path="/withdrawal/approval",
+     *   path="/withdrawal/approve",
      *   tags={"Withdraw"},
      *   summary="Withdrawal approval",
      *  security={
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
-     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -135,7 +134,7 @@ class WithdrawalController extends BaseController
             $totaApprovers = count(Members::approvers($withdrawal->group_id, 'WITHDRAWAL'));
             $withdrawal->status = $totaApprovers === $totaEntries ? 'approved' : 'processing';
         }
-        $withdrawal->approvals++;
+        $withdrawal->approvers++;
         $withdrawal->save();
 
         return response()->json([
@@ -152,7 +151,6 @@ class WithdrawalController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="code",in="query",description="code",required=true,type="string"),
-     *   @SWG\Parameter(name="repayment_period",in="query",description="repayment period",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

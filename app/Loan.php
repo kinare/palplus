@@ -29,7 +29,7 @@ class Loan extends BaseModel
 
     public static function isQualified(Members $member) : bool
     {
-        return $member->period() > LoanSetting::settings($member->group_id)->qualification_period;
+        return $member->period() >= (int)LoanSetting::settings($member->group_id)->qualification_period;
     }
 
     public static function calculate(Members $member) : array

@@ -44,6 +44,7 @@ class WithdrawalObserver
 
         if ($type === 'Merry-go-round'){
             $approvers = Members::approvers($group->id, 'WITHDRAWAL');
+            dump($approvers);
             foreach ($approvers as $approver){
                 Notification::make([
                     'user_id' => $approver->user_id,
