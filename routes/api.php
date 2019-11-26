@@ -86,6 +86,12 @@ Route::group(['middleware' => ['json.response']], function () {
             });
         });
 
+        Route::namespace('Contact')->group(function (){
+            Route::group(['prefix' => 'contact'], function () {
+                Route::post('/my-contacts', 'ContactsController@myContacts');
+            });
+        });
+
         Route::namespace('Investment')->group(function (){
             Route::group(['prefix' => 'investment-opportunity'], function () {
                 Route::get('/', 'InvestmentOpportunityController@index');

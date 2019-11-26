@@ -838,6 +838,39 @@
                 }
             }
         },
+        "/contact/my-contacts": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "My Contacts",
+                "parameters": [
+                    {
+                        "name": "contacts",
+                        "in": "query",
+                        "description": "Contact array",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/contribution/categories": {
             "get": {
                 "tags": [

@@ -42,7 +42,7 @@ class WithdrawalObserver
 
         }
 
-        if ($type === 'Mary-go-round'){
+        if ($type === 'Merry-go-round'){
             $approvers = Members::approvers($group->id, 'WITHDRAWAL');
             foreach ($approvers as $approver){
                 Notification::make([

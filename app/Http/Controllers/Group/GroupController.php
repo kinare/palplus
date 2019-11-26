@@ -641,11 +641,17 @@ class GroupController extends BaseController
         try{
 
             if ($approver_type === 'LOAN'){
-                return MemberResource::collection(Members::where('loan_approver', true)->get());
+                return MemberResource::collection(Members::where([
+                    'loan_approver' => true,
+                    'group_id' => $group_id,
+                    ])->get());
             }
 
             if ($approver_type === 'WITHDRAWAL'){
-                return MemberResource::collection(Members::where('withdrawal_approver', true)->get());
+                return MemberResource::collection(Members::where([
+                    'withdrawal_approver' => true,
+                    'group_id' => $group_id,
+                ])->get());
             }
 
         }catch (Exception $e){
