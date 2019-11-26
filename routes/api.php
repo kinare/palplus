@@ -46,6 +46,12 @@ Route::group(['middleware' => ['json.response']], function () {
     //Dashboard Routes
     Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
+    Route::namespace('Currency')->group(function (){
+        Route::group(['prefix' => 'currency'], function () {
+            Route::get('/', 'CurrencyController@index');
+        });
+    });
+
     Route::group(['middleware' => 'auth:api'], function () {
 
         Route::namespace('Loan')->group(function (){
@@ -93,7 +99,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::namespace('Currency')->group(function (){
             Route::group(['prefix' => 'currency'], function () {
-                Route::get('/', 'CurrencyController@index');
                 Route::post('/', 'CurrencyController@store');
                 Route::get('/{id}', 'CurrencyController@show');
                 Route::patch('/{id}', 'CurrencyController@update');

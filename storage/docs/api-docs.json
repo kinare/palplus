@@ -1285,12 +1285,7 @@
                     "500": {
                         "description": "internal server error"
                     }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -3153,6 +3148,13 @@
                         "description": "country",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "currency_id",
+                        "in": "formData",
+                        "description": "currency id",
+                        "required": true,
+                        "type": "integer"
                     },
                     {
                         "name": "contributions",

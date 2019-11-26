@@ -79,6 +79,7 @@ class GroupController extends BaseController
      *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
      *   @SWG\Parameter(name="access_level",in="formData",description="access level",required=true,type="string"),
      *   @SWG\Parameter(name="country",in="formData",description="country",required=true,type="string"),
+     *   @SWG\Parameter(name="currency_id",in="formData",description="currency id",required=true,type="integer"),
      *   @SWG\Parameter(name="contributions",in="formData",description="has contributions",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_categories_id",in="formData",description="contribution_categories_id",required=false,type="integer"),
      *   @SWG\Parameter(name="contribution_periods_id",in="formData",description="contribution_period_id",required=false,type="integer"),
@@ -119,8 +120,6 @@ class GroupController extends BaseController
                 $model->avatar =  'avatar.png';
             }
 
-            //set currency
-            $model->currency_id = Currency::byCountry($model->country);
             $model->save();
 
             //make first member admin

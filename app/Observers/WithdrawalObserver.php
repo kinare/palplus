@@ -4,8 +4,6 @@ namespace App\Observers;
 
 use App\Group;
 use App\Http\Controllers\AccountingController;
-use App\Http\Resources\MemberResource;
-use App\Loan;
 use App\Members;
 use App\Notification;
 use App\NotificationTypes;
@@ -28,7 +26,6 @@ class WithdrawalObserver
         $group = Group::find($withdrawal->group_id);
         $type = $group->type()->first()->type;
         $member = Members::member($group->id);
-        dump($group);
 
         if ($type === 'Saving-and-investments'){
             $members = Members::where('group_id', $group->id);
@@ -80,20 +77,6 @@ class WithdrawalObserver
                 'notification_types_id' => NotificationTypes::getTypeId('INFORMATION'),
             ]);
         }
-        /*
-         * validate group type
-         * get group
-         * if tour or fundraising transact amount to member wallet
-         * validate if member is admin
-         * if mary go round or savings create withdrawal notice
-         * if mary go round notice to approvers only
-         * if savings notice to all members
-         *
-         *  ['type' => 'Mary-go-round', 'description' => 'Mary Go Round'],
-            ['type' => 'Tours-and-travel',  'description' => 'Tours and Travel'],
-            ['type' => 'Fundraising',  'description' => 'Fundraising'],
-            ['type' => 'Saving-and-investments',  'description' => 'Savings and Investments']
-         */
     }
 
     /**
