@@ -7,6 +7,7 @@ use App\ContributionType;
 use App\Group;
 use App\GroupSetting;
 use App\GroupType;
+use App\Payment;
 
 class GroupSettingObserver
 {

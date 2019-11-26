@@ -15,10 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('wallet_id');
-            $table->string('description');
-            $table->string('transaction_code');
+            $table->unsignedInteger('user_id');
+            $table->string('description')->nullable();
+            $table->string('model')->nullable();
+            $table->string('model_id')->nullable();
+            $table->string('transaction_code')->nullable();
             $table->decimal('amount', 8, 2);
+            $table->enum('status', ['pending','cleared'])->default('pending');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

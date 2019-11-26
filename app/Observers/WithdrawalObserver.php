@@ -28,8 +28,7 @@ class WithdrawalObserver
         $member = Members::find($withdrawal->member_id);
 
         if ($type === 'Saving-and-investments'){
-            $members = Members::where('group_id', $group->id);
-
+            $members = Members::where('group_id', $group->id)->get();
             foreach ($members as $memb){
                 Notification::make([
                     'user_id' => $memb->user_id,

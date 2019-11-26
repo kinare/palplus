@@ -106,7 +106,7 @@ class WithdrawalController extends BaseController
         $group = Group::find($withdrawal->group_id);
         $member = Members::member($group->id);
 
-        if (!$member->withdrawal_approver)
+        if (!$member->withdrawal_approver || $group->type()->first()->type !== 'Saving-and-investments')
             return response()->json([
                 'message' => 'Unauthorized, you are not an approver'
             ], 401);
@@ -162,9 +162,10 @@ class WithdrawalController extends BaseController
         ]);
 
         $withdrawal = Withdrawal::whereCode($request->code)->first();
+        $group = Group::find($withdrawal->group_id);
         $member = Members::member($withdrawal->group_id);
 
-        if (!$member->withdrawal_approver)
+        if (!$member->withdrawal_approver || $group->type()->first()->type !== 'Saving-and-investments')
             return response()->json([
                 'message' => 'Unauthorized, you are not an approver'
             ], 401);
