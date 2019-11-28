@@ -1,85 +1,51 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\BaseController;
+use App\Http\Resources\PaymentResource;
 use App\Payment;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller
+class PaymentController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = Payment::class, $resource = PaymentResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @SWG\Get(
+     *   path="/payments",
+     *   tags={"Payments"},
+     *   summary="Retrieve Payments",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function create()
-    {
-        //
+
+    public function pay(Request $request){
+        $request->validate([
+            'payment_id' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $payment = Payment::find($request->payment_id);
+
+        if ($payment->amount > $request->amount)
+            return response()->json([
+                'message' => 'Payment cleared'
+            ], 403);
+
+
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Payment $payment)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Payment $payment)
-    {
-        //
-    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Contribution;
+use App\GroupSetting;
 use App\Members;
 use App\Payment;
 
@@ -15,15 +17,15 @@ class MemberObserver
      */
     public function created(Members $members)
     {
-        if ($groupSetting->membership_fee)
+        $setting = GroupSetting::where('group_id', $members->group_id)->first();
+        if ($setting->membership_fee)
             Payment::init([
-                'user_id' => ,
-                'description',
-                'model',
-                'model_id',
-                'transaction_code',
-                'amount',
-                'status',
+                'user_id' => $members->user_id,
+                'description' => 'Membership Fee',
+                'model' => Contribution::class,
+                'model_id' => Contribution::where(['group_id'=>$members->group_id, 'membership_fee' => true])->first()->id,
+                'transaction_code' =>'',
+                'amount' =>  $setting->membership_fee,
             ]);
     }
 

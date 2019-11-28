@@ -25,8 +25,11 @@ class ContactsController extends Controller
      * )
      */
     public function myContacts(Request $request){
-        $contacts = $request->contacts;
-        $phones = [];
+        $contacts = $request->contacts; //'[+254708338855,+2544545544]'; //
+
+        $contacts = trim($contacts, '[');
+        $contacts = trim($contacts, ']');
+        $contacts = explode(',', $contacts);
         $matched = [];
         $users = User::all();
         foreach ($contacts as $contact){
