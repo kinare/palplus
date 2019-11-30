@@ -77,21 +77,23 @@ class GroupSettingObserver
      */
     public function updated(GroupSetting $groupSetting)
     {
-        if ($groupSetting->membership_fee)
-            ContributionType::init([
-                'group_id' => $groupSetting->group_id,
-                'name' => 'Membership Fee',
-                'description' => 'Group Joining Fee',
-                'amount' => $groupSetting->membership_fee_amount,
-                'membership_fee' => $groupSetting->membership_fee,
-            ]);
+        if ($groupSetting->isDirty('membership_fee')){
+            if ($groupSetting->membership_fee)
+                ContributionType::init([
+                    'group_id' => $groupSetting->group_id,
+                    'name' => 'Membership Fee',
+                    'description' => 'Group Joining Fee',
+                    'amount' => $groupSetting->membership_fee_amount,
+                    'membership_fee' => $groupSetting->membership_fee,
+                ]);
 
-        if (!$groupSetting->membership_fee)
-            $contrib = ContributionType::where([
-                'group_id' => $groupSetting->group_id,
-                'membership_fee' => true
-            ])->first();
+            if (!$groupSetting->membership_fee)
+                $contrib = ContributionType::where([
+                    'group_id' => $groupSetting->group_id,
+                    'membership_fee' => true
+                ])->first();
             $contrib->delete();
+        }
     }
 
     /**
