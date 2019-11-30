@@ -1631,6 +1631,13 @@
                 "summary": "Create Supplier",
                 "parameters": [
                     {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -1663,13 +1670,6 @@
                         "in": "query",
                         "description": "email",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "currency",
-                        "in": "query",
-                        "description": "currency",
-                        "required": true,
                         "type": "string"
                     },
                     {
@@ -1782,6 +1782,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -1814,13 +1821,6 @@
                         "in": "query",
                         "description": "email",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "currency",
-                        "in": "query",
-                        "description": "currency",
-                        "required": true,
                         "type": "string"
                     },
                     {
@@ -2824,13 +2824,6 @@
                         "type": "file"
                     },
                     {
-                        "name": "itinerary",
-                        "in": "formData",
-                        "description": "itinerary",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "name": "start_date",
                         "in": "formData",
                         "description": "start date",
@@ -3017,20 +3010,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "group_id",
-                        "in": "formData",
-                        "description": "Group id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "activity_type_id",
-                        "in": "formData",
-                        "description": "Activity type id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
                         "in": "formData",
                         "description": "name",
@@ -3050,13 +3029,6 @@
                         "description": "avatar",
                         "required": false,
                         "type": "file"
-                    },
-                    {
-                        "name": "itinerary",
-                        "in": "formData",
-                        "description": "itinerary",
-                        "required": false,
-                        "type": "string"
                     },
                     {
                         "name": "start_date",
@@ -3433,6 +3405,72 @@
                     "Activity"
                 ],
                 "summary": "Activity Emergency Contacts",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/suppliers/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Suppliers",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/expenses/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Expenses",
                 "parameters": [
                     {
                         "name": "activity_id",

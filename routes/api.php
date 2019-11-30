@@ -344,6 +344,8 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/members/{activity_id}', 'GroupActivityController@members');
                     Route::get('/itineraries/{activity_id}', 'GroupActivityController@itinerary');
                     Route::get('/contacts/{activity_id}', 'GroupActivityController@contact');
+                    Route::get('/suppliers/{activity_id}', 'GroupActivityController@supplier');
+                    Route::get('/expenses/{activity_id}', 'GroupActivityController@expenses');
                 });
             });
 

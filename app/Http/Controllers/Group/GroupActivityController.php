@@ -7,17 +7,19 @@ use App\ActivityMembers;
 use App\Contribution;
 use App\ContributionType;
 use App\GroupActivity;
+use App\GroupExpense;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ActivityContactResource;
 use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
+use App\Http\Resources\GroupExpenseResource;
 use App\Http\Resources\ItineraryResource;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\SupplierResource;
 use App\Itinerary;
 use App\Members;
-use App\Transaction;
-use App\User;
+use App\Suppliers;
 use App\Wallet;
 use Exception;
 use Illuminate\Http\Request;
@@ -437,7 +439,6 @@ class GroupActivityController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Get(
      *   path="/activity/contacts/{activity_id}",
@@ -456,6 +457,56 @@ class GroupActivityController extends BaseController
     public function contact($activity_id){
         try{
             return ActivityContactResource::collection(ActivityContacts::where('activity_id', $activity_id)->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/suppliers/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity Suppliers",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function supplier($activity_id){
+        try{
+            return SupplierResource::collection(Suppliers::where('activity_id', $activity_id)->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/expenses/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity Expenses",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function expenses($activity_id){
+        try{
+            return GroupExpenseResource::collection(GroupExpense::where('activity_id', $activity_id)->get());
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
