@@ -145,7 +145,7 @@ class GroupController extends BaseController
     }
 
     /**
-     * @SWG\Patch(
+     * @SWG\Post(
      *   path="/group/{id}",
      *   tags={"Group"},
      *   summary="Update Group",

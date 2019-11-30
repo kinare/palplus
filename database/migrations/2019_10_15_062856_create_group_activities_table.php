@@ -20,7 +20,7 @@ class CreateGroupActivitiesTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('itinerary')->nullable();
+            $table->unsignedInteger('itinerary')->default(0);
             $table->string('contacts')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');

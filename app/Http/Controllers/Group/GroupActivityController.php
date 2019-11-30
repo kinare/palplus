@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Group;
 
+use App\ActivityContacts;
 use App\ActivityMembers;
 use App\Contribution;
 use App\ContributionType;
 use App\GroupActivity;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ActivityContactResource;
 use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
+use App\Http\Resources\ItineraryResource;
 use App\Http\Resources\MemberResource;
+use App\Itinerary;
 use App\Members;
 use App\Transaction;
 use App\User;
@@ -56,7 +60,6 @@ class GroupActivityController extends BaseController
      *   @SWG\Parameter(name="name",in="formData",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="formData",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
-     *   @SWG\Parameter(name="itinerary",in="formData",description="itinerary",required=false,type="string"),
      *   @SWG\Parameter(name="start_date",in="formData",description="start date",required=true,type="string"),
      *   @SWG\Parameter(name="end_date",in="formData",description="end date",required=true,type="string"),
      *   @SWG\Parameter(name="cut_off_date",in="formData",description="cut off date",required=false,type="string"),
@@ -76,7 +79,6 @@ class GroupActivityController extends BaseController
      *
      * )
      */
-
     public function store(Request $request)
     {
         try{
@@ -129,12 +131,9 @@ class GroupActivityController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="Activity id",required=true,type="string"),
-     *   @SWG\Parameter(name="group_id",in="formData",description="Group id",required=true,type="string"),
-     *   @SWG\Parameter(name="activity_type_id",in="formData",description="Activity type id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="formData",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="formData",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="avatar",in="formData",description="avatar",required=false,type="file"),
-     *   @SWG\Parameter(name="itinerary",in="formData",description="itinerary",required=false,type="string"),
      *   @SWG\Parameter(name="start_date",in="formData",description="start date",required=true,type="string"),
      *   @SWG\Parameter(name="end_date",in="formData",description="end date",required=true,type="string"),
      *   @SWG\Parameter(name="cut_off_date",in="formData",description="cut off date",required=false,type="string"),
@@ -400,15 +399,63 @@ class GroupActivityController extends BaseController
      */
     public function members($activity_id){
         try{
-
             $actMembers = ActivityMembers::where('activity_id', $activity_id)->get();
             $members = [];
-
             foreach ($actMembers as $actMember){
                 array_push($members, $actMember->member_id);
             }
-
             return MemberResource::collection(Members::whereIn('id', $members)->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/itineraries/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity Itineraries",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function itinerary($activity_id){
+        try{
+            return ItineraryResource::collection(Itinerary::where('activity_id', $activity_id)->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/contacts/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity Emergency Contacts",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function contact($activity_id){
+        try{
+            return ActivityContactResource::collection(ActivityContacts::where('activity_id', $activity_id)->get());
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

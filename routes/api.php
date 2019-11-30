@@ -276,7 +276,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
                 Route::get('/{id}', 'GroupController@show');
-                Route::patch('/{id}', 'GroupController@update');
+                Route::post('/{id}', 'GroupController@update');
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
                 Route::get('/me/{group_id}', 'GroupController@me');
@@ -311,17 +311,40 @@ Route::group(['middleware' => ['json.response']], function () {
             });
 
             Route::group(['prefix' => 'activity'], function () {
-                Route::get('/', 'GroupActivityController@index');
-                Route::post('/', 'GroupActivityController@store');
-                Route::get('/{id}', 'GroupActivityController@show');
-                Route::get('/contributions/{activity_id}', 'GroupActivityController@activityContributionTypes');
-                Route::patch('/{id}', 'GroupActivityController@update');
-                Route::delete('/{id}', 'GroupActivityController@destroy');
-                Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');
-                Route::post('/join', 'GroupActivityController@join');
-                Route::post('/leave', 'GroupActivityController@leave');
-                Route::post('/pay', 'GroupActivityController@pay');
-                Route::get('/members/{activity_id}', 'GroupActivityController@members');
+
+                Route::group(['prefix' => 'contact'], function () {
+                    Route::get('/', 'ActivityContactsController@index');
+                    Route::post('/', 'ActivityContactsController@store');
+                    Route::get('/{id}', 'ActivityContactsController@show');
+                    Route::patch('/{id}', 'ActivityContactsController@update');
+                    Route::delete('/{id}', 'ActivityContactsController@destroy');
+                    Route::delete('/{id}/force', 'ActivityContactsController@forceDestroy');
+                });
+
+                Route::group(['prefix' => 'itinerary'], function () {
+                    Route::get('/', 'ItineraryController@index');
+                    Route::post('/', 'ItineraryController@store');
+                    Route::get('/{id}', 'ItineraryController@show');
+                    Route::patch('/{id}', 'ItineraryController@update');
+                    Route::delete('/{id}', 'ItineraryController@destroy');
+                    Route::delete('/{id}/force', 'ItineraryController@forceDestroy');
+                });
+
+                Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'GroupActivityController@index');
+                    Route::post('/', 'GroupActivityController@store');
+                    Route::get('/{id}', 'GroupActivityController@show');
+                    Route::get('/contributions/{activity_id}', 'GroupActivityController@activityContributionTypes');
+                    Route::patch('/{id}', 'GroupActivityController@update');
+                    Route::delete('/{id}', 'GroupActivityController@destroy');
+                    Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');
+                    Route::post('/join', 'GroupActivityController@join');
+                    Route::post('/leave', 'GroupActivityController@leave');
+                    Route::post('/pay', 'GroupActivityController@pay');
+                    Route::get('/members/{activity_id}', 'GroupActivityController@members');
+                    Route::get('/itineraries/{activity_id}', 'GroupActivityController@itinerary');
+                    Route::get('/contacts/{activity_id}', 'GroupActivityController@contact');
+                });
             });
 
             Route::group(['prefix' => 'activity-type'], function () {

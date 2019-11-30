@@ -38,11 +38,14 @@ class GroupActivity extends BaseModel
     }
 
     public function hasJoined($group_id){
-        return $this->isMember(
-            Members::where([
-                'user_id' => Auth::user()->id,
-                'group_id' =>$group_id
-            ])->first()->id
-        );
+        $member =  Members::where([
+            'user_id' => Auth::user()->id,
+            'group_id' =>$group_id
+        ])->first();
+
+        if (!$member)
+            return false;
+
+        return $this->isMember($member->id);
     }
 }
