@@ -40,6 +40,7 @@ class ItineraryController extends BaseController
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="location",in="query",description="location",required=true,type="string"),
      *   @SWG\Parameter(name="date",in="query",description="date",required=true,type="string"),
+     *   @SWG\Parameter(name="time",in="query",description="time",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -58,6 +59,7 @@ class ItineraryController extends BaseController
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="location",in="query",description="location",required=true,type="string"),
      *   @SWG\Parameter(name="date",in="query",description="date",required=true,type="string"),
+     *   @SWG\Parameter(name="time",in="query",description="time",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
