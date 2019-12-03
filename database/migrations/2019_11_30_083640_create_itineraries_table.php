@@ -16,10 +16,10 @@ class CreateItinerariesTable extends Migration
         Schema::create('itineraries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('activity_id');
-            $table->string('description')->nullable();;
-            $table->string('location')->nullable();;
-            $table->date('date')->nullable();;
-            $table->time('time')->nullable();;
+            $table->string('description')->nullable();
+            $table->string('location')->nullable();
+            $table->date('date')->nullable();
+            $table->time('time')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

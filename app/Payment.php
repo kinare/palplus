@@ -23,4 +23,10 @@ class Payment extends BaseModel
         $self->created_by = Auth::user()->id;
         $self->save();
     }
+
+    public function scopeStatus($query, $args){
+        return $query->where('status', $args);
+    }
+
+
 }

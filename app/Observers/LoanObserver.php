@@ -2,11 +2,13 @@
 
 namespace App\Observers;
 
+use App\Contribution;
 use App\Http\Controllers\AccountingController;
 use App\Loan;
 use App\Members;
 use App\Notification;
 use App\NotificationTypes;
+use App\Payment;
 use App\User;
 use App\Wallet;
 use Carbon\Carbon;
@@ -79,6 +81,16 @@ class LoanObserver
                     'notification_types_id' => NotificationTypes::getTypeId('APPROVAL'),
                 ]);
             }
+
+            //create a pending payment for the loan
+            Payment::init([
+                'user_id' => Members::find($loan->member_id)->user_id,
+                'description' => 'Loan repayment',
+                'model' => Loan::class,
+                'model_id' => $loan->id,
+                'transaction_code' => $loan->code,
+                'amount' =>  $loan->loan_amount,
+            ]);
         }
     }
 

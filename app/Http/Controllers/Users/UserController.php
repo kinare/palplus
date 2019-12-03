@@ -20,6 +20,7 @@ use App\Http\Resources\WalletResource;
 use App\Loan;
 use App\Members;
 use App\Notification;
+use App\Payment;
 use App\Transaction;
 use App\User;
 use App\Wallet;
@@ -338,7 +339,7 @@ class UserController extends BaseController
      * @SWG\Get(
      *   path="/user/payments",
      *   tags={"User"},
-     *   summary="My Payments",
+     *   summary="My Pending Payments",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -351,7 +352,7 @@ class UserController extends BaseController
     public function payments(Request $request)
     {
         try{
-            return new PaymentResource($request->user()->payments()->get());
+            return PaymentResource::collection(Payment::status('pending')->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

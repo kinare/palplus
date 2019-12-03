@@ -3,6 +3,8 @@
 namespace App;
 
 
+use Illuminate\Support\Facades\Auth;
+
 class Contribution extends BaseModel
 {
     protected $fillable = [
@@ -59,5 +61,17 @@ class Contribution extends BaseModel
             $total += (float)$contribution->amount;
         }
         return $total;
+    }
+
+    public static function contribute(ContributionType $type, Members $member, float $amount) : self
+    {
+        $contribution = new self();
+        $contribution->contribution_types_id = $type->id;
+        $contribution->group_id = $type->group_id;
+        $contribution->member_id = $member->id;
+        $contribution->amount = $amount;
+        $contribution->created_by = Auth::user()->id;
+        $contribution->save();
+        return $contribution;
     }
 }

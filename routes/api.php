@@ -201,6 +201,11 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
 
             });
+
+            Route::group(['prefix' => 'payments'], function () {
+                Route::get('/', 'PaymentController@index');
+                Route::post('/pay', 'PaymentController@pay');
+            });
         });
 
         Route::group(['prefix' => 'member'], function () {

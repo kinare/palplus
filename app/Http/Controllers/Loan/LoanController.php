@@ -235,49 +235,19 @@ class LoanController extends BaseController
         ]);
 
         $loan = Loan::find($request->loan_id);
-        $wallet = Wallet::mine();
-        $groupWallet = Wallet::group($loan->group_id);
+        $loan = Loan::pay($loan, $request->amount);
 
-        if (!$wallet->canWithdraw($request->amount))
+        //if loan cleared
+        if ($loan->balance_amount <= 0){
             return response()->json([
-                'message' => 'Insufficient funds balance: '.$wallet->total_balance
-            ], 403);
+                'message' => 'Loan Cleared Successfully. Loan balance: '.$loan->balance_amount
+            ], 200);
+        }
 
-        AccountingController::transact(
-            $wallet,
-            $groupWallet,
-            $request->amount,
-            [
-                'model' => Loan::class,
-                'model_id' => $loan->id,
-                'description' => 'Loan Re-payment',
-                'account' => '',
-                'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-            ]
-            );
-
-        $loan->balance_amount = (float)$loan->balance_amount - (float)$request->amount;
-        $loan->paid_amount = (float)$loan->paid_amount + (float)$request->amount;
-        $loan->save();
-
+        //loan payment response
         return response()->json([
             'message' => 'Loan repayment successful. Loan balance: '.$loan->balance_amount.' pay before '.Carbon::parse($loan->end_date)->toDateString()
-        ], 403);
-
-
-
-
-
-
-
-
-
-        /*
-         * validate payment request
-         * validate loan status and balance
-         * validate wallet balance
-         * transact from member account to group account
-         * */
+        ], 200);
     }
 
 }

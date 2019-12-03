@@ -66,12 +66,6 @@ class ContributionController extends BaseController
 
         //validate wallet
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-        if (!$wallet)
-            return response()->json([
-                'message' => 'Please setup your wallet to continue'
-            ], 401);
-
-
         if (!$wallet->canWithdraw($request->amount))
             return response()->json([
                 'message' => 'Insufficient funds. top up to continue'
@@ -84,13 +78,7 @@ class ContributionController extends BaseController
             'group_id' => $type->group_id,
         ])->first();
 
-        $contribution = new Contribution();
-        $contribution->contribution_types_id = $type->id;
-        $contribution->group_id = $type->group_id;
-        $contribution->member_id = $member->id;
-        $contribution->amount = $request->amount;
-        $contribution->created_by = $request->user()->id;
-        $contribution->save();
+        $contribution = Contribution::contribute($type, $member, $request->amount);
         return response()->json([
             'message' => 'Contribution Successful'
         ], 200);
