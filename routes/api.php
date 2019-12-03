@@ -168,6 +168,7 @@ Route::group(['middleware' => ['json.response']], function () {
         });
 
         Route::namespace('Finance')->group(function (){
+
             Route::group(['prefix' => 'wallet'], function () {
                 Route::get('/', 'WalletController@index');
                 Route::get('/{id}', 'WalletController@show');
@@ -205,6 +206,22 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'payments'], function () {
                 Route::get('/', 'PaymentController@index');
                 Route::post('/pay', 'PaymentController@pay');
+            });
+
+            Route::group(['prefix' => 'accounts'], function () {
+
+                Route::group(['prefix' => 'types'], function () {
+                    Route::get('/', 'AccountTypeController@index');
+                });
+
+                Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'AccountController@index');
+                    Route::post('/', 'AccountController@store');
+                    Route::get('/{id}', 'AccountController@show');
+                    Route::patch('/{id}', 'AccountController@update');
+                    Route::delete('/{id}', 'AccountController@destroy');
+                    Route::delete('/{id}/force', 'AccountController@forceDestroy');
+                });
             });
         });
 

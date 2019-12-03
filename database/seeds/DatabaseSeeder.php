@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
          $this->call(CurrencySeed::class);
          $this->call(LoanPeriodSeed::class);
          $this->call(NotificationTypesSeed::class);
+         $this->call(AccountTypeSeeder::class);
     }
 }
