@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Currency\Converter;
 use App\Transaction;
 use App\Wallet;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,12 @@ class AccountingController extends Controller
              */
             if ($from->isNot($to))
                 self::debit($from, $amount, $details);
-           self::credit($to, $amount, $details);
+
+            /** Convert currency if not same*/
+            if ($from->currencyShortDesc() !== $to->currencyShortDesc())
+                $amount = Converter::Convert($from->currencyShortDesc(), $to->currencyShortDesc(), $amount);
+
+            self::credit($to, $amount, $details);
         }catch (\Exception $exception){
             throw $exception;
         }

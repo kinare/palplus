@@ -49,7 +49,7 @@ class LoanObserver
         if ($loan->isDirty('status')){
 
             //Get Member
-            $member = Members::find($loan->member_id)->user_id;
+            $member = Members::find($loan->member_id);
 
             if ($loan->status = 'approved'){
                 Notification::make([

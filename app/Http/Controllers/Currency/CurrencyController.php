@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Currency;
 use App\Currency;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\CurrencyResource;
-
+use Illuminate\Http\Request;
 class CurrencyController extends BaseController
 {
     public function __construct($model = Currency::class, $resource = CurrencyResource::class)
@@ -111,4 +111,30 @@ class CurrencyController extends BaseController
      *
      * )
      */
+
+    /**
+     * @SWG\Post(
+     *   path="/currency/convert",
+     *   tags={"Currency"},
+     *   summary="Convert currency amount",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="from",in="query",description="from currency",required=true,type="string"),
+     *   @SWG\Parameter(name="to",in="query",description="to currency",required=true,type="string"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function convert(Request $request){
+        $request->validate([
+            'from' => 'required',
+            'to' => 'required',
+            'amount' => 'required'
+        ]);
+        return Converter::Convert($request->from, $request->to, $request->amount);
+    }
 }

@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.2.0 on 2019-12-05 09:59:10.
+ * Generated for Laravel 6.2.0 on 2019-12-05 15:02:36.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15207,6 +15207,41 @@ namespace Laravolt\Avatar {
  
 }
 
+namespace Srmklive\PayPal\Facades { 
+
+    /**
+     * 
+     *
+     */ 
+    class PayPal {
+        
+        /**
+         * Get specific PayPal API provider object to use.
+         *
+         * @return \Srmklive\PayPal\ExpressCheckout|\Srmklive\PayPal\AdaptivePayments 
+         * @static 
+         */ 
+        public static function getProvider()
+        {
+                        return \Srmklive\PayPal\PayPalFacadeAccessor::getProvider();
+        }
+        
+        /**
+         * Set specific PayPal API to use.
+         *
+         * @param string $option
+         * @return \Srmklive\PayPal\ExpressCheckout|\Srmklive\PayPal\AdaptivePayments 
+         * @static 
+         */ 
+        public static function setProvider($option = '')
+        {
+                        return \Srmklive\PayPal\PayPalFacadeAccessor::setProvider($option);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -18048,6 +18083,8 @@ namespace  {
     class Image extends \Intervention\Image\Facades\Image {}
 
     class Avatar extends \Laravolt\Avatar\Facade {}
+
+    class PayPal extends \Srmklive\PayPal\Facades\PayPal {}
  
 }
 

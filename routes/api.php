@@ -49,6 +49,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {
             Route::get('/', 'CurrencyController@index');
+            Route::post('/convert', 'CurrencyController@convert');
         });
     });
 

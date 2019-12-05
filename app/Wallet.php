@@ -63,5 +63,9 @@ class Wallet extends BaseModel
         return $total;
     }
 
+    public function currencyShortDesc(){
+        return Currency::find($this->currency_id)->short_description;
+    }
+
 
 }
