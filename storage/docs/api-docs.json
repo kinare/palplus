@@ -4828,6 +4828,72 @@
                 ]
             }
         },
+        "/group/pending-payments/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Pending Payments",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/my-payments/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Pending Payments",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/expense": {
             "get": {
                 "tags": [
@@ -7447,6 +7513,46 @@
                     "Notification Types"
                 ],
                 "summary": "Retrieve Notification Types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/sms": {
+            "post": {
+                "tags": [
+                    "SMS"
+                ],
+                "summary": "Send SMS",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "message",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

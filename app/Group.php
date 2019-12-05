@@ -23,12 +23,12 @@ class Group extends BaseModel
 
     public function settings()
     {
-        return $this->hasMany('GroupSetting', 'id', 'setting_id');
+        return $this->hasMany('App\GroupSetting', 'id', 'setting_id');
     }
 
     public function activities()
     {
-        return $this->hasMany('GroupActivity', 'group_id', 'id');
+        return $this->hasMany('App\GroupActivity', 'group_id', 'id');
     }
 
     public function type()
@@ -38,7 +38,7 @@ class Group extends BaseModel
 
     public function invitations()
     {
-        return $this->hasMany('Invitation', 'group_id', 'id');
+        return $this->hasMany('App\Invitation', 'group_id', 'id');
     }
 
     public function approvers()
@@ -48,12 +48,12 @@ class Group extends BaseModel
 
     public function wallet()
     {
-        return $this->hasOne('Wallet', 'id', 'wallet_id');
+        return $this->hasOne('App\Wallet', 'id', 'wallet_id');
     }
 
     public function attachments()
     {
-        return $this->hasMany('GroupAttachment', 'group_id', 'id');
+        return $this->hasMany('App\GroupAttachment', 'group_id', 'id');
     }
 
     protected $appends = ['avatar_url'];

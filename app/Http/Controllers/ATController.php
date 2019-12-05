@@ -13,23 +13,19 @@ class ATController extends Controller
     {
         $this->username = env('AT_USERNAME');
         $this->key = env('AT_API_KEY');
-
         $this->at = new AfricasTalking($this->username, $this->key);
     }
 
-    public static function sendSms(array $to, string $message, bool $enqueue = false, string $from = null ){
+    public static function sendSms(array $to, string $message,  string $from = null, bool $enqueue = false){
         $self = new self();
         $sms = $self->at->sms();
         $options = [
             'to' => $to,
             'message' => $message,
             'from' => $from,
-            'enqueue' => true
+            'enqueue' => $enqueue
         ];
 
         return $sms->send($options);
     }
-
-
-
 }

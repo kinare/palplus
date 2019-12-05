@@ -21,6 +21,7 @@ class MemberObserver
         if ($setting->membership_fee)
             Payment::init([
                 'user_id' => $members->user_id,
+                'group_id' => $members->group_id,
                 'description' => 'Membership Fee',
                 'model' => Contribution::class,
                 'model_id' => Contribution::where(['group_id'=>$members->group_id, 'membership_fee' => true])->first()->id,

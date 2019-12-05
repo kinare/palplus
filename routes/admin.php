@@ -14,7 +14,7 @@ Route::namespace('Admin')->group(function (){
         Route::post('/', 'AdminPasswordResetController@reset');
     });
 
-    Route::group(['middleware' => 'multiauth:admin'], function () {
+    Route::group(['middleware' => 'auth:admin'], function () {
         Route::post('refresh', 'AdminAuthController@refresh');
         Route::get('logout', 'AdminAuthController@logout');
         Route::get('me', 'AdminAuthController@me');

@@ -54,6 +54,10 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
 
+        Route::group(['prefix' => 'sms'], function () {
+            Route::post('/', 'SmsController@send');
+        });
+
         Route::namespace('Loan')->group(function (){
             Route::group(['prefix' => 'loan'], function () {
 
@@ -319,6 +323,8 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
                 Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
                 Route::get('/type/{type_id}', 'GroupController@byType');
+                Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
+                Route::get('/my-payments/{group_id}', 'GroupController@myPendingPayments');
             });
 
             Route::group(['prefix' => 'expense'], function () {

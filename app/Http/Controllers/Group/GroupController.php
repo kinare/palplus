@@ -18,14 +18,18 @@ use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupSettingResource;
 use App\Http\Resources\LoanSettingResource;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\PaymentResource;
 use App\Http\Resources\WalletResource;
 use App\Http\Resources\WithdrawalSettingResource;
 use App\LoanSetting;
 use App\Members;
+use App\Payment;
 use App\Wallet;
 use App\WithdrawalSetting;
+use Auth;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Facade as Avatar;
@@ -228,7 +232,7 @@ class GroupController extends BaseController
      *
      * )
      * @param $type_id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
     public function byType($type_id){
         return GroupResource::collection(Group::where('type_id', $type_id)->get());
@@ -837,7 +841,7 @@ class GroupController extends BaseController
     {
         try{
             return GroupActivityResource::collection(GroupActivity::where('group_id', $group_id )->get());
-        }catch (\Exception $e){
+        }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
             ],500);
@@ -863,7 +867,7 @@ class GroupController extends BaseController
     {
         try{
             return LoanSettingResource::collection(LoanSetting::where('group_id', $group_id )->get());
-        }catch (\Exception $e){
+        }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
             ],500);
@@ -889,7 +893,59 @@ class GroupController extends BaseController
     {
         try{
             return WithdrawalSettingResource::collection(WithdrawalSetting::where('group_id', $group_id )->get());
-        }catch (\Exception $e){
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/pending-payments/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group Pending Payments",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function pendingPayments($group_id)
+    {
+        try{
+            return PaymentResource::collection(Payment::where('group_id', $group_id )->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/my-payments/{group_id}",
+     *   tags={"Group"},
+     *   summary="Group Pending Payments",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function myPendingPayments($group_id)
+    {
+        try{
+            return PaymentResource::collection(Payment::where(['group_id' => $group_id, 'user_id' => Auth::user()->id] )->get());
+        }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
             ],500);

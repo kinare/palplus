@@ -48,9 +48,12 @@ class LoanObserver
     {
         if ($loan->isDirty('status')){
 
+            //Get Member
+            $member = Members::find($loan->member_id)->user_id;
+
             if ($loan->status = 'approved'){
                 Notification::make([
-                    'user_id' => Members::find($loan->member_id)->user_id,
+                    'user_id' => $member->user_id,
                     'subject' => 'Loan Approval',
                     'message' => 'Your loan of '.$loan->loan_amount.' has been approved',
                     'payload' => '',
@@ -60,7 +63,7 @@ class LoanObserver
                 //transact
                 AccountingController::transact(
                     Wallet::where('group_id', $loan->group_id)->first(),
-                    Wallet::where('user_id', Members::find($loan->member_id)->user_id)->first(),
+                    Wallet::where('user_id', $member->user_id)->first(),
                     $loan->loan_amount,
                     [
                         'model' => Loan::class,
@@ -73,8 +76,10 @@ class LoanObserver
             }
 
             if ($loan->status === 'declined'){
+
+                //Send notice
                 Notification::make([
-                    'user_id' => Members::find($loan->member_id)->user_id,
+                    'user_id' =>$member->user_id,
                     'subject' => 'Loan Application',
                     'message' => 'Your loan of '.$loan->loan_amount.' has been declined',
                     'payload' => '',
@@ -84,7 +89,8 @@ class LoanObserver
 
             //create a pending payment for the loan
             Payment::init([
-                'user_id' => Members::find($loan->member_id)->user_id,
+                'user_id' => $member->user_id,
+                'group_id' => $member->group_id,
                 'description' => 'Loan repayment',
                 'model' => Loan::class,
                 'model_id' => $loan->id,

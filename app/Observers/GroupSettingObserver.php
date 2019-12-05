@@ -88,11 +88,10 @@ class GroupSettingObserver
                 ]);
 
             if (!$groupSetting->membership_fee)
-                $contrib = ContributionType::where([
+                ContributionType::where([
                     'group_id' => $groupSetting->group_id,
                     'membership_fee' => true
-                ])->first();
-            $contrib->delete();
+                ])->delete();
         }
     }
 

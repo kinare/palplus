@@ -9,6 +9,7 @@ class Payment extends BaseModel
 {
     protected $fillable = [
         'user_id',
+        'group_id',
         'description',
         'model',
         'model_id',
