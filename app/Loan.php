@@ -16,10 +16,10 @@ class Loan extends BaseModel
 
     public static function hasLoan(Members $member) : bool
     {
-        $loan = self::where('member_id', $member->id)->first();
-        dump($loan);
+        $loan = self::where(['member_id' => $member->id, 'group_id' => $member->group_id])->orderBy('created_at', 'desc')->first();
         if (!$loan)
             return false;
+
         if ($loan->status === 'pending' || $loan->status === 'processing' || $loan->status === 'approved')
             return true;
 
