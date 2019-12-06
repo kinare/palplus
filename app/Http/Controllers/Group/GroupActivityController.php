@@ -514,4 +514,30 @@ class GroupActivityController extends BaseController
         }
     }
 
+    /**
+     * @SWG\Get(
+     *   path="/activity/featured",
+     *   tags={"Activity"},
+     *   summary="Featured activities",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function featured(){
+        try{
+            return GroupActivityResource::collection(GroupActivity::featured()->get());
+        }catch (\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+
+
 }

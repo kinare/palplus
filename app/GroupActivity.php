@@ -48,4 +48,8 @@ class GroupActivity extends BaseModel
 
         return $this->isMember($member->id);
     }
+
+    public function scopeFeatured($query){
+        return $query->where('featured', true);
+    }
 }

@@ -46,6 +46,15 @@ Route::group(['middleware' => ['json.response']], function () {
     //Dashboard Routes
     Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
+    Route::namespace('Integration/Paypal')->group(function (){
+        Route::group(['prefix' => 'paypal'], function () {
+            Route::get('/ec-checkout', 'ExpressCheckoutController@getExpressCheckout');
+            Route::get('/ec-checkout-success', 'ExpressCheckoutController@getExpressCheckoutSuccess');
+            Route::get('/adaptive-pay', 'PayPalController@getAdaptivePay');
+            Route::post('/notify', 'PayPalController@notify');
+        });
+    });
+
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {
             Route::get('/', 'CurrencyController@index');
@@ -322,6 +331,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/projects/{group_id}', 'GroupController@projects');
                 Route::get('/activities/{group_id}', 'GroupController@activities');
                 Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
+                Route::get('/withdrawals/{group_id}', 'GroupController@withdrawals');
                 Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
                 Route::get('/type/{type_id}', 'GroupController@byType');
                 Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
@@ -362,6 +372,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::group(['prefix' => ''], function () {
                     Route::get('/', 'GroupActivityController@index');
                     Route::post('/', 'GroupActivityController@store');
+                    Route::get('/featured', 'GroupActivityController@featured');
                     Route::get('/{id}', 'GroupActivityController@show');
                     Route::get('/contributions/{activity_id}', 'GroupActivityController@activityContributionTypes');
                     Route::patch('/{id}', 'GroupActivityController@update');

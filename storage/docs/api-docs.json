@@ -3897,6 +3897,30 @@
                 ]
             }
         },
+        "/activity/featured": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Featured activities",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group": {
             "get": {
                 "tags": [
@@ -4848,6 +4872,39 @@
                     "Group"
                 ],
                 "summary": "Withdrawal setting by group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/withdrawals/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Withdrawals for group",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -5893,7 +5950,7 @@
                     }
                 ]
             },
-            "patch": {
+            "post": {
                 "tags": [
                     "Group Setting"
                 ],

@@ -20,11 +20,13 @@ use App\Http\Resources\LoanSettingResource;
 use App\Http\Resources\MemberResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\WalletResource;
+use App\Http\Resources\WithdrawalResource;
 use App\Http\Resources\WithdrawalSettingResource;
 use App\LoanSetting;
 use App\Members;
 use App\Payment;
 use App\Wallet;
+use App\Withdrawal;
 use App\WithdrawalSetting;
 use Auth;
 use Exception;
@@ -893,6 +895,32 @@ class GroupController extends BaseController
     {
         try{
             return WithdrawalSettingResource::collection(WithdrawalSetting::where('group_id', $group_id )->get());
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ],500);
+        }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/withdrawals/{group_id}",
+     *   tags={"Group"},
+     *   summary="Withdrawals for group",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function withdrawals($group_id)
+    {
+        try{
+            return WithdrawalResource::collection(Withdrawal::where('group_id', $group_id )->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
