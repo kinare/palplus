@@ -40,7 +40,7 @@ class GroupSettingController extends BaseController
     }
 
     /**
-     * @SWG\Patch(
+     * @SWG\Post(
      *   path="/group-setting/{id}",
      *   tags={"Group Setting"},
      *   summary="Update group Membership Setting",

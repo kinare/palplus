@@ -296,7 +296,7 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'group-setting'], function () {
                 Route::get('/', 'GroupSettingController@index');
                 Route::get('/{id}', 'GroupSettingController@show');
-                Route::patch('/{id}', 'GroupSettingController@update');
+                Route::post('/{id}', 'GroupSettingController@update');
             });
 
             Route::group(['prefix' => 'group'], function () {
