@@ -65,7 +65,7 @@ class AccountingController extends Controller
             if ($from->isNot($to))
                 self::debit($from, $amount, $details);
 
-            /** Convert currency if not same*/
+            /** Convert currency if not same */
             if ($from->currencyShortDesc() !== $to->currencyShortDesc())
                 $amount = Converter::Convert($from->currencyShortDesc(), $to->currencyShortDesc(), $amount);
 

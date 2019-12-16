@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Currency;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Http\HttpClient;
-use Illuminate\Http\Request;
+use App\Lib\Http\HttpClient;
 
 class Converter extends Controller
 {
@@ -27,10 +26,10 @@ class Converter extends Controller
     }
 
     public function getRates($from, $to){
-        return HttpClient::get($this->builUrl($from, $to));
+        return HttpClient::get($this->buildUrl($from, $to));
     }
 
-    public function builUrl($from, $to){
+    public function buildUrl($from, $to){
         return $this->api.'?access_key='.$this->accessKey.'&currencies='.$from.','.$to.'&source='.$this->base;
     }
 }

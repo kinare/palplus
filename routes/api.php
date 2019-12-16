@@ -46,13 +46,17 @@ Route::group(['middleware' => ['json.response']], function () {
     //Dashboard Routes
     Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
-    Route::namespace('Integration/Paypal')->group(function (){
-        Route::group(['prefix' => 'paypal'], function () {
-            Route::get('/ec-checkout', 'ExpressCheckoutController@getExpressCheckout');
-            Route::get('/ec-checkout-success', 'ExpressCheckoutController@getExpressCheckoutSuccess');
-            Route::get('/adaptive-pay', 'PayPalController@getAdaptivePay');
-            Route::post('/notify', 'PayPalController@notify');
+    //Dashboard Routes
+    Route::prefix('test')->group(base_path('routes/test.php'));
+
+    Route::namespace('Integration')->group(function (){
+        Route::group(['prefix' => 'gateway'], function () {
+            Route::get('/test', 'TestIntegration@test');
         });
+        Route::get('paypal/ec-checkout-success', 'Paypal\ExpressCheckoutController@getCheckoutSuccess');
+
+        Route::post('/pay', 'RaveController@initialize')->name('pay');
+        Route::post('/rave/callback', 'RaveController@callback')->name('callback');
     });
 
     Route::namespace('Currency')->group(function (){

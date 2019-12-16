@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Http;
+namespace App\Lib\Http;
 
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
-class HttpClient extends Controller
-{
-    public static function post($url, $params = null){
+class HttpClient{
+    public static function post($url, $params = null, $headers = []){
         $client = new Client();
-        $res =  $client->request('POST', $url, $params);
+        $res =  $client->request('POST', $url, $params, $headers);
         return $res->getBody();
     }
 

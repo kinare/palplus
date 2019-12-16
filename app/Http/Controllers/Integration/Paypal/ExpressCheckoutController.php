@@ -11,8 +11,8 @@ class ExpressCheckoutController extends PaypalController
     {
         parent::__construct($provider);
 
-        $this->data['return_url'] = url('/paypal/ec-checkout-success');
-        $this->data['cancel_url'] = url('/');
+        $this->data['return_url'] = url('api/paypal/ec-checkout-success');
+        $this->data['cancel_url'] = url('api/');
     }
 
     public function setItems(array $items){
@@ -21,7 +21,7 @@ class ExpressCheckoutController extends PaypalController
 
     public function setInvoice(array $invoice){
         $this->data['invoice_id'] = $invoice['invoice_id'];
-        $this->data['invoice_description'] = $invoice['description'];
+        $this->data['invoice_description'] = $invoice['invoice_description'];
 
         $total = 0;
         foreach ($this->data['items'] as $item) {
@@ -36,6 +36,6 @@ class ExpressCheckoutController extends PaypalController
     }
 
     public function getCheckoutSuccess(Request $request){
-        dump($request);
+        return $request;
     }
 }

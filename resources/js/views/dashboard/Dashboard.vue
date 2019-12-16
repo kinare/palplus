@@ -9,6 +9,7 @@
 
 <!--        main content-->
         <main-content/>
+
       </div>
     </div>
   </div>

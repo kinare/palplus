@@ -529,6 +529,44 @@
                 }
             }
         },
+        "/test/rave/card": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Test Rave card",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/test/rave/validate-card": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Validate Rave card",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -6614,6 +6652,30 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/test": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Test Integration",
                 "responses": {
                     "200": {
                         "description": "Success"
