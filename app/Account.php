@@ -6,5 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends BaseModel
 {
-    protected $fillable = ['user_id', 'account_type_id', 'number', 'name', 'address', 'country', 'cvv', 'limit', 'expiry'];
+    protected $fillable = [
+        'user_id',
+        'account_type_id',
+        'number',
+        'email',
+        'phonenumber',
+        'firstname',
+        'lastname',
+        'expirymonth',
+        'expiryyear',
+        'address',
+        'country',
+        'cvv',
+        'currency',
+        'billingzip',
+        'billingcity',
+        'billingaddress',
+        'billingstate',
+        'billingcountry',
+    ];
 }

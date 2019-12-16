@@ -1713,9 +1713,30 @@
                         "type": "string"
                     },
                     {
-                        "name": "name",
+                        "name": "firstname",
                         "in": "query",
-                        "description": "name",
+                        "description": "firstname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "lastname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phonenumber",
+                        "in": "query",
+                        "description": "phonenumber",
                         "required": false,
                         "type": "string"
                     },
@@ -1734,6 +1755,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "currency_id",
+                        "in": "query",
+                        "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "cvv",
                         "in": "query",
                         "description": "cvv",
@@ -1741,16 +1769,51 @@
                         "type": "string"
                     },
                     {
-                        "name": "limit",
+                        "name": "billingzip",
                         "in": "query",
-                        "description": "limit",
+                        "description": "billingzip",
                         "required": false,
-                        "type": "number"
+                        "type": "string"
                     },
                     {
-                        "name": "expiry",
+                        "name": "billingcity",
                         "in": "query",
-                        "description": "expiry",
+                        "description": "billingcity",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingaddress",
+                        "in": "query",
+                        "description": "billingaddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingstate",
+                        "in": "query",
+                        "description": "billingstate",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcountry",
+                        "in": "query",
+                        "description": "billingcountry",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expirymonth",
+                        "in": "query",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
                         "required": false,
                         "type": "string"
                     }
@@ -1857,9 +1920,30 @@
                         "type": "string"
                     },
                     {
-                        "name": "name",
+                        "name": "firstname",
                         "in": "query",
-                        "description": "name",
+                        "description": "firstname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "lastname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phonenumber",
+                        "in": "query",
+                        "description": "phonenumber",
                         "required": false,
                         "type": "string"
                     },
@@ -1878,6 +1962,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "currency_id",
+                        "in": "query",
+                        "description": "currency id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "cvv",
                         "in": "query",
                         "description": "cvv",
@@ -1885,11 +1976,39 @@
                         "type": "string"
                     },
                     {
-                        "name": "limit",
+                        "name": "billingzip",
                         "in": "query",
-                        "description": "limit",
+                        "description": "billingzip",
                         "required": false,
-                        "type": "number"
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcity",
+                        "in": "query",
+                        "description": "billingcity",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingaddress",
+                        "in": "query",
+                        "description": "billingaddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingstate",
+                        "in": "query",
+                        "description": "billingstate",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcountry",
+                        "in": "query",
+                        "description": "billingcountry",
+                        "required": false,
+                        "type": "string"
                     },
                     {
                         "name": "expiry",
@@ -2304,6 +2423,126 @@
                         "name": "id",
                         "in": "path",
                         "description": "supplier id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/wallet/deposit": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Deposit to a Wallet",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway i.e CARD/MOBILE",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/card/pin": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Set card pin",
+                "parameters": [
+                    {
+                        "name": "pin",
+                        "in": "query",
+                        "description": "pin",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "description": "ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/card/otp": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Set card otp",
+                "parameters": [
+                    {
+                        "name": "otp",
+                        "in": "query",
+                        "description": "otp",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "description": "ref",
                         "required": true,
                         "type": "string"
                     }

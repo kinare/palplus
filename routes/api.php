@@ -192,6 +192,16 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/{id}', 'WalletController@show');
             });
 
+            Route::group(['prefix' => 'transaction'], function () {
+                Route::group(['prefix' => 'wallet'], function () {
+                    Route::post('/deposit', 'TransactionController@deposit');
+                });
+                Route::group(['prefix' => 'card'], function () {
+                    Route::post('/pin', 'TransactionController@setCardPin');
+                    Route::post('/otp', 'TransactionController@otp');
+                });
+            });
+
             Route::group(['prefix' => 'supplier'], function () {
                 Route::get('/', 'SuppliersController@index');
                 Route::post('/', 'SuppliersController@store');

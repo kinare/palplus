@@ -21,26 +21,19 @@ class ApiTest extends Controller
      * )
      */
     public function raveCardTest(){
-        $details = [
-            'PBFPubKey' => env('RAVE_PUBLIC_KEY'),
-            'cardno' => '5531886652142950',
-            'currency' => 'NGN',
-            'country' => 'NG',
-            'cvv' => '564',
-            'amount' => '10',
-            'expiryyear' => '22',
-            'expirymonth' => '09',
-            'suggested_auth' => 'pin',
-            'pin' => '3310',
-            'email' => 'tester@flutter.co',
-            'IP' => '103.238.105.185',
-            'txRef' => 'MXX-ASC-4578',
-            'device_fingerprint' => '69e6b7f0sb72037aa8428b70fbe03986c'
-        ];
+
+        $details = $this->getCard();
+        $details['PBFPubKey'] = env('RAVE_PUBLIC_KEY');
+        $details['amount'] = '10';
+        $details['IP'] = '103.238.105.185';
+        $details['txRef'] = 'MXX-ASC-4578';
+        $details['device_fingerprint'] = '69e6b7f0sb72037aa8428b70fbe03986c';
+        $details['amount'] = '3310';
 
         $card = new Card();
         return $card->initiate($details);
     }
+
 
     /**
      * @SWG\Get(
@@ -61,5 +54,17 @@ class ApiTest extends Controller
 
         $card = new Card();
         return $card->validate($data);
+    }
+
+    public function getCard(){
+        return [
+            'cardno' => '5258589130149016',
+            'currency' => 'NGN',
+            'country' => 'NG',
+            'cvv' => '887',
+            'expiryyear' => '20',
+            'expirymonth' => '11',
+            'email' => 'tester@flutter.co',
+        ];
     }
 }

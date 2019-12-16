@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Finance;
 
+use App\Account;
+use App\AccountType;
+use App\GatewayTransaction;
 use App\Group;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\WalletResource;
+use App\Lib\Rave\Card;
 use App\User;
 use App\Wallet;
+use Illuminate\Http\Request;
 
 class WalletController extends BaseController
 {
@@ -45,9 +50,4 @@ class WalletController extends BaseController
      *
      * )
      */
-
-
-
-
-
 }
