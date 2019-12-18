@@ -971,6 +971,4 @@ class GroupController extends BaseController
             ],500);
         }
     }
-
-
 }

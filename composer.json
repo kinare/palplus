@@ -20,7 +20,8 @@
         "laravolt/avatar": "^3.0",
         "smartins/passport-multiauth": "^4.1",
         "srmklive/paypal": "~1.0",
-        "zircote/swagger-php": "2.*"
+        "zircote/swagger-php": "2.*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

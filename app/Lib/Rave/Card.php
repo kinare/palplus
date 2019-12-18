@@ -14,33 +14,13 @@ class Card extends Rave
 
     public function transact(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload, true);
-        return $this->initiate($data);
-    }
-
-    public function initiate($data)
-    {
-        /* encrypt request data */
-        $details = $this->encrypt($data);
-
-        /* prepare postdata */
-        $postdata = [
-            'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
-            'client' => $details,
-            'alg' => '3DES-24'
-        ];
-
-        /* Execute request */
-        $res = $this->execute($postdata, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+        $res =  $this->initiate($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
 
         /* cache the data for later use */
-        $cache = [
-            'req' => $data,
-            'res' => $res,
-        ];
+        $cache = ['req' => $data, 'res' => $res];
         Cache::put($data['txRef'], $cache, Carbon::now()->addHours(12));
 
         $response = [];
-
 
         /* check for response status  */
         if (isset($res['status']) && $res['status'] === 'success'){
@@ -131,21 +111,23 @@ class Card extends Rave
         $details = Cache::get($data['ref'])['req'];
         $details['suggested_auth'] = 'PIN';
         $details['pin'] = $data['pin'];
-        return $this->initiate($details);
+        return $this->initiate($details, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
     }
 
-    public function validate($data)
-    {
-        $data = [
-            'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
-            'transaction_reference' => Cache::get($data['ref'])['res']['data']['flwRef'],
-            'otp' => $data['otp']
-        ];
-
-        $res = $this->execute($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/validatecharge');
-
+    public function otp($data){
+        $data['flwRef'] = Cache::get($data['ref'])['res']['data']['flwRef'];
+        $res = $this->validate($data,'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/validate');
         if (isset($res['status']) && $res['status'] === 'success')
             Cache::forget($data['ref']);
+        return $res;
+    }
+
+    public function confirm($data){
+        $res = $this->verify($data['ref'], 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify');
+
+        /*
+        todo update wallet
+        */
 
         return $res;
     }

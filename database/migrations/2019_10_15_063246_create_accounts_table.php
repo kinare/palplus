@@ -26,6 +26,10 @@ class CreateAccountsTable extends Migration
             $table->string('currency')->nullable();
             $table->string('country')->nullable();
             $table->string('cvv')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->string('accountbank')->nullable();
+            $table->string('passcode')->nullable();
+            $table->string('bvn')->nullable();
             $table->string('expirymonth')->nullable();
             $table->string('expiryyear')->nullable();
             $table->string('billingzip')->nullable();

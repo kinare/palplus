@@ -38,4 +38,37 @@ class Rave
         return Encrypt::encrypt3Des(json_encode($data));
     }
 
+    public function initiate($data, $url){
+
+        $data = Encrypt::encrypt3Des(json_encode($data));
+
+        /* prepare postdata */
+        $postdata = [
+            'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
+            'client' => $data,
+            'alg' => '3DES-24'
+        ];
+
+        /* Execute request */
+        return $this->execute($postdata, $url);
+    }
+
+    public function validate($data, $url){
+        $details = [
+            'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
+            'transaction_reference' => $data['flwRef'],
+            'otp' => $data['otp']
+        ];
+
+        return $res = $this->execute($details, $url);
+    }
+
+    public function verify($data, $url){
+        $details = [
+            'txref' => $data['txref'],
+            'SECKEY' => Config::getConfig('RAVE_SECRET_KEY'),
+        ];
+        return $res = $this->execute($details, $url);
+    }
+
 }

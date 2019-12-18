@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Integration\Paypal;
 
-use App\Http\Controllers\Controller;
+namespace App\Lib\Paypal;
+
+
+use App\GatewayTransaction;
 use Illuminate\Http\Request;
 
-class ExpressCheckoutController extends PaypalController
+class Checkout extends Paypal
 {
     public function __construct($provider = 'express_checkout')
     {
@@ -13,6 +15,13 @@ class ExpressCheckoutController extends PaypalController
 
         $this->data['return_url'] = url('api/paypal/ec-checkout-success');
         $this->data['cancel_url'] = url('api/');
+    }
+
+    public function transact(GatewayTransaction $transaction){
+        $data = json_decode($transaction->payload, true);
+        $this->setItems($data['item']);
+        $this->setInvoice($data['invoice']);
+        return $this->checkout();
     }
 
     public function setItems(array $items){

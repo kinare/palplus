@@ -7,7 +7,10 @@ use App\AccountType;
 use App\GatewayTransaction;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\TransactionResource;
+use App\Lib\Paypal\Checkout;
+use App\Lib\Rave\Account as BankAccount;
 use App\Lib\Rave\Card;
+use App\Lib\Rave\Mobile;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -27,7 +30,10 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/MOBILE",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="bankCode",in="query",description="bankCode",required=false,type="string"),
+     *   @SWG\Parameter(name="passcode",in="query",description="passcode",required=false,type="string"),
+     *   @SWG\Parameter(name="bvn",in="query",description="bvn",required=false,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -40,17 +46,94 @@ class TransactionController extends BaseController
             'gateway' => 'required',
         ]);
 
-        if ($request->gateway === 'CARD'){
-            $account = Account::where([
-                'user_id' => $request->user()->id,
-                'account_type_id' => AccountType::type('CARD')->id
-            ])->first();
-
-            $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
-            $card = new Card();
-            return $card->transact($transaction);
+        if ($request->gateway === 'PAYPAL'){
+            $transaction = GatewayTransaction::initPaypal($request->amount);
+            $pp = new Checkout();
+            return $pp->transact($transaction);
         }
 
+        //get payment account
+        $account =  $account = Account::where([
+            'user_id' => $request->user()->id,
+            'account_type_id' => AccountType::type($request->gateway)->id
+        ])->first();
+
+        //if account not set
+        if (!$account) return response()->json([
+            'message' => 'Please add your account in account settings to proceed'
+        ], 500);
+
+        switch ($request->gateway){
+            case 'CARD' :
+                $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
+                $card = new Card();
+                return $card->transact($transaction);
+            case 'BANK' :
+                $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
+                $bank = new BankAccount();
+                return $bank->transact($transaction);
+
+            case 'MOBILE' :
+                //set relevant account field
+                $account->payment_type = 'mpesa';
+                $account->narration = 'payment details';
+                $account->is_mpesa = '1';
+                $account->is_mpesa_lipa = '1';
+                $transaction = GatewayTransaction::initModbile($account, $request->amount, $request->ip());
+                $mobile = new Mobile();
+                return $mobile->transact($transaction);
+            case 'PAYPAL' :
+
+        }
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/transaction/wallet/withdraw",
+     *   tags={"Transactions"},
+     *   summary="Withdraw from a Wallet",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function withdraw(Request $request){
+        $request->validate([
+            'amount' => 'required',
+            'gateway' => 'required',
+        ]);
+
+        //get payment account
+        $account =  $account = Account::where([
+            'user_id' => $request->user()->id,
+            'account_type_id' => AccountType::type($request->gateway)->id
+        ])->first();
+
+        //if account not set
+        if (!$account) return response()->json([
+            'message' => 'Please add your account in account settings to proceed'
+        ], 500);
+
+        switch ($request->gateway){
+            case 'BANK' :
+                /* implement bank transfer */
+                return;
+            case 'MOBILE' :
+                /* implement mobile transfer */
+                return;
+            case 'PAYPAL' :
+                /*TODO implement paypal*/
+        }
+    }
+
+    public function payOut(Request $request){
+        /* todo implement payout to */
     }
 
 
@@ -103,7 +186,7 @@ class TransactionController extends BaseController
         ]);
 
         $card = new Card();
-        return $card->validate($request->all());
+        return $card->confirm($request->all());
     }
 
 
