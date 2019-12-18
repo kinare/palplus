@@ -27,7 +27,9 @@ class CreateGroupSettingsTable extends Migration
             $table->boolean('fixed_late_penalty')->default(false);
             $table->decimal('late_penalty_rate', 8, 2)->default(0);
             $table->decimal('late_penalty_amount', 8, 2)->default(0);
+            $table->boolean('fixed_leaving_group_fee')->default(false);
             $table->decimal('leaving_group_fee', 8, 2)->default(0);
+            $table->decimal('leaving_group_rate', 8, 2)->default(0);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

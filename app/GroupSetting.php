@@ -18,7 +18,9 @@ class GroupSetting extends BaseModel
         'fixed_late_penalty',
         'late_penalty_rate',
         'late_penalty_amount',
+        'fixed_leaving_group_fee',
         'leaving_group_fee',
+        'leaving_group_rate',
         'group_id'
     ];
 

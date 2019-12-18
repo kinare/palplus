@@ -57,7 +57,9 @@ class GroupSettingController extends BaseController
      *   @SWG\Parameter(name="fixed_late_penalty",in="query",description="fixed_late_penalty",required=false,type="integer"),
      *   @SWG\Parameter(name="late_penalty_rate",in="query",description="late_penalty_rate",required=false,type="number"),
      *   @SWG\Parameter(name="late_penalty_amount",in="query",description="late_penalty_amount",required=false,type="number"),
+     *   @SWG\Parameter(name="fixed_leaving_group_fee",in="query",description="fixed_leaving_group_fee",required=false,type="integer"),
      *   @SWG\Parameter(name="leaving_group_fee",in="query",description="leaving_group_fee",required=false,type="number"),
+     *   @SWG\Parameter(name="leaving_group_rate",in="query",description="leaving_group_rate",required=false,type="number"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

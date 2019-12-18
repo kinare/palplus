@@ -6248,9 +6248,23 @@
                         "type": "number"
                     },
                     {
+                        "name": "fixed_leaving_group_fee",
+                        "in": "query",
+                        "description": "fixed_leaving_group_fee",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "leaving_group_fee",
                         "in": "query",
                         "description": "leaving_group_fee",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "leaving_group_rate",
+                        "in": "query",
+                        "description": "leaving_group_rate",
                         "required": false,
                         "type": "number"
                     }
