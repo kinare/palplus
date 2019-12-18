@@ -66,6 +66,7 @@ class GroupSettingController extends BaseController
      */
 
 
+
     /**
      * @SWG\Get(
      *   path="/group-setting/{id}",

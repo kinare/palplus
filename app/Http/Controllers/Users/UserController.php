@@ -308,7 +308,6 @@ class UserController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Get(
      *   path="/user/accounts",
@@ -334,7 +333,6 @@ class UserController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Get(
      *   path="/user/payments",
@@ -359,7 +357,6 @@ class UserController extends BaseController
             ]);
         }
     }
-
 
     /**
      * @SWG\Get(
@@ -452,7 +449,6 @@ class UserController extends BaseController
         }
     }
 
-
     /**
      * @SWG\Post(
      *   path="/user/deposit",
@@ -499,7 +495,10 @@ class UserController extends BaseController
      * )
      */
     public function notifications(Request $request){
-        return NotificationResource::collection(Notification::where('user_id', $request->user()->id)->get());
+        return NotificationResource::collection(Notification::where([
+            'user_id' => $request->user()->id,
+            'status' => 'active'
+        ])->get());
     }
 
 

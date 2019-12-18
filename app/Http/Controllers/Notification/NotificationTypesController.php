@@ -17,7 +17,7 @@ class NotificationTypesController extends BaseController
     /**
      * @SWG\Get(
      *   path="/notification/types",
-     *   tags={"Notification Types"},
+     *   tags={"Notification"},
      *  security={
      *     {"bearer": {}},
      *   },

@@ -2,84 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NotificationResource;
 use App\Notification;
 use Illuminate\Http\Request;
 
-class NotificationController extends Controller
+class NotificationController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = Notification::class, $resource = NotificationResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @SWG\Get(
+     *   path="/notification/read/{id}",
+     *   tags={"Notification"},
+     *   summary="Read notification",
+     *   @SWG\Parameter(name="id",in="path",description="Notification id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function create()
-    {
-        //
-    }
+    public function read($id){
+        $notice = Notification::find(id);
+        $notice->read();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Notification $notification)
-    {
-        //
+        return response()->json([
+            'message' => 'Notification read success'
+        ], 200);
     }
 }

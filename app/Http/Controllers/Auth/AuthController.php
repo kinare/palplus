@@ -52,7 +52,6 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email ?: $request->phone,
             'phone' =>$request->phone,
-            'country' => $request->country_code,
             'currency_id' => $request->currency_id,
             'password' => Hash::make($request->password),
             'verification_code' => $this->generateCode(),

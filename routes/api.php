@@ -138,6 +138,10 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/', 'NotificationTypesController@index');
                 });
 
+                Route::group(['prefix' => ''], function () {
+                    Route::get('/read/{id}', 'NotificationController@read');
+                });
+
             });
         });
 
