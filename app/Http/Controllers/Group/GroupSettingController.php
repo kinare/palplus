@@ -16,6 +16,14 @@ class GroupSettingController extends BaseController
         parent::__construct($model, $resource);
     }
 
+    public static function init(Request $request, $group_id){
+        $setting = new GroupSetting();
+        $setting->fill($request->all());
+        $setting->group_id = $group_id;
+        $setting->created_by = $request->user()->id;
+        $setting->save();
+    }
+
     /**
      * @SWG\Get(
      *   path="/group-setting",
@@ -30,14 +38,6 @@ class GroupSettingController extends BaseController
      *
      * )
      */
-
-    public static function init(Request $request, $group_id){
-        $setting = new GroupSetting();
-        $setting->fill($request->all());
-        $setting->group_id = $group_id;
-        $setting->created_by = $request->user()->id;
-        $setting->save();
-    }
 
     /**
      * @SWG\Post(
@@ -67,8 +67,6 @@ class GroupSettingController extends BaseController
      * )
      */
 
-
-
     /**
      * @SWG\Get(
      *   path="/group-setting/{id}",
@@ -84,7 +82,5 @@ class GroupSettingController extends BaseController
      *
      * )
      */
-
-
 
 }

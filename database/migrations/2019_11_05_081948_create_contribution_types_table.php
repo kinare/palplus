@@ -27,6 +27,7 @@ class CreateContributionTypesTable extends Migration
             $table->decimal('balance', 8, 2)->nullable();
             $table->boolean('membership_fee')->default(false);
             $table->boolean('booking_fee')->default(false);
+            $table->string('type')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

@@ -30,10 +30,10 @@ class ActivityObserver
             }
 
             if ($activity->installments){
-                for ($i = 0; $i <= (int)$activity->no_of_installments; $i++){
+                for ($i = 1; $i <= (int)$activity->no_of_installments; $i++){
                     ContributionType::init([
                         'group_id'  => $activity->group_id,
-                        'name'  => 'Instalment '.($i + 1),
+                        'name'  => ($i + 1) .' '.$activity->name.' '.$activity->instalment_amount,
                         'description'  => 'Instalments for '.$activity->name,
                         'amount'  => $activity->instalment_amount,
                         'target_amount'  => $activity->total_cost,

@@ -31,6 +31,16 @@ class InvestmentOpportunityController extends BaseController
      *
      * )
      */
+    public function index()
+    {
+        try{
+            return $this->response($this->model::orderBy('id', 'DESC')->get());
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
 
     /**
      * @SWG\Post(
@@ -84,7 +94,6 @@ class InvestmentOpportunityController extends BaseController
             ]);
         }
     }
-
 
     /**
      * @SWG\Patch(
@@ -189,8 +198,4 @@ class InvestmentOpportunityController extends BaseController
      *
      * )
      */
-
-
-
-
 }
