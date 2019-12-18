@@ -9,6 +9,7 @@ use App\Http\Resources\PaymentResource;
 use App\Loan;
 use App\Members;
 use App\Payment;
+use App\Wallet;
 use Illuminate\Http\Request;
 
 class PaymentController extends BaseController
@@ -20,6 +21,7 @@ class PaymentController extends BaseController
 
     /**
      * @SWG\Get(
+     *
      *   path="/payments",
      *   tags={"Payments"},
      *   summary="Retrieve all Payments",
@@ -62,8 +64,17 @@ class PaymentController extends BaseController
                 'message' => 'Payment cleared'
             ], 403);
 
-        $model = $payment->model::where('id', $payment->model_id)->first();
+        //Get Wallet
+        $wallet = Wallet::mine();
 
+        //validate wallet
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds balance: '.$wallet->total_balance
+            ], 403);
+
+        //Get payment model
+        $model = $payment->model::where('id', $payment->model_id)->first();
         if ($model instanceof Loan)
             $model = Loan::pay($model, $request->amount);
 

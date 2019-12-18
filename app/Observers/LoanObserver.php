@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Contribution;
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\Finance\Transaction;
 use App\Loan;
 use App\Members;
 use App\Notification;
@@ -61,17 +62,13 @@ class LoanObserver
                 ]);
 
                 //transact
-                AccountingController::transact(
+                $transaction = new Transaction();
+                $transaction->transact(
                     Wallet::where('group_id', $loan->group_id)->first(),
                     Wallet::where('user_id', $member->user_id)->first(),
                     $loan->loan_amount,
-                    [
-                        'model' => Loan::class,
-                        'model_id' => $loan->id,
-                        'description' => 'Loan application',
-                        'account' => '',
-                        'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-                    ]
+                    'Loan',
+                    'Loan Application'
                 );
             }
 

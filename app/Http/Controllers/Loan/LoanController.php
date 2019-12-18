@@ -234,6 +234,15 @@ class LoanController extends BaseController
             'amount' => 'required',
         ]);
 
+        //Get wallet
+        $wallet = Wallet::mine();
+
+        //validate wallet
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds balance: '.$wallet->total_balance
+            ], 403);
+
         $loan = Loan::find($request->loan_id);
         $loan = Loan::pay($loan, $request->amount);
 

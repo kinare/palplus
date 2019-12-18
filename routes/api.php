@@ -330,7 +330,6 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/', 'GroupController@index');
                 Route::post('/', 'GroupController@store');
                 Route::get('/{id}', 'GroupController@show');
-                Route::post('/{id}', 'GroupController@update');
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
                 Route::get('/me/{group_id}', 'GroupController@me');
@@ -354,6 +353,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/type/{type_id}', 'GroupController@byType');
                 Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
                 Route::get('/my-payments/{group_id}', 'GroupController@myPendingPayments');
+                Route::post('/{id}', 'GroupController@update');
             });
 
             Route::group(['prefix' => 'expense'], function () {

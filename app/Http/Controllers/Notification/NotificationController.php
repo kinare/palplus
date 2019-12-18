@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notification;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\NotificationResource;
 use App\Notification;
-use Illuminate\Http\Request;
 
 class NotificationController extends BaseController
 {
@@ -17,6 +17,9 @@ class NotificationController extends BaseController
      * @SWG\Get(
      *   path="/notification/read/{id}",
      *   tags={"Notification"},
+     *   security={
+     *     {"bearer": {}},
+     *   },
      *   summary="Read notification",
      *   @SWG\Parameter(name="id",in="path",description="Notification id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
@@ -26,7 +29,7 @@ class NotificationController extends BaseController
      * )
      */
     public function read($id){
-        $notice = Notification::find(id);
+        $notice = Notification::find($id);
         $notice->read();
 
         return response()->json([

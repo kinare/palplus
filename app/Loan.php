@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\Finance\Transaction as Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -87,33 +88,18 @@ class Loan extends BaseModel
         $wallet = Wallet::mine();
         $groupWallet = Wallet::group($loan->group_id);
 
-        //validate wallet
-        if (!$wallet->canWithdraw($amount))
-            return response()->json([
-                'message' => 'Insufficient funds balance: '.$wallet->total_balance
-            ], 403);
-
         //Transact
-        AccountingController::transact(
-            $wallet,
-            $groupWallet,
-            $amount,
-            [
-                'model' => Loan::class,
-                'model_id' => $loan->id,
-                'description' => 'Loan Re-payment',
-                'account' => '',
-                'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-            ]
-        );
+        $transaction = new Transaction();
+        $res = $transaction->transact($wallet, $groupWallet, $amount, 'Loan Re-payment', 'Loan Re-payment');
 
-        //Todo Handle paying more than loan amount i.e return to user wallet
+        if ($res){
+            $loan->balance_amount = (float)$loan->balance_amount - (float)$amount;
+            $loan->paid_amount = (float)$loan->paid_amount + (float)$amount;
+            if ($loan->balance_amount <= 0) $loan->status = 'cleared';
+            $loan->save();
+            return $loan;
+        }
 
-        $loan->balance_amount = (float)$loan->balance_amount - (float)$amount;
-        $loan->paid_amount = (float)$loan->paid_amount + (float)$amount;
-        if ($loan->balance_amount <= 0) $loan->status = 'cleared';
-        $loan->save();
-
-        return $loan;
+        /*Todo Handle paying more than loan amount i.e return to user wallet*/
     }
 }

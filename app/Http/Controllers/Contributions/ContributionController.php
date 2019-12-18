@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\Contributions;
 
 use App\Contribution;
-use App\ContributionCategory;
 use App\ContributionType;
-use App\Group;
-use App\GroupSetting;
-use App\GroupType;
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\MembersController;
 use App\Http\Resources\ContributionResource;
 use App\Members;
-use App\User;
 use App\Wallet;
 use Illuminate\Http\Request;
 
@@ -73,10 +67,7 @@ class ContributionController extends BaseController
 
 
         $type = ContributionType::find($request->contribution_types_id);
-        $member = Members::where([
-            'user_id' => $request->user()->id,
-            'group_id' => $type->group_id,
-        ])->first();
+        $member = Members::member($type->group_id);
 
         $contribution = Contribution::contribute($type, $member, $request->amount);
         return response()->json([

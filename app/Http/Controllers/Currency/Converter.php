@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Currency;
 
 use App\Http\Controllers\Controller;
 use App\Lib\Http\HttpClient;
+use Carbon\Carbon;
 
 class Converter extends Controller
 {
@@ -18,11 +19,24 @@ class Converter extends Controller
     }
 
     public static function Convert($from, $to, $amount){
+
+        if ($from === $to)
+            return [
+                'amount' => round($amount, 2),
+                'rate' => 1,
+                'time' => Carbon::now(),
+            ];
+
+
         $self = new self();
         $rates = $self->getRates($from, $to);
         $rates = (array)json_decode($rates)->quotes;
         $amount = ($amount/$rates[$self->base.$from]) * $rates[$self->base.$to] ;
-        return round($amount, 2);
+        return [
+            'amount' => round($amount, 2),
+            'rate' => $rates,
+            'time' => Carbon::now(),
+        ];
     }
 
     public function getRates($from, $to){

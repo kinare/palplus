@@ -218,13 +218,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Edit to change layout of GUI ( 'none', 'list' or 'full')
+    |--------------------------------------------------------------------------
+    */
+    'docExpansion' => env('L5_SWAGGER_DOC_EXPANSION', 'none'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Apply a sort to the operation list of each API. It can be 'alpha' (sort by paths alphanumerically),
     | 'method' (sort by HTTP method).
     | Default is the order returned by the server unchanged.
     |--------------------------------------------------------------------------
     */
 
-    'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
+    'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', 'alpha'),
 
     /*
     |--------------------------------------------------------------------------

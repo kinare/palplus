@@ -468,13 +468,9 @@ class UserController extends BaseController
     public function deposit(Request $request){
 
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-        AccountingController::transact($wallet, $wallet, $request->amount,  [
-            'model' => Wallet::class,
-            'model_id' => $wallet->id,
-            'description' => 'Account Deposit',
-            'account' => '',
-            'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-        ]);
+        $transaction = new \App\Http\Controllers\Finance\Transaction();
+
+        $transaction->deposit($wallet, $request->amount);
         return response()->json([
             'message' => 'Deposit successful'
         ], 200);

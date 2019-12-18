@@ -15,14 +15,21 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('wallet_id');
-            $table->enum('type', array('debit', 'credit'));
             $table->string('transaction_code')->nullable();
+            $table->unsignedInteger('wallet_id');
+            $table->enum('entry', array('debit', 'credit'));
+            $table->string('transaction_from')->nullable();
+            $table->string('transaction_to')->nullable();
             $table->string('account_no')->nullable();
+            $table->string('type')->nullable();
             $table->string('description')->nullable();
             $table->string('model')->nullable();
             $table->unsignedInteger('model_id')->nullable();
             $table->decimal('amount',8, 2);
+            $table->string('from_currency')->nullable();
+            $table->string('to_currency')->nullable();
+            $table->string('conversion_rate')->nullable();
+            $table->dateTime('conversion_time')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

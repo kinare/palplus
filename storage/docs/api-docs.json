@@ -7895,7 +7895,12 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/notification/types": {

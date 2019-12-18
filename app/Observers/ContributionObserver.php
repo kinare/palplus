@@ -3,8 +3,10 @@
 namespace App\Observers;
 
 use App\Contribution;
+use App\ContributionType;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\Finance\Transaction;
 use App\Loan;
 use App\Wallet;
 use Carbon\Carbon;
@@ -22,18 +24,15 @@ class ContributionObserver
      */
     public function created(Contribution $contribution)
     {
-        AccountingController::transact(
+        $type = ContributionType::find($contribution->contribution_types_id);
+        $transaction = new Transaction();
+        $transaction->transact(
             Wallet::where('user_id', $contribution->created_by)->first(),
             Wallet::where('group_id', $contribution->group_id)->first(),
             $contribution->amount,
-            [
-                'model' => Contribution::class,
-                'model_id' => $contribution->id,
-                'description' => 'Contribution',
-                'account' => '',
-                'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-            ]
-            );
+            $type->name,
+            $type->description
+        );
     }
 
     /**
