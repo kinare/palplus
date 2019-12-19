@@ -25,7 +25,7 @@ class CreateLoanSettingsTable extends Migration
             $table->decimal('interest_rate', 8,2)->default(0);
             $table->decimal('interest_amount', 8,2)->default(0);
             $table->boolean('fixed_late_payment')->default(false);
-            $table->decimal('late_payment_rate', 8,2)->nullable();
+            $table->decimal('late_payment_rate', 8,2)->default(0);
             $table->decimal('late_payment_amount', 8,2)->nullable();
             $table->boolean('show_loans');
             $table->unsignedInteger('created_by')->nullable();
