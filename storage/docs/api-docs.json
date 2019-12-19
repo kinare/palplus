@@ -2462,7 +2462,47 @@
                     {
                         "name": "gateway",
                         "in": "query",
-                        "description": "gateway i.e CARD/MOBILE",
+                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/wallet/withdraw": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Withdraw from a Wallet",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
                         "required": true,
                         "type": "string"
                     }

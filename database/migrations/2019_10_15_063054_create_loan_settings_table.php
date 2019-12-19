@@ -21,7 +21,9 @@ class CreateLoanSettingsTable extends Migration
             $table->boolean('fixed_amount')->default(false);
             $table->decimal('limit_rate', 8,2)->nullable();
             $table->decimal('limit_amount', 8,2)->nullable();
+            $table->boolean('fixed_interest_amount')->default(false);
             $table->decimal('interest_rate', 8,2)->default(0);
+            $table->decimal('interest_amount', 8,2)->default(0);
             $table->boolean('fixed_late_payment')->default(false);
             $table->decimal('late_payment_rate', 8,2)->nullable();
             $table->decimal('late_payment_amount', 8,2)->nullable();

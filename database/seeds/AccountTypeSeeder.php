@@ -13,8 +13,8 @@ class AccountTypeSeeder extends Seeder
     {
         \App\AccountType::truncate();
         \App\AccountType::insert([
-            ['type' => 'MPESA', 'description' => 'M-pesa account'],
-            ['type' => 'BANK', 'description' => 'Bank account'],
+            ['type' => 'MOBILE', 'description' => 'M-pesa account'],
+            ['type' => 'ACCOUNT', 'description' => 'Bank account'],
             ['type' => 'CARD', 'description' => 'Credit/Debit card'],
         ]);
     }

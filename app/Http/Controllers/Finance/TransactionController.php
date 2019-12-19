@@ -30,10 +30,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK/MOBILE/PAYPAL",required=true,type="string"),
-     *   @SWG\Parameter(name="bankCode",in="query",description="bankCode",required=false,type="string"),
-     *   @SWG\Parameter(name="passcode",in="query",description="passcode",required=false,type="string"),
-     *   @SWG\Parameter(name="bvn",in="query",description="bvn",required=false,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -60,7 +57,7 @@ class TransactionController extends BaseController
 
         //if account not set
         if (!$account) return response()->json([
-            'message' => 'Please add your account in account settings to proceed'
+            'message' => 'Please add your '.mb_strtolower($request->gateway).' in account settings to proceed'
         ], 500);
 
         switch ($request->gateway){
@@ -68,7 +65,8 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
                 $card = new Card();
                 return $card->transact($transaction);
-            case 'BANK' :
+
+            case 'ACCOUNT' :
                 $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
                 $bank = new BankAccount();
                 return $bank->transact($transaction);
@@ -82,8 +80,6 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::initModbile($account, $request->amount, $request->ip());
                 $mobile = new Mobile();
                 return $mobile->transact($transaction);
-            case 'PAYPAL' :
-
         }
     }
 
@@ -96,7 +92,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -121,7 +117,7 @@ class TransactionController extends BaseController
         ], 500);
 
         switch ($request->gateway){
-            case 'BANK' :
+            case 'ACCOUNT' :
                 /* implement bank transfer */
                 return;
             case 'MOBILE' :

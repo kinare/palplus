@@ -11,6 +11,8 @@ class LoanSetting extends BaseModel
         'fixed_amount',
         'limit_rate',
         'limit_amount',
+        'fixed_interest_amount',
+        'interest_amount',
         'interest_rate',
         'fixed_late_payment',
         'late_payment_rate',
