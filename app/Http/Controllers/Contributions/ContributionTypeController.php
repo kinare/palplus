@@ -51,7 +51,7 @@ class ContributionTypeController extends BaseController
     public function byGroup($group_id)
     {
         try{
-            return ContributionTypeResource::collection(ContributionType::where('group_id', $group_id)->get());
+            return ContributionTypeResource::collection(ContributionType::where(['group_id'=> $group_id, 'activity_id' => null])->get());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
