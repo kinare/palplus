@@ -37,8 +37,17 @@ class GroupSettingObserver
                 ]);
                 break;
 
-            case 'Tours-and-travel' :
-               /* Todo Generate from event*/
+            case 'Fundraising' :
+                ContributionType::init([
+                    'group_id' => $group->id,
+                    'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                    'name'  => ContributionCategory::find($groupSetting->contribution_categories_id)->category.' Contribution',
+                    'description'  => 'Fundraising for '.$group->name,
+                    'amount'  => $groupSetting->contribution_amount ?: 0,
+                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
+                    'type'  => 'Fundraising'
+                ]);
+
                 break;
 
             case 'Saving-and-investments' :

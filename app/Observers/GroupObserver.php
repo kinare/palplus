@@ -30,6 +30,7 @@ class GroupObserver
 
         //withdrawal setting
         WithdrawalSetting::init($group);
+
     }
 
     /**
