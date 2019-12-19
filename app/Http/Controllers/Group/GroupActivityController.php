@@ -222,7 +222,19 @@ class GroupActivityController extends BaseController
      */
     public function activityContributionTypes(Request $request, $activity_id){
         try{
-            return ContributionTypeResource::collection(ContributionType::where('activity_id', $activity_id )->get());
+
+            $actMember = ActivityMembers::where([
+                'activity_id' => $activity_id,
+                'member_id' =>  Members::member( GroupActivity::find($activity_id)->group_id)->id
+            ])->first();
+
+            $contribution = ContributionType::where([
+                'activity_id' => $activity_id,
+                'booking_fee' => $actMember->status === 'active' ? false : true
+                ]
+            )->get();
+
+            return ContributionTypeResource::collection($contribution);
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
