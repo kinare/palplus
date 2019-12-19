@@ -106,7 +106,7 @@ class WithdrawalController extends BaseController
         $group = Group::find($withdrawal->group_id);
         $member = Members::member($group->id);
 
-        if (!$member->withdrawal_approver || $group->type()->first()->type !== 'Saving-and-investments')
+        if (!$member->withdrawal_approver || $group->type()->first()->type === 'Saving-and-investments')
             return response()->json([
                 'message' => 'Unauthorized, you are not an approver'
             ], 401);
