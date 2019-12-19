@@ -339,6 +339,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/wallet/{group_id}', 'GroupController@wallet');
                 Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
                 Route::post('/join', 'GroupController@join');
+                Route::get('/leave-request/{group_id}', 'GroupController@leaveRequest');
                 Route::post('/leave', 'GroupController@leave');
                 Route::post('/make-admin', 'GroupController@makeAdmin');
                 Route::post('/revoke-admin', 'GroupController@revokeAdmin');

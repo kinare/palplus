@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\Finance\Transaction as Transaction;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Loan extends BaseModel
@@ -59,11 +60,22 @@ class Loan extends BaseModel
         ];
     }
 
-    public static function total($type = null, $id = null) : array
+    public static function total(Model $model = null) : array
     {
-        if ($type !== null){
-            $loans = $type === 'GROUP' ? Loan::where('group_id', $id)->get() : Loan::where('member_id', $id)->get();
-        }else{
+        if ($model instanceof Members){
+            // total member loan
+            $loans = Loan::where([
+                'member_id' => $model->id,
+                'group_id' => $model->group_id
+            ])->get();
+        }
+
+        if ($model instanceof Group){
+            // total group loan
+            $loans = Loan::whereGroupId($model->id)->get();
+        }
+
+        if (!$model){
             $loans = Loan::all();
         }
 

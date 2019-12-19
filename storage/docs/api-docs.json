@@ -4583,6 +4583,39 @@
                 ]
             }
         },
+        "/group/leave-request/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Leave group request",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group/leave": {
             "post": {
                 "tags": [
@@ -7666,10 +7699,24 @@
                         "type": "number"
                     },
                     {
+                        "name": "fixed_interest_amount",
+                        "in": "query",
+                        "description": "fixed_interest_amount",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "interest_amount",
+                        "in": "query",
+                        "description": "interest_amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
                         "name": "interest_rate",
                         "in": "query",
                         "description": "interest_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -7820,14 +7867,35 @@
                         "name": "limit_rate",
                         "in": "query",
                         "description": "limit rate",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit_amount",
+                        "in": "query",
+                        "description": "limit amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "fixed_interest_amount",
+                        "in": "query",
+                        "description": "fixed_interest_amount",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "interest_amount",
+                        "in": "query",
+                        "description": "interest_amount",
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "interest_rate",
                         "in": "query",
                         "description": "interest_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {

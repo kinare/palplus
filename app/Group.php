@@ -67,4 +67,18 @@ class Group extends BaseModel
     {
         return Wallet::where('group_id', $self->id)->first()->total_balance > 0;
     }
+
+    public static function leaveStatus(Members $member){
+
+        $loans = Loan::total($member);
+        $contributions = Contribution::amount($member);
+        $leaveGroupFee = GroupSetting::leaveGroupFee($member);
+
+        return [
+            'total_contributions' => $contributions,
+            'loan_balance' => $loans['balance'],
+            'leaveGroupFee' => $leaveGroupFee,
+            'total_withdrawable' => ((float)$contributions - (float)($loans['balance'] + $leaveGroupFee))
+        ];
+    }
 }

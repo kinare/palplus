@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Group;
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\Finance\Transaction;
 use App\Members;
 use App\Notification;
 use App\NotificationTypes;
@@ -43,7 +44,6 @@ class WithdrawalObserver
 
         if ($type === 'Merry-go-round'){
             $approvers = Members::approvers($group->id, 'WITHDRAWAL');
-            dump($approvers);
             foreach ($approvers as $approver){
                 Notification::make([
                     'user_id' => $approver->user_id,
@@ -56,17 +56,13 @@ class WithdrawalObserver
         }
 
         if ($type === 'Tours-and-travel' || $type === 'Fundraising'){
-            AccountingController::transact(
+            $transaction = new Transaction();
+            $transaction->transact(
                 Wallet::group($group->id),
                 Wallet::mine(),
                 $withdrawal->amount,
-                [
-                    'model' => Withdrawal::class,
-                    'model_id' => $withdrawal->id,
-                    'description' => 'Withdrawal',
-                    'account' => '',
-                    'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-                ]
+                'Withdrawal',
+                'Withdrawal funds from group'
             );
 
             Notification::make([
@@ -92,17 +88,13 @@ class WithdrawalObserver
             if ($withdrawal->status = 'approved'){
 
                 //transact
-                AccountingController::transact(
+                $transaction = new Transaction();
+                $transaction->transact(
                     Wallet::group($withdrawal->group_id),
                     Wallet::where('user_id', Members::find($withdrawal->member_id)->user_id)->first(),
                     $withdrawal->amount,
-                    [
-                        'model' => Withdrawal::class,
-                        'model_id' => $withdrawal->id,
-                        'description' => 'Withdrawal',
-                        'account' => '',
-                        'transaction_code' => Str::random(10).Carbon::now()->timestamp,
-                    ]
+                    'Withdrawal',
+                    'Withdrawal funds from group'
                 );
 
                 //notify

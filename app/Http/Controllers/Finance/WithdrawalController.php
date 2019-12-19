@@ -173,7 +173,5 @@ class WithdrawalController extends BaseController
         $withdrawal->status = 'declined';
         $withdrawal->modified_by = $request->user()->id;
         $withdrawal->save();
-
-
     }
 }

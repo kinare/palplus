@@ -39,7 +39,7 @@ class Contribution extends BaseModel
     }
 
     public static function amount(Members $members){
-        $contribs = self::where('member_id', $members->id)->get();
+        $contribs = self::where(['member_id' => $members->id, 'group_id' => $members->group_id])->get();
         if (!$contribs) return 0;
         $value = 0;
         foreach ($contribs as $contrib){

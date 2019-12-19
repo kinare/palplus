@@ -318,6 +318,32 @@ class GroupController extends BaseController
     }
 
     /**
+     * @SWG\Get(
+     *   path="/group/leave-request/{group_id}",
+     *   tags={"Group"},
+     *   summary="Leave group request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function leaveRequest($group_id){
+        try{
+            return [
+              'data' => Group::leaveStatus(Members::member($group_id))
+            ];
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * @SWG\Post(
      *   path="/group/leave",
      *   tags={"Group"},
@@ -339,7 +365,7 @@ class GroupController extends BaseController
                 'group_id' => 'required'
             ]);
 
-            $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id]);
+            $member = Members::member($request->group_id);
             if (!$member)
                 return response()->json([
                     'message' => 'You are not a member in this group'
@@ -352,10 +378,16 @@ class GroupController extends BaseController
                     'message' => 'Group Not found'
                 ], 404);
 
-            if ($group->access_level === 'private')
+            /*validate leave request*/
+
+            $arrears = $this->leaveRequest($group->id);
+
+            if ($arrears['data']['total_withdrawable'] < 0)
                 return response()->json([
-                    'message' => 'Sorry, This is a private group pay your dues first'
+                    'message' => 'Clear your pending payments first'
                 ], 400);
+
+            /*Todo Make a withdrawal request before leaving group*/
 
             $member->forceDelete();
             return response()->json([
