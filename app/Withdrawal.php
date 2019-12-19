@@ -15,7 +15,7 @@ class Withdrawal extends BaseModel
         $setting = GroupSetting::where('group_id', $group_id)->first();
         $member = Members::member($group_id);
         $contributions = Contribution::total($type, $type === 'GROUP' ? $group_id : $member->id);
-        $loan = (float)Loan::total($type, $type === 'GROUP' ? $group_id : $member->id)['balance'];
+        $loan = (float)Loan::total($member)['balance'];
         $leave = (float)$setting->leaving_group_fee;
         return [
             'contributions' => $contributions,
