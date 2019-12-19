@@ -10,6 +10,7 @@ use App\GroupActivity;
 use App\GroupExpense;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Finance\Transaction;
 use App\Http\Resources\ActivityContactResource;
 use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
@@ -365,9 +366,12 @@ class GroupActivityController extends BaseController
                     'message' => 'Insufficient Funds'
                 ], 200);
 
-            AccountingController::transact($myWallet, $groupWallet, $request->amount);
+            $contribution = ContributionType::find($request->contribution_type_id);
 
-            if (ContributionType::find($request->contribution_type_id)->booking_fee){
+            $transaction = new Transaction();
+            $transaction->transact($myWallet, $groupWallet, $request->amount, $contribution->name, $contribution->description);
+
+            if ($contribution->booking_fee){
                 $member = ActivityMembers::where('member_id', $request->member_id)->first();
                 $member->status = 'active';
                 $member->save();
