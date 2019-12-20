@@ -422,7 +422,7 @@ class GroupActivityController extends BaseController
      * @SWG\Get(
      *   path="/activity/members/{activity_id}",
      *   tags={"Activity"},
-     *   summary="Activity Members",
+     *   summary="Activity Members ",
      *  security={
      *     {"bearer": {}},
      *   },

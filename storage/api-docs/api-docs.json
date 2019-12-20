@@ -529,6 +529,44 @@
                 }
             }
         },
+        "/test/rave/card": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Test Rave card",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/test/rave/validate-card": {
+            "get": {
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Validate Rave card",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -836,6 +874,39 @@
                         "description": "internal server error"
                     }
                 }
+            }
+        },
+        "/contact/my-contacts": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "My Contacts",
+                "parameters": [
+                    {
+                        "name": "contacts",
+                        "in": "query",
+                        "description": "Contact array",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/contribution/categories": {
@@ -1285,12 +1356,7 @@
                     "500": {
                         "description": "internal server error"
                     }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -1501,6 +1567,53 @@
                 ]
             }
         },
+        "/currency/convert": {
+            "post": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Convert currency amount",
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "from currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "to currency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/dashboard": {
             "get": {
                 "tags": [
@@ -1549,6 +1662,501 @@
                 ]
             }
         },
+        "/accounts": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Retrieve Accounts",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Create Accounts",
+                "parameters": [
+                    {
+                        "name": "account_type_id",
+                        "in": "query",
+                        "description": "account type id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "number",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "firstname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "lastname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phonenumber",
+                        "in": "query",
+                        "description": "phonenumber",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "address",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency_id",
+                        "in": "query",
+                        "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cvv",
+                        "in": "query",
+                        "description": "cvv",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingzip",
+                        "in": "query",
+                        "description": "billingzip",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcity",
+                        "in": "query",
+                        "description": "billingcity",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingaddress",
+                        "in": "query",
+                        "description": "billingaddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingstate",
+                        "in": "query",
+                        "description": "billingstate",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcountry",
+                        "in": "query",
+                        "description": "billingcountry",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expirymonth",
+                        "in": "query",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/accounts/{id}": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Retrieve an Account",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "account id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Delete Account",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "account id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Update Account",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "account id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "number",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "firstname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "lastname",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phonenumber",
+                        "in": "query",
+                        "description": "phonenumber",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "address",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency_id",
+                        "in": "query",
+                        "description": "currency id",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "cvv",
+                        "in": "query",
+                        "description": "cvv",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingzip",
+                        "in": "query",
+                        "description": "billingzip",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcity",
+                        "in": "query",
+                        "description": "billingcity",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingaddress",
+                        "in": "query",
+                        "description": "billingaddress",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingstate",
+                        "in": "query",
+                        "description": "billingstate",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "billingcountry",
+                        "in": "query",
+                        "description": "billingcountry",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiry",
+                        "in": "query",
+                        "description": "expiry",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/accounts/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Force delete Account",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "account id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/accounts/types": {
+            "get": {
+                "tags": [
+                    "Accounts"
+                ],
+                "summary": "Retrieve Account types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Retrieve all Payments",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/payments/pay": {
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Settle pending payments",
+                "parameters": [
+                    {
+                        "name": "payment_id",
+                        "in": "query",
+                        "description": "payment id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/supplier": {
             "get": {
                 "tags": [
@@ -1578,6 +2186,13 @@
                 ],
                 "summary": "Create Supplier",
                 "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
                     {
                         "name": "name",
                         "in": "query",
@@ -1611,13 +2226,6 @@
                         "in": "query",
                         "description": "email",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "currency",
-                        "in": "query",
-                        "description": "currency",
-                        "required": true,
                         "type": "string"
                     },
                     {
@@ -1730,6 +2338,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -1762,13 +2377,6 @@
                         "in": "query",
                         "description": "email",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "currency",
-                        "in": "query",
-                        "description": "currency",
-                        "required": true,
                         "type": "string"
                     },
                     {
@@ -1837,6 +2445,166 @@
                 ]
             }
         },
+        "/transaction/wallet/deposit": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Deposit to a Wallet",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/wallet/withdraw": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Withdraw from a Wallet",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/card/pin": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Set card pin",
+                "parameters": [
+                    {
+                        "name": "pin",
+                        "in": "query",
+                        "description": "pin",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "description": "ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/card/otp": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Set card otp",
+                "parameters": [
+                    {
+                        "name": "otp",
+                        "in": "query",
+                        "description": "otp",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ref",
+                        "in": "query",
+                        "description": "ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/wallet": {
             "get": {
                 "tags": [
@@ -1872,6 +2640,609 @@
                         "name": "id",
                         "in": "path",
                         "description": "wallet id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/limit/{type}/{group_id}": {
+            "get": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "withdrawal Limit",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type GROUP/PERSONAL",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/withdraw": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Withdrawal request",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/approve": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Withdrawal approval",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/decline": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Withdrawal delcine",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "description": "code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/settings": {
+            "get": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Retrieve Withdrawal Settings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Create Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification_period",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_withdrawal",
+                        "in": "query",
+                        "description": "show_withdrawal",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/settings/{id}": {
+            "get": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Retrieve a Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Delete Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Update Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "qualification_period",
+                        "in": "query",
+                        "description": "qualification_period",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "show_withdrawal",
+                        "in": "query",
+                        "description": "show_withdrawal",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "withdrawal/settings/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Withdrawal Settings"
+                ],
+                "summary": "Force delete Withdrawal Settings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Withdrawal Settings id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contact": {
+            "get": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Retrieve Activity contact",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Create Activity contact",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contact/{id}": {
+            "get": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Retrieve Activity contact",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity contact id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Delete Activity contact",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity contact id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Update Activity contact",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity contact id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contact/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Activity contact"
+                ],
+                "summary": "Force delete Activity contact",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity contact id",
                         "required": true,
                         "type": "string"
                     }
@@ -2169,13 +3540,6 @@
                         "type": "file"
                     },
                     {
-                        "name": "itinerary",
-                        "in": "formData",
-                        "description": "itinerary",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "name": "start_date",
                         "in": "formData",
                         "description": "start date",
@@ -2362,20 +3726,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "group_id",
-                        "in": "formData",
-                        "description": "Group id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "activity_type_id",
-                        "in": "formData",
-                        "description": "Activity type id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
                         "in": "formData",
                         "description": "name",
@@ -2395,13 +3745,6 @@
                         "description": "avatar",
                         "required": false,
                         "type": "file"
-                    },
-                    {
-                        "name": "itinerary",
-                        "in": "formData",
-                        "description": "itinerary",
-                        "required": false,
-                        "type": "string"
                     },
                     {
                         "name": "start_date",
@@ -2667,13 +4010,6 @@
                 "summary": "Pay for activity",
                 "parameters": [
                     {
-                        "name": "member_id",
-                        "in": "query",
-                        "description": "member id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
                         "name": "contribution_type_id",
                         "in": "query",
                         "description": "contribution type id",
@@ -2711,7 +4047,7 @@
                 "tags": [
                     "Activity"
                 ],
-                "summary": "Activity Members",
+                "summary": "Activity Members ",
                 "parameters": [
                     {
                         "name": "activity_id",
@@ -2721,6 +4057,162 @@
                         "type": "integer"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/itineraries/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Itineraries",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contacts/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Emergency Contacts",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/suppliers/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Suppliers",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/expenses/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity Expenses",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/featured": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Featured activities",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -2817,10 +4309,10 @@
                         "type": "string"
                     },
                     {
-                        "name": "contributions",
+                        "name": "currency_id",
                         "in": "formData",
-                        "description": "has contributions",
-                        "required": false,
+                        "description": "currency id",
+                        "required": true,
                         "type": "integer"
                     },
                     {
@@ -2831,58 +4323,9 @@
                         "type": "integer"
                     },
                     {
-                        "name": "contribution_periods_id",
-                        "in": "formData",
-                        "description": "contribution_period_id",
-                        "required": false,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "contribution_amount",
-                        "in": "formData",
-                        "description": "contribution_amount",
-                        "required": false,
-                        "type": "number"
-                    },
-                    {
                         "name": "contribution_target_amount",
                         "in": "formData",
                         "description": "contribution_target_amount",
-                        "required": false,
-                        "type": "number"
-                    },
-                    {
-                        "name": "send_reminders",
-                        "in": "formData",
-                        "description": "send_reminders",
-                        "required": false,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "fixed_late_penalty",
-                        "in": "formData",
-                        "description": "fixed_late_penalty",
-                        "required": false,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "late_penalty_rate",
-                        "in": "formData",
-                        "description": "late_penalty_rate",
-                        "required": false,
-                        "type": "number"
-                    },
-                    {
-                        "name": "late_penalty_amount",
-                        "in": "formData",
-                        "description": "late_penalty_amount",
-                        "required": false,
-                        "type": "number"
-                    },
-                    {
-                        "name": "leaving_group_fee",
-                        "in": "formData",
-                        "description": "leaving_group_fee",
                         "required": false,
                         "type": "number"
                     }
@@ -2937,38 +4380,7 @@
                     }
                 ]
             },
-            "delete": {
-                "tags": [
-                    "Group"
-                ],
-                "summary": "Delete Group",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "group id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            },
-            "patch": {
+            "post": {
                 "tags": [
                     "Group"
                 ],
@@ -3014,6 +4426,37 @@
                         "description": "avatar",
                         "required": false,
                         "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Delete Group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -3110,6 +4553,39 @@
                     {
                         "name": "group_id",
                         "in": "query",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/leave-request/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Leave group request",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
                         "description": "Group Id",
                         "required": true,
                         "type": "string"
@@ -3649,7 +5125,7 @@
                 "tags": [
                     "Group"
                 ],
-                "summary": "Activity by group",
+                "summary": "Loan by group",
                 "parameters": [
                     {
                         "name": "group_id",
@@ -3657,6 +5133,138 @@
                         "description": "group id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/withdrawal-settings/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Withdrawal setting by group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/withdrawals/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Withdrawals for group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/pending-payments/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Pending Payments",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/my-payments/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Group Pending Payments",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -4134,7 +5742,7 @@
                         "name": "actual_cost",
                         "in": "query",
                         "description": "actual_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -4313,7 +5921,7 @@
                         "name": "actual_cost",
                         "in": "query",
                         "description": "actual_cost",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -4397,6 +6005,112 @@
                         "description": "Project id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/project/contributions/types/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Retrieve Group Project Contributions types",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/project/contributions/{project_id}": {
+            "get": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Retrieve Group Project Contributions",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/project/contribute": {
+            "post": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Contribute to project",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -4596,7 +6310,7 @@
                     }
                 ]
             },
-            "patch": {
+            "post": {
                 "tags": [
                     "Group Setting"
                 ],
@@ -4673,9 +6387,23 @@
                         "type": "number"
                     },
                     {
+                        "name": "fixed_leaving_group_fee",
+                        "in": "query",
+                        "description": "fixed_leaving_group_fee",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "leaving_group_fee",
                         "in": "query",
                         "description": "leaving_group_fee",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "leaving_group_rate",
+                        "in": "query",
+                        "description": "leaving_group_rate",
                         "required": false,
                         "type": "number"
                     }
@@ -5021,6 +6749,269 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/itinerary": {
+            "get": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Retrieve Activity Itinerary",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Create Activity Itinerary",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity_id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "date",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "time",
+                        "in": "query",
+                        "description": "time",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/itinerary/{id}": {
+            "get": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Retrieve Activity Itinerary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity Itinerary  id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Delete Activity Itinerary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity Itinerary  id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Update Activity Itinerary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity Itinerary id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "date",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "time",
+                        "in": "query",
+                        "description": "time",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/itinerary/{id}/force": {
+            "delete": {
+                "tags": [
+                    "Activity Itinerary"
+                ],
+                "summary": "Force delete Activity Itinerary",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity Itinerary  id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/test": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Test Integration",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -5753,17 +7744,45 @@
                         "type": "integer"
                     },
                     {
+                        "name": "fixed_amount",
+                        "in": "query",
+                        "description": "fixed amount",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "limit_rate",
                         "in": "query",
                         "description": "limit rate",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit_amount",
+                        "in": "query",
+                        "description": "limit amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "fixed_interest_amount",
+                        "in": "query",
+                        "description": "fixed_interest_amount",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "interest_amount",
+                        "in": "query",
+                        "description": "interest_amount",
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "interest_rate",
                         "in": "query",
                         "description": "interest_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -5904,17 +7923,45 @@
                         "type": "integer"
                     },
                     {
+                        "name": "fixed_amount",
+                        "in": "query",
+                        "description": "fixed amount",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "limit_rate",
                         "in": "query",
                         "description": "limit rate",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "limit_amount",
+                        "in": "query",
+                        "description": "limit amount",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "fixed_interest_amount",
+                        "in": "query",
+                        "description": "fixed_interest_amount",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "interest_amount",
+                        "in": "query",
+                        "description": "interest_amount",
+                        "required": false,
                         "type": "number"
                     },
                     {
                         "name": "interest_rate",
                         "in": "query",
                         "description": "interest_rate",
-                        "required": true,
+                        "required": false,
                         "type": "number"
                     },
                     {
@@ -5975,6 +8022,103 @@
                         "name": "id",
                         "in": "path",
                         "description": "Loan Setting id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/notification/read/{id}": {
+            "get": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Read notification",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/notification/types": {
+            "get": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Retrieve Notification Types",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/sms": {
+            "post": {
+                "tags": [
+                    "SMS"
+                ],
+                "summary": "Send SMS",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "phone",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "message",
                         "required": true,
                         "type": "string"
                     }
@@ -6191,12 +8335,21 @@
                 ]
             }
         },
-        "/member/activate{id}": {
+        "/member/activate/{id}": {
             "get": {
                 "tags": [
                     "Member"
                 ],
                 "summary": "Activate Member",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -6215,12 +8368,21 @@
                 ]
             }
         },
-        "/member/deactivate{id}": {
+        "/member/deactivate/{id}": {
             "get": {
                 "tags": [
                     "Member"
                 ],
                 "summary": "Deavtivate Member",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -6997,7 +9159,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "My Payments",
+                "summary": "My Pending Payments",
                 "responses": {
                     "200": {
                         "description": "Success"
