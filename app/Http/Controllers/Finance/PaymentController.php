@@ -9,6 +9,7 @@ use App\Http\Resources\PaymentResource;
 use App\Loan;
 use App\Members;
 use App\Payment;
+use App\Penalty;
 use App\Wallet;
 use Illuminate\Http\Request;
 
@@ -80,6 +81,9 @@ class PaymentController extends BaseController
 
         if ($model instanceof ContributionType)
             $model = Contribution::contribute($model, Members::member($model->group_id), $request->amount);
+
+        if ($model instanceof Penalty)
+            $model = Penalty::pay($model, Members::find($model->member_id), $request->amount);
 
         $payment->amount = (float)$payment->amount - (float)$request->amount;
         if ($payment->amount <= 0) $payment->status = 'cleared';

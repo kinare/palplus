@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\Finance\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class Penalty extends BaseModel
@@ -11,4 +12,16 @@ class Penalty extends BaseModel
         'reason',
         'amount',
     ];
+
+    public static function pay(self $penalty, Members $members, $amount){
+        $transaction = new Transaction();
+        $transaction->transact(
+            Wallet::mine(),
+            Wallet::group($members->group_id),
+            $amount,
+            'Penalty',
+            $penalty->reason
+        );
+        return $transaction;
+    }
 }

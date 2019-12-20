@@ -191,6 +191,11 @@ Route::group(['middleware' => ['json.response']], function () {
 
         Route::namespace('Finance')->group(function (){
 
+            Route::group(['prefix' => 'penalties'], function () {
+                Route::get('/', 'PenaltyController@index');
+                Route::post('/', 'PenaltyController@store');
+            });
+
             Route::group(['prefix' => 'wallet'], function () {
                 Route::get('/', 'WalletController@index');
                 Route::get('/{id}', 'WalletController@show');
