@@ -29,5 +29,22 @@ class Payment extends BaseModel
         return $query->where('status', $args);
     }
 
+    public static function total(Model $model){
+        if ($model instanceof Members)
+            $payments = self::status('pending')->whereUserId($model->user_id)->get();
+
+        if ($model instanceof Group)
+            $payments = self::status('pending')->whereGroupId($model->id)->get();
+
+        if (!$model)
+            $payments = self::status('pending')->get();
+
+        $total = 0;
+        foreach ($payments as $payment){
+            $total += (float)$payment->amount;
+        }
+        return $total;
+    }
+
 
 }

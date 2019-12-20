@@ -64,23 +64,17 @@ class WithdrawalController extends BaseController
 
         $group = Group::find($request->group_id);
         $member = Members::member($group->id);
-        $wallet = Wallet::group($group->id);
 
+        $wallet = Wallet::group($group->id);
         if (!$wallet->canWithdraw($request->amount))
             return response()->json([
                 'message' => 'Insufficient funds'
             ], 403);
 
-        $withdrawal = new Withdrawal();
-        $withdrawal->code = Str::random(30).Carbon::now()->timestamp;
-        $withdrawal->group_id = $group->id;
-        $withdrawal->member_id = $member->id;
-        $withdrawal->amount = $request->amount;
-        $withdrawal->save();
-
+        $withdrawal = Withdrawal::withdraw($member,  $request->amount);
         return response()->json([
             'message' => 'Successful. Your withdrawal request is being processed'
-        ], 403);
+        ], 200);
     }
 
     /**

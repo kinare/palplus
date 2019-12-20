@@ -262,6 +262,10 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::post('/', 'MembersController@store');
             Route::get('/activate/{id}', 'MembersController@activate');
             Route::get('/deactivate/{id}', 'MembersController@deactivate');
+            Route::get('/loans/{id}', 'MembersController@loans');
+            Route::get('/contributions/{id}', 'MembersController@contributions');
+            Route::get('/pending-payments/{id}', 'MembersController@payments');
+            Route::get('/remove/{id}', 'MembersController@remove');
             Route::get('/{id}', 'MembersController@show');
             Route::patch('/{id}', 'MembersController@update');
             Route::delete('/{id}', 'MembersController@destroy');

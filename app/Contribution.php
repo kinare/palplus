@@ -3,6 +3,7 @@
 namespace App;
 
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class Contribution extends BaseModel
@@ -48,13 +49,16 @@ class Contribution extends BaseModel
         return $value;
     }
 
-    public static function total($type = null, $id = null) : float
+    public static function total(Model $model = null) : float
     {
-        if ($type){
-            $contributions = $type === 'GROUP' ? Contribution::where('group_id', $id)->get() : Contribution::where('member_id', $id)->get();
-        }else{
+        if ($model instanceof Members)
+            $contributions = Contribution::whereMemberId($model->id)->get();
+
+        if ($model instanceof Group)
+            $contributions = Contribution::whereGroupId($model->id)->get();
+
+        if (!$model)
             $contributions = Contribution::all();
-        }
 
         $total = 0;
         foreach ($contributions as $contribution){
