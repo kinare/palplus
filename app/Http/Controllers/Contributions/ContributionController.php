@@ -31,7 +31,6 @@ class ContributionController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Post(
      *   path="/contribution",
@@ -58,18 +57,31 @@ class ContributionController extends BaseController
             'amount' => 'required',
         ]);
 
+        $type = ContributionType::find($request->contribution_types_id);
+        $member = Members::member($type->group_id);
+
+        if ($type->amount && $request->amount < $type->amount)
+            return response()->json([
+                'message' => 'Failed, contribution amount should be '.$type->amount
+            ], 401);
+
+
         //validate wallet
-        $wallet = Wallet::where('user_id', $request->user()->id)->first();
+        $wallet = Wallet::mine();
         if (!$wallet->canWithdraw($request->amount))
             return response()->json([
                 'message' => 'Insufficient funds. top up to continue'
             ], 401);
 
-
-        $type = ContributionType::find($request->contribution_types_id);
-        $member = Members::member($type->group_id);
-
         $contribution = Contribution::contribute($type, $member, $request->amount);
+
+        /*if contribution is membership fee activate member*/
+        if ($contribution)
+            if($type->membership_fee){
+                $member->active = true;
+                $member->save();
+            }
+
         return response()->json([
             'message' => 'Contribution Successful'
         ], 200);

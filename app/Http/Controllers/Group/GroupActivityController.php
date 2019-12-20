@@ -223,18 +223,31 @@ class GroupActivityController extends BaseController
     public function activityContributionTypes(Request $request, $activity_id){
         try{
 
+            $member = Members::member( GroupActivity::find($activity_id)->group_id);
             $actMember = ActivityMembers::where([
                 'activity_id' => $activity_id,
-                'member_id' =>  Members::member( GroupActivity::find($activity_id)->group_id)->id
+                'member_id' =>  $member->id
             ])->first();
 
-            $contribution = ContributionType::where([
+             $types = ContributionType::where([
                 'activity_id' => $activity_id,
                 'booking_fee' => $actMember->status === 'active' ? false : true
                 ]
             )->get();
 
-            return ContributionTypeResource::collection($contribution);
+            $type_ids = [];
+            foreach ($types as $type){
+                array_push($type_ids, $type->id);
+            }
+
+            $contributions = Contribution::whereIn('contribution_types_id', $type_ids)
+                ->where('member_id', $member->id)->get();
+
+            $type_ids = [];
+            foreach ($contributions as $contribution){
+                array_push($type_ids, $contribution->contribution_types_id);
+            }
+            return ContributionTypeResource::collection($types->whereNotIn('id', $type_ids));
         }catch (\Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
@@ -353,7 +366,6 @@ class GroupActivityController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="member_id",in="query",description="member id",required=true,type="integer"),
      *   @SWG\Parameter(name="contribution_type_id",in="query",description="contribution type id",required=true,type="integer"),
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
      *   @SWG\Response(response=200, description="Success"),
@@ -365,32 +377,38 @@ class GroupActivityController extends BaseController
     public function pay(Request $request){
         try{
             $request->validate([
-                'member_id' => 'required',
                 'contribution_type_id' => 'required',
                 'amount' => 'required',
             ]);
 
-            $myWallet = Wallet::where('user_id',$request->user()->id )->first();
-            $groupWallet = Wallet::where('group_id',Members::find($request->member_id)->group_id)->first();
+            /* Get type and validate amount */
+            $type = ContributionType::find($request->contribution_type_id);
+            if ($request->amount < $type->amount)
+                return response()->json([
+                    'message' => 'Failed, contribution amount should be '.$type->amount
+                ], 401);
 
+            /* Get wallet and validate amount */
+            $myWallet = Wallet::mine();
             if (!$myWallet->canWithdraw($request->amount))
                 return response()->json([
                     'message' => 'Insufficient Funds'
-                ], 200);
+                ], 401);
 
-            $contribution = ContributionType::find($request->contribution_type_id);
+            /* Get member and perfom contribution */
+            $member = Members::member($type->group_id);
+            $contribution = Contribution::contribute($type, $member, $request->amount);
 
-            $transaction = new Transaction();
-            $transaction->transact($myWallet, $groupWallet, $request->amount, $contribution->name, $contribution->description);
-
-            if ($contribution->booking_fee){
-                $member = ActivityMembers::where('member_id', $request->member_id)->first();
-                $member->status = 'active';
-                $member->save();
-            }
+            /* activate member if contribution is booking fee */
+            if ($contribution)
+                if ($type->booking_fee){
+                    $actMemb = ActivityMembers::where(['member_id' => $member->id, 'activity_id' => $type->activity_id])->first();
+                    $actMemb->status = 'active';
+                    $actMemb->save();
+                }
 
             return response()->json([
-                'message' => 'Transaction successful'
+                'message' => 'Contribution successful'
             ], 200);
 
         }catch (\Exception $e){
@@ -553,7 +571,4 @@ class GroupActivityController extends BaseController
             ],500);
         }
     }
-
-
-
 }

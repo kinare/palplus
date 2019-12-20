@@ -45,7 +45,6 @@ class MembersController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Patch(
      *   path="/member/{id}",
@@ -109,15 +108,15 @@ class MembersController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Get(
-     *   path="/member/activate{id}",
+     *   path="/member/activate/{id}",
      *   tags={"Member"},
      *   summary="Activate Member",
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="member id",required=true, type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -126,17 +125,20 @@ class MembersController extends BaseController
      */
     public function activate($id)
     {
-
+        $member = Members::find($id);
+        $member->activate();
+        return new MemberResource($member);
     }
 
     /**
      * @SWG\Get(
-     *   path="/member/deactivate{id}",
+     *   path="/member/deactivate/{id}",
      *   tags={"Member"},
      *   summary="Deavtivate Member",
      *  security={
      *     {"bearer": {}},
      *   },
+     *   @SWG\Parameter(name="id",in="path",description="member id",required=true, type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -145,7 +147,9 @@ class MembersController extends BaseController
      */
     public function deactivate($id)
     {
-
+        $member = Members::find($id);
+        $member->deActivate();
+        return new MemberResource($member);
     }
 
     public static function member(array $data) : Members

@@ -20,7 +20,7 @@ class GroupProjectObserver
             ContributionType::init([
                 'group_id'  => $groupProject->group_id,
                 'contribution_periods_id'  => $groupProject->contribution_frequency,
-                'name'  => $groupProject->name,
+                'name'  => $groupProject->name.' contribution',
                 'description'  => $groupProject->description,
                 'amount'  => $groupProject->contribution_amount,
                 'target_amount'  => $groupProject->estimated_cost,

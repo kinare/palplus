@@ -37,4 +37,14 @@ class Members extends BaseModel
         ])->get();
     }
 
+    public function activate(){
+        $this->active = true;
+        $this->save();
+    }
+
+    public function deActivate(){
+        $this->active = false;
+        $this->save();
+    }
+
 }

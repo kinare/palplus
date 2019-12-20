@@ -10,6 +10,7 @@ use App\GroupSetting;
 use App\GroupType;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionTypeResource;
+use App\Members;
 use Exception;
 
 class ContributionTypeController extends BaseController
@@ -51,7 +52,14 @@ class ContributionTypeController extends BaseController
     public function byGroup($group_id)
     {
         try{
-            return ContributionTypeResource::collection(ContributionType::where(['group_id'=> $group_id, 'activity_id' => null])->get());
+            $contribution = ContributionType::where([
+                'group_id'=> $group_id,
+                'activity_id' => null,
+                'project_id' => null,
+                'membership_fee' => !Members::member($group_id)->active
+            ])->get();
+
+            return ContributionTypeResource::collection($contribution);
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

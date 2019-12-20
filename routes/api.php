@@ -260,6 +260,8 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::group(['prefix' => 'member'], function () {
             Route::get('/', 'MembersController@index');
             Route::post('/', 'MembersController@store');
+            Route::get('/activate/{id}', 'MembersController@activate');
+            Route::get('/deactivate/{id}', 'MembersController@deactivate');
             Route::get('/{id}', 'MembersController@show');
             Route::patch('/{id}', 'MembersController@update');
             Route::delete('/{id}', 'MembersController@destroy');
@@ -299,8 +301,10 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'project'], function () {
                 Route::get('/', 'GroupProjectController@index');
                 Route::post('/', 'GroupProjectController@store');
-                Route::get('/{id}', 'GroupProjectController@show');
+                Route::get('/contributions/types/{group_id}', 'GroupProjectController@types');
                 Route::get('/contributions/{project_id}', 'GroupProjectController@contributions');
+                Route::post('/contribute', 'GroupProjectController@contribute');
+                Route::get('/{id}', 'GroupProjectController@show');
                 Route::patch('/{id}', 'GroupProjectController@update');
                 Route::delete('/{id}', 'GroupProjectController@destroy');
                 Route::delete('/{id}/force', 'GroupProjectController@forceDestroy');

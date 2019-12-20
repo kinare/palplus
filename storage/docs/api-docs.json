@@ -4010,13 +4010,6 @@
                 "summary": "Pay for activity",
                 "parameters": [
                     {
-                        "name": "member_id",
-                        "in": "query",
-                        "description": "member id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
                         "name": "contribution_type_id",
                         "in": "query",
                         "description": "contribution type id",
@@ -6032,6 +6025,39 @@
                 ]
             }
         },
+        "/project/contributions/types/{group_id}": {
+            "get": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Retrieve Group Project Contributions types",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/project/contributions/{project_id}": {
             "get": {
                 "tags": [
@@ -6045,6 +6071,46 @@
                         "description": "Project id",
                         "required": true,
                         "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/project/contribute": {
+            "post": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Contribute to project",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -8269,12 +8335,21 @@
                 ]
             }
         },
-        "/member/activate{id}": {
+        "/member/activate/{id}": {
             "get": {
                 "tags": [
                     "Member"
                 ],
                 "summary": "Activate Member",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -8293,12 +8368,21 @@
                 ]
             }
         },
-        "/member/deactivate{id}": {
+        "/member/deactivate/{id}": {
             "get": {
                 "tags": [
                     "Member"
                 ],
                 "summary": "Deavtivate Member",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

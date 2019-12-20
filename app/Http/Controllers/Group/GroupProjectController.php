@@ -7,7 +7,10 @@ use App\ContributionType;
 use App\GroupProject;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupProjectResource;
+use App\Members;
+use App\Wallet;
 use Illuminate\Http\Request;
 
 class GroupProjectController extends BaseController
@@ -135,6 +138,31 @@ class GroupProjectController extends BaseController
 
     /**
      * @SWG\Get(
+     *   path="/project/contributions/types/{group_id}",
+     *   tags={"Group Project"},
+     *   summary="Retrieve Group Project Contributions types",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function types($group_id){
+        $projects = GroupProject::whereGroupId($group_id)->get('id');
+        $type_ids = [];
+        foreach ($projects as $project){
+            array_push($type_ids, $project->id);
+        }
+        $types = ContributionType::whereIn('project_id', $type_ids)->get();
+        return ContributionTypeResource::collection($types);
+    }
+
+    /**
+     * @SWG\Get(
      *   path="/project/contributions/{project_id}",
      *   tags={"Group Project"},
      *   summary="Retrieve Group Project Contributions",
@@ -153,9 +181,49 @@ class GroupProjectController extends BaseController
         return ContributionResource::collection(Contribution::where('contribution_types_id', $type->id)->get());
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/project/contribute",
+     *   tags={"Group Project"},
+     *   summary="Contribute to project",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="project_id",in="query",description="Project id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
 
+    public function contribute(Request $request){
+        $request->validate([
+            'project_id' => 'required',
+            'amount' => 'required',
+        ]);
 
+        $type = ContributionType::whereProjectId($request->project_id)->first();
+        if ($type->amount && $request->amount < $type->amount)
+            return response()->json([
+                'message' => 'Failed, contribution amount should be '.$type->amount
+            ], 401);
 
+        //validate wallet
+        $wallet = Wallet::mine();
+        if (!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient funds. top up to continue'
+            ], 401);
+
+        $member = Members::member($type->group_id);
+        $contribution = Contribution::contribute($type, $member, $request->amount);
+
+        return response()->json([
+            'message' => 'Contribution Successful'
+        ], 200);
+    }
 }
 
 
