@@ -192,7 +192,7 @@ class UserController extends BaseController
     public function wallet(Request $request)
     {
         try{
-            return new WalletResource($request->user()->wallet()->get());
+            return new WalletResource($request->user()->wallet()->first());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()

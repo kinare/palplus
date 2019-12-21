@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WalletResource extends JsonResource
@@ -15,7 +16,7 @@ class WalletResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['currency'] = $this::currency();
+        $data['currency'] = Wallet::currency();
         return  $data;
     }
 }
