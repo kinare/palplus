@@ -48,7 +48,9 @@ class Checkout extends Paypal
         $paypalCache = [];
         array_push($paypalCache, $this->data);
         Cache::set('paypal', $paypalCache, Carbon::now()->addHours(24));
-        return $res['paypal_link'];
+        return [
+            'url' => $res['paypal_link']
+        ];
     }
 
     public function getCheckoutSuccess($token){

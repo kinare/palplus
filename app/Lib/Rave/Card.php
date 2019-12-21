@@ -31,7 +31,6 @@ class Card extends Rave
                     case 'PIN':
                         /* request pin set pin and suggested auth */
                         $response = [
-                            'code' => '03',
                             'message' => $res['message'],
                             'desc' => 'add pin and suggested auth',
                             'model' => $res['data']['suggested_auth'],

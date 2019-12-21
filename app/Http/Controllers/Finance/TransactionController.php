@@ -105,6 +105,12 @@ class TransactionController extends BaseController
             'gateway' => 'required',
         ]);
 
+        if ($request->gateway === 'PAYPAL'){
+            $transaction = GatewayTransaction::initPaypal($request->amount);
+            $pp = new Checkout();
+            return $pp->transact($transaction);
+        }
+
         //get payment account
         $account =  $account = Account::where([
             'user_id' => $request->user()->id,
