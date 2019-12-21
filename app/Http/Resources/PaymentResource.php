@@ -14,6 +14,8 @@ class PaymentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['currency'] = Wallet::currency();
+        return $data;
     }
 }

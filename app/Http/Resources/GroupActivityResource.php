@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupActivityResource extends JsonResource
@@ -16,6 +17,7 @@ class GroupActivityResource extends JsonResource
     {
         $data =  parent::toArray($request);
         $data['is_member'] = $this->hasJoined($this->group_id) ? true : false;
+        $data['currency'] = Wallet::currency();
         return $data;
     }
 }

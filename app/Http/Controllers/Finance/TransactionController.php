@@ -132,7 +132,6 @@ class TransactionController extends BaseController
         /* todo implement payout to */
     }
 
-
     /**
      * @SWG\Post(
      *   path="/transaction/card/pin",
@@ -183,6 +182,11 @@ class TransactionController extends BaseController
 
         $card = new Card();
         return $card->confirm($request->all());
+    }
+
+    public function paypalToken(Request $request){
+        $pp = new Checkout();
+        return $pp->getCheckoutSuccess($request->token);
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvestmentOpportunityResource extends JsonResource
@@ -14,6 +15,8 @@ class InvestmentOpportunityResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['currency'] = Wallet::currency();
+        return $data;
     }
 }

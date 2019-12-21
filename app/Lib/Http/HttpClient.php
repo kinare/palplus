@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\ClientException;
 class HttpClient{
     public static function post($url, $params = null, $headers = []){
         $client = new Client();
-        $res =  $client->request('POST', $url, $params, $headers);
+        $res =  $client->request('POST', $url,[$params,$headers ] );
         return $res->getBody();
     }
 

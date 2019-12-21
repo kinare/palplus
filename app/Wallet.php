@@ -67,5 +67,9 @@ class Wallet extends BaseModel
         return Currency::find($this->currency_id)->short_description;
     }
 
+    public static function currency(){
+       return Currency::find(Wallet::mine()->currency_id)->short_description;
+    }
+
 
 }

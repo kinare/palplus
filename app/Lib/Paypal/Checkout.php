@@ -6,6 +6,7 @@ namespace App\Lib\Paypal;
 
 use App\GatewayTransaction;
 use Illuminate\Http\Request;
+use Srmklive\PayPal\Services\ExpressCheckout;
 
 class Checkout extends Paypal
 {
@@ -44,7 +45,13 @@ class Checkout extends Paypal
         return $res['paypal_link'];
     }
 
-    public function getCheckoutSuccess(Request $request){
-        return $request;
+    public function getCheckoutSuccess($token){
+        $res = $this->provider->GetExpressCheckoutDetails($token);
+        return $res['PAYERID'];
+        $this->doCheckout($res);
+    }
+
+    public function doCheckout($data){
+       return $this->provider->doExpressCheckoutPayment($data, $data['TOKEN'], $data['PayerID']);
     }
 }

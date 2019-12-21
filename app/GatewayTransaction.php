@@ -35,10 +35,7 @@ class GatewayTransaction extends BaseModel
             'IP' => $ip ?: '',
             'txRef' => 'PP-'.Carbon::now()->timestamp,
             'device_fingerprint' => $fingerPrint,
-            'bvn' => $account->bvn ?: '',
-            'passcode' => $account->passcode ?: '',
-            'payment_type' => $account->payment_type ?: '',
-            'accountbank' => $account->accountbank ?: '',
+
         ];
 
         $transaction = new self();

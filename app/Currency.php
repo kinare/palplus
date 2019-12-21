@@ -13,4 +13,5 @@ class Currency extends BaseModel
     {
         return self::where('country', 'LIKE', '%'.$country.'%')->first()->id;
     }
+
 }
