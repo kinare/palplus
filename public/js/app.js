@@ -16216,6 +16216,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -16289,6 +16290,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -91238,26 +91240,26 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
+/***/ "./resources/scss/main.scss":
+/*!**********************************!*\
+  !*** ./resources/scss/main.scss ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nError: ENOENT: no such file or directory, open 'D:\\PALPLUS\\uaa\\paplus-uaa\\resources\\scss\\main.scss'\n    at D:\\PALPLUS\\uaa\\paplus-uaa\\node_modules\\webpack\\lib\\NormalModule.js:316:20\n    at D:\\PALPLUS\\uaa\\paplus-uaa\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at D:\\PALPLUS\\uaa\\paplus-uaa\\node_modules\\loader-runner\\lib\\LoaderRunner.js:203:19\n    at D:\\PALPLUS\\uaa\\paplus-uaa\\node_modules\\enhanced-resolve\\lib\\CachedInputFileSystem.js:85:15\n    at processTicksAndRejections (internal/process/task_queues.js:75:11)");
 
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!**************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/scss/main.scss ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! D:\PALPLUS\uaa\paplus-uaa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\PALPLUS\uaa\paplus-uaa\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! D:\PALPLUS\uaa\paplus-uaa\resources\scss\main.scss */"./resources/scss/main.scss");
 
 
 /***/ })
