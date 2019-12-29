@@ -1,6 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/about.js": "/about.js",
-    "/vendors~about.js": "/vendors~about.js"
+    "/css/main.css": "/css/main.css",
+    "/client-form.js": "/client-form.js",
+    "/forms.js": "/forms.js",
+    "/profile.js": "/profile.js",
+    "/tables.js": "/tables.js",
+    "/vendors~client-form~forms.js": "/vendors~client-form~forms.js"
 }

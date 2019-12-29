@@ -1,31 +1,45 @@
 import endpoints from "./endpoints";
+import call from "../modules/api";
 
-const Auth = {
+const Admin = {
   namespaced: true,
   state: {
-    admins: {}
+    admins: [],
   },
   mutations: {
-    SET_ADMINS: (state, admins) => {
-      state.admins = admins;
-    }
+      SET_ADMIN : (state, payload) => {
+          state.admins = payload
+      },
   },
-  getters: {},
+  getters: {
+      admins : state => state.admins,
+  },
 
   actions: {
-    invite : (context, data) => {
-      window.api.call("post", endpoints.inviteAdmin, data).then(res => {
-        Event.$emit("ApiSuccess", 200, res.data.message);
-        this.router.push('dashboard/admins')
-      });
-    },
+      getAdmins : (context) => {
+          call('get', endpoints.admins).then(res => {
+              context.commit('SET_ADMIN', res.data.data);
+          })
+      },
 
-    logout: (context) => {
-      window.api.call("get", endpoints.logout ).then(() => {
-        window.auth.logout();
-      });
-    }
+      getAdmin : (context, id) => {
+          call('get', endpoints.getAdmin).then(res => {
+              context.commit('SET_ADMIN', res.data.data);
+          })
+      },
+
+      inviteAdmin : (context, email) => {
+          call('post', endpoints.inviteAdmin, email).then(() => {
+              /*successfullly invited*/
+          })
+      },
+
+      saveAdmin : (context, data) => {
+          call('post', endpoints.saveAdmin(data.id), data).then(() => {
+              /*successfullly invited*/
+          })
+      },
   }
 };
 
-export default Auth;
+export default Admin;

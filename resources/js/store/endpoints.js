@@ -8,7 +8,7 @@ export default {
   create: "admin/create",
 
   //Admins
-  getAdmin : 'admin',
+  getAdmin : id =>  `admin/${id}`,
   saveAdmin : id => `admin/${id}`,
   removeAdmin : id => `admin/${id}`,
   activateAdmin : id => `admin/activate/${id}`,
