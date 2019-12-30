@@ -6,6 +6,9 @@ import Buefy from 'buefy'
 import router from "./router/router";
 import store from "./store/store";
 
+/* mixins */
+import { Listener, Status } from "./mixins";
+
 /* Styles */
 import '../scss/main.scss'
 import '@mdi/font/css/materialdesignicons.css'
@@ -21,6 +24,7 @@ Vue.use(Buefy);
 
 window.helper = helper;
 window.validator = validator;
+Event = new Vue();
 Vue.prototype.appName = process.env.MIX_VUE_APP_NAME;
 
 filters.forEach(f => {
@@ -34,4 +38,5 @@ const app = new Vue({
     el: '#app',
     router,
     store,
+    mixins : [Listener, Status]
 });

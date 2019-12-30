@@ -17,8 +17,7 @@ const AuthStore = {
   actions: {
     login: ({ dispatch }, data) => {
       call("post", endpoints.login, data).then(res => {
-        authService.login(res.headers["infi-authorization"]);
-        dispatch("user");
+        authService.login(res.data.access_token);
       });
     },
 
@@ -47,9 +46,9 @@ const AuthStore = {
     },
 
     logout: () => {
-      // window.api.call("post", endpoints.logout, { accessToken }).then(() => {
-      authService.logout();
-      // });
+      call("get", endpoints.logout).then(() => {
+        authService.logout();
+      });
     }
   }
 };

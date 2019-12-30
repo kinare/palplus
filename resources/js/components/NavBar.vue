@@ -116,10 +116,7 @@ export default {
       this.isMenuNavBarActive = (!this.isMenuNavBarActive)
     },
     logout () {
-      this.$buefy.snackbar.open({
-        message: 'Log out clicked',
-        queue: false
-      })
+      this.$store.dispatch('Auth/logout');
     }
   }
 }

@@ -5,7 +5,7 @@
     <div class="content has-text-left">
       <!--        user name-->
       <b-field label="User Name">
-        <b-input type="text" v-model="formData.username" />
+        <b-input type="text" v-model="formData.email" />
       </b-field>
 
       <!--        Password-->
@@ -54,7 +54,7 @@ export default {
   data: function() {
     return {
       formData: {
-        username: "",
+        email: "",
         password: ""
       }
     };

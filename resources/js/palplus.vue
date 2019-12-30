@@ -29,11 +29,15 @@ export default {
               icon: 'view-list',
               menu: [
                   {
-                      to: '/wallet-deposits',
+                      to: '/wallets',
+                      label: 'Wallets'
+                  },
+                  {
+                      to: '/wallets-transactions/credit',
                       label: 'Deposits'
                   },
                   {
-                      to: '/wallet-withdrawals',
+                      to: '/wallets-transactions/debit',
                       label: 'Withdrawals'
                   }
               ]
@@ -52,12 +56,12 @@ export default {
               icon: 'view-list',
               menu: [
                   {
-                      to: '/new-admin',
-                      label: 'New admin user'
+                      to: '/admins',
+                      label: 'view admin users'
                   },
                   {
-                      to: '/wallet-withdrawals',
-                      label: 'view admin users'
+                      to: '/new-admin',
+                      label: 'New admin user'
                   }
               ]
           }
@@ -76,7 +80,7 @@ export default {
           }
         ],
           [{
-              label: 'Transactions',
+              label: 'Transaction',
               icon: 'view-list',
               menu: [
                   {

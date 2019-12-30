@@ -4,8 +4,14 @@ import store from "../store/store";
 import nextFactory from "./middleware/MiddlewareFactory";
 import palplus from "../palplus"
 import Home from "../views/Home"
-Vue.use(Router);
+import Wallets from "../views/wallet/Wallets";
+import Transactions from "../views/wallet/Transactions";
+import { authRoutes } from "../modules/auth";
+import { auth } from "./middleware";
+import Currency from "../views/currency/Currency";
+import Admins from "../views/admin/Admins";
 
+Vue.use(Router);
 
 const router =new Router({
   mode: "history",
@@ -18,7 +24,33 @@ const router =new Router({
                 {
                     path: '/',
                     name: 'home',
-                    component: Home
+                    component: Home,
+                    meta : { middleware : auth}
+                },
+                {
+                    path: '/wallets',
+                    name: 'wallets',
+                    component: Wallets,
+                    meta : { middleware : auth}
+                },
+                {
+                    path: '/wallets-transactions/:type?',
+                    name: 'Transactions',
+                    component: Transactions,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/currency-rates',
+                    name: 'Currency',
+                    component: Currency,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/admins',
+                    name: 'Admins',
+                    component: Admins,
+                    meta : { middleware : auth},
                 },
                 {
                     path: '/tables',
@@ -50,7 +82,8 @@ const router =new Router({
                     props: true
                 }
             ]
-        }
+        },
+        ...authRoutes
     ],
     scrollBehavior (to, from, savedPosition) {
         if (savedPosition) {

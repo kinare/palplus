@@ -366,6 +366,7 @@
   }
 }
 
+.carousel,
 .tabs,
 .pagination-previous,
 .pagination-next,
@@ -12914,6 +12915,132 @@ label.panel-block:hover {
   font-size: 1.5rem;
 }
 
+.carousel {
+  position: relative;
+}
+
+.carousel .carousel-list {
+  position: relative;
+  display: -webkit-box;
+  display: flex;
+  overflow: hidden;
+}
+
+.carousel .carousel-list:hover .carousel-arrow.is-hovered {
+  opacity: 1;
+}
+
+.carousel .carousel-list .carousel-item {
+  -webkit-box-flex: 0;
+          flex: none;
+  width: 100%;
+}
+
+.carousel .carousel-pause {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0.15rem;
+  -webkit-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
+}
+
+.carousel .carousel-arrow {
+  -webkit-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
+}
+
+.carousel .carousel-arrow.is-hovered {
+  opacity: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .carousel .carousel-arrow.is-hovered {
+    opacity: 1;
+  }
+}
+
+.carousel .carousel-arrow .icon {
+  background: white;
+  color: #00d1b2;
+  cursor: pointer;
+  border: 1px solid white;
+  border-radius: 290486px;
+  outline: 0;
+}
+
+.carousel .carousel-arrow .icon:hover {
+  border: 1px solid #00d1b2;
+  opacity: 1;
+}
+
+.carousel .carousel-arrow .icon.has-icons-left,
+.carousel .carousel-arrow .icon.has-icons-right {
+  top: 45%;
+  position: absolute;
+  z-index: 1;
+}
+
+.carousel .carousel-arrow .icon.has-icons-left {
+  left: 1.5rem;
+}
+
+.carousel .carousel-arrow .icon.has-icons-right {
+  right: 1.5rem;
+}
+
+.carousel .carousel-indicator {
+  width: 100%;
+  padding: 0.5rem;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+}
+
+.carousel .carousel-indicator.is-inside {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+
+.carousel .carousel-indicator .indicator-item:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.carousel .carousel-indicator .indicator-item.is-active .indicator-style,
+.carousel .carousel-indicator .indicator-item .indicator-style:hover {
+  background: #00d1b2;
+  border: 1px solid white;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style {
+  display: block;
+  border: 1px solid #00d1b2;
+  background: white;
+  outline: none;
+  -webkit-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-boxs {
+  height: 10px;
+  width: 10px;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-dots {
+  border-radius: 10px;
+  height: 10px;
+  width: 10px;
+}
+
+.carousel .carousel-indicator .indicator-item .indicator-style.is-lines {
+  height: 5px;
+  width: 25px;
+}
+
 .b-checkbox.checkbox {
   outline: none;
   display: -webkit-inline-box;
@@ -13658,6 +13785,12 @@ label.panel-block:hover {
   opacity: 1;
 }
 
+.datepicker .dropdown-content {
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+
 .datepicker .dropdown-item,
 .datepicker .dropdown .dropdown-menu .has-link a,
 .dropdown .dropdown-menu .has-link .datepicker a {
@@ -13950,6 +14083,10 @@ label.panel-block:hover {
 .taginput .dialog.is-large .taginput-container.is-focusable,
 .dialog.is-large .button {
   font-size: 1.5rem;
+}
+
+.dialog.has-custom-container {
+  position: absolute;
 }
 
 .dropdown + .dropdown {
@@ -16845,50 +16982,50 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
           flex-direction: row;
 }
 
-.b-tabs.is-vertical .tabs ul {
+.b-tabs.is-vertical > .tabs ul {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
           flex-direction: column;
   border-bottom-color: transparent;
 }
 
-.b-tabs.is-vertical .tabs ul li {
+.b-tabs.is-vertical > .tabs ul li {
   width: 100%;
 }
 
-.b-tabs.is-vertical .tabs ul li a {
+.b-tabs.is-vertical > .tabs ul li a {
   -webkit-box-pack: left;
           justify-content: left;
 }
 
-.b-tabs.is-vertical .tabs.is-boxed li a {
+.b-tabs.is-vertical > .tabs.is-boxed li a {
   border-bottom-color: transparent !important;
   border-right-color: #dbdbdb !important;
   border-radius: 4px 0 0 4px;
 }
 
-.b-tabs.is-vertical .tabs.is-boxed li.is-active a {
+.b-tabs.is-vertical > .tabs.is-boxed li.is-active a {
   border-bottom-color: #dbdbdb !important;
   border-right-color: transparent !important;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li + li {
+.b-tabs.is-vertical > .tabs.is-toggle li + li {
   margin-left: 0;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li:first-child a {
+.b-tabs.is-vertical > .tabs.is-toggle li:first-child a {
   border-radius: 4px 4px 0 0;
 }
 
-.b-tabs.is-vertical .tabs.is-toggle li:last-child a {
+.b-tabs.is-vertical > .tabs.is-toggle li:last-child a {
   border-radius: 0 0 4px 4px;
 }
 
-.b-tabs.is-vertical .tabs.is-fullwidth li a {
+.b-tabs.is-vertical > .tabs.is-fullwidth li a {
   height: 100%;
 }
 
-.b-tabs.is-vertical .tab-content {
+.b-tabs.is-vertical > .tab-content {
   -webkit-box-flex: 1;
           flex-grow: 1;
 }
@@ -16899,25 +17036,25 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
           flex-direction: row-reverse;
 }
 
-.b-tabs.is-vertical.is-right .tabs ul a {
+.b-tabs.is-vertical.is-right > .tabs ul a {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
           flex-direction: row-reverse;
 }
 
-.b-tabs.is-vertical.is-right .tabs ul a .icon:first-child {
+.b-tabs.is-vertical.is-right > .tabs ul a .icon:first-child {
   margin-right: 0;
   margin-left: 0.5em;
 }
 
-.b-tabs.is-vertical.is-right .tabs.is-boxed li a {
+.b-tabs.is-vertical.is-right > .tabs.is-boxed li a {
   border-bottom-color: transparent !important;
   border-right-color: transparent !important;
   border-left-color: #dbdbdb !important;
   border-radius: 0 4px 4px 0;
 }
 
-.b-tabs.is-vertical.is-right .tabs.is-boxed li.is-active a {
+.b-tabs.is-vertical.is-right > .tabs.is-boxed li.is-active a {
   border-bottom-color: #dbdbdb !important;
   border-right-color: #dbdbdb !important;
   border-left-color: transparent !important;

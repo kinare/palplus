@@ -4,26 +4,32 @@ import call from "../modules/api";
 const Admin = {
   namespaced: true,
   state: {
-    admins: [],
+    admins: null,
+    admin: null,
   },
   mutations: {
-      SET_ADMIN : (state, payload) => {
+      SET_ADMINS : (state, payload) => {
           state.admins = payload
+      },
+
+      SET_ADMIN : (state, payload) => {
+          state.admin = payload
       },
   },
   getters: {
       admins : state => state.admins,
+      admin : state => state.admin,
   },
 
   actions: {
       getAdmins : (context) => {
           call('get', endpoints.admins).then(res => {
-              context.commit('SET_ADMIN', res.data.data);
+              context.commit('SET_ADMINS', res.data.data);
           })
       },
 
       getAdmin : (context, id) => {
-          call('get', endpoints.getAdmin).then(res => {
+          call('get', endpoints.getAdmin(id)).then(res => {
               context.commit('SET_ADMIN', res.data.data);
           })
       },
@@ -39,6 +45,7 @@ const Admin = {
               /*successfullly invited*/
           })
       },
+
   }
 };
 

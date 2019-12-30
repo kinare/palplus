@@ -23,7 +23,7 @@ const httpClient = axios.create(config);
 const authInterceptor = config => {
   const token = authService.token;
   if (authService.check()) {
-    config.headers.Authorization = token;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   config.headers.common["Accept"] = "Application/json";
   return config;
@@ -50,7 +50,7 @@ httpClient.interceptors.response.use(
   },
   error => {
     /** Emit Api error event */
-    Event.$emit("ApiError", 500, "Oops! something went wrong");
+    Event.$emit("ApiError", 500, error.response.data.message);
     return Promise.reject(error);
   }
 );

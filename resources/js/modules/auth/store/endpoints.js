@@ -1,11 +1,11 @@
 export default {
     //Auth
-    login: "admin/login",
-    refreshToken: "admin/refreshToken",
-    user: "admin/me",
-    logout: "admin/logout",
-    validate: "admin/validate",
-    create: "admin/create",
+    login: "auth/login",
+    refreshToken: "auth/refreshToken",
+    user: "auth/me",
+    logout: "auth/logout",
+    validate: "auth/validate",
+    create: "auth/create",
 
     //Admins
     getAdmin : 'admin',

@@ -17,5 +17,6 @@ class LoansResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['currency'] = Wallet::currency();
+        return $data;
     }
 }

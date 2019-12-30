@@ -2,6 +2,14 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
 import { authStore } from "../modules/auth";
+import Wallet from "./Wallet";
+import Currency from "./Currency";
+import Admin from "./Admin";
+import Group from "./Groups";
+import Member from "./Member";
+import Investment from "./Investment";
+import Transaction from "./Transaction";
+import Loan from "./Loan";
 
 Vue.use(Vuex);
 
@@ -13,6 +21,14 @@ const vuexLocalStorage = new VuexPersist({
 export default new Vuex.Store({
     modules: {
         Auth : authStore,
+        Wallet : Wallet,
+        Currency : Currency,
+        Admin : Admin,
+        Group : Group,
+        Member : Member,
+        Investment : Investment,
+        Transaction : Transaction,
+        Loan : Loan
     },
     state: {
         /* User */
