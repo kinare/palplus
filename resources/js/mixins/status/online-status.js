@@ -17,18 +17,21 @@ const isOnline = {
     state: {
       handler: function(n, o) {
         if (n !== o) {
-          if (n) this.$toasted.clear();
+          if (n)
+              this.$buefy.toast.open({
+              duration: 100,
+              message: "internet connection",
+              position: 'is-bottom-left',
+              type: 'is-success'
+          });
 
           if (!n)
-            this.$toasted.show("No internet connection", {
-              position: "bottom-left",
-              keepOnHover: true,
-              iconPack: "fontawesome",
-              duration: 1000000000000000000,
-              type: "error",
-              icon: "unlink",
-              closeOnSwipe: true
-            });
+              this.$buefy.toast.open({
+                  duration: 70000,
+                  message: "No internet connection",
+                  position: 'is-bottom-left',
+                  type: 'is-warning'
+              });
         }
       }
     }

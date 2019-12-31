@@ -23,7 +23,7 @@ const Member = {
 
   actions: {
       getMembers : (context) => {
-          call('get', endpoints.member).then(res => {
+          call('get', endpoints.members).then(res => {
               context.commit('SET_MEMBERS', res.data.data);
           })
       },

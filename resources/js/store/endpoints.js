@@ -17,6 +17,8 @@ export default {
     loans : `loans`,
     members : `members`,
     transactions : `transactions`,
+    requests : `withdrawal-requests`,
+    opportunities : `investments`,
     saveAdmin : id => `admin/${id}`,
     removeAdmin : id => `admin/${id}`,
     activateAdmin : id => `admin/activate/${id}`,

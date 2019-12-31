@@ -46,6 +46,7 @@ Route::group(['prefix' => ''], function () {
             Route::get('/loans', 'DashboardController@loans');
             Route::get('/wallet', 'DashboardController@wallets');
             Route::get('/wallet/transactions', 'DashboardController@walletTransactions');
+            Route::get('/withdrawal-requests', 'DashboardController@withdrawalRequests');
         });
     });
 });

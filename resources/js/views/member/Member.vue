@@ -1,10 +1,7 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Admins
-            <router-link slot="right" to="/new-admin" class="button">
-                New admin
-            </router-link>
+            Members
         </hero-bar>
         <section class="section is-main-section">
             <card-component title="Admins" class="has-mobile-sort-spaced">
@@ -15,7 +12,7 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="admins">
+                    :data="members">
 
                     <template slot-scope="props">
                         <b-table-column label="Name" field="name" sortable :searchable="true">
@@ -26,9 +23,6 @@
                         </b-table-column>
                         <b-table-column label="Phone" field="phone" sortable :searchable="true">
                             {{ props.row.phone }}
-                        </b-table-column>
-                        <b-table-column label="Access type" field="access_type" sortable :searchable="true">
-                            {{ props.row.access_type }}
                         </b-table-column>
                         <b-table-column label="Status" field="active" sortable :searchable="true">
                             <span class="tag" :class="props.row.active ? 'is-success' : 'is-grey'">
@@ -47,7 +41,6 @@
 
                                 <b-dropdown-item aria-role="listitem">View</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Update</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">{{props.row.active ? 'de-activate' : 'activate'}}</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Delete</b-dropdown-item>
                             </b-dropdown>
                         </b-table-column>
@@ -80,25 +73,25 @@
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Admins",
+        name: "Member",
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
-                paginated: false,
+                paginated: true,
                 perPage: 10,
             }
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Admin/getAdmins');
+                v.$store.dispatch('Member/getMembers');
             })
         },
         computed: {
-            admins(){
-                return this.$store.getters['Admin/admins'];
+            members(){
+                return this.$store.getters['Member/members'];
             }
         },
     }

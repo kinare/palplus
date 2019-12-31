@@ -12,8 +12,7 @@ const Loan = {
       },
   },
   getters: {
-      pending : state => state.loans,
-      paid : state => state.loans,
+      loans : state => state.loans,
   },
 
   actions: {

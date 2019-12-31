@@ -4,19 +4,19 @@ import call from "../modules/api";
 const Investment = {
   namespaced: true,
   state: {
-    opportunity: null,
+    opportunities: null,
   },
   mutations: {
       SET_OPPORTUNITIES : (state, payload) => {
-          state.opportunity = payload
+          state.opportunities = payload
       },
   },
   getters: {
-      opportunity : state => state.opportunity,
+      opportunities : state => state.opportunities,
   },
 
   actions: {
-      getOpportunites : (context) => {
+      getOpportunities : (context) => {
           call('get', endpoints.opportunities).then(res => {
               context.commit('SET_OPPORTUNITIES', res.data.data);
           })

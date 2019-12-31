@@ -1,13 +1,10 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Admins
-            <router-link slot="right" to="/new-admin" class="button">
-                New admin
-            </router-link>
+            Loans
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Admins" class="has-mobile-sort-spaced">
+            <card-component title="Clients" class="has-table has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"
@@ -15,41 +12,32 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="admins">
+                    :data="transactions">
 
                     <template slot-scope="props">
-                        <b-table-column label="Name" field="name" sortable :searchable="true">
-                            {{ props.row.name }}
+                        <b-table-column label="Member" field="member_id" sortable :searchable="true">
+                            {{ props.row.member_id }}
                         </b-table-column>
-                        <b-table-column label="Email" field="email" sortable :searchable="true">
-                            {{ props.row.email }}
+                        <b-table-column label="Group" field="group_id" sortable :searchable="true">
+                            {{ props.row.group_id }}
                         </b-table-column>
-                        <b-table-column label="Phone" field="phone" sortable :searchable="true">
-                            {{ props.row.phone }}
+                        <b-table-column label="Amount" field="loan_amount" sortable :searchable="true">
+                            {{ `${props.row.currency}  ${props.row.loan_amount}` }}
                         </b-table-column>
-                        <b-table-column label="Access type" field="access_type" sortable :searchable="true">
-                            {{ props.row.access_type }}
+                        <b-table-column label="Paid" field="paid_amount" sortable :searchable="true">
+                            {{ `${props.row.currency}  ${props.row.paid_amount}` }}
                         </b-table-column>
-                        <b-table-column label="Status" field="active" sortable :searchable="true">
-                            <span class="tag" :class="props.row.active ? 'is-success' : 'is-grey'">
-                               {{ props.row.active ? 'active' : 'inactive' }}
-                            </span>
+                        <b-table-column label="Balance" field="balance_amount" sortable :searchable="true">
+                            {{ `${props.row.currency}  ${props.row.balance_amount}` }}
+                        </b-table-column>
+                        <b-table-column label="Status" field="status" sortable :searchable="true">
+                            {{ props.row.status }}
+                        </b-table-column>
+                        <b-table-column label="Payment period" field="payment_period" sortable :searchable="true">
+                            {{ props.row.payment_period }}
                         </b-table-column>
                         <b-table-column label="Created at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
-                        </b-table-column>
-                        <b-table-column label="Actions" >
-                            <b-dropdown aria-role="list">
-                                <button class="button is-primary" slot="trigger">
-                                    <span>Options</span>
-                                    <b-icon icon="menu-down"></b-icon>
-                                </button>
-
-                                <b-dropdown-item aria-role="listitem">View</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Update</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">{{props.row.active ? 'de-activate' : 'activate'}}</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Delete</b-dropdown-item>
-                            </b-dropdown>
                         </b-table-column>
                     </template>
 
@@ -77,13 +65,15 @@
 
 <script>
     import ModalBox from '../../components/ModalBox'
+    import TitleBar from "../../components/TitleBar";
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Admins",
-        components: {HeroBar, CardComponent,  ModalBox },
+        name: "Loan",
+        components: {HeroBar, CardComponent, TitleBar, ModalBox },
         data () {
             return {
+                type : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -93,12 +83,15 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Admin/getAdmins');
+                v.$store.dispatch('Loan/getLoans');
+                v.type = to.params.type;
             })
         },
         computed: {
-            admins(){
-                return this.$store.getters['Admin/admins'];
+            transactions(){
+                return this.$store.getters['Loan/loans'].filter(loan => {
+                    return loan.status === this.type;
+                })
             }
         },
     }

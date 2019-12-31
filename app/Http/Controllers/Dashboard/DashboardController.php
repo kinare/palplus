@@ -7,10 +7,12 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Currency\CurrencyController;
 use App\Http\Controllers\Finance\TransactionController;
+use App\Http\Controllers\Finance\WithdrawalController;
 use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\Users\UserController;
 use App\Loan;
 use App\User;
 use App\Wallet;
@@ -148,7 +150,7 @@ class DashboardController extends Controller
      * )
      */
     public function members(){
-        $members= new MembersController();
+        $members= new UserController();
         return $members->index();
     }
 
@@ -205,6 +207,26 @@ class DashboardController extends Controller
         $loans = new LoanController();
         return $loans->index();
     }
+
+    /**
+     * @SWG\Get(
+     *   path="/dashboard/withdrawal-requests",
+     *   tags={"Dashboard"},
+     *   summary="Get withdrawal-requests",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function withdrawalRequests(){
+        $w = new WithdrawalController();
+        return $w->index();
+    }
+
+
 
 
 }
