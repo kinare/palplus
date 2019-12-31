@@ -951,6 +951,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -1166,6 +1168,12 @@ const defaultDateParser = (date, vm) => {
         multiple: {
             type: Boolean,
             default: false
+        },
+        mobileModal: {
+            type: Boolean,
+            default: () => {
+                return _utils_config__WEBPACK_IMPORTED_MODULE_2__["default"].defaultDatepickerMobileModal
+            }
         }
     },
     data() {
@@ -1519,7 +1527,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'BDatepickerMonth',
     props: {
-        value: Date,
+        value: {
+            type: [Date, Array]
+        },
         monthNames: Array,
         events: Array,
         indicators: String,
@@ -1530,7 +1540,13 @@ __webpack_require__.r(__webpack_exports__);
         dateCreator: Function,
         unselectableDates: Array,
         unselectableDaysOfWeek: Array,
-        selectableDates: Array
+        selectableDates: Array,
+        multiple: Boolean
+    },
+    data() {
+        return {
+            multipleSelectedDates: []
+        }
     },
     computed: {
         hasEvents() {
@@ -1575,6 +1591,20 @@ __webpack_require__.r(__webpack_exports__);
         }
     },
     methods: {
+        selectMultipleDates(date) {
+            const multipleSelct = this.multipleSelectedDates.find((selectedDate) =>
+                selectedDate.getTime() === date.getTime()
+            )
+            if (multipleSelct) {
+                this.multipleSelectedDates = this.multipleSelectedDates.filter((selectedDate) =>
+                    selectedDate.getTime() !== date.getTime()
+                )
+            } else {
+                this.multipleSelectedDates.push(date)
+            }
+            this.$emit('input', this.multipleSelectedDates)
+        },
+
         selectableDate(day) {
             const validity = []
 
@@ -1640,18 +1670,26 @@ __webpack_require__.r(__webpack_exports__);
         * Build classObject for cell using validations
         */
         classObject(day) {
-            function dateMatch(dateOne, dateTwo) {
+            function dateMatch(dateOne, dateTwo, multiple) {
                 // if either date is null or undefined, return false
-                if (!dateOne || !dateTwo) {
+                if (!dateOne || !dateTwo || multiple) {
                     return false
                 }
 
                 return (dateOne.getFullYear() === dateTwo.getFullYear() &&
                     dateOne.getMonth() === dateTwo.getMonth())
             }
+            function dateMultipleSelected(dateOne, dates, multiple) {
+                if (!Array.isArray(dates) || !multiple) { return false }
+                return dates.some((date) => (
+                    dateOne.getDate() === date.getDate() &&
+                    dateOne.getFullYear() === date.getFullYear() &&
+                    dateOne.getMonth() === date.getMonth()
+                ))
+            }
 
             return {
-                'is-selected': dateMatch(day, this.value),
+                'is-selected': dateMatch(day, this.value, this.multiple) || dateMultipleSelected(day, this.multipleSelectedDates, this.multiple),
                 'is-today': dateMatch(day, this.dateCreator()),
                 'is-selectable': this.selectableDate(day) && !this.disabled,
                 'is-unselectable': !this.selectableDate(day) || this.disabled
@@ -1663,8 +1701,12 @@ __webpack_require__.r(__webpack_exports__);
         emitChosenDate(day) {
             if (this.disabled) return
 
-            if (this.selectableDate(day)) {
-                this.$emit('input', day)
+            if (!this.multiple) {
+                if (this.selectableDate(day)) {
+                    this.$emit('input', day)
+                }
+            } else {
+                this.selectMultipleDates(day)
             }
         }
     }
@@ -1887,13 +1929,12 @@ const isDefined = (d) => d !== undefined
         * Otherwise, add date to list of selected dates
         */
         handleSelectMultipleDates(date) {
-            if (
-                this.multipleSelectedDates.find((selectedDate) =>
-                    selectedDate.valueOf() === date.valueOf()
-                )
-            ) {
+            const multipleSelect = this.multipleSelectedDates.filter((selectedDate) =>
+                selectedDate.getTime() === date.getTime()
+            )
+            if (multipleSelect) {
                 this.multipleSelectedDates = this.multipleSelectedDates.filter((selectedDate) =>
-                    selectedDate.valueOf() !== date.valueOf()
+                    selectedDate.getTime() !== date.getTime()
                 )
             } else {
                 this.multipleSelectedDates.push(date)
@@ -3049,6 +3090,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3297,6 +3379,16 @@ __webpack_require__.r(__webpack_exports__);
         },
 
         /**
+        * Check if has any column using subheading.
+        */
+        hasCustomSubheadings() {
+            if (this.$scopedSlots && this.$scopedSlots.subheading) return true
+            return this.newColumns.some((column) => {
+                return column.subheading || (column.$scopedSlots && column.$scopedSlots.subheading)
+            })
+        },
+
+        /**
         * Return total column count based if it's checkable or expanded
         */
         columnCount() {
@@ -3366,6 +3458,9 @@ __webpack_require__.r(__webpack_exports__);
             handler(value) {
                 this.newData = this.data.filter(
                     (row) => this.isRowFiltered(row))
+                if (!this.backendPagination) {
+                    this.newDataTotal = this.newData.length
+                }
             },
             deep: true
         },
@@ -3493,6 +3588,7 @@ __webpack_require__.r(__webpack_exports__);
         * Row checkbox click listener.
         */
         checkRow(row, index, event) {
+            if (!this.isRowCheckable(row)) return
             const lastIndex = this.lastCheckedRowIndex
             this.lastCheckedRowIndex = index
 
@@ -3606,11 +3702,14 @@ __webpack_require__.r(__webpack_exports__);
                     delete this.filters[key]
                     return true
                 }
-                if (Number.isInteger(row[key])) {
-                    if (row[key] !== Number(this.filters[key])) return false
+                let value = this.getValueByPath(row, key)
+                if (value == null) return false
+                if (Number.isInteger(value)) {
+                    if (value !== Number(this.filters[key])) return false
                 } else {
-                    const re = new RegExp(this.filters[key])
-                    if (!row[key].match(re)) return false
+                    const re = new RegExp(this.filters[key], 'i')
+                    if (typeof value === 'boolean') value = `${value}`
+                    if (!value.match(re)) return false
                 }
             }
             return true
@@ -3800,6 +3899,7 @@ __webpack_require__.r(__webpack_exports__);
             type: Boolean,
             default: true
         },
+        subheading: [String, Number],
         customSort: Function,
         internal: Boolean // Used internally by Table
     },
@@ -3839,6 +3939,11 @@ __webpack_require__.r(__webpack_exports__);
         this.addRefToTable()
     },
     beforeDestroy() {
+        if (this.sortable) {
+            if (!this.$parent.visibleData.length) return
+            if (this.$parent.$children.filter((vm) => vm.$options._componentTag === 'b-table-column' &&
+                vm.$data.newKey === this.newKey).length !== 1) return
+        }
         const index = this.$parent.newColumns.map(
             (column) => column.newKey).indexOf(this.newKey)
         if (index >= 0) {
@@ -3986,7 +4091,8 @@ var render = function() {
               attrs: {
                 position: _vm.position,
                 disabled: _vm.disabled,
-                inline: _vm.inline
+                inline: _vm.inline,
+                "mobile-modal": _vm.mobileModal
               }
             },
             [
@@ -4366,7 +4472,8 @@ var render = function() {
                               "selectable-dates": _vm.selectableDates,
                               events: _vm.events,
                               indicators: _vm.indicators,
-                              "date-creator": _vm.dateCreator
+                              "date-creator": _vm.dateCreator,
+                              multiple: _vm.multiple
                             },
                             on: {
                               close: function($event) {
@@ -5425,57 +5532,149 @@ var render = function() {
                     2
                   ),
                   _vm._v(" "),
+                  _vm.hasCustomSubheadings
+                    ? _c(
+                        "tr",
+                        { staticClass: "is-subheading" },
+                        [
+                          _vm.showDetailRowIcon
+                            ? _c("th", { attrs: { width: "40px" } })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.checkable && _vm.checkboxPosition === "left"
+                            ? _c("th")
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm._l(_vm.visibleColumns, function(column, index) {
+                            return _c(
+                              "th",
+                              {
+                                key: index,
+                                style: {
+                                  width:
+                                    column.width === undefined
+                                      ? null
+                                      : isNaN(column.width)
+                                      ? column.width
+                                      : column.width + "px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "th-wrap",
+                                    class: {
+                                      "is-numeric": column.numeric,
+                                      "is-centered": column.centered
+                                    }
+                                  },
+                                  [
+                                    column.$scopedSlots &&
+                                    column.$scopedSlots.subheading
+                                      ? [
+                                          _c("b-slot-component", {
+                                            attrs: {
+                                              component: column,
+                                              scoped: true,
+                                              name: "subheading",
+                                              tag: "span",
+                                              props: {
+                                                column: column,
+                                                index: index
+                                              }
+                                            }
+                                          })
+                                        ]
+                                      : _vm.$scopedSlots.subheading
+                                      ? [
+                                          _vm._t("subheading", null, {
+                                            column: column,
+                                            index: index
+                                          })
+                                        ]
+                                      : [_vm._v(_vm._s(column.subheading))]
+                                  ],
+                                  2
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _vm.checkable && _vm.checkboxPosition === "right"
+                            ? _c("th")
+                            : _vm._e()
+                        ],
+                        2
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _vm.hasSearchablenewColumns
                     ? _c(
                         "tr",
-                        _vm._l(_vm.visibleColumns, function(column, index) {
-                          return _c(
-                            "th",
-                            {
-                              key: index,
-                              style: {
-                                width:
-                                  column.width === undefined
-                                    ? null
-                                    : isNaN(column.width)
-                                    ? column.width
-                                    : column.width + "px"
-                              }
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "th-wrap" },
-                                [
-                                  column.searchable
-                                    ? [
-                                        _c("b-input", {
-                                          attrs: {
-                                            type: column.numeric
-                                              ? "number"
-                                              : "text"
-                                          },
-                                          model: {
-                                            value: _vm.filters[column.field],
-                                            callback: function($$v) {
-                                              _vm.$set(
-                                                _vm.filters,
-                                                column.field,
-                                                $$v
-                                              )
+                        [
+                          _vm.showDetailRowIcon
+                            ? _c("th", { attrs: { width: "40px" } })
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.checkable && _vm.checkboxPosition === "left"
+                            ? _c("th")
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm._l(_vm.visibleColumns, function(column, index) {
+                            return _c(
+                              "th",
+                              {
+                                key: index,
+                                style: {
+                                  width:
+                                    column.width === undefined
+                                      ? null
+                                      : isNaN(column.width)
+                                      ? column.width
+                                      : column.width + "px"
+                                }
+                              },
+                              [
+                                _c(
+                                  "div",
+                                  { staticClass: "th-wrap" },
+                                  [
+                                    column.searchable
+                                      ? [
+                                          _c("b-input", {
+                                            attrs: {
+                                              type: column.numeric
+                                                ? "number"
+                                                : "text"
                                             },
-                                            expression: "filters[column.field]"
-                                          }
-                                        })
-                                      ]
-                                    : _vm._e()
-                                ],
-                                2
-                              )
-                            ]
-                          )
-                        }),
-                        0
+                                            model: {
+                                              value: _vm.filters[column.field],
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.filters,
+                                                  column.field,
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "filters[column.field]"
+                                            }
+                                          })
+                                        ]
+                                      : _vm._e()
+                                  ],
+                                  2
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _vm.checkable && _vm.checkboxPosition === "right"
+                            ? _c("th")
+                            : _vm._e()
+                        ],
+                        2
                       )
                     : _vm._e()
                 ])
