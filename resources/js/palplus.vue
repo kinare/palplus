@@ -88,12 +88,12 @@ export default {
                       label: 'Group withdrawal requests'
                   },
                   {
-                      to: '/withdrawals',
-                      label: 'withdrawals'
+                      to: '/transactions/credit',
+                      label: 'Deposits'
                   },
                   {
-                      to: '/deposits',
-                      label: 'deposits'
+                      to: '/transactions/debit',
+                      label: 'Withdrawals'
                   }
               ]
           }],
@@ -107,11 +107,11 @@ export default {
               icon: 'view-list',
               menu: [
                   {
-                      to: '/pending-loans',
+                      to: '/loans/approved',
                       label: 'Pending loans'
                   },
                   {
-                      to: '/paid-loans',
+                      to: '/loans/cleared',
                       label: 'Paid loans'
                   },
               ]

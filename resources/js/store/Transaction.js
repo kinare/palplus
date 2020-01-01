@@ -5,24 +5,19 @@ const Transaction = {
   namespaced: true,
   state: {
     requests: null,
-    deposits : null,
-    withdrawals : null,
+    transactions : null,
   },
   mutations: {
       SET_REQUESTS : (state, payload) => {
           state.requests = payload
       },
-      SET_DEPOSITS : (state, payload) => {
-          state.deposits = payload
-      },
-      SET_WITHDRAWALS : (state, payload) => {
-          state.withdrawals = payload
+      SET_TRANSACTIONS : (state, payload) => {
+          state.transactions = payload
       },
   },
   getters: {
       requests : state => state.requests,
-      deposits : state => state.deposits,
-      withdrawals : state => state.withdrawals,
+      transactions : state =>  state.transactions
   },
 
   actions: {
@@ -31,16 +26,11 @@ const Transaction = {
               context.commit('SET_REQUESTS', res.data.data);
           })
       },
-      getDeposits : (context) => {
-          call('get', endpoints.deposits).then(res => {
-              context.commit('SET_DEPOSITS', res.data.data);
+      getTransactions : (context) => {
+          call('get', endpoints.transactions).then(res => {
+              context.commit('SET_TRANSACTIONS', res.data.data);
           })
       },
-      getWithdrawals : (context) => {
-          call('get', endpoints.withdrawals).then(res => {
-              context.commit('SET_WITHDRAWALS', res.data.data);
-          })
-      }
   }
 };
 

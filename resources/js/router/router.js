@@ -5,11 +5,18 @@ import nextFactory from "./middleware/MiddlewareFactory";
 import palplus from "../palplus"
 import Home from "../views/Home"
 import Wallets from "../views/wallet/Wallets";
-import Transactions from "../views/wallet/Transactions";
+import WalletTransactions from "../views/wallet/WalletTransactions";
 import { authRoutes } from "../modules/auth";
 import { auth } from "./middleware";
 import Currency from "../views/currency/Currency";
 import Admins from "../views/admin/Admins";
+import NewAdmin from "../views/admin/NewAdmin";
+import Group from "../views/group/Group";
+import Member from "../views/member/Member";
+import WithdrawalRequest from "../views/transaction/WithdrawalRequest";
+import Transaction from "../views/transaction/Transaction";
+import Investment from "../views/investment/Investment";
+import Loan from "../views/loan/Loan";
 
 Vue.use(Router);
 
@@ -23,9 +30,7 @@ const router =new Router({
             children : [
                 {
                     path: '/',
-                    name: 'home',
-                    component: Home,
-                    meta : { middleware : auth}
+                    redirect : '/wallets'
                 },
                 {
                     path: '/wallets',
@@ -36,7 +41,7 @@ const router =new Router({
                 {
                     path: '/wallets-transactions/:type?',
                     name: 'Transactions',
-                    component: Transactions,
+                    component: WalletTransactions,
                     meta : { middleware : auth},
                     props : true
                 },
@@ -53,34 +58,50 @@ const router =new Router({
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/tables',
-                    name: 'tables',
-                    // route level code-splitting
-                    // this generates a separate chunk (about.[hash].js) for this route
-                    // which is lazy-loaded when the route is visited.
-                    component: () => import(/* webpackChunkName: "tables" */ '../views/Tables.vue')
+                    path: '/new-admin',
+                    name: 'New Admin',
+                    component: NewAdmin,
+                    meta : { middleware : auth},
                 },
                 {
-                    path: '/forms',
-                    name: 'forms',
-                    component: () => import(/* webpackChunkName: "forms" */ '../views/Forms.vue')
+                    path: '/groups',
+                    name: 'Groups',
+                    component: Group,
+                    meta : { middleware : auth},
                 },
                 {
-                    path: '/profile',
-                    name: 'profile',
-                    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+                    path: '/members',
+                    name: 'Members',
+                    component: Member,
+                    meta : { middleware : auth},
                 },
                 {
-                    path: '/client/new',
-                    name: 'client.new',
-                    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue')
+                    path: '/group-withdrawal-requests',
+                    name: 'Withdrawal requests',
+                    component: WithdrawalRequest,
+                    meta : { middleware : auth},
                 },
                 {
-                    path: '/client/:id',
-                    name: 'client.edit',
-                    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue'),
-                    props: true
-                }
+                    path: '/transactions/:type?',
+                    name: 'Transactions',
+                    component: Transaction,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/investment-opportunity',
+                    name: 'Investment Opportunity',
+                    component: Investment,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/loans/:type?',
+                    name: 'Loans',
+                    component: Loan,
+                    meta : { middleware : auth},
+                    props : true
+                },
             ]
         },
         ...authRoutes
