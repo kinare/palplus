@@ -8,12 +8,20 @@ export default {
   create: "admin/create",
 
   //Admins
-  getAdmin : 'admin',
-  saveAdmin : id => `admin/${id}`,
-  removeAdmin : id => `admin/${id}`,
-  activateAdmin : id => `admin/activate/${id}`,
-  deactivateAdmin : id => `admin/deactivate/${id}`,
-  inviteAdmin : 'admin/invite',
+    admins : `admins`,
+    wallets : `wallet`,
+    wallet_transactions : `wallet/transactions`,
+    currency : `currency`,
+    groups : `groups`,
+    investments : `investments`,
+    loans : `loans`,
+    members : `members`,
+    transactions : `transactions`,
+    saveAdmin : id => `admin/${id}`,
+    removeAdmin : id => `admin/${id}`,
+    activateAdmin : id => `admin/activate/${id}`,
+    deactivateAdmin : id => `admin/deactivate/${id}`,
+    inviteAdmin : 'admin/invite',
 
   // Groups
 

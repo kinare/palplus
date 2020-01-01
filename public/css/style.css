@@ -1,42 +1,7 @@
-.input,
-.textarea,
-.select select {
-    border: 1px solid #d0d1cd !important;
-}
-
-.field .button {
-    margin: 5px 2px;
-}
-
-.navbar-item img {
-    max-height: 5rem !important;
-}
-.navbar-item:hover,
-.navbar-item:focus {
-    background: none !important;
-}
-a.navbar-item.is-active {
-    background: none !important;
-    font-weight: bold;
-}
-
-.navbar-menu span.menuitem{
-    padding: calc(0.375em - 2px) 0.75em;
-    border-radius: 4px;
-
-}
-
-.navbar-menu a:hover span.menuitem {
-    background: #EBCDFF;
-    color: white;
-}
-
-.navbar-menu .is-active span.menuitem{
-    background: #c876ff !important;
-    color: white;
-}
-
-.user-name{
-    font-family: "Karla", Helvetica, Arial, sans-serif;
-    font-size: 12px;
+.footer {
+    background-color: white!important;
+    padding: 0.495rem 1.5rem!important;
+    position: fixed!important;
+    bottom: 0!important;
+    width: 100%!important;
 }

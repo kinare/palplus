@@ -1,50 +1,42 @@
-window.Vue = require('vue');
-window._ = require('lodash');
-window.axios = require('axios');
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+/* Core */
+import Vue from 'vue'
+import Buefy from 'buefy'
 
+/* Router & Store */
 import router from "./router/router";
 import store from "./store/store";
-import Buefy from "buefy";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import Toasted from "vue-toasted";
+
+/* mixins */
+import { Listener, Status } from "./mixins";
+
+/* Styles */
+import '../scss/main.scss'
+import '@mdi/font/css/materialdesignicons.css'
+
+/* Vue. Component in recursion */
+import AsideMenuList from './components/AsideMenuList'
+
+/* Utilities */
 import { filters, helper, validator} from "./utils";
-import Auth from "./modules/auth/Auth";
-import Api from "./modules/api/Api";
-import Listener from "./mixins/Listener";
-import IsOnline from "./mixins/OnlineChecker";
-
-
-
-library.add(fas, fab, far);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = true;
-Vue.use(Buefy, {
-    defaultIconComponent: "vue-fontawesome",
-    defaultIconPack: "fas"
-});
+Vue.use(Buefy);
 
-Vue.use(Toasted);
-
-window.auth = new Auth();
-window.Event = new Vue();
 window.helper = helper;
 window.validator = validator;
-window.api = new Api(process.env.MIX_VUE_APP_API);
+Event = new Vue();
 Vue.prototype.appName = process.env.MIX_VUE_APP_NAME;
 
 filters.forEach(f => {
     Vue.filter(f.name, f.execute);
 });
 
+/* These components are used in recursion algorithm */
+Vue.component('AsideMenuList', AsideMenuList);
+
 const app = new Vue({
     el: '#app',
     router,
     store,
-    mixins: [Listener, IsOnline],
+    mixins : [Listener, Status]
 });

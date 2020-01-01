@@ -40,24 +40,14 @@ Route::group(['middleware' => ['json.response']], function () {
         });
     });
 
-    //Admin Auth Routes
-    Route::prefix('admin')->group(base_path('routes/admin.php'));
-
     //Dashboard Routes
     Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
-    //Dashboard Routes
-    Route::prefix('test')->group(base_path('routes/test.php'));
 
     Route::namespace('Finance')->group(function (){
-        Route::group(['prefix' => 'rave'], function () {
-            Route::get('/test', 'TestIntegration@test');
-        });
 
         Route::group(['prefix' => 'paypal'], function () {
             Route::get('ec-checkout-success', 'TransactionController@paypalToken');
-            Route::post('/pay', 'RaveController@initialize')->name('pay');
-            Route::post('/rave/callback', 'RaveController@callback')->name('callback');
         });
 
     });

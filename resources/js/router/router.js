@@ -1,125 +1,103 @@
 import Vue from "vue";
 import Router from "vue-router";
-import AuthCheck from "./middleware/Auth";
+import store from "../store/store";
 import nextFactory from "./middleware/MiddlewareFactory";
-import NotFound from "../views/error/NotFound";
-import Home from "../views/Home";
-import Dashboard from "../views/dashboard/Dashboard";
-import Auth from "../views/auth/Auth";
-import Login from "../views/auth/Login";
-import PasswordRequest from "../views/auth/PasswordRequest";
-import Password from "../views/auth/Password";
-import Invitation from "../views/auth/Invitation";
-Vue.use(Router);
+import palplus from "../palplus"
+import Home from "../views/Home"
+import Wallets from "../views/wallet/Wallets";
+import Transactions from "../views/wallet/Transactions";
+import { authRoutes } from "../modules/auth";
+import { auth } from "./middleware";
+import Currency from "../views/currency/Currency";
+import Admins from "../views/admin/Admins";
 
+Vue.use(Router);
 
 const router =new Router({
   mode: "history",
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/dashboard",
-      component: Dashboard,
-      children : [
+    routes: [
         {
-          path : '',
-          redirect: '/dashboard/stats'
+            path : "/",
+            component : palplus,
+            children : [
+                {
+                    path: '/',
+                    name: 'home',
+                    component: Home,
+                    meta : { middleware : auth}
+                },
+                {
+                    path: '/wallets',
+                    name: 'wallets',
+                    component: Wallets,
+                    meta : { middleware : auth}
+                },
+                {
+                    path: '/wallets-transactions/:type?',
+                    name: 'Transactions',
+                    component: Transactions,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/currency-rates',
+                    name: 'Currency',
+                    component: Currency,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/admins',
+                    name: 'Admins',
+                    component: Admins,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/tables',
+                    name: 'tables',
+                    // route level code-splitting
+                    // this generates a separate chunk (about.[hash].js) for this route
+                    // which is lazy-loaded when the route is visited.
+                    component: () => import(/* webpackChunkName: "tables" */ '../views/Tables.vue')
+                },
+                {
+                    path: '/forms',
+                    name: 'forms',
+                    component: () => import(/* webpackChunkName: "forms" */ '../views/Forms.vue')
+                },
+                {
+                    path: '/profile',
+                    name: 'profile',
+                    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+                },
+                {
+                    path: '/client/new',
+                    name: 'client.new',
+                    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue')
+                },
+                {
+                    path: '/client/:id',
+                    name: 'client.edit',
+                    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue'),
+                    props: true
+                }
+            ]
         },
-        {
-          path : 'stats',
-          name: "Dashboard",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/stats/Stats"),
-            menu : () => import(/* webpackChunkName: "about" */ "../views/stats/Menu")
-          },
-          meta: { middleware: AuthCheck }
-        },
-        {
-          path : 'wallet',
-          name: "Palplus Wallet",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/wallet/List"),
-          }
-        },
-        {
-          path : 'currency',
-          name: "Currency Rates",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/currency/List"),
-          }
-        },
-        {
-          path : 'admins',
-          name: "Admin",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/admin/AdminList"),
-          }
-        },
-        {
-          path : 'admin/card/:id?',
-          name: "Admin Card",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/admin/AdminCard"),
-          }
-        },
-        {
-          path : 'groups',
-          name: "Groups",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/group/GroupList"),
-          }
-        },
-        {
-          path : 'members',
-          name: "Members",
-          components : {
-            content : () => import(/* webpackChunkName: "about" */ "../views/member/MemberList"),
-          }
-        },
-      ],
-      meta: { middleware: AuthCheck }
-    },
-
-    {
-      path : '/auth',
-      component : Auth,
-      children : [
-        {
-          path : '',
-          redirect : 'auth/login',
-        },
-        {
-          path : 'login',
-          component : Login
-        },
-        {
-          path : 'reset',
-          component : PasswordRequest
-        },
-        {
-          path : 'password/:token',
-          component : Password
-        },
-        {
-          path : 'invitation/:token',
-          component : Invitation
+        ...authRoutes
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { x: 0, y: 0 }
         }
-      ]
-    },
-
-    //fallback rout
-    {
-      path: "*",
-      component: NotFound
     }
-  ]
 });
 
+/* Collapse mobile aside menu on route change */
+router.afterEach(() => {
+    store.commit('asideMobileStateToggle', false)
+});
 
 router.beforeEach((to, from, next) => {
   if (to.meta.middleware) {

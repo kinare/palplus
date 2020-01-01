@@ -1,4 +1,6 @@
 import endpoints from "./endpoints";
+import call from "../modules/api";
+import {authService} from "../modules/auth";
 
 const Auth = {
   namespaced: true,
@@ -56,8 +58,8 @@ const Auth = {
     },
 
     logout: (context) => {
-      window.api.call("get", endpoints.logout ).then(() => {
-        window.auth.logout();
+      call("get", endpoints.logout ).then(() => {
+        authService.logout()
       });
     }
   }
