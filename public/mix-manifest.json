@@ -5,5 +5,7 @@
     "/forms.js": "/forms.js",
     "/profile.js": "/profile.js",
     "/tables.js": "/tables.js",
-    "/vendors~client-form~forms.js": "/vendors~client-form~forms.js"
+    "/vendors~client-form~forms.js": "/vendors~client-form~forms.js",
+    "/about.js": "/about.js",
+    "/vendors~about.js": "/vendors~about.js"
 }
