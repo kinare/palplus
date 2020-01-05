@@ -85,12 +85,40 @@ class Transaction extends Accounting
         /* TODO implement withdrawal */
     }
 
-//    public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
-    public function deposit(Wallet $wallet, $amount){
+    public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
 
-        /* TODO implement deposit */
-        $wallet->total_balance += $amount;
-        $wallet->save();
+        return true; //Todo finish deposti
+
+        /* Convert currency between wallets */
+        $converted = (object)Converter::Convert('NGN', $wallet->currencyShortDesc(), $amount);
+        $this->state++;
+
+        /* Credit the to wallet */
+        $credit = $this->credit($wallet, $converted->amount);
+        $this->state++;
+
+        if ($credit)
+            $this->record([
+                'transaction_code' => 'PP-'.Carbon::now()->timestamp,
+                'wallet_id' => $wallet->id,
+                'entry' => 'credit',
+                'transaction_from' => $account->id,
+                'transaction_to' => $wallet->id,
+                'account_no' => $account->number,
+                'type' => $type,
+                'description' => $description,
+                'amount' => $converted->amount,
+                'from_currency' => $account->currency->currencyShortDesc(),
+                'to_currency' => $wallet->currencyShortDesc(),
+                'conversion_rate' => $converted->rate,
+                'conversion_time' => $converted->time,
+            ]);
+
+        /* check the transaction status */
+        if ($this->state >= 2)
+            return true;
+
+        return false;
     }
 
     public function payout(Wallet $wallet, Account $account, $amount, $type = null, $description = null){

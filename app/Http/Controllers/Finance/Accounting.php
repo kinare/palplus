@@ -19,7 +19,7 @@ class Accounting
         try{
             $wallet->total_balance = (float)$amount + (float)$wallet->total_balance;
             $wallet->total_deposits = (float)$amount + (float)$wallet->total_deposits;
-            $wallet->modified_by = Auth::user()->id;
+            $wallet->modified_by = $wallet->user_id;
             $wallet->save();
             return $wallet;
         }catch (Exception $exception){
@@ -39,7 +39,7 @@ class Accounting
         try{
             $wallet->total_balance = (float)$wallet->total_balance - (float)$amount;
             $wallet->total_withdrawals = (float)$amount + (float)$wallet->total_withdrawals;
-            $wallet->modified_by = Auth::user()->id;
+            $wallet->modified_by =  $wallet->user_id;
             $wallet->save();
             return $wallet;
         }catch (Exception $exception){

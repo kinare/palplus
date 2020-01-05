@@ -4,6 +4,7 @@
 namespace App\Lib\Paypal;
 
 
+use App\Account;
 use App\GatewayTransaction;
 use App\Http\Controllers\Finance\HasTransction;
 use App\Http\Controllers\Finance\Transaction;
@@ -55,6 +56,7 @@ class Checkout extends Paypal
         $cache = $this->data;
         $cache['token'] = explode('=', $res['paypal_link']);
         $cache['token'] = array_pop($cache['token']);
+        $cache['user_id'] = \Auth::user()->id;
         array_push($paypalCache, $cache);
         Cache::set('paypal', $paypalCache, Carbon::now()->addHours(24));
         return $this->link($res['paypal_link']);
@@ -77,11 +79,20 @@ class Checkout extends Paypal
                     return $this->error($response['L_SHORTMESSAGE0'].' : '.$response['L_LONGMESSAGE0']);
 
                 if ($response['ACK'] === 'Success'){
-                    // todo transact to wallet
+                    $transaction = new Transaction();
+                    $transaction->deposit(
+                        Account::whereUserId($value['user_id'])->first(),
+                        Wallet::whereUserId($value['user_id'])->first(),
+                        $value['total'],
+                        'DEPOSIT',
+                        'Wallet deposit via paypal'
+                    );
                     return $this->success($response['ACK']);
                 }
 
-                //todo unset from cache
+                //todo unset transaction from cache
+                unset($datas[$key]);
+                Cache::set('paypal', $datas, Carbon::now()->addHours(24));
             }
 
         }
