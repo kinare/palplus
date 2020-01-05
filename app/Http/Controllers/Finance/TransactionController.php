@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 
 class TransactionController extends BaseController
 {
+    use HasTransction;
+
     public function __construct($model = Transaction::class, $resource = TransactionResource::class)
     {
         parent::__construct($model, $resource);
@@ -43,12 +45,6 @@ class TransactionController extends BaseController
             'gateway' => 'required',
         ]);
 
-        if ($request->gateway === 'PAYPAL'){
-            $transaction = GatewayTransaction::initPaypal($request->amount);
-            $pp = new Checkout();
-            return $pp->transact($transaction);
-        }
-
         //get payment account
         $account =  $account = Account::where([
             'user_id' => $request->user()->id,
@@ -56,9 +52,8 @@ class TransactionController extends BaseController
         ])->first();
 
         //if account not set
-        if (!$account) return response()->json([
-            'message' => 'Please add your '.mb_strtolower($request->gateway).' in account settings to proceed'
-        ], 500);
+        if (!$account)
+            return $this->empty('Please add your '.mb_strtolower($request->gateway).' in account settings to proceed');
 
         switch ($request->gateway){
             case 'CARD' :
@@ -80,6 +75,11 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::initModbile($account, $request->amount, $request->ip());
                 $mobile = new Mobile();
                 return $mobile->transact($transaction);
+
+            case 'PAYPAL' :
+                $transaction = GatewayTransaction::initPaypal($request->amount);
+                $pp = new Checkout();
+                return $pp->transact($transaction);
         }
     }
 

@@ -1854,6 +1854,30 @@
                 ]
             }
         },
+        "/dashboard/withdrawal-requests": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get withdrawal-requests",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/accounts": {
             "get": {
                 "tags": [

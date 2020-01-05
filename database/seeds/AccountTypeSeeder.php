@@ -16,6 +16,7 @@ class AccountTypeSeeder extends Seeder
             ['type' => 'MOBILE', 'description' => 'M-pesa account'],
             ['type' => 'ACCOUNT', 'description' => 'Bank account'],
             ['type' => 'CARD', 'description' => 'Credit/Debit card'],
+            ['type' => 'PAYPAL', 'description' => 'Paypal account'],
         ]);
     }
 }

@@ -5,6 +5,9 @@ namespace App\Lib\Paypal;
 
 
 use App\GatewayTransaction;
+use App\Http\Controllers\Finance\HasTransction;
+use App\Http\Controllers\Finance\Transaction;
+use App\Wallet;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,6 +15,8 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 
 class Checkout extends Paypal
 {
+    use HasTransction;
+
     public function __construct($provider = 'express_checkout')
     {
         parent::__construct($provider);
@@ -45,12 +50,14 @@ class Checkout extends Paypal
     public function checkout(){
         $res = $this->provider->setExpressCheckout($this->data, false);
 
+        // todo store transactions uniquely
         $paypalCache = [];
-        array_push($paypalCache, $this->data);
+        $cache = $this->data;
+        $cache['token'] = explode('=', $res['paypal_link']);
+        $cache['token'] = array_pop($cache['token']);
+        array_push($paypalCache, $cache);
         Cache::set('paypal', $paypalCache, Carbon::now()->addHours(24));
-        return [
-            'url' => $res['paypal_link']
-        ];
+        return $this->link($res['paypal_link']);
     }
 
     public function getCheckoutSuccess($token){
@@ -59,13 +66,28 @@ class Checkout extends Paypal
     }
 
     public function doCheckout($checkout){
-        $response = [];
+        $response  = null;
         $datas = Cache::get('paypal');
 
-        foreach ($datas as $data){
-            $res = $this->provider->doExpressCheckoutPayment($data, $checkout['TOKEN'], $checkout['PAYERID']);
-            array_push($response , $res);
+        foreach ($datas as $key => $value){
+            if ($value['token'] === $checkout['TOKEN'] ){
+                $response = $this->provider->doExpressCheckoutPayment($value, $checkout['TOKEN'], $checkout['PAYERID']);
+
+                if ($response['ACK'] === 'SuccessWithWarning')
+                    return $this->error($response['L_SHORTMESSAGE0'].' : '.$response['L_LONGMESSAGE0']);
+
+                if ($response['ACK'] === 'Success'){
+                    // todo transact to wallet
+                    return $this->success($response['ACK']);
+                }
+
+                //todo unset from cache
+            }
+
         }
+
+        if (!$response)
+            return $this->error('Transaction not found');
 
        return  $response;
     }

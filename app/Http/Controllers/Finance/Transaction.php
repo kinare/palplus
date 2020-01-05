@@ -87,6 +87,7 @@ class Transaction extends Accounting
 
 //    public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
     public function deposit(Wallet $wallet, $amount){
+
         /* TODO implement deposit */
         $wallet->total_balance += $amount;
         $wallet->save();
