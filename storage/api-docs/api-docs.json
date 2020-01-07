@@ -1638,12 +1638,228 @@
                 ]
             }
         },
+        "/dashboard/currency": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get currency",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/dashboard/wallet": {
             "get": {
                 "tags": [
                     "Dashboard"
                 ],
-                "summary": "Get dashboard wallet",
+                "summary": "Get wallets",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/wallet/transactions": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get wallet transactions",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/admins": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get admins",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/groups": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get groups",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/members": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get members",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/transactions": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get transactions",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/investments": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get investments",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/loans": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get loans",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/withdrawal-requests": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get withdrawal-requests",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1816,6 +2032,27 @@
                         "description": "expiryyear",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "bvn",
+                        "in": "query",
+                        "description": "bvn",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "passcode",
+                        "in": "query",
+                        "description": "passcode",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "bank code",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1964,9 +2201,9 @@
                     {
                         "name": "currency_id",
                         "in": "query",
-                        "description": "currency id",
+                        "description": "currency",
                         "required": false,
-                        "type": "integer"
+                        "type": "string"
                     },
                     {
                         "name": "cvv",
@@ -2011,9 +2248,37 @@
                         "type": "string"
                     },
                     {
-                        "name": "expiry",
+                        "name": "expirymonth",
                         "in": "query",
-                        "description": "expiry",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "bvn",
+                        "in": "query",
+                        "description": "bvn",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "passcode",
+                        "in": "query",
+                        "description": "passcode",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "bank code",
                         "required": false,
                         "type": "string"
                     }
@@ -2130,6 +2395,84 @@
                         "description": "payment id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/penalties": {
+            "get": {
+                "tags": [
+                    "Penalties"
+                ],
+                "summary": "Member Penalties",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Penalties"
+                ],
+                "summary": "Create Member Penalties",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "reason",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "name": "amount",
@@ -8378,6 +8721,138 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/member/loans/{id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Member loans",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/member/contributions/{id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Member Contributions",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/member/pending-payments/{id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Member Pending payments",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "member id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/member/remove/{member_id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Remove Member",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "query",
                         "description": "member id",
                         "required": true,
                         "type": "integer"

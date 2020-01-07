@@ -56,17 +56,19 @@ class TransactionController extends BaseController
             return $this->empty('Please add your '.mb_strtolower($request->gateway).' in account settings to proceed');
 
         switch ($request->gateway){
-            case 'CARD' :
+            case 'CARD' : //
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
                 $card = new Card();
                 return $card->transact($transaction);
 
-            case 'ACCOUNT' :
+            case 'ACCOUNT' : //done
+                $account->payment_type = 'account';
+                $account->accountbank = '232';
                 $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
                 $bank = new BankAccount();
                 return $bank->transact($transaction);
 
-            case 'MOBILE' :
+            case 'MOBILE' :// done
                 //set relevant account field
                 $account->payment_type = 'mpesa';
                 $account->narration = 'payment details';
@@ -76,7 +78,7 @@ class TransactionController extends BaseController
                 $mobile = new Mobile();
                 return $mobile->transact($transaction);
 
-            case 'PAYPAL' :
+            case 'PAYPAL' : // done
                 $transaction = GatewayTransaction::initPaypal($request->amount);
                 $pp = new Checkout();
                 return $pp->transact($transaction);
@@ -187,7 +189,7 @@ class TransactionController extends BaseController
         ]);
 
         $card = new Card();
-        return $card->confirm($request->all());
+        return $card->otp($request->all());
     }
 
     public function paypalToken(Request $request){

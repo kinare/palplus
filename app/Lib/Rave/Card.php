@@ -5,11 +5,14 @@ namespace App\Lib\Rave;
 
 
 use App\GatewayTransaction;
+use App\Http\Controllers\Finance\HasTransction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class Card extends Rave
 {
+    use HasTransction;
+
     protected $rave;
 
     public function transact(GatewayTransaction $transaction){
@@ -30,32 +33,22 @@ class Card extends Rave
                 switch($res['data']['suggested_auth']){
                     case 'PIN':
                         /* request pin set pin and suggested auth */
-                        $response = [
-                            'message' => $res['message'],
-                            'desc' => 'add pin and suggested auth',
-                            'model' => $res['data']['suggested_auth'],
-                            'ref' => $data['txRef'],
-                        ];
+                        return $this->oneTimePassword($res['data']['suggested_auth'].' required', $data['txRef']);
                        break;
                     case 'NOAUTH_INTERNATIONAL':
                         /* Set billing address * */
-                        $response = [
-                            'code' => '03',
-                            'message' => $res['message'],
-                            'desc' => 'add billing address',
-                            'model' => $res['data']['suggested_auth'],
+                        return $this->addInfo([
+                            'message' => 'add billing address',
                             'ref' => $data['txRef']
-                        ];
+                        ]);
+
                         break;
                     case 'AVS_VBVSECURECODE':
                         /* Set billing address * */
-                        $response = [
-                            'code' => '03',
-                            'message' => $res['message'],
-                            'desc' => 'add billing address',
-                            'model' => $res['data']['suggested_auth'],
+                        return $this->addInfo([
+                            'message' => 'add billing address',
                             'ref' => $data['txRef']
-                        ];
+                        ]);
                 }
                 return $response;
             }
@@ -68,39 +61,21 @@ class Card extends Rave
 
         /*  check response for validation */
         if ($res['data']['chargeResponseCode'] === '00'){
-
             /* 00 transaction successful */
-
-            $response = [
-                'code' => $res['data']['chargeResponseCode'],
-                'message' => $res['data']['chargeResponseMessage'],
-                'type' => $res['data']['paymentType'],
-                'txref' => $data['txRef'],
-            ];
+            return $this->success($res['data']['chargeResponseMessage']);
 
         }elseif($res['data']['chargeResponseCode'] === '02'){
 
             /* 02 transaction needs validation */
 
             if ($res['data']['authModelUsed'] === 'PIN')
-                $response = [
-                    'code' => $res['data']['chargeResponseCode'],
-                    'message' => $res['data']['chargeResponseMessage'],
-                    'model' => $res['data']['authModelUsed'],
-                    'type' => $res['data']['paymentType'],
-                    'txref' => $data['txRef'],
-                ];
+                /* 00 transaction successful */
+                return $this->oneTimePassword($res['data']['chargeResponseMessage'], $data['txRef']);
 
 
             if ($res['data']['authModelUsed'] === 'VBVSECURECODE')
-                $response = [
-                    'code' => $res['data']['chargeResponseCode'],
-                    'message' => $res['data']['chargeResponseMessage'],
-                    'model' => $res['data']['authModelUsed'],
-                    'type' => $res['data']['paymentType'],
-                    'url' => $res['data']['authurl'],
-                    'txref' => $data['txRef'],
-                ];
+                return $this->link($res['data']['authurl']);
+
         }
 
         return $response;
@@ -110,7 +85,13 @@ class Card extends Rave
         $details = Cache::get($data['ref'])['req'];
         $details['suggested_auth'] = 'PIN';
         $details['pin'] = $data['pin'];
-        return $this->initiate($details, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+        $res = $this->initiate($details, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+
+        if ($res['status'] === 'success'){
+            return $this->success($res['data']['chargeResponseMessage']);
+        }
+
+        return $res;
     }
 
     public function otp($data){

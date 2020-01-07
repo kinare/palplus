@@ -5,11 +5,14 @@ namespace App\Lib\Rave;
 
 
 use App\GatewayTransaction;
+use App\Http\Controllers\Finance\HasTransction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class Account extends Rave
 {
+    use HasTransction;
+
     public function transact(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload, true);
         $res =  $this->initiate($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
@@ -18,33 +21,16 @@ class Account extends Rave
         $cache = ['req' => $data, 'res' => $res,];
         Cache::put($data['txRef'], $cache, Carbon::now()->addHours(12));
 
-        $response = [];
 
         /* check for response status  */
-        if (isset($res['status']) && $res['status'] === 'success'){
-
-            //check for data status
-            if ($res['data']['status'] === 'failed')
-                $response = [
-                    'code' => '03',
-                    'message' => $res['data']['chargeResponseMessage'],
-                ];
-
-            if ($res['data']['chargeResponseCode'] === '00')
-                $response = [
-                    'code' => '00',
-                    'message' => $res['data']['chargeResponseMessage'],
-                ];
-
-            if ($res['data']['chargeResponseCode'] === '02'){
-                $response = [
-                    'code' => '02',
-                    'message' => $res['data']['validateInstructions'],
-                ];
-            }
-        }else{
-            return $res;
+        if ($res['status'] === 'error'){
+            return $this->error($res['message']);
         }
+
+        // todo process on success
+
+        return $res;
+
     }
 
     public function otp($data){

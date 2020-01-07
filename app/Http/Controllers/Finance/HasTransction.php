@@ -13,17 +13,19 @@ trait HasTransction
         ],200);
     }
 
-    public function password($message = null){
+    public function password($message, $ref){
         return response()->json([
             'code' => 1,
             'message' => $message,
+            'ref' => $ref
         ],200);
     }
 
-    public function otp($message  = null){
+    public function oneTimePassword($message , $ref){
         return response()->json([
             'code' => 2,
             'message' => $message,
+            'ref' => $ref,
         ],200);
     }
 
@@ -47,5 +49,10 @@ trait HasTransction
             'code' => 5,
             'message' => $message,
         ],500);
+    }
+
+    public function addInfo($arr){
+        $arr['code'] = 6;
+        return response()->json($arr,200);
     }
 }
