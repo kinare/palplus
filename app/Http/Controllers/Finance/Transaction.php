@@ -44,7 +44,7 @@ class Transaction extends Accounting
                 'amount' => $amount,
                 'from_currency' => $from->currencyShortDesc(),
                 'to_currency' => $to->currencyShortDesc(),
-                'conversion_rate' => $converted->rate,
+                'conversion_rate' => serialize($converted->rate),
                 'conversion_time' => $converted->time,
             ]);
             $this->state++;
@@ -68,7 +68,7 @@ class Transaction extends Accounting
                 'amount' => $converted->amount,
                 'from_currency' => $from->currencyShortDesc(),
                 'to_currency' => $to->currencyShortDesc(),
-                'conversion_rate' => $converted->rate,
+                'conversion_rate' => serialize($converted->rate),
                 'conversion_time' => $converted->time,
             ]);
             $this->state++;
@@ -87,7 +87,6 @@ class Transaction extends Accounting
 
     public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
 
-        return true; //Todo finish deposti
 
         /* Convert currency between wallets */
         $converted = (object)Converter::Convert('NGN', $wallet->currencyShortDesc(), $amount);
@@ -98,7 +97,7 @@ class Transaction extends Accounting
         $this->state++;
 
         if ($credit)
-            $this->record([
+        $this->record([
                 'transaction_code' => 'PP-'.Carbon::now()->timestamp,
                 'wallet_id' => $wallet->id,
                 'entry' => 'credit',
@@ -108,9 +107,9 @@ class Transaction extends Accounting
                 'type' => $type,
                 'description' => $description,
                 'amount' => $converted->amount,
-                'from_currency' => $account->currency->currencyShortDesc(),
+                'from_currency' => $account->currency,
                 'to_currency' => $wallet->currencyShortDesc(),
-                'conversion_rate' => $converted->rate,
+                'conversion_rate' => serialize($converted->rate),
                 'conversion_time' => $converted->time,
             ]);
 
@@ -126,6 +125,7 @@ class Transaction extends Accounting
     }
 
     protected function record($details){
+        dump($details);
         $transaction = new TransactionRecords();
         $transaction->fill($details);
         $transaction->created_by = Auth::user()->id;

@@ -72,7 +72,7 @@ class TransactionController extends BaseController
                 $account->narration = 'payment details';
                 $account->is_mpesa = '1';
                 $account->is_mpesa_lipa = '1';
-                $transaction = GatewayTransaction::initModbile($account, $request->amount, $request->ip());
+                $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip());
                 $mobile = new Mobile();
                 return $mobile->transact($transaction);
 

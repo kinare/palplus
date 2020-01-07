@@ -8,6 +8,7 @@ use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
+use App\Invitation;
 use App\Loan;
 use App\Observers\ActivityMemberObserver;
 use App\Observers\ActivityObserver;
@@ -15,6 +16,7 @@ use App\Observers\ContributionObserver;
 use App\Observers\GroupObserver;
 use App\Observers\GroupProjectObserver;
 use App\Observers\GroupSettingObserver;
+use App\Observers\InvitationObserver;
 use App\Observers\LoanObserver;
 use App\Observers\PenaltyObserver;
 use App\Observers\UserObserver;
@@ -54,5 +56,6 @@ class ModelServiceProvider extends ServiceProvider
         Loan::observe(LoanObserver::class);
         Withdrawal::observe(WithdrawalObserver::class);
         Penalty::observe(PenaltyObserver::class);
+        Invitation::observe(InvitationObserver::class);
     }
 }

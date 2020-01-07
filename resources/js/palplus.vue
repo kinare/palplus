@@ -60,8 +60,8 @@ export default {
                       label: 'view admin users'
                   },
                   {
-                      to: '/new-admin',
-                      label: 'New admin user'
+                      to: '/admin-card',
+                      label: 'Admin Card'
                   }
               ]
           }

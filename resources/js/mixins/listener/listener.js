@@ -9,6 +9,10 @@ const listener = {
       this.$router.push("/auth/login");
     });
 
+    Event.$on("admin-registered", () => {
+      this.$router.push("/admins");
+    });
+
     Event.$on("ApiError", (status, message) => {
         this.$buefy.toast.open({
             duration: 7000,
@@ -17,6 +21,17 @@ const listener = {
             type: 'is-danger'
         });
     });
+
+    Event.$on("ApiSuccess", (status, message) => {
+        this.$buefy.toast.open({
+             duration: 5000,
+             message: message,
+            position: 'is-top',
+            type: 'is-success'
+      });
+
+      this.$router.push('admins');
+     });
   }
 };
 export default listener;

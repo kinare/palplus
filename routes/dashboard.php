@@ -19,20 +19,23 @@ Route::group(['prefix' => 'auth'], function () {
             Route::get('logout', 'AdminAuthController@logout');
             Route::get('me', 'AdminAuthController@me');
         });
+    });
+});
 
-        Route::group(['middleware' => 'auth:admin'], function () {
+//Admin
+Route::group(['prefix' => 'admin'], function () {
+    Route::group(['middleware' => 'auth:admin'], function () {
+        Route::namespace('Admin')->group(function (){
             Route::get('/', 'AdminController@index');
             Route::get('/activate/{id}', 'AdminController@activate');
             Route::get('/deactivate/{id}', 'AdminController@deactivate');
             Route::get('/{id}', 'AdminController@show');
-            Route::patch('/{id}', 'AdminController@update');
+            Route::post('/{id}', 'AdminController@update');
             Route::delete('/{id}', 'AdminController@destroy');
             Route::delete('/{id}/force', 'AdminController@forceDestroy');
         });
     });
 });
-
-//Admin
 
 Route::group(['prefix' => ''], function () {
     Route::group(['middleware' => 'auth:admin'], function () {

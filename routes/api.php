@@ -43,7 +43,6 @@ Route::group(['middleware' => ['json.response']], function () {
     //Dashboard Routes
     Route::prefix('dashboard')->group(base_path('routes/dashboard.php'));
 
-
     Route::namespace('Finance')->group(function (){
 
         Route::group(['prefix' => 'paypal'], function () {
@@ -51,8 +50,6 @@ Route::group(['middleware' => ['json.response']], function () {
         });
 
     });
-
-
 
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {

@@ -3,6 +3,7 @@
 namespace App;
 
 
+use App\Http\Controllers\Currency\Converter;
 use Auth;
 use Carbon\Carbon;
 
@@ -35,7 +36,6 @@ class GatewayTransaction extends BaseModel
             'IP' => $ip ?: '',
             'txRef' => 'PP-'.Carbon::now()->timestamp,
             'device_fingerprint' => $fingerPrint,
-
         ];
 
         $transaction = new self();
@@ -75,7 +75,7 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
-    public static function initModbile(Account $account, $amount, $ip= null, $fingerPrint = null) {
+    public static function initMobile(Account $account, $amount, $ip= null, $fingerPrint = null) {
         $account = [
             'phonenumber' => $account->number,
             'currency' => $account->currency,
@@ -106,7 +106,7 @@ class GatewayTransaction extends BaseModel
             'item' => [
                 [
                     'name'  => 'Wallet deposit',
-                    'price' => $amount,
+                    'price' =>   Converter::Convert(Wallet::mine()->currencyShortDesc(), 'USD', $amount)['amount'],
                     'qty'   => 1,
                 ]
             ],

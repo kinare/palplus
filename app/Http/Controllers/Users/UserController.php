@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\Account;
 use App\Contribution;
 use App\Group;
 use App\Http\Controllers\AccountingController;
@@ -468,9 +469,10 @@ class UserController extends BaseController
     public function deposit(Request $request){
 
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
+        $account = Account::where('user_id', $request->user()->id)->first();
         $transaction = new \App\Http\Controllers\Finance\Transaction();
 
-        $transaction->deposit($wallet, $request->amount);
+        $transaction->deposit($account, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
         return response()->json([
             'message' => 'Deposit successful'
         ], 200);

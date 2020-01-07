@@ -113,11 +113,11 @@ class AdminAuthController extends Controller
 
         $admin = Admin::find($request->id);
         $admin->fill($request->all());
-        $admin->active = true;
+        $admin->active = 1;
         $admin->invitation_token = null;
         $admin->password = Hash::make($request->password);
         $admin->save();
-        return new AdminResource($admin);
+        return new AdminResource($admin->refresh());
     }
 
     /**

@@ -58,10 +58,11 @@ const router =new Router({
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/new-admin',
-                    name: 'New Admin',
+                    path: '/admin-card/:id?',
+                    name: 'Admin Card',
                     component: NewAdmin,
                     meta : { middleware : auth},
+                    props : true
                 },
                 {
                     path: '/groups',

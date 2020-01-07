@@ -15,6 +15,12 @@ const Admin = {
       SET_ADMIN : (state, payload) => {
           state.admin = payload
       },
+
+      SELECT_ADMIN : (state, id) =>{
+          state.admin = state.admins.filter(admin =>{
+              return admin.id === id
+          }).shift();
+      }
   },
   getters: {
       admins : state => state.admins,
@@ -30,6 +36,24 @@ const Admin = {
 
       getAdmin : (context, id) => {
           call('get', endpoints.getAdmin(id)).then(res => {
+              context.commit('SET_ADMIN', res.data.data);
+          })
+      },
+
+      invite : (context, data) => {
+          call("post", endpoints.inviteAdmin, data).then(res => {
+              Event.$emit("ApiSuccess", 200, res.data.message);
+          });
+      },
+
+      save : (data) => {
+          call("post", endpoints.saveAdmin(data.id), data).then(res => {
+              Event.$emit("ApiSuccess", 200, 'Saved');
+          });
+      },
+
+      validate : (context, token) =>{
+          call('post', endpoints.validate,  token).then( res=>{
               context.commit('SET_ADMIN', res.data.data);
           })
       },

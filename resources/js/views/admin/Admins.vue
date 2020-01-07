@@ -2,7 +2,7 @@
     <div>
         <hero-bar :has-right-visible="true">
             Admins
-            <router-link slot="right" to="/new-admin" class="button">
+            <router-link slot="right" to="/admin-card" class="button">
                 New admin
             </router-link>
         </hero-bar>
@@ -45,7 +45,11 @@
                                     <b-icon icon="menu-down"></b-icon>
                                 </button>
 
-                                <b-dropdown-item aria-role="listitem">View</b-dropdown-item>
+                                <b-dropdown-item has-link aria-role="listitem">
+                                    <router-link :to="`admin-card/${props.row.id}`">
+                                        view
+                                    </router-link>
+                                </b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Update</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">{{props.row.active ? 'de-activate' : 'activate'}}</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Delete</b-dropdown-item>

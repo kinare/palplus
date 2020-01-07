@@ -6,6 +6,7 @@ namespace App\Lib\Paypal;
 
 use App\Account;
 use App\GatewayTransaction;
+use App\Http\Controllers\Currency\Converter;
 use App\Http\Controllers\Finance\HasTransction;
 use App\Http\Controllers\Finance\Transaction;
 use App\Wallet;
@@ -46,12 +47,15 @@ class Checkout extends Paypal
             $total += $item['price'] * $item['qty'];
         }
         $this->data['total'] = $total;
+        dump($this->data);
     }
 
     public function checkout(){
         $res = $this->provider->setExpressCheckout($this->data, false);
 
-        // todo store transactions uniquely
+        if ($res['ACK'] === 'Failure')
+            return $this->error($res['L_LONGMESSAGE0']);
+
         $paypalCache = [];
         $cache = $this->data;
         $cache['token'] = explode('=', $res['paypal_link']);
@@ -90,7 +94,7 @@ class Checkout extends Paypal
                     return $this->success($response['ACK']);
                 }
 
-                //todo unset transaction from cache
+                //unset transaction from cache
                 unset($datas[$key]);
                 Cache::set('paypal', $datas, Carbon::now()->addHours(24));
             }

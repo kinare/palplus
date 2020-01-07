@@ -1,11 +1,7 @@
 export default {
   //Auth
-  login: "admin/login",
-  refreshToken: "admin/refreshToken",
-  user: "admin/me",
-  logout: "admin/logout",
-  validate: "admin/validate",
-  create: "admin/create",
+  validate: "auth/validate",
+  create: "auth/create",
 
   //Admins
     admins : `admins`,
@@ -23,8 +19,7 @@ export default {
     removeAdmin : id => `admin/${id}`,
     activateAdmin : id => `admin/activate/${id}`,
     deactivateAdmin : id => `admin/deactivate/${id}`,
-    inviteAdmin : 'admin/invite',
-
+    inviteAdmin : 'auth/invite',
   // Groups
 
 };

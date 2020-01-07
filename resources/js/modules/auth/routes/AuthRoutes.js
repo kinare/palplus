@@ -4,6 +4,7 @@ import Signup from "../views/Signup";
 import PasswordRequest from "../views/PasswordRequest";
 import Password from "../views/Password";
 import Login from "../views/Login";
+import Invitation from "../../../views/admin/Invitation";
 
 const authRoutes = [
   {
@@ -33,7 +34,12 @@ const authRoutes = [
       {
         path: "password",
         component: Password
-      }
+      },
+        {
+            path: "invitation/:token",
+            component: Invitation,
+
+        }
     ]
   }
 ];

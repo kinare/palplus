@@ -63,6 +63,7 @@ class InvitationController extends BaseController
               'phone' => 'required_without:user_id',
           ]);
 
+          //check if user is admin
           $admin = Members::where(['group_id' => $request->group_id, 'user_id' => $request->user()->id])->first();
           if (!$admin->is_admin){
               return response()->json([
@@ -70,12 +71,9 @@ class InvitationController extends BaseController
               ], 401);
           }
 
-
           $data = $request->all();
-          $phone = $data['phone'][0] === '0'  ? substr($data['phone'], 1) : $data['phone'];
-
           if(empty($request->user_id)){
-              $user = User::where('phone', 'LIKE', '%'.$phone.'%')->first();
+              $user = User::where('phone', $request->phone)->first();
               if (!$user){
                   return response()->json([
                       'message' => 'no user found'
@@ -122,6 +120,12 @@ class InvitationController extends BaseController
                 'invitation_code' => 'required'
             ]);
             $invitation =Invitation::where('invitation_code', $request->invitation_code)->first();
+
+           $member = Members::where(['user_id' => $request->user()->id, 'group_id' => $invitation->group_id])->first();
+           if ($member)
+               return response()->json([
+                   'message' => 'You are already a member'
+               ], 404);
 
             //Joins group
            $member = new Members();
