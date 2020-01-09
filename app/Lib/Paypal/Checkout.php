@@ -47,7 +47,6 @@ class Checkout extends Paypal
             $total += $item['price'] * $item['qty'];
         }
         $this->data['total'] = $total;
-        dump($this->data);
     }
 
     public function checkout(){
