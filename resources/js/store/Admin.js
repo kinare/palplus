@@ -4,8 +4,8 @@ import call from "../modules/api";
 const Admin = {
   namespaced: true,
   state: {
-    admins: null,
-    admin: null,
+    admins: [],
+    admin: {},
   },
   mutations: {
       SET_ADMINS : (state, payload) => {
@@ -69,6 +69,19 @@ const Admin = {
               /*successfullly invited*/
           })
       },
+
+      toggleStatus : ({dispatch}, id) =>{
+          call('get', endpoints.toggleStatus(id)).then(() =>{
+              dispatch('getAdmins');
+          })
+      },
+
+      delete : ({dispatch}, id) =>{
+          call('delete', endpoints.deleteAdmin(id)).then(() =>{
+              dispatch('getAdmins');
+          })
+      },
+
 
   }
 };

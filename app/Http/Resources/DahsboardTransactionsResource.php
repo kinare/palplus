@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\ContributionPeriod;
 use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GroupSettingResource extends JsonResource
+class DahsboardTransactionsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +15,12 @@ class GroupSettingResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $data = parent::toArray($request);
-        $data['access_level'] = $this->group()->first()->access_level;
-        $data['period'] = ContributionPeriod::find($data['contribution_periods_id']) ? ContributionPeriod::find($data['contribution_periods_id'])->name : 'undefined';
-        $data['currency'] = Wallet::currency();
+        $wallet = Wallet::find($data['wallet_id']);
+        $data['owner'] = $wallet->type;
+        $data['group'] = $wallet->group_id ;
+        $data['user'] =  $wallet->user_id;
         return $data;
     }
 }

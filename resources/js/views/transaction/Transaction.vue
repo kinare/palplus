@@ -12,7 +12,7 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="loans">
+                    :data="transactions">
 
                     <template slot-scope="props">
                         <b-table-column label="Transaction code" field="transaction_code" sortable :searchable="true">
@@ -71,6 +71,8 @@
         data () {
             return {
                 type : '',
+                owner : '',
+                owner_id : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -80,12 +82,21 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Loan/getTransactions');
+                v.$store.dispatch('Transaction/getTransactions');
                 v.type = to.params.type;
+                v.owner = to.params.owner;
+                v.owner_id = to.params.id;
             })
         },
         computed: {
-            loans(){
+            transactions(){
+                if(this.owner && this.owner_id){
+                    return this.$store.getters['Transaction/transactions'].filter(trans => {
+                        return trans.entry === this.type
+                            && trans.owner === this.owner
+                            && trans[this.owner.toLowerCase()] === parseInt(this.owner_id)
+                    });
+                }
                 return this.$store.getters['Transaction/transactions'].filter(trans => {
                     return trans.entry === this.type;
                 })

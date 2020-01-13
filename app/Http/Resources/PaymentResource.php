@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PaymentResource extends JsonResource

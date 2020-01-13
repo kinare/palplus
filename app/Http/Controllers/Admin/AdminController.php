@@ -70,9 +70,9 @@ class AdminController extends BaseController
 
     /**
      * @SWG\Get(
-     *   path="/admin/activate/{id}",
+     *   path="/admin/toggle-status/{id}",
      *   tags={"Admins"},
-     *   summary="Activate an admin",
+     *   summary="admin status change",
      *  security={
      *     {"bearer": {}},
      *   },
@@ -82,10 +82,10 @@ class AdminController extends BaseController
      *
      * )
      */
-    public function activate($id)
+    public function toggleStatus($id)
     {
         $admin = Admin::find($id);
-        $admin->active = true;
+        $admin->active = !$admin->active;
         $admin->save();
         return new AdminResource($admin);
     }

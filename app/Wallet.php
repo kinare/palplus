@@ -43,12 +43,12 @@ class Wallet extends BaseModel
         }
     }
 
-    public static function mine() : self
+    public static function mine()
     {
         return self::where('user_id', Auth::user()->id)->first();
     }
 
-    public static function group($group_id) : self
+    public static function group($group_id)
     {
         return self::where('group_id', $group_id)->first();
     }
@@ -69,6 +69,10 @@ class Wallet extends BaseModel
 
     public static function currency(){
        return Currency::find(Wallet::mine()->currency_id)->short_description;
+    }
+
+    public function walletCurrency(){
+        return  Currency::find($this->currency_id)->short_description;
     }
 
 

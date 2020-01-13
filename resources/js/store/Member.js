@@ -4,8 +4,8 @@ import call from "../modules/api";
 const Member = {
   namespaced: true,
   state: {
-    members: null,
-    member: null,
+    members: [],
+    member: [],
   },
   mutations: {
       SET_MEMBERS : (state, payload) => {

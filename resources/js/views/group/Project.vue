@@ -1,10 +1,10 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Loans
+            Group Activities
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Loans" class="has-table has-mobile-sort-spaced">
+            <card-component title="Projects" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"
@@ -12,32 +12,39 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="transactions">
+                    :data="project"
+                >
 
                     <template slot-scope="props">
-                        <b-table-column label="Member" field="member_id" sortable :searchable="true">
-                            {{ props.row.member_id }}
+                        <b-table-column label="Name" field="name" sortable :searchable="true">
+                            {{ props.row.name }}
                         </b-table-column>
-                        <b-table-column label="Group" field="group_id" sortable :searchable="true">
-                            {{ props.row.group_id }}
+                        <b-table-column label="description" field="description" sortable :searchable="true">
+                            {{ props.row.description }}
                         </b-table-column>
-                        <b-table-column label="Amount" field="loan_amount" sortable :searchable="true">
-                            {{ `${props.row.currency}  ${props.row.loan_amount}` }}
+                        <b-table-column label="Start" field="start_date" sortable :searchable="true">
+                            {{ props.row.start_date }}
                         </b-table-column>
-                        <b-table-column label="Paid" field="paid_amount" sortable :searchable="true">
-                            {{ `${props.row.currency}  ${props.row.paid_amount}` }}
+                        <b-table-column label="End" field="end_date" sortable :searchable="true">
+                            {{ props.row.end_date }}
                         </b-table-column>
-                        <b-table-column label="Balance" field="balance_amount" sortable :searchable="true">
-                            {{ `${props.row.currency}  ${props.row.balance_amount}` }}
+                        <b-table-column label="Estimated Cost" field="estimated_cost" sortable :searchable="true">
+                            {{ `${props.row.currency}  ${props.row.estimated_cost}` }}
                         </b-table-column>
-                        <b-table-column label="Status" field="status" sortable :searchable="true">
-                            {{ props.row.status }}
+                        <b-table-column label="Actual Cost" field="actual_cost" sortable :searchable="true">
+                            {{ `${props.row.currency}  ${props.row.actual_cost}` }}
                         </b-table-column>
-                        <b-table-column label="Payment period" field="payment_period" sortable :searchable="true">
-                            {{ props.row.payment_period }}
+                        <b-table-column label="Contributions" field="allow_contributions" sortable :searchable="true">
+                            {{ props.row.allow_contributions ?  'Yes' : 'No' }}
                         </b-table-column>
-                        <b-table-column label="Created at" field="created_at" sortable :searchable="true">
-                            {{ props.row.created_at }}
+                        <b-table-column label="Amount" field="contribution_amount" sortable :searchable="true">
+                            {{ props.row.currency + ' '+props.row.contribution_amount }}
+                        </b-table-column>
+                        <b-table-column label="Frequency" field="contribution_frequency" sortable :searchable="true">
+                            {{ props.row.frequency }}
+                        </b-table-column>
+                        <b-table-column label="Reminders" field="reminders" sortable :searchable="true">
+                            {{ props.row.enable_reminders ?  'Yes' : 'No' }}
                         </b-table-column>
                     </template>
 
@@ -65,12 +72,11 @@
 
 <script>
     import ModalBox from '../../components/ModalBox'
-    import TitleBar from "../../components/TitleBar";
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Loan",
-        components: {HeroBar, CardComponent, TitleBar, ModalBox },
+        name: "Project",
+        components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
                 type : '',
@@ -78,27 +84,25 @@
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
-                paginated: false,
+                paginated: true,
                 perPage: 10,
             }
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Loan/getLoans');
+                v.$store.dispatch('Group/getProject');
                 v.type = to.params.type;
                 v.group_id = to.params.id;
             })
         },
         computed: {
-            transactions(){
-                if (this.type === 'all' && this.group_id)
-                    return this.$store.getters['Loan/loans'].filter(loan => {
-                        return loan.group_id === parseInt(this.group_id);
+            project(){
+                if(this.group_id)
+                    return this.$store.getters['Group/project'].filter(a => {
+                        return a.group_id = parseInt(this.group_id)
                     });
 
-                return this.$store.getters['Loan/loans'].filter(loan => {
-                    return loan.status === this.type;
-                })
+                return this.$store.getters['Group/project'];
             }
         },
     }

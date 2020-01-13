@@ -4,7 +4,7 @@ import call from "../modules/api";
 const Investment = {
   namespaced: true,
   state: {
-    opportunities: null,
+    opportunities: [],
   },
   mutations: {
       SET_OPPORTUNITIES : (state, payload) => {

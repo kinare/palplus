@@ -78,6 +78,7 @@
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
+                group_id : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -88,10 +89,17 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 v.$store.dispatch('Transaction/getRequests');
+                v.group_id = to.params.id
             })
         },
         computed: {
             requests(){
+
+                if (this.group_id)
+                    return this.$store.getters['Transaction/requests'].filter( r =>{
+                        return r.group_id === parseInt(this.group_id)
+                    });
+
                 return this.$store.getters['Transaction/requests'];
             }
         },

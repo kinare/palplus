@@ -1,10 +1,10 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Wallets
+            Group Activities
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Clients" class="has-table has-mobile-sort-spaced">
+            <card-component :title="type" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"
@@ -12,27 +12,32 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-
-                    :data="wallets">
+                    :data="activity"
+                >
 
                     <template slot-scope="props">
-                        <b-table-column label="Type" field="type" sortable :searchable="true">
-                            {{ props.row.type }}
+                        <b-table-column label="Name" field="name" sortable :searchable="true">
+                            {{ props.row.name }}
                         </b-table-column>
-                        <b-table-column label="Currency" field="currency" sortable :searchable="true">
-                            {{ props.row.currency }}
+                        <b-table-column label="Date/Time" field="start_date" sortable :searchable="true">
+                            {{ props.row.start_date }}
                         </b-table-column>
-                        <b-table-column label="Total Balance" field="total_balance" sortable :searchable="true">
-                            {{ props.row.total_balance }}
+                        <b-table-column label="contacts" field="contacts" sortable :searchable="true">
+                            {{ props.row.contacts }}
                         </b-table-column>
-                        <b-table-column label="Total Deposit" field="total_deposits" sortable :searchable="true">
-                            {{ props.row.total_deposits }}
+                        <b-table-column label="slots" field="slots" sortable :searchable="true">
+                            {{ props.row.slots }}
                         </b-table-column>
-                        <b-table-column label="Total Withdrawal" field="total_withdrawals" sortable :searchable="true">
-                            {{ props.row.total_withdrawals }}
+                        <b-table-column label="Booking Fee" field="booking_fee_amount" sortable :searchable="true">
+                            {{ props.row.currency + ' '+props.row.booking_fee_amount }}
                         </b-table-column>
                         <b-table-column label="Created at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
+                        </b-table-column>
+                        <b-table-column label="Actions" >
+                            <button class="button is-primary" >
+                                <span>Options</span>
+                            </button>
                         </b-table-column>
                     </template>
 
@@ -60,47 +65,40 @@
 
 <script>
     import ModalBox from '../../components/ModalBox'
-    import TitleBar from "../../components/TitleBar";
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Wallets",
-        components: {HeroBar, CardComponent, TitleBar, ModalBox },
+        name: "Activity",
+        components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
+                type : '',
+                group_id : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
-                paginated: false,
+                paginated: true,
                 perPage: 10,
             }
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Wallet/getWallets');
+                v.$store.dispatch('Group/getActivity');
+                v.type = to.params.type;
+                v.group_id = to.params.id;
             })
         },
         computed: {
-            wallets(){
-                return this.$store.getters['Wallet/wallets'];
+            activity(){
+                if(this.type && this.group_id)
+                    return this.$store.getters['Group/activity'].filter(a => {
+                        return a.group_id = parseInt(this.group_id)
+                            && a.type.toLowerCase() === this.type.toLowerCase()
+                    });
+
+                return this.$store.getters['Group/activity'];
             }
         },
-        methods: {
-            trashModal (trashObject) {
-                this.trashObject = trashObject;
-                this.isModalActive = true
-            },
-            trashConfirm () {
-                this.isModalActive = false;
-                this.$buefy.snackbar.open({
-                    message: 'Confirmed',
-                    queue: false
-                })
-            },
-            trashCancel () {
-                this.isModalActive = false
-            }
-        }
     }
 </script>
 

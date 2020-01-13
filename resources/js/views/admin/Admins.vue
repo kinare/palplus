@@ -49,10 +49,12 @@
                                     <router-link :to="`admin-card/${props.row.id}`">
                                         view
                                     </router-link>
+                                    <router-link :to="`admin-card/${props.row.id}`">
+                                        Update
+                                    </router-link>
                                 </b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Update</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">{{props.row.active ? 'de-activate' : 'activate'}}</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Delete</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" @click="toggleStatus(props.row.id)">{{props.row.active ? 'de-activate' : 'activate'}}</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" @click="deleteAdmin(props.row.id)">Delete</b-dropdown-item>
                             </b-dropdown>
                         </b-table-column>
                     </template>
@@ -88,6 +90,7 @@
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
+                group_id : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -98,6 +101,7 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 v.$store.dispatch('Admin/getAdmins');
+                v.group_id = to.params.id
             })
         },
         computed: {
@@ -105,6 +109,14 @@
                 return this.$store.getters['Admin/admins'];
             }
         },
+        methods : {
+            toggleStatus : function (id) {
+                this.$store.dispatch('Admin/toggleStatus', id);
+            },
+            deleteAdmin : function (id) {
+                this.$store.dispatch('Admin/delete', id);
+            }
+        }
     }
 </script>
 

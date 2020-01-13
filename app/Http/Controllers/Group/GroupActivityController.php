@@ -29,9 +29,9 @@ use Laravolt\Avatar\Facade as Avatar;
 
 class GroupActivityController extends BaseController
 {
-    public function __construct()
+    public function __construct($model = GroupActivity::class, $resource = GroupActivityResource::class)
     {
-        parent::__construct(GroupActivity::class, GroupActivityResource::class);
+        parent::__construct($model, $resource);
     }
     /**
      * @SWG\Get(

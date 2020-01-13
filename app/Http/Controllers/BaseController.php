@@ -26,7 +26,7 @@ abstract class BaseController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Collection|Model[]|AnonymousResourceCollection
+     * @return Collection|Model[]|\Illuminate\Http\JsonResponse|AnonymousResourceCollection
      */
     public function index()
     {
@@ -65,7 +65,7 @@ abstract class BaseController extends Controller
      * Display the specified resource.
      *
      * @param $id
-     * @return Collection|Model|AnonymousResourceCollection|Response
+     * @return Collection|Model|\Illuminate\Http\JsonResponse|AnonymousResourceCollection
      */
     public function show($id)
     {

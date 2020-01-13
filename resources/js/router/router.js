@@ -17,6 +17,12 @@ import WithdrawalRequest from "../views/transaction/WithdrawalRequest";
 import Transaction from "../views/transaction/Transaction";
 import Investment from "../views/investment/Investment";
 import Loan from "../views/loan/Loan";
+import Card from "../views/group/Card";
+import Payments from "../views/transaction/Payments";
+import MembershipSetting from "../views/setting/MembershipSetting";
+import LoanSetting from "../views/setting/LoanSetting";
+import Activity from "../views/group/Activity";
+import Project from "../views/group/Project";
 
 Vue.use(Router);
 
@@ -40,7 +46,7 @@ const router =new Router({
                 },
                 {
                     path: '/wallets-transactions/:type?',
-                    name: 'Transactions',
+                    name: 'Wallet Transactions',
                     component: WalletTransactions,
                     meta : { middleware : auth},
                     props : true
@@ -52,7 +58,7 @@ const router =new Router({
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/admins',
+                    path: '/admins/:id?',
                     name: 'Admins',
                     component: Admins,
                     meta : { middleware : auth},
@@ -71,21 +77,40 @@ const router =new Router({
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/members',
+                    path: '/group-card/:id',
+                    name: 'Group Card',
+                    component: Card,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/members/:id?/:type?',
                     name: 'Members',
                     component: Member,
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/group-withdrawal-requests',
+                    path: '/membership-settings/:id?',
+                    name: 'Membership Settings',
+                    component: MembershipSetting,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/group-withdrawal-requests/:id?',
                     name: 'Withdrawal requests',
                     component: WithdrawalRequest,
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/transactions/:type?',
+                    path: '/transactions/:type?/:owner?/:id?',
                     name: 'Transactions',
                     component: Transaction,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/pending-payments/:id?',
+                    name: 'Pending Payments',
+                    component: Payments,
                     meta : { middleware : auth},
                     props : true
                 },
@@ -97,9 +122,30 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/loans/:type?',
+                    path: '/loans/:type?/:id?',
                     name: 'Loans',
                     component: Loan,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/loan-settings/:id?',
+                    name: 'Loans Settings',
+                    component: LoanSetting,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/activity/:type?/:id?',
+                    name: 'Activity',
+                    component: Activity,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/project/:id?',
+                    name: 'Project',
+                    component: Project,
                     meta : { middleware : auth},
                     props : true
                 },

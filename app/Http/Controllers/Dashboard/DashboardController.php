@@ -3,17 +3,26 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Group;
+use App\GroupActivity;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Currency\CurrencyController;
+use App\Http\Controllers\Finance\PaymentController;
 use App\Http\Controllers\Finance\TransactionController;
 use App\Http\Controllers\Finance\WithdrawalController;
+use App\Http\Controllers\Group\GroupActivityController;
 use App\Http\Controllers\Group\GroupController;
+use App\Http\Controllers\Group\GroupProjectController;
+use App\Http\Controllers\Group\GroupSettingController;
 use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
+use App\Http\Controllers\Loan\LoanSettingController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Users\UserController;
+use App\Http\Resources\DahsboardTransactionsResource;
+use App\Http\Resources\DashboardActivityResource;
 use App\Loan;
+use App\Transaction;
 use App\User;
 use App\Wallet;
 
@@ -138,6 +147,24 @@ class DashboardController extends Controller
 
     /**
      * @SWG\Get(
+     *   path="/dashboard/group/{id}",
+     *   tags={"Dashboard"},
+     *   summary="Get group",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function group($id){
+        $groups= new GroupController();
+        return $groups->show($id);
+    }
+
+    /**
+     * @SWG\Get(
      *   path="/dashboard/members",
      *   tags={"Dashboard"},
      *   summary="Get members",
@@ -150,8 +177,13 @@ class DashboardController extends Controller
      * )
      */
     public function members(){
-        $members= new UserController();
+        $members= new MembersController();
         return $members->index();
+    }
+
+    public function membershipSettings(){
+        $setting = new GroupSettingController();
+        return $setting->index();
     }
 
     /**
@@ -168,7 +200,7 @@ class DashboardController extends Controller
      * )
      */
     public function transactions(){
-        $transactions= new TransactionController();
+        $transactions= new TransactionController(Transaction::class, DahsboardTransactionsResource::class);
         return $transactions->index();
     }
 
@@ -208,6 +240,11 @@ class DashboardController extends Controller
         return $loans->index();
     }
 
+    public function loanSettings(){
+        $settings = new LoanSettingController();
+        return $settings->index();
+    }
+
     /**
      * @SWG\Get(
      *   path="/dashboard/withdrawal-requests",
@@ -224,6 +261,21 @@ class DashboardController extends Controller
     public function withdrawalRequests(){
         $w = new WithdrawalController();
         return $w->index();
+    }
+
+    public function payments(){
+        $payment = new PaymentController();
+        return $payment->index();
+    }
+
+    public function activity(){
+        $activity = new GroupActivityController(GroupActivity::class, DashboardActivityResource::class);
+        return $activity->index();
+    }
+
+    public function projects(){
+        $project= new GroupProjectController();
+        return $project->index();
     }
 
 

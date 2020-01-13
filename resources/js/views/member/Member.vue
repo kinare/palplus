@@ -77,6 +77,8 @@
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
+                group_id : '',
+                type : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -87,10 +89,35 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 v.$store.dispatch('Member/getMembers');
+                v.group_id = to.params.id
+                v.type = to.params.type
             })
         },
         computed: {
             members(){
+                if (this.group_id  && this.type === 'admins')
+                    return this.$store.getters['Member/members'].filter( m => {
+                        return m.group_id === parseInt(this.group_id)
+                             & m.is_admin === 1
+                    });
+
+                if (this.group_id  && this.type === 'withdrawal-approvers')
+                    return this.$store.getters['Member/members'].filter( m => {
+                        return m.group_id === parseInt(this.group_id)
+                            & m.withdrawal_approver === 1
+                    });
+
+                if (this.group_id  && this.type === 'loan-approvers')
+                    return this.$store.getters['Member/members'].filter( m => {
+                        return m.group_id === parseInt(this.group_id)
+                            & m.loan_approver === 1
+                    });
+
+                if (this.group_id)
+                    return this.$store.getters['Member/members'].filter( m => {
+                        return m.group_id === parseInt(this.group_id)
+                    });
+
                 return this.$store.getters['Member/members'];
             }
         },

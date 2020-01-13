@@ -4,7 +4,7 @@
       <div class="level">
         <div class="level-left">
           <div class="level-item">
-            &copy; {{ year }}, JustBoil.me
+              Copyright   &copy; {{ year }}, Palplus. All rights reserved.
           </div>
         </div>
         <div class="level-right">

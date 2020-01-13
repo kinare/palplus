@@ -12,7 +12,9 @@ const AuthStore = {
       state.user = user;
     }
   },
-  getters: {},
+  getters: {
+      user : state => state.user
+  },
 
   actions: {
     login: ({ dispatch }, data) => {
@@ -41,7 +43,7 @@ const AuthStore = {
 
     user: context => {
       call("get", endpoints.user).then(res => {
-        context.commit("SET_USER", res.data && res.data.user);
+        context.commit("SET_USER", res.data.data);
       });
     },
 

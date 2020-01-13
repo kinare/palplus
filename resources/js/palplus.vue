@@ -26,7 +26,7 @@ export default {
           [
               {
               label: 'Palplus wallet',
-              icon: 'view-list',
+              icon: 'wallet',
               menu: [
                   {
                       to: '/wallets',
@@ -46,22 +46,24 @@ export default {
           [
           {
             to: '/currency-rates',
-            icon: 'desktop-mac',
+            icon: 'cash',
             label: 'currency rates'
           }
         ],
           [
               {
               label: 'Palplus Admins',
-              icon: 'view-list',
+              icon: 'account-tie',
               menu: [
                   {
                       to: '/admins',
+                      icon: 'account-supervisor',
                       label: 'view admin users'
                   },
                   {
                       to: '/admin-card',
-                      label: 'Admin Card'
+                      icon: 'account-plus',
+                      label: 'new admin'
                   }
               ]
           }
@@ -70,18 +72,17 @@ export default {
             {
             to: '/groups',
             label: 'Groups',
-            icon: 'table',
-            updateMark: true
+            icon: 'account-group',
           },
           {
             to: '/members',
             label: 'Members',
-            icon: 'square-edit-outline'
+            icon: 'account-supervisor-circle'
           }
         ],
           [{
               label: 'Transaction',
-              icon: 'view-list',
+              icon: 'cash-register',
               menu: [
                   {
                       to: '/group-withdrawal-requests',
@@ -100,11 +101,11 @@ export default {
           [{
             to: '/investment-opportunity',
             label: 'Investment opportunity',
-            icon: 'credit-card'
+            icon: 'cash-usd'
           }],
           [{
               label: 'Loans',
-              icon: 'view-list',
+              icon: 'cash-multiple',
               menu: [
                   {
                       to: '/loans/approved',
@@ -120,11 +121,7 @@ export default {
     }
   },
   created () {
-    this.$store.commit('user', {
-      name: 'John Doe',
-      email: 'john@example.com',
-      avatar: '/data-sources/avatars/annie-spratt-121576-unsplash.jpg'
-    })
+      this.$store.dispatch('Auth/user');
   }
 }
 </script>

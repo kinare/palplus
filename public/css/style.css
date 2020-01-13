@@ -5,3 +5,16 @@
     bottom: 0!important;
     width: 100%!important;
 }
+
+@media screen and (min-width: 769px), print
+{
+    .field-label {
+        flex-basis: 0;
+        -webkit-box-flex: 1;
+        flex-grow: 2 !important;
+        flex-shrink: 0;
+        margin-right: 1.5rem;
+        text-align: right;
+    }
+}
+

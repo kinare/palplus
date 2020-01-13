@@ -4,7 +4,7 @@ import call from "../modules/api";
 const Wallet = {
   namespaced: true,
   state: {
-    wallets: {},
+    wallets: [],
     transactions : null,
   },
   mutations: {
