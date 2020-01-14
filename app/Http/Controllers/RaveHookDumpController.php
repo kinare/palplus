@@ -44,14 +44,32 @@ class RaveHookDumpController extends BaseController
     public function store(Request $request)
     {
         try{
+
+            $body = @file_get_contents("php://input");
+
+            $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
+
             $model = new $this->model();
-            $model->payload = serialize($request->all());
+            $model->payload = $body;
             $model->save();
-            return $this->response($model);
+
+
+            if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
+                exit();
+            }
+
+            http_response_code(200);
+
+            $response = json_decode($body);
+            if ($response->status == 'successful') {
+               //todo update wallets and accounts
+            }
+
+            exit();
         }catch (\Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
+            $model = new $this->model();
+            $model->payload = $exception;
+            $model->save();
         }
     }
 
