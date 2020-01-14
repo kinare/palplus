@@ -87,8 +87,11 @@ class Transaction extends Accounting
 
     public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
 
+        dump($account->currency);
+        dump($wallet->currencyShortDesc());
         /* Convert currency between wallets */
         $converted = (object)Converter::Convert($account->currency , $wallet->currencyShortDesc(), $amount);
+        dump($converted);
         $this->state++;
 
         /* Credit the to wallet */
@@ -124,7 +127,6 @@ class Transaction extends Accounting
     }
 
     protected function record($details){
-        dump($details);
         $transaction = new TransactionRecords();
         $transaction->fill($details);
         $transaction->save();
