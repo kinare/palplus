@@ -69,6 +69,8 @@ class TransactionController extends BaseController
                 return $bank->transact($transaction);
 
             case 'MOBILE' :// done
+                //todo implement for other mobile money options
+
                 //set relevant account field
                 $account->payment_type = 'mpesa';
                 $account->narration = 'payment details';

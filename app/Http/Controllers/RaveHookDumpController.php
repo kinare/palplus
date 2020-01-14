@@ -2,84 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\RaveHookDumpResource;
 use App\RaveHookDump;
 use Illuminate\Http\Request;
 
-class RaveHookDumpController extends Controller
+class RaveHookDumpController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct($model = RaveHookDump::class, $resource = RaveHookDumpResource::class)
     {
-        //
+        parent::__construct($model, $resource);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @SWG\Get(
+     *   path="/gateway/rave",
+     *   tags={"Gateway"},
+     *   summary="Vie Hook requests ",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
      *
-     * @return \Illuminate\Http\Response
+     * )
      */
-    public function create()
-    {
-        //
-    }
+
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @SWG\Post(
+     *   path="/gateway/rave/hook",
+     *   tags={"Gateway"},
+     *   summary="Rave Webhook",
+     *   @SWG\Parameter(name="payload",in="query",description="payload",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
      */
+
     public function store(Request $request)
     {
-        //
+        try{
+            $model = new $this->model();
+            $model->payload = serialize($request->all());
+            $model->save();
+            return $this->response($model);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\RaveHookDump  $raveHookDump
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RaveHookDump $raveHookDump)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\RaveHookDump  $raveHookDump
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(RaveHookDump $raveHookDump)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\RaveHookDump  $raveHookDump
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, RaveHookDump $raveHookDump)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\RaveHookDump  $raveHookDump
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(RaveHookDump $raveHookDump)
-    {
-        //
-    }
 }

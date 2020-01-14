@@ -15,7 +15,9 @@ class CreateRaveHookDumpsTable extends Migration
     {
         Schema::create('rave_hook_dumps', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->longText('payload')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

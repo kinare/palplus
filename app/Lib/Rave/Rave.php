@@ -68,6 +68,7 @@ class Rave
             'txref' => $data['txref'],
             'SECKEY' => Config::getConfig('RAVE_SECRET_KEY'),
         ];
+
         return $res = $this->execute($details, $url);
     }
 

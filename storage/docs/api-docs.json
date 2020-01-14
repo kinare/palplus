@@ -352,12 +352,12 @@
                 ]
             }
         },
-        "/admin/activate/{id}": {
+        "/admin/toggle-status/{id}": {
             "get": {
                 "tags": [
                     "Admins"
                 ],
-                "summary": "Activate an admin",
+                "summary": "admin status change",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -1740,6 +1740,30 @@
                     "Dashboard"
                 ],
                 "summary": "Get groups",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/dashboard/group/{id}": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get group",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -8442,6 +8466,58 @@
                         "bearer": []
                     }
                 ]
+            }
+        },
+        "/gateway/rave": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Vie Hook requests ",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/hook": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "in": "query",
+                        "description": "payload",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
             }
         },
         "/sms": {
