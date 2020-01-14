@@ -127,7 +127,6 @@ class Transaction extends Accounting
         dump($details);
         $transaction = new TransactionRecords();
         $transaction->fill($details);
-        $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
     }
