@@ -43,8 +43,6 @@ class RaveHookDumpController extends BaseController
 
     public function store(Request $request)
     {
-        try{
-
             $body = @file_get_contents("php://input");
 
             $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
@@ -52,7 +50,6 @@ class RaveHookDumpController extends BaseController
             $model = new $this->model();
             $model->payload = $body;
             $model->save();
-
 
             if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
                 exit();
@@ -62,15 +59,10 @@ class RaveHookDumpController extends BaseController
 
             $response = json_decode($body);
             if ($response->status == 'successful') {
-               //todo update wallets and accounts
+               GatewayTransactionController::processTransaction($response->txRef);
             }
 
             exit();
-        }catch (\Exception $exception){
-            $model = new $this->model();
-            $model->payload = $exception;
-            $model->save();
-        }
     }
 
 

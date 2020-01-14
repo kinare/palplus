@@ -16,6 +16,7 @@ class CreateGatewayTransactionsTable extends Migration
         Schema::create('gateway_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
+            $table->string('ref');
             $table->string('type');
             $table->enum('status', ['pending', 'done'])->default('pending');
             $table->mediumText('payload');

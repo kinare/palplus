@@ -87,9 +87,8 @@ class Transaction extends Accounting
 
     public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
 
-
         /* Convert currency between wallets */
-        $converted = (object)Converter::Convert('NGN', $wallet->currencyShortDesc(), $amount);
+        $converted = (object)Converter::Convert($account->currency , $wallet->currencyShortDesc(), $amount);
         $this->state++;
 
         /* Credit the to wallet */

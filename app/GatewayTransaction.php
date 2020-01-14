@@ -40,6 +40,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
+        $transaction->ref = $account['txRef'];
         $transaction->type = 'CARD';
         $transaction->payload = json_encode($card);
         $transaction->created_by = Auth::user()->id;
@@ -68,6 +69,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
+        $transaction->ref = $account['txRef'];
         $transaction->type = 'BANK';
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
@@ -93,8 +95,9 @@ class GatewayTransaction extends BaseModel
         ];
 
         $transaction = new self();
+        $transaction->ref = $account['txRef'];
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = 'BANK';
+        $transaction->type = 'MOBILE';
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
