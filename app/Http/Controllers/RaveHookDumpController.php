@@ -47,6 +47,9 @@ class RaveHookDumpController extends BaseController
 
             $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
 
+            dump($signature);
+            dump(env('RAVE_SECRET_HASH'));
+
             if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
                 exit();
             }
