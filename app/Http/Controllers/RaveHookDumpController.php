@@ -65,5 +65,23 @@ class RaveHookDumpController extends BaseController
             exit();
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/gateway/rave/test",
+     *   tags={"Gateway"},
+     *   summary="Rave Webhook Test",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="txref",in="query",description="Trans Ref",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function test(Request $request){
+        return GatewayTransactionController::processTransaction($request->txref);
+    }
+
 
 }

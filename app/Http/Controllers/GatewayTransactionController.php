@@ -33,7 +33,7 @@ class GatewayTransactionController extends Controller
         $wallet = Wallet::whereUserId($gt->user_id)->first();
 
         $data = json_decode($gt->payload);
-        $amount = $data['amount'];
+        $amount = $data->amount;
 
         $transaction = new Transaction();
         $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');

@@ -8520,6 +8520,39 @@
                 }
             }
         },
+        "/gateway/rave/test": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook Test",
+                "parameters": [
+                    {
+                        "name": "txref",
+                        "in": "query",
+                        "description": "Trans Ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/sms": {
             "post": {
                 "tags": [
