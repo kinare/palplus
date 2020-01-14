@@ -16,6 +16,7 @@ Route::group(['prefix' => 'rave'], function () {
 
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/', 'RaveHookDumpController@index');
+        Route::get('/process', 'RaveHookDumpController@process');
         Route::post('/test', 'RaveHookDumpController@test');
     });
 

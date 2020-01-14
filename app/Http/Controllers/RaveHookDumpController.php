@@ -47,9 +47,6 @@ class RaveHookDumpController extends BaseController
 
             $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
 
-            dump($signature);
-            dump(env('RAVE_SECRET_HASH'));
-
             if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
                 exit();
             }
@@ -85,6 +82,31 @@ class RaveHookDumpController extends BaseController
     public function test(Request $request){
         return GatewayTransactionController::processTransaction($request->txref);
     }
+
+    /**
+     * @SWG\Get(
+     *   path="/gateway/rave/process",
+     *   tags={"Gateway"},
+     *   summary="Proccess all webhook request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function process(){
+        $trans = RaveHookDump::all();
+        foreach ($trans as $tran){
+            $response = json_decode($tran->payload);
+            if ($response->status == 'successful') {
+                GatewayTransactionController::processTransaction($response->txRef);
+            }
+        }
+    }
+
+
 
 
 }

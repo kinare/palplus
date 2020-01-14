@@ -54,7 +54,7 @@ class Rave
     }
 
     public function validate($data, $url){
-        $details = [
+         $details = [
             'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
             'transaction_reference' => $data['flwRef'],
             'otp' => $data['otp']

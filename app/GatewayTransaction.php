@@ -40,7 +40,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->ref = $account['txRef'];
+        $transaction->ref = $card['txRef'];
         $transaction->type = 'CARD';
         $transaction->payload = json_encode($card);
         $transaction->created_by = Auth::user()->id;

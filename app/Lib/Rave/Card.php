@@ -19,12 +19,6 @@ class Card extends Rave
         $data = json_decode($transaction->payload, true);
         $res =  $this->initiate($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
 
-        /* cache the data for later use */
-        $cache = ['req' => $data, 'res' => $res];
-        Cache::put($data['txRef'], $cache, Carbon::now()->addHours(12));
-
-        $response = [];
-
         /* check for response status  */
         if (isset($res['status']) && $res['status'] === 'success'){
 
@@ -34,7 +28,7 @@ class Card extends Rave
                     case 'PIN':
                         /* request pin set pin and suggested auth */
                         return $this->oneTimePassword($res['data']['suggested_auth'].' required', $data['txRef']);
-                       break;
+                        break;
                     case 'NOAUTH_INTERNATIONAL':
                         /* Set billing address * */
                         return $this->addInfo([
@@ -67,38 +61,34 @@ class Card extends Rave
         }elseif($res['data']['chargeResponseCode'] === '02'){
 
             /* 02 transaction needs validation */
-
             if ($res['data']['authModelUsed'] === 'PIN')
                 /* 00 transaction successful */
                 return $this->oneTimePassword($res['data']['chargeResponseMessage'], $data['txRef']);
 
-
             if ($res['data']['authModelUsed'] === 'VBVSECURECODE')
                 return $this->link($res['data']['authurl']);
-
         }
-
-        return $response;
     }
 
     public function setPin($data){
-        $details = Cache::get($data['ref'])['req'];
+        $details = json_decode(GatewayTransaction::where('ref', $data['ref'])->first()->payload, true);
         $details['suggested_auth'] = 'PIN';
         $details['pin'] = $data['pin'];
         $res = $this->initiate($details, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
-
         if ($res['status'] === 'success'){
-            return $this->success($res['data']['chargeResponseMessage']);
+            Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
+            return $this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
         }
-
         return $res;
     }
 
     public function otp($data){
-        $data['flwRef'] = Cache::get($data['ref'])['res']['data']['flwRef'];
-        $res = $this->validate($data,'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/validate');
-        if (isset($res['status']) && $res['status'] === 'success')
-            Cache::forget($data['ref']);
+        $data['flwRef'] = Cache::get($data['ref'])['data']['flwRef'];
+        $res = $this->validate($data,'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/validatecharge');
+
+        if ($res['status'] === 'success')
+            return $this->success($res['message']);
+
         return $res;
     }
 
