@@ -31,17 +31,15 @@ class ContributionType extends BaseModel
         return $self;
     }
 
-    public static function amend(array $type)
+    public static function amend(array $type) : self
     {
         $self = self::where([
             'group_id' => $type['group_id'],
             'project_id' => $type['project_id']
         ]);
-
-        if ($self){
-            $self->modified_by = Auth::user()->id;
-            $self->save();
-            return $self;
-        }
+        $self->fill($type);
+        $self->modified_by = Auth::user()->id;
+        $self->save();
+        return $self;
     }
 }
