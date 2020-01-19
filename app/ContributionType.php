@@ -34,8 +34,8 @@ class ContributionType extends BaseModel
     public static function amend(array $type)
     {
         $self = self::where([
-            'group_id' => $type->group_id,
-            'project_id' => $type->project_id
+            'group_id' => $type['group_id'],
+            'project_id' => $type['project_id']
         ]);
 
         if ($self){
