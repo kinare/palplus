@@ -46,13 +46,7 @@ Route::group(['middleware' => ['json.response']], function () {
     //Gateway Routes
     Route::prefix('gateway')->group(base_path('routes/gateway.php'));
 
-    Route::namespace('Finance')->group(function (){
 
-        Route::group(['prefix' => 'paypal'], function () {
-            Route::get('ec-checkout-success', 'TransactionController@paypalToken');
-        });
-
-    });
 
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {
@@ -199,6 +193,7 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'transaction'], function () {
                 Route::group(['prefix' => 'wallet'], function () {
                     Route::post('/deposit', 'TransactionController@deposit');
+                    Route::post('/withdraw', 'TransactionController@withdraw');
                 });
                 Route::group(['prefix' => 'card'], function () {
                     Route::post('/pin', 'TransactionController@setCardPin');

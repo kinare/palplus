@@ -23,7 +23,7 @@ class Checkout extends Paypal
     {
         parent::__construct($provider);
 
-        $this->data['return_url'] = url('api/paypal/ec-checkout-success');
+        $this->data['return_url'] = url('api/gateway/paypal/ec-checkout-success');
         $this->data['cancel_url'] = url('api/');
     }
 

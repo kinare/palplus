@@ -122,7 +122,30 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->type = 'PAYPAL';
+        $transaction->ref = $account['invoice']['invoice_id'];
         $transaction->payload = json_encode($account);
+        $transaction->created_by = Auth::user()->id;
+        $transaction->save();
+        return $transaction;
+    }
+
+    public static function initPaypalPayout(Account $account, $amount) {
+
+        $data = [
+            'receivers'  => [
+                    'email' => $account->number,
+                    'amount' => $amount,
+            ],
+            'payer' => 'EACHRECEIVER', // (Optional) Describes who pays PayPal fees. Allowed values are: 'SENDER', 'PRIMARYRECEIVER', 'EACHRECEIVER' (Default), 'SECONDARYONLY'
+            'return_url' => url('api/gateway/paypal/ec-payout-success'),
+            'cancel_url' => url('payment/cancel'),
+        ];
+
+        $transaction = new self();
+        $transaction->user_id = Auth::user()->id;
+        $transaction->type = 'PAYPAL';
+        $transaction->ref = 'PP-'.Carbon::now()->timestamp;
+        $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;

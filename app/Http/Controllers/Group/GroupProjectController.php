@@ -69,7 +69,6 @@ class GroupProjectController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="id",in="path",description="Project id",required=true,type="string"),
-     *   @SWG\Parameter(name="group_id",in="query",description="group_id",required=true,type="string"),
      *   @SWG\Parameter(name="name",in="query",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="estimated_cost",in="query",description="estimated_cost",required=true,type="number"),

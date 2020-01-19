@@ -379,8 +379,24 @@ class GroupController extends BaseController
                 ], 404);
 
             /*validate leave request*/
-
             $arrears = $this->leaveRequest($group->id);
+
+            /*
+             * check
+             * loan balance
+             * total contribution
+             * leavegroup fee
+             *
+             * if has loan balance => clear loan first
+             * if leave group fee => deduct leave group from total contribution
+             *
+             * deduct leave group from contrib or wallet
+             * make withdrawal request
+             *
+             *
+             * */
+
+
 
             if ($arrears['data']['total_withdrawable'] < 0)
                 return response()->json([

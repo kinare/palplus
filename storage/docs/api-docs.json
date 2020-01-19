@@ -1995,7 +1995,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency_id",
+                        "name": "currency",
                         "in": "query",
                         "description": "currency",
                         "required": false,
@@ -2223,7 +2223,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency_id",
+                        "name": "currency",
                         "in": "query",
                         "description": "currency",
                         "required": false,
@@ -2427,6 +2427,29 @@
                         "required": true,
                         "type": "number"
                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/paypal/withdrawal-requests": {
+            "get": {
+                "tags": [
+                    "Paypal withdrawal requests"
                 ],
                 "responses": {
                     "200": {
@@ -8535,6 +8558,30 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/process": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Proccess all webhook request",
                 "responses": {
                     "200": {
                         "description": "Success"

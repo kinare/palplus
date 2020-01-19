@@ -21,3 +21,15 @@ Route::group(['prefix' => 'rave'], function () {
     });
 
 });
+
+Route::namespace('Finance')->group(function (){
+
+    Route::group(['prefix' => 'paypal'], function () {
+        Route::get('withdrawal-requests', 'PaypalWithdrawalRequestController@index');
+        Route::get('ec-checkout-success', 'TransactionController@paypalToken');
+        Route::get('ec-payout-success', function (){
+            return 'Payout successfull';
+        });
+    });
+
+});

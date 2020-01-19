@@ -8,6 +8,7 @@ use App\GatewayTransaction;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\TransactionResource;
 use App\Lib\Paypal\Checkout;
+use App\Lib\Paypal\Payment;
 use App\Lib\Rave\Account as BankAccount;
 use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
@@ -109,11 +110,6 @@ class TransactionController extends BaseController
             'gateway' => 'required',
         ]);
 
-        if ($request->gateway === 'PAYPAL'){
-            $transaction = GatewayTransaction::initPaypal($request->amount);
-            $pp = new Checkout();
-            return $pp->transact($transaction);
-        }
 
         //get payment account
         $account =  $account = Account::where([
@@ -134,11 +130,15 @@ class TransactionController extends BaseController
                 /* implement mobile transfer */
                 return;
             case 'PAYPAL' :
-                /*TODO implement paypal*/
+                $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
+                $pp = new Payment();
+                return $pp->transact($transaction);
         }
     }
 
     public function payOut(Request $request){
+
+        return $request;
         /* todo implement payout to */
     }
 
