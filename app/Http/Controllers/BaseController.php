@@ -95,7 +95,7 @@ abstract class BaseController extends Controller
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception/*->getMessage()*/
             ]);
         }
     }
