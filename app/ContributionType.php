@@ -37,9 +37,12 @@ class ContributionType extends BaseModel
             'group_id' => $type['group_id'],
             'project_id' => $type['project_id']
         ]);
-        $self->fill($type);
-        $self->modified_by = Auth::user()->id;
-        $self->save();
-        return $self;
+
+        if ($self){
+            $self->fill($type);
+            $self->modified_by = Auth::user()->id;
+            $self->save();
+            return $self;
+        }
     }
 }
