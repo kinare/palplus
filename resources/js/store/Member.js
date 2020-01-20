@@ -6,6 +6,7 @@ const Member = {
   state: {
     members: [],
     member: [],
+    nok: [],
   },
   mutations: {
       SET_MEMBERS : (state, payload) => {
@@ -15,10 +16,14 @@ const Member = {
       SET_MEMBER : (state, payload) => {
           state.member = payload
       },
+      SET_NOK : (state, payload) => {
+          state.nok = payload
+      },
   },
   getters: {
       members : state => state.members,
       member : state => state.member,
+      nok : state => state.nok,
   },
 
   actions: {
@@ -31,6 +36,12 @@ const Member = {
       getMember : (context, id) => {
           call('get', endpoints.member(id)).then(res => {
               context.commit('SET_MEMBER', res.data.data);
+          })
+      },
+
+      getNok : (context) => {
+          call('get', endpoints.nok).then(res => {
+              context.commit('SET_NOK', res.data.data);
           })
       },
   }

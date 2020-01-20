@@ -69,6 +69,12 @@ const Group = {
               context.commit('SET_PROJECT', res.data.data);
           })
       },
+
+      myGroups : (context, id) => {
+          call('get', endpoints.myGroups(id)).then(res => {
+              context.commit('SET_GROUPS', res.data.data);
+          })
+      },
   }
 };
 

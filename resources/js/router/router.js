@@ -24,6 +24,7 @@ import MembershipSetting from "../views/setting/MembershipSetting";
 import LoanSetting from "../views/setting/LoanSetting";
 import Activity from "../views/group/Activity";
 import Project from "../views/group/Project";
+import NextOfKin from "../views/member/NextOfKin";
 
 Vue.use(Router);
 
@@ -40,7 +41,7 @@ const router =new Router({
                     redirect : '/wallets'
                 },
                 {
-                    path: '/wallets',
+                    path: '/wallets/:type?/:id?',
                     name: 'wallets',
                     component: Wallets,
                     meta : { middleware : auth}
@@ -72,9 +73,10 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/groups',
+                    path: '/groups/:id?',
                     name: 'Groups',
                     component: Group,
+                    props : true,
                     meta : { middleware : auth},
                 },
                 {
@@ -90,9 +92,15 @@ const router =new Router({
                     meta : { middleware : auth},
                 },
                 {
-                    path: '/members/card/:id',
-                    name: 'Members',
-                    component: Card,
+                    path: '/member/card/:id',
+                    name: 'Member Card',
+                    component: MemberCard,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/nok/:id?',
+                    name: 'Next Of Kin',
+                    component: NextOfKin,
                     meta : { middleware : auth},
                 },
                 {
@@ -115,7 +123,7 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/pending-payments/:id?',
+                    path: '/pending-payments/:id?/:type?',
                     name: 'Pending Payments',
                     component: Payments,
                     meta : { middleware : auth},

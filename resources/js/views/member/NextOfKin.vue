@@ -1,7 +1,7 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Pending Payments
+            Next of Kin
         </hero-bar>
         <section class="section is-main-section">
             <card-component title="Clients" class="has-table has-mobile-sort-spaced">
@@ -12,25 +12,29 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="payments">
 
-                    <template slot-scope="props">
-                        <b-table-column label="Transaction code" field="transaction_code" sortable :searchable="true">
-                            {{ props.row.description }}
-                        </b-table-column>
-                        <b-table-column label="Amount" field="amount" sortable :searchable="true">
-                            {{ props.row.amount }}
-                        </b-table-column>
-                        <b-table-column label="Currency" field="currency" sortable :searchable="true">
-                            {{ props.row.currency }}
-                        </b-table-column>
-                        <b-table-column label="Status" field="status" sortable :searchable="true">
-                            {{ props.row.status }}
-                        </b-table-column>
-                        <b-table-column label="created_at" field="created_at" sortable :searchable="true">
-                            {{ props.row.created_at }}
-                        </b-table-column>
-                    </template>
+                    :data="nok">
+
+<!--                    <template slot-scope="props">-->
+<!--                        <b-table-column label="Type" field="type" sortable :searchable="true">-->
+<!--                            {{ props.row.type }}-->
+<!--                        </b-table-column>-->
+<!--                        <b-table-column label="Currency" field="currency" sortable :searchable="true">-->
+<!--                            {{ props.row.currency }}-->
+<!--                        </b-table-column>-->
+<!--                        <b-table-column label="Total Balance" field="total_balance" sortable :searchable="true">-->
+<!--                            {{ props.row.total_balance }}-->
+<!--                        </b-table-column>-->
+<!--                        <b-table-column label="Total Deposit" field="total_deposits" sortable :searchable="true">-->
+<!--                            {{ props.row.total_deposits }}-->
+<!--                        </b-table-column>-->
+<!--                        <b-table-column label="Total Withdrawal" field="total_withdrawals" sortable :searchable="true">-->
+<!--                            {{ props.row.total_withdrawals }}-->
+<!--                        </b-table-column>-->
+<!--                        <b-table-column label="Created at" field="created_at" sortable :searchable="true">-->
+<!--                            {{ props.row.created_at }}-->
+<!--                        </b-table-column>-->
+<!--                    </template>-->
 
                     <section class="section" slot="empty">
                         <div class="content has-text-grey has-text-centered">
@@ -60,7 +64,7 @@
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Payments",
+        name: "NextOfKin",
         components: {HeroBar, CardComponent, TitleBar, ModalBox },
         data () {
             return {
@@ -75,19 +79,18 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Transaction/getPayments');
+                v.$store.dispatch('Member/getNok');
                 v.id = to.params.id;
-                v.type = to.params.type;
             })
         },
         computed: {
-            payments(){
-                if(this.id && this.type){
-                    return this.$store.getters['Transaction/payments'].filter(trans => {
-                        return trans[`${this.type}_id`] === parseInt(this.id)
+            nok(){
+                if(this.id ){
+                    return this.$store.getters['Member/nok'].filter(nok => {
+                        return nok.user_id === parseInt(this.id)
                     });
                 }
-                return this.$store.getters['Transaction/payments']
+                return this.$store.getters['Member/nok']
             }
         },
     }

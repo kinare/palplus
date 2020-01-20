@@ -43,7 +43,10 @@ Route::group(['prefix' => ''], function () {
             Route::get('/admins', 'DashboardController@admins');
             Route::get('/groups', 'DashboardController@groups');
             Route::get('/group/{id}', 'DashboardController@group');
+            Route::get('/my-groups/{id}', 'DashboardController@myGroups');
             Route::get('/members', 'DashboardController@members');
+            Route::get('/member/{id}', 'DashboardController@member');
+            Route::get('/nok', 'DashboardController@nok');
             Route::get('/membership-setting', 'DashboardController@membershipSettings');
             Route::get('/transactions', 'DashboardController@transactions');
             Route::get('/payments', 'DashboardController@payments');

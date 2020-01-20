@@ -1,25 +1,23 @@
 <template>
     <section class="section is-main-section">
-<!--       <card-component  title="Group Profile" icon="account-group" class="tile is-child">-->
-<!--            <user-avatar :avatar="group.avatar_url" class="image has-max-width is-aligned-center"/>-->
-<!--            <hr>-->
-<!--            <b-field label="Name">-->
-<!--                <b-input :value="group.name" custom-class="is-static" readonly/>-->
-<!--            </b-field>-->
-<!--            <b-field label="Description">-->
-<!--                <b-input :value="group.description" custom-class="is-static" readonly/>-->
-<!--            </b-field>-->
-<!--            <b-field label="Access Level">-->
-<!--                <b-input :value="group.access_level" custom-class="is-static" readonly/>-->
-<!--            </b-field>-->
-<!--            <b-field label="Country">-->
-<!--                <b-input :value="group.country" custom-class="is-static" readonly/>-->
-<!--            </b-field>-->
-<!--            <b-field label="Currency">-->
-<!--                <b-input :value="group.currency" custom-class="is-static" readonly/>-->
-<!--            </b-field>-->
-<!--            <hr>-->
-<!--        </card-component>-->
+       <card-component  title="Member Profile" icon="account-group" class="tile is-child">
+            <b-field label="Name">
+                <b-input :value="member.name" custom-class="is-static" readonly/>
+            </b-field>
+            <b-field label="Phone">
+                <b-input :value="member.phone" custom-class="is-static" readonly/>
+            </b-field>
+            <b-field label="Access Level">
+                <b-input :value="member.email" custom-class="is-static" readonly/>
+            </b-field>
+            <b-field label="Status">
+                <b-input :value="member.active ? 'active' : 'inactive'" custom-class="is-static" readonly/>
+            </b-field>
+            <b-field label="WEF">
+                <b-input :value="member.created_at" custom-class="is-static" readonly/>
+            </b-field>
+            <hr>
+        </card-component>
     </section>
 </template>
 
@@ -31,7 +29,7 @@
         components: {UserAvatar, CardComponent},
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Group/getMember', to.params.id);
+                v.$store.dispatch('Member/getMember', to.params.id);
             })
         },
         computed : {

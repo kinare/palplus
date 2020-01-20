@@ -1,7 +1,7 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Loans
+            Transactions
         </hero-bar>
         <section class="section is-main-section">
             <card-component title="Clients" class="has-table has-mobile-sort-spaced">

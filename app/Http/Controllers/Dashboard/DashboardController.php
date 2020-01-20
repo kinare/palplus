@@ -21,7 +21,9 @@ use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Resources\DahsboardTransactionsResource;
 use App\Http\Resources\DashboardActivityResource;
+use App\Http\Resources\GroupResource;
 use App\Loan;
+use App\Members;
 use App\Transaction;
 use App\User;
 use App\Wallet;
@@ -181,6 +183,11 @@ class DashboardController extends Controller
         return $members->index();
     }
 
+    public function member($id){
+        $members= new MembersController();
+        return $members->show($id);
+    }
+
     public function membershipSettings(){
         $setting = new GroupSettingController();
         return $setting->index();
@@ -276,6 +283,19 @@ class DashboardController extends Controller
     public function projects(){
         $project= new GroupProjectController();
         return $project->index();
+    }
+
+    public function myGroups($id){
+        $memberships = Members::where('user_id', $id)->get();
+        $groupIds = [];
+        foreach ($memberships as $membership){
+            array_push($groupIds, $membership->group_id);
+        }
+        return GroupResource::collection(Group::find($groupIds));
+    }
+
+    public function nok(){
+//        $nik
     }
 
 

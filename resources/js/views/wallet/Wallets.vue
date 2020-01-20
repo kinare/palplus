@@ -68,6 +68,8 @@
         components: {HeroBar, CardComponent, TitleBar, ModalBox },
         data () {
             return {
+                id : '',
+                type : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -78,10 +80,19 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 v.$store.dispatch('Wallet/getWallets');
+                v.type = to.params.type;
+                v.id = to.params.id;
             })
         },
         computed: {
             wallets(){
+
+                if (this.type && this.id){
+                    return this.$store.getters['Wallet/wallets'].filter(w => {
+                        return w.type === this.type
+                            && w[`${this.type.toLowerCase()}_id`] === parseInt(this.id)
+                    })
+                }
                 return this.$store.getters['Wallet/wallets'];
             }
         },

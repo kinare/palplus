@@ -45,7 +45,7 @@
                                     <router-link :to="`transactions/credit/Group/${props.row.id}`">deposits</router-link>
                                     <router-link :to="`transactions/debit/Group/${props.row.id}`">withdrawals</router-link>
                                     <router-link :to="`group-withdrawal-requests/${props.row.id}`">withdrawal requests</router-link>
-                                    <router-link :to="`pending-payments/${props.row.id}`">Pending payment</router-link>
+                                    <router-link :to="`pending-payments/${props.row.id}/group`">Pending payment</router-link>
                                     <router-link disabled="" :to="`group-chats`">chats</router-link>
                                     <router-link :to="`members/${props.row.id}`">members</router-link>
                                     <router-link :to="`members/${props.row.id}/admins`">admins</router-link>
@@ -107,7 +107,11 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                v.$store.dispatch('Group/getGroups');
+                if (to.params.id){
+                    v.$store.dispatch('Group/myGroups', to.params.id);
+                }else {
+                    v.$store.dispatch('Group/getGroups');
+                }
             })
         },
         methods : {

@@ -39,13 +39,14 @@
                                     <b-icon icon="menu-down"></b-icon>
                                 </button>
 
-                                <b-dropdown-item aria-role="listitem">View Details</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">View Deposits</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Group Withdrawals</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Wallet Withdrawals</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Pending Payments</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">My Groups</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">My Wallet Details</b-dropdown-item>
+                                <b-dropdown-item has-link aria-role="listitem">
+                                    <router-link :to="`member/card/${props.row.id}`">View details</router-link>
+                                    <router-link :to="`transactions/credit/User/${props.row.id}`">deposits</router-link>
+                                    <router-link :to="`transactions/debit/User/${props.row.id}`">withdrawals</router-link>
+                                    <router-link :to="`pending-payments/${props.row.id}/user`">Pending payment</router-link>
+                                    <router-link :to="`/groups/${props.row.id}`">My Groups</router-link>
+                                    <router-link :to="`/wallets/User/${props.row.id}`">My Wallet</router-link>
+                                </b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Next of KIN</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">My Loans</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">My Events</b-dropdown-item>
