@@ -24,7 +24,6 @@ const Transaction = {
       transactions : state =>  state.transactions,
       payments : state =>  state.payments
   },
-
   actions: {
       getRequests : (context) => {
           call('get', endpoints.requests).then(res => {

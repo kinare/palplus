@@ -16,7 +16,7 @@ class WalletResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = $this->walletCurrency();
         return  $data;
     }
 }

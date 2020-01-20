@@ -39,9 +39,19 @@
                                     <b-icon icon="menu-down"></b-icon>
                                 </button>
 
-                                <b-dropdown-item aria-role="listitem">View</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Update</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Delete</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">View Details</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">View Deposits</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">Group Withdrawals</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">Wallet Withdrawals</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">Pending Payments</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">My Groups</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">My Wallet Details</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">Next of KIN</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">My Loans</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">My Events</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">My Projects</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">De-activate/Activate</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem">Suspend</b-dropdown-item>
                             </b-dropdown>
                         </b-table-column>
                     </template>

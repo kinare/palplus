@@ -27,7 +27,6 @@ class GroupProjectObserver
                 'project_id' => $groupProject->id
             ]);
         }
-
     }
 
     /**

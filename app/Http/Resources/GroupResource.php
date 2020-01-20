@@ -16,7 +16,7 @@ class GroupResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group($this->id)->walletCurrency();
         return $data;
     }
 }
