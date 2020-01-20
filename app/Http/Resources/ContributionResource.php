@@ -19,7 +19,7 @@ class ContributionResource extends JsonResource
         $data = parent::toArray($request);
         $data['contribution_type'] = $this->type()->first()->name ?: null;
         $data['group'] = $this->group()->first()->name ?: null;
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         return $data;
     }
 }

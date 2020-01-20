@@ -16,7 +16,7 @@ class InvestmentOpportunityResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         return $data;
     }
 }

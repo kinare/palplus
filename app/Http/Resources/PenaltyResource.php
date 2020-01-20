@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Members;
+use App\Penalty;
 use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +18,7 @@ class PenaltyResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group(Members::find($this->member_id)->group_id)->walletCurrency();
         return $data;
     }
 }

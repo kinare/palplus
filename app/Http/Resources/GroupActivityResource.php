@@ -17,7 +17,7 @@ class GroupActivityResource extends JsonResource
     {
         $data =  parent::toArray($request);
         $data['is_member'] = $this->hasJoined($this->group_id) ? true : false;
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         return $data;
     }
 }
