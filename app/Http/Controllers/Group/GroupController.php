@@ -9,6 +9,7 @@ use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
+use App\GroupType;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
 use App\Http\Resources\ContributionTypeResource;
@@ -35,6 +36,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Facade as Avatar;
+use function MongoDB\BSON\toPHP;
 
 class GroupController extends BaseController
 {
@@ -379,38 +381,45 @@ class GroupController extends BaseController
                     'message' => 'Group Not found'
                 ], 404);
 
+            $type = GroupType::find($group->type_id);
+
+            /* leave direct for fundraising */
+            if ($type->type === 'Tours-and-travel'){
+                $member->forceDelete();
+                return response()->json([
+                    'message' => 'You left '. $group->name . ' successfully'
+                ], 200);
+            }
+
             /*validate leave request*/
             $arrears = $this->leaveRequest($group->id);
 
-            /*
-             * check
-             * loan balance
-             * total contribution
-             * leavegroup fee
-             *
-             * if has loan balance => clear loan first
-             * if leave group fee => deduct leave group from total contribution
-             *
-             * deduct leave group from contrib or wallet
-             * make withdrawal request
-             *
-             *
-             * */
-
-
-
-            if ($arrears['data']['total_withdrawable'] < 0)
+            if ($arrears['data']['loan_balance'] > 0)
                 return response()->json([
-                    'message' => 'Clear your pending payments first'
+                    'message' => 'You have an outstanding loan balance of '.$arrears['data']['loan_balance'].' Clear the loan first'
+                ], 401);
+
+
+            /* create leave group fee pending payment*/
+            if ($arrears['data']['leaveGroupFee'] > 0){
+                Payment::init([
+                    'user_id' => $member->user_id,
+                    'group_id' => $member->group_id,
+                    'description' => 'MLeaving Group fee',
+                    'model' => Members::class,
+                    'model_id' => $member->id,
+                    'transaction_code' =>'',
+                    'amount' =>  $arrears['data']['leaveGroupFee'],
+                ]);
+            }
+
+            /* create withdrawal request for member */
+            if (($arrears['data']['total_contributions'] - $arrears['data']['total_withdrawals']) > 0){
+                Withdrawal::withdraw($member,  $arrears['data']['total_contributions'] - $arrears['data']['total_withdrawals']);
+                return response()->json([
+                    'message' => 'Request received successfully, withdrawable amount is being processed. also clear your pending payments'
                 ], 400);
-
-            /*Todo Make a withdrawal request before leaving group*/
-
-            $member->forceDelete();
-            return response()->json([
-                'message' => 'You left '. $group->name . ' successfully'
-            ], 200);
-
+            }
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

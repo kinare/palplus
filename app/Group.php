@@ -72,13 +72,15 @@ class Group extends BaseModel
 
         $loans = Loan::total($member);
         $contributions = Contribution::amount($member);
+        $withdrawals = Withdrawal::total($member);
         $leaveGroupFee = GroupSetting::leaveGroupFee($member);
 
         return [
             'total_contributions' => $contributions,
+            'total_withdrawals' => $withdrawals,
             'loan_balance' => $loans['balance'],
             'leaveGroupFee' => $leaveGroupFee,
-            'total_withdrawable' => ((float)$contributions - (float)($loans['balance'] + $leaveGroupFee))
+            'total_withdrawable' => ((float)$contributions - ((float)$withdrawals + (float)$loans['balance'] + $leaveGroupFee))
         ];
     }
 }

@@ -29,6 +29,9 @@ class GroupSetting extends BaseModel
     }
 
     public static function leaveGroupFee(Members $member){
+
+        if ($member->leave_group_fee_paid) return 0;
+
         $setting = self::whereGroupId($member->group_id)->first();
         if (!$setting->fixed_leaving_group_fee){
             return ((float)$setting->leaving_group_rate * (float)Contribution::amount($member))/100;
