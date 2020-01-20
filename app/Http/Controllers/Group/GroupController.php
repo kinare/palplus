@@ -122,6 +122,9 @@ class GroupController extends BaseController
 
             $model->save();
 
+            //init group settings
+            GroupSettingController::init($request, $model->id);
+
             //make first member admin
             $member = new Members();
             $member->group_id = $model->id;
@@ -131,10 +134,6 @@ class GroupController extends BaseController
             $member->withdrawal_approver = true;
             $member->created_by = $request->user()->id;
             $member->save();
-
-            //init group settings
-            GroupSettingController::init($request, $model->id);
-
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
