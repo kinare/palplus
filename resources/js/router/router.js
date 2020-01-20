@@ -13,6 +13,7 @@ import Admins from "../views/admin/Admins";
 import NewAdmin from "../views/admin/NewAdmin";
 import Group from "../views/group/Group";
 import Member from "../views/member/Member";
+import MemberCard from "../views/member/Card";
 import WithdrawalRequest from "../views/transaction/WithdrawalRequest";
 import Transaction from "../views/transaction/Transaction";
 import Investment from "../views/investment/Investment";
@@ -86,6 +87,12 @@ const router =new Router({
                     path: '/members/:id?/:type?',
                     name: 'Members',
                     component: Member,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/members/card/:id',
+                    name: 'Members',
+                    component: Card,
                     meta : { middleware : auth},
                 },
                 {

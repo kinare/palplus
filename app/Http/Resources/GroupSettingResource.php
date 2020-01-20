@@ -19,7 +19,7 @@ class GroupSettingResource extends JsonResource
         $data = parent::toArray($request);
         $data['access_level'] = $this->group()->first()->access_level;
         $data['period'] = ContributionPeriod::find($data['contribution_periods_id']) ? ContributionPeriod::find($data['contribution_periods_id'])->name : 'undefined';
-        $data['currency'] = Wallet::currency();
+        $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         return $data;
     }
 }
