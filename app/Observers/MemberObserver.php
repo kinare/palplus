@@ -24,8 +24,6 @@ class MemberObserver
         $setting = GroupSetting::where('group_id', $members->group_id)->first();
         $group = Group::find($members->group_id);
 
-        dump($setting);
-
         if ($setting->membership_fee)
             /* Create pending payment for membership fee*/
             Payment::init([

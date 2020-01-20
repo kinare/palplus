@@ -392,38 +392,51 @@ class GroupController extends BaseController
             }
 
             /*validate leave request*/
-            $arrears = $this->leaveRequest($group->id);
+            $arrears = Group::leaveStatus($member);
 
-            if ($arrears['data']['loan_balance'] > 0)
+
+            if ($arrears['loan_balance'] > 0)
                 return response()->json([
-                    'message' => 'You have an outstanding loan balance of '.$arrears['data']['loan_balance'].' Clear the loan first'
+                    'message' => 'You have an outstanding loan balance of '.$arrears['loan_balance'].' Clear the loan first'
                 ], 401);
 
 
             /* create leave group fee pending payment*/
-            if ($arrears['data']['leaveGroupFee'] > 0){
+            if ($arrears['leaveGroupFee'] > 0){
                 Payment::init([
                     'user_id' => $member->user_id,
                     'group_id' => $member->group_id,
-                    'description' => 'MLeaving Group fee',
+                    'description' => 'Leaving Group fee',
                     'model' => Members::class,
                     'model_id' => $member->id,
                     'transaction_code' =>'',
-                    'amount' =>  $arrears['data']['leaveGroupFee'],
+                    'amount' =>  $arrears['leaveGroupFee'],
                 ]);
             }
 
             /* create withdrawal request for member */
-            if (($arrears['data']['total_contributions'] - $arrears['data']['total_withdrawals']) > 0){
-                Withdrawal::withdraw($member,  $arrears['data']['total_contributions'] - $arrears['data']['total_withdrawals']);
-                return response()->json([
-                    'message' => 'Request received successfully, withdrawable amount is being processed. also clear your pending payments'
-                ], 400);
+            if (($arrears['total_contributions'] - $arrears['total_withdrawals']) > 0){
+                Withdrawal::withdraw($member,  $arrears['total_contributions'] - $arrears['total_withdrawals']);
             }
-        }catch (Exception $e){
+
+            /* if total withdrawable is zero leave group */
+            if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
+                $member->forceDelete();
+                return response()->json([
+                    'message' => 'You left '. $group->name . ' successfully'
+                ], 200);
+            }
+
             return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+                'message' => 'Request received successfully, withdrawable amount is being processed. also clear your pending payments'
+            ], 400);
+
+        }catch (Exception $e){
+            return $e;
+
+//            response()->json([
+//                'message' => $e
+//            ], 500);
         }
     }
 

@@ -499,5 +499,49 @@ class UserController extends BaseController
         ])->get());
     }
 
+    /**
+     * @SWG\Post(
+     *   path="/user/transfer",
+     *   tags={"User"},
+     *   summary="Transfer funds to another user",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="user_id",in="query",description="user id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function transfer(Request $request){
+        $request->validate([
+            'user_id' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $wallet = Wallet::whereUserId($request->user_id)->first();
+
+        if(!$wallet->canWithdraw($request->amount))
+            return response()->json([
+                'message' => 'Insufficient fund. top up to continue'
+            ], 401);
+
+        $transaction = new \App\Http\Controllers\Finance\Transaction();
+        $transaction->transact(
+            Wallet::mine(),
+            Wallet::whereUserId($request->user_id)->first(),
+            $request->amount,
+            'Wallet Transfer',
+            'Wallet to wallet transfer'
+        );
+
+        if ($transaction)
+            return response()->json([
+                'message' => 'Transfer successful'
+            ], 200);
+    }
+
 
 }

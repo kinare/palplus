@@ -155,6 +155,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::get('/loans', 'UserController@loans');
                 Route::get('/notifications', 'UserController@notifications');
                 Route::get('/contributions', 'UserController@contributions');
+                Route::post('/transfer', 'UserController@transfer');
                 Route::get('/contributions/group/{group_id}', 'UserController@contributionByGroup');
                 Route::post('/deposit', 'UserController@deposit');
                 Route::get('/{id}', 'UserController@show');

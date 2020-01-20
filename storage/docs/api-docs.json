@@ -6280,13 +6280,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "group_id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -9929,6 +9922,46 @@
                     "User"
                 ],
                 "summary": "My Notifications",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/transfer": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Transfer funds to another user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

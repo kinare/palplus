@@ -43,14 +43,14 @@ class Withdrawal extends BaseModel
             $withdrawals = self::whereMemberId($model->id)->get();
 
         if ($model instanceof Group)
-            $contributions = self::whereGroupId($model->id)->get();
+            $withdrawals = self::whereGroupId($model->id)->get();
 
         if (!$model)
-            $contributions = self::all();
+            $withdrawals = self::all();
 
         $total = 0;
-        foreach ($contributions as $contribution){
-            $total += (float)$contribution->amount;
+        foreach ($withdrawals as $withdrawal){
+            $total += (float)$withdrawal->amount;
         }
         return $total;
     }
