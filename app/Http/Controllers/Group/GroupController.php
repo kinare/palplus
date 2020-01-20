@@ -304,6 +304,7 @@ class GroupController extends BaseController
                     'message' => 'Sorry, This is a private group'
                 ], 400);
 
+
             $member = new Members();
             $member->user_id = $request->user()->id;
             $member->group_id = $group->id;
@@ -804,7 +805,14 @@ class GroupController extends BaseController
     public function me(Request $request, $group_id)
     {
         try{
-            return new MemberResource(Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first());
+            $me = Members::where(['user_id' => $request->user()->id, 'group_id' => $group_id])->first();
+
+            if (!$me)
+                return response()->json([
+                    'message' => 'You are not in any group.'
+                ], 404);
+
+            return new MemberResource($me);
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()

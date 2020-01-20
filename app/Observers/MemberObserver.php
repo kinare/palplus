@@ -3,8 +3,12 @@
 namespace App\Observers;
 
 use App\Contribution;
+use App\ContributionType;
+use App\Group;
 use App\GroupSetting;
 use App\Members;
+use App\Notification;
+use App\NotificationTypes;
 use App\Payment;
 
 class MemberObserver
@@ -18,15 +22,28 @@ class MemberObserver
     public function created(Members $members)
     {
         $setting = GroupSetting::where('group_id', $members->group_id)->first();
+        $group = Group::find($members->group_id);
+
+        dump($setting);
+
         if ($setting->membership_fee)
+            /* Create pending payment for membership fee*/
             Payment::init([
                 'user_id' => $members->user_id,
                 'group_id' => $members->group_id,
                 'description' => 'Membership Fee',
-                'model' => Contribution::class,
-                'model_id' => Contribution::where(['group_id'=>$members->group_id, 'membership_fee' => true])->first()->id,
+                'model' => ContributionType::class,
+                'model_id' => ContributionType::where(['group_id'=>$members->group_id, 'membership_fee' => true])->first()->id,
                 'transaction_code' =>'',
-                'amount' =>  $setting->membership_fee,
+                'amount' =>  $setting->membership_fee_amount,
+            ]);
+
+            Notification::make([
+                'user_id' => $members->user_id,
+                'subject' => 'You have joined '.$group->name,
+                'message' => $setting->membership_fee ? 'Pay '.$setting->membership_fee_amount.' to become active': "Thank you for joining",
+                'payload' => '',
+                'notification_types_id' => NotificationTypes::getTypeId('INFORMATION'),
             ]);
     }
 

@@ -56,7 +56,7 @@ class ContributionTypeController extends BaseController
                 'group_id'=> $group_id,
                 'activity_id' => null,
                 'project_id' => null,
-                'membership_fee' => !Members::member($group_id)->active
+                'membership_fee' => !Members::member($group_id)->active // get member fee if member is inactive
             ])->get();
 
             return ContributionTypeResource::collection($contribution);

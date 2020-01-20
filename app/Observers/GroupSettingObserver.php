@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Contribution;
 use App\ContributionCategory;
 use App\ContributionType;
 use App\Group;
@@ -103,6 +104,8 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'type'  => 'Merry-go-round'
                 ])->first();
+
+                if (!$contribytionType) $contribytionType = new ContributionType();
 
                 $contribytionType->fill([
                     'group_id' => $group->id,

@@ -20,7 +20,7 @@ class CreateMembersTable extends Migration
             $table->boolean('is_admin')->default(false);
             $table->boolean('loan_approver')->default(false);
             $table->boolean('withdrawal_approver')->default(false);
-            $table->boolean('active')->default(true);
+            $table->boolean('active')->default(false);
             $table->string('created_by')->nullable();
             $table->string('modified_by')->nullable();
             $table->timestamps();

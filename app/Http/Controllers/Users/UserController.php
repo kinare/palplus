@@ -351,7 +351,7 @@ class UserController extends BaseController
     public function payments(Request $request)
     {
         try{
-            return PaymentResource::collection(Payment::status('pending')->get());
+            return PaymentResource::collection(Payment::whereUserId($request->user()->id)->status('pending')->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()
