@@ -70301,15 +70301,17 @@ var render = function() {
                                           }
                                         },
                                         [_vm._v("My Wallet")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "router-link",
+                                        {
+                                          attrs: { to: "/nok/" + props.row.id }
+                                        },
+                                        [_vm._v("Next of Kin")]
                                       )
                                     ],
                                     1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-dropdown-item",
-                                    { attrs: { "aria-role": "listitem" } },
-                                    [_vm._v("Next of KIN")]
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -70455,7 +70457,7 @@ var render = function() {
             "card-component",
             {
               staticClass: "has-table has-mobile-sort-spaced",
-              attrs: { title: "Clients" }
+              attrs: { title: "Next of Kin" }
             },
             [
               _c(

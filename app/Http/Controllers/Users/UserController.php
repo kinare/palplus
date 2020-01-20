@@ -544,4 +544,28 @@ class UserController extends BaseController
     }
 
 
+    /**
+     * @SWG\Get(
+     *   path="/user/init-users",
+     *   tags={"Admin"},
+     *   summary="Initialize user wallets",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function initUsers(){
+        $users = User::all();
+        foreach ($users as $user){
+            Wallet::make('User', $user, $user->currency_id);
+        }
+
+        return 'success';
+    }
+
+
 }

@@ -143,6 +143,7 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'user'], function () {
                 Route::get('/', 'UserController@index');
                 Route::post('/', 'UserController@store');
+                Route::get('/init-users', 'UserController@initUsers');
                 Route::get('/activate/{id}', 'UserController@activate');
                 Route::get('/deactivate/{id}', 'UserController@deactivate');
                 Route::get('/wallet', 'UserController@wallet');

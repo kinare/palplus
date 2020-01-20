@@ -18,6 +18,7 @@ use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\Loan\LoanSettingController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\Users\NextOfKinController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Resources\DahsboardTransactionsResource;
 use App\Http\Resources\DashboardActivityResource;
@@ -295,7 +296,8 @@ class DashboardController extends Controller
     }
 
     public function nok(){
-//        $nik
+        $nok = new NextOfKinController();
+        return $nok->index();
     }
 
 

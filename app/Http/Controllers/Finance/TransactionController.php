@@ -33,7 +33,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -97,7 +97,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

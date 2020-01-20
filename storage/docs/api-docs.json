@@ -2852,7 +2852,7 @@
                     {
                         "name": "gateway",
                         "in": "query",
-                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",
                         "required": true,
                         "type": "string"
                     }
@@ -2892,7 +2892,7 @@
                     {
                         "name": "gateway",
                         "in": "query",
-                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",
                         "required": true,
                         "type": "string"
                     }
@@ -9962,6 +9962,30 @@
                         "type": "number"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/init-users": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Initialize user wallets",
                 "responses": {
                     "200": {
                         "description": "Success"

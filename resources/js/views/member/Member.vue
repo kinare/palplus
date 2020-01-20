@@ -46,8 +46,8 @@
                                     <router-link :to="`pending-payments/${props.row.id}/user`">Pending payment</router-link>
                                     <router-link :to="`/groups/${props.row.id}`">My Groups</router-link>
                                     <router-link :to="`/wallets/User/${props.row.id}`">My Wallet</router-link>
+                                    <router-link :to="`/nok/${props.row.id}`">Next of Kin</router-link>
                                 </b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">Next of KIN</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">My Loans</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">My Events</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">My Projects</b-dropdown-item>

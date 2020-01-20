@@ -19,7 +19,7 @@ class GroupProjectResource extends JsonResource
     {
         $data =  parent::toArray($request);
         $data['currency'] = Wallet::group($data['group_id'])->walletCurrency();
-        $data['frequency'] = ContributionPeriod::find($data['contribution_frequency'])->name;
+        $data['frequency'] = ContributionPeriod::find($data['contribution_frequency'])->name ?: null;
         $data['hasContributions'] = ContributionType::whereProjectId($this->id)->first() ? true : false;
         return $data;
     }
