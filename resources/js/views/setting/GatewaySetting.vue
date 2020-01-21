@@ -1,10 +1,10 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Activities
+            Admins
         </hero-bar>
         <section class="section is-main-section">
-            <card-component :title="type" class="has-mobile-sort-spaced">
+            <card-component title="Admins" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"
@@ -12,31 +12,28 @@
                     :striped="true"
                     :hoverable="true"
                     default-sort="name"
-                    :data="activity"
+                    :data="setups"
                 >
 
                     <template slot-scope="props">
-                        <b-table-column label="Name" field="name" sortable :searchable="true">
-                            {{ props.row.name }}
+                        <b-table-column label="Type" field="type" sortable :searchable="true">
+                            {{ props.row.type }}
                         </b-table-column>
-                        <b-table-column label="Date/Time" field="start_date" sortable :searchable="true">
-                            {{ props.row.start_date }}
+                        <b-table-column label="gateway" field="gateway" sortable :searchable="true">
+                            {{ props.row.gateway }}
                         </b-table-column>
-                        <b-table-column label="contacts" field="contacts" sortable :searchable="true">
-                            {{ props.row.contacts }}
+                        <b-table-column label="rate" field="rate" sortable :searchable="true">
+                            {{ props.row.rate }}
                         </b-table-column>
-                        <b-table-column label="slots" field="slots" sortable :searchable="true">
-                            {{ props.row.slots }}
-                        </b-table-column>
-                        <b-table-column label="Booking Fee" field="booking_fee_amount" sortable :searchable="true">
-                            {{ props.row.currency + ' '+props.row.booking_fee_amount }}
-                        </b-table-column>
-                        <b-table-column label="Created at" field="created_at" sortable :searchable="true">
+                        <b-table-column label="created_at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
                         </b-table-column>
+
+
                         <b-table-column label="Actions" >
-                            <button class="button is-primary" >
-                                <span>Options</span>
+                            <button class="button is-primary" slot="trigger">
+                                <span>View</span>
+                                <b-icon icon="menu-down"/>
                             </button>
                         </b-table-column>
                     </template>
@@ -68,12 +65,10 @@
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
     export default {
-        name: "Activity",
+        name: "GatewaySetting",
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
-                type : '',
-                id : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -83,33 +78,17 @@
         },
         beforeRouteEnter(to, from, next){
             next(v => {
-                if (to.params.owner){
-                    v.$store.dispatch('Group/getMemberActivity', to.params.owner);
-                }else {
-                    v.$store.dispatch('Group/getActivity');
-                    v.type = to.params.type;
-                    v.id = to.params.id;
-                }
-
-
+                v.$store.dispatch('Setup/getSetups', to.params.id);
             })
         },
         computed: {
-            activity(){
-
-                if (this.$route.params.owner){
-                    return this.$store.getters['Group/activity'].filter(a => {
-                        return a.type.toLowerCase() === this.type.toLowerCase()
-                    });
+            setups(){
+                if (this.$route.params.type){
+                    return this.$store.getters['Setup/setups'].filter(s => {
+                        return s.type === this.$route.params.type
+                    })
                 }
-
-                if(this.type && this.id)
-                    return this.$store.getters['Group/activity'].filter(a => {
-                        return a.group_id = parseInt(this.id)
-                            && a.type.toLowerCase() === this.type.toLowerCase()
-                    });
-
-                return this.$store.getters['Group/activity'];
+                return this.$store.getters['Setup/setups'];
             }
         },
     }

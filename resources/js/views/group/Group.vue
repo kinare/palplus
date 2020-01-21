@@ -1,7 +1,7 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Admins
+            Groups
         </hero-bar>
         <section class="section is-main-section">
             <card-component title="Admins" class="has-mobile-sort-spaced">
@@ -52,7 +52,7 @@
                                     <router-link :to="`members/${props.row.id}/loan-approvers`">loan approvers</router-link>
                                     <router-link :to="`members/${props.row.id}/withdrawal-approvers`">withdrawal approvers</router-link>
                                     <router-link :to="`membership-settings/${props.row.id}`">membership settings</router-link>
-                                    <router-link :to="`loans/all/${props.row.id}`">loans</router-link>
+                                    <router-link :to="`loans/all/group/${props.row.id}`">loans</router-link>
                                     <router-link :to="`loan-settings/${props.row.id}`">loan settings</router-link>
 <!--                                    <router-link :to="`withdrawal-settings/${props.row.id}`">withdrawal settings</router-link>-->
                                     <router-link :to="`activity/event/${props.row.id}`">Events</router-link>
@@ -60,7 +60,6 @@
                                     <router-link :to="`activity/tour/${props.row.id}`">Tours</router-link>
                                     <router-link :to="`project/${props.row.id}`">Projects</router-link>
                                 </b-dropdown-item>
-
                                 <b-dropdown-item aria-role="listitem">deactivate/activate</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">suspend</b-dropdown-item>
                             </b-dropdown>

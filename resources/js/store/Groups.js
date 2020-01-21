@@ -64,6 +64,12 @@ const Group = {
           })
       },
 
+      getMemberActivity : (context, id) => {
+          call('get', endpoints.memberActivity(id)).then(res => {
+              context.commit('SET_ACTIVITY', res.data.data);
+          })
+      },
+
       getProject : (context) => {
           call('get', endpoints.project).then(res => {
               context.commit('SET_PROJECT', res.data.data);

@@ -5,7 +5,7 @@ const Wallet = {
   namespaced: true,
   state: {
     wallets: [],
-    transactions : null,
+    transactions : [],
   },
   mutations: {
       SET_WALLETS : (state, payload) => {

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\ActivityMembers;
 use App\Group;
 use App\GroupActivity;
+use App\GroupProject;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Currency\CurrencyController;
 use App\Http\Controllers\Finance\PaymentController;
 use App\Http\Controllers\Finance\TransactionController;
 use App\Http\Controllers\Finance\WithdrawalController;
+use App\Http\Controllers\Gateway\GatewaySetupController;
 use App\Http\Controllers\Group\GroupActivityController;
 use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Group\GroupProjectController;
@@ -18,13 +21,16 @@ use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\Loan\LoanSettingController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\PaypalWithdrawalRequestController;
 use App\Http\Controllers\Users\NextOfKinController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Resources\DahsboardTransactionsResource;
 use App\Http\Resources\DashboardActivityResource;
+use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupResource;
 use App\Loan;
 use App\Members;
+use App\PaypalWithdrawalRequest;
 use App\Transaction;
 use App\User;
 use App\Wallet;
@@ -281,6 +287,17 @@ class DashboardController extends Controller
         return $activity->index();
     }
 
+    public function memberActivity($id){
+        $memberships = ActivityMembers::whereMemberId($id)->first();
+        $ids = [];
+
+        if ($memberships)
+        foreach ($memberships as $membership){
+            array_push($ids, $membership->activity_id);
+        }
+        return GroupActivityResource::collection(GroupActivity::whereIn('id', $ids)->get());
+    }
+
     public function projects(){
         $project= new GroupProjectController();
         return $project->index();
@@ -300,7 +317,13 @@ class DashboardController extends Controller
         return $nok->index();
     }
 
+    public function setups(){
+        $s = new GatewaySetupController();
+        return $s->index();
+    }
 
-
-
+    public function paypalRequests(){
+        $s = new PaypalWithdrawalRequestController();
+        return $s->index();
+    }
 }

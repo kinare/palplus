@@ -21,6 +21,7 @@ export default {
     group : id => `group/${id}`,
     myGroups : id => `my-groups/${id}`,
     activity : `activity`,
+    memberActivity : id => `member-activity/${id}`,
     project : `project`,
     investments : `investments`,
     loans : `loans`,
@@ -33,6 +34,8 @@ export default {
     payments : `payments`,
     requests : `withdrawal-requests`,
     opportunities : `investments`,
+    setups : `setups`,
+    paypalRequests : `paypal-withdrawals`
 
   // Groups
 

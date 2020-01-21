@@ -65,7 +65,6 @@ class GatewaySetupController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Get(
      *   path="/gateway/setup/{id}",
@@ -95,6 +94,4 @@ class GatewaySetupController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
-
 }

@@ -47,10 +47,11 @@
                                     <router-link :to="`/groups/${props.row.id}`">My Groups</router-link>
                                     <router-link :to="`/wallets/User/${props.row.id}`">My Wallet</router-link>
                                     <router-link :to="`/nok/${props.row.id}`">Next of Kin</router-link>
+                                    <router-link :to="`/loans/all/user/${props.row.id}`">My Loans</router-link>
+                                    <router-link :to="`activity/event/${props.row.group_id}/${props.row.id}`">My Events</router-link>
+                                    <router-link :to="`activity/meeting/${props.row.group_id}/${props.row.id}`">My Meetings</router-link>
+                                    <router-link :to="`project/${props.row.group_id}`">My Projects</router-link>
                                 </b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">My Loans</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">My Events</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">My Projects</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">De-activate/Activate</b-dropdown-item>
                                 <b-dropdown-item aria-role="listitem">Suspend</b-dropdown-item>
                             </b-dropdown>

@@ -95,7 +95,11 @@ export default {
                   {
                       to: '/transactions/debit',
                       label: 'Withdrawals'
-                  }
+                  },
+                  {
+                      to: '/paypal-withdrawal',
+                      label: 'Paypal Withdrawal'
+                  },
               ]
           }],
           [{
@@ -114,6 +118,20 @@ export default {
                   {
                       to: '/loans/cleared',
                       label: 'Paid loans'
+                  },
+              ]
+          }],
+          [{
+              label: 'Setup',
+              icon: 'cash-multiple',
+              menu: [
+                  {
+                      to: '/setup/withdrawal',
+                      label: 'Withdrawal'
+                  },
+                  {
+                      to: '/setup/deposit',
+                      label: 'Deposit'
                   },
               ]
           }],

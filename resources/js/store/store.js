@@ -10,6 +10,7 @@ import Member from "./Member";
 import Investment from "./Investment";
 import Transaction from "./Transaction";
 import Loan from "./Loan";
+import Setup from "./Setup";
 
 Vue.use(Vuex);
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
         Member : Member,
         Investment : Investment,
         Transaction : Transaction,
-        Loan : Loan
+        Loan : Loan,
+        Setup : Setup
     },
     state: {
         /* User */

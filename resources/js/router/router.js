@@ -25,6 +25,8 @@ import LoanSetting from "../views/setting/LoanSetting";
 import Activity from "../views/group/Activity";
 import Project from "../views/group/Project";
 import NextOfKin from "../views/member/NextOfKin";
+import GatewaySetting from "../views/setting/GatewaySetting";
+import PaypalRequests from "../views/transaction/PaypalRequests";
 
 Vue.use(Router);
 
@@ -137,7 +139,7 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/loans/:type?/:id?',
+                    path: '/loans/:status?/:owner?/:id?',
                     name: 'Loans',
                     component: Loan,
                     meta : { middleware : auth},
@@ -151,7 +153,7 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/activity/:type?/:id?',
+                    path: '/activity/:type?/:id?/:owner?',
                     name: 'Activity',
                     component: Activity,
                     meta : { middleware : auth},
@@ -161,6 +163,20 @@ const router =new Router({
                     path: '/project/:id?',
                     name: 'Project',
                     component: Project,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/setup/:type?',
+                    name: 'Setups',
+                    component: GatewaySetting,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/paypal-withdrawal',
+                    name: 'Paypal Withdrawal Requests',
+                    component: PaypalRequests,
                     meta : { middleware : auth},
                     props : true
                 },

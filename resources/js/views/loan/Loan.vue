@@ -74,7 +74,8 @@
         data () {
             return {
                 type : '',
-                group_id : '',
+                id : '',
+                owner : '',
                 isModalActive: false,
                 trashObject: null,
                 isLoading: false,
@@ -85,19 +86,27 @@
         beforeRouteEnter(to, from, next){
             next(v => {
                 v.$store.dispatch('Loan/getLoans');
-                v.type = to.params.type;
-                v.group_id = to.params.id;
+                v.status = to.params.status;
+                v.owner = to.params.owner;
+                v.id = to.params.id;
             })
         },
         computed: {
             transactions(){
-                if (this.type === 'all' && this.group_id)
+
+                if (this.type === 'all' && this.id && this.owner)
                     return this.$store.getters['Loan/loans'].filter(loan => {
-                        return loan.group_id === parseInt(this.group_id);
+                        return loan[`${this.owner}_id`] === parseInt(this.id)
+                    });
+
+                if (this.type && this.id && this.owner)
+                    return this.$store.getters['Loan/loans'].filter(loan => {
+                        return loan[`${this.owner}_id`] === parseInt(this.id)
+                            && loan.status === this.status;
                     });
 
                 return this.$store.getters['Loan/loans'].filter(loan => {
-                    return loan.status === this.type;
+                    return loan.status === this.status;
                 })
             }
         },

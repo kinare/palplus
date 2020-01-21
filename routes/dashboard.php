@@ -57,7 +57,10 @@ Route::group(['prefix' => ''], function () {
             Route::get('/wallet/transactions', 'DashboardController@walletTransactions');
             Route::get('/withdrawal-requests', 'DashboardController@withdrawalRequests');
             Route::get('/activity', 'DashboardController@activity');
+            Route::get('/member-activity/{id}', 'DashboardController@memberActivity');
             Route::get('/project', 'DashboardController@projects');
+            Route::get('/setups', 'DashboardController@setups');
+            Route::get('/paypal-withdrawals', 'DashboardController@paypalRequests');
         });
     });
 });
