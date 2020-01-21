@@ -11,6 +11,18 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => 'setup'], function () {
+    Route::namespace('Gateway')->group(function (){
+        Route::group(['middleware' => ['auth:admin', 'auth:api']], function () {
+            Route::get('/', 'GatewaySetupController@index');
+            Route::post('/', 'GatewaySetupController@store');
+            Route::get('/{id}', 'GatewaySetupController@show');
+            Route::patch('/{id}', 'GatewaySetupController@update');
+            Route::delete('/{id}', 'GatewaySetupController@destroy');
+        });
+    });
+});
+
 Route::group(['prefix' => 'rave'], function () {
     Route::any('/hook', 'RaveHookDumpController@store');
 

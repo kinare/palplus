@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Loan;
 
 use App\Contribution;
 use App\Group;
-use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\LoansResource;
 use App\Loan;
 use App\LoanApprovalEntry;
 use App\Members;
-use App\NotificationTypes;
-use App\Observers\LoanObserver;
 use App\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,7 +49,6 @@ class LoanController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
     public function limit($group_id){
         return  [
             'data' => Loan::limit(Members::member($group_id))
@@ -257,6 +253,48 @@ class LoanController extends BaseController
         return response()->json([
             'message' => 'Loan repayment successful. Loan balance: '.$loan->balance_amount.' pay before '.Carbon::parse($loan->end_date)->toDateString()
         ], 200);
+    }
+
+
+    /**
+     * @SWG\Get(
+     *   path="/loan/overdue/{group_id}",
+     *   tags={"Loan"},
+     *   summary="Overdue Loans",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group_id",required=false,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function overdue($group_id = null){
+        if ($group_id){
+            $loans = Loan::whereOverdue(true)->where('group_id', $group_id)->get();
+        }else{
+            $loans = Loan::whereOverdue(true)->get();
+        }
+        return LoansResource::collection($loans);
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/loan/group/{group_id}",
+     *   tags={"Loan"},
+     *   summary="Group Loans",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="group_id",in="path",description="group_id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function group($group_id){
+        return LoansResource::collection(Loan::whereGroupId($group_id)->get());
     }
 
 }

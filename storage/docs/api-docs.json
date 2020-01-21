@@ -3416,6 +3416,205 @@
                 ]
             }
         },
+        "/gateway/setup": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Retrieve Gateway setups",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Create Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "active",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/setup/{id}": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Fetch Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Delete Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Update Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "active",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity/contact": {
             "get": {
                 "tags": [
@@ -7852,6 +8051,72 @@
                         "description": "amount",
                         "required": true,
                         "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/overdue/{group_id}": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Overdue Loans",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Group Loans",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {

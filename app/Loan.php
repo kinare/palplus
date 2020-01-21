@@ -114,4 +114,17 @@ class Loan extends BaseModel
 
         /*Todo Handle paying more than loan amount i.e return to user wallet*/
     }
+
+    public static function processOverdueLoans(){
+        $loans = Loan::whereOverdue(false)->get();
+
+        foreach ($loans as $loan){
+            if ($loan->end_date > Carbon::now()){
+                $loan->overdue = true;
+                $loan->save();
+                echo $loan->code.' overdue';
+            }
+        }
+
+    }
 }

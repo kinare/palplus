@@ -85,6 +85,8 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::group(['prefix' => ''], function () {
                     Route::get('/', 'LoanController@index');
                     Route::get('/limit/{group_id}', 'LoanController@limit');
+                    Route::get('/group/{group_id}', 'LoanController@group');
+                    Route::get('/overdue/{group_id?}', 'LoanController@overdue');
                     Route::post('/', 'LoanController@loan');
                     Route::post('/pay', 'LoanController@pay');
                     Route::post('/approve', 'LoanController@approve');

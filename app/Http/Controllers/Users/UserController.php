@@ -543,7 +543,6 @@ class UserController extends BaseController
             ], 200);
     }
 
-
     /**
      * @SWG\Get(
      *   path="/user/init-users",
@@ -566,6 +565,4 @@ class UserController extends BaseController
 
         return 'success';
     }
-
-
 }
