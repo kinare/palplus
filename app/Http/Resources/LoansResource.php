@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Loan;
+use App\Members;
 use App\User;
 use App\Wallet;
 use Carbon\Carbon;
@@ -22,7 +23,7 @@ class LoansResource extends JsonResource
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         $data['start_date'] = Carbon::parse($data['start_date'])->toFormattedDateString();
         $data['end_date'] = Carbon::parse($data['end_date'])->toFormattedDateString();
-        $data['name'] = User::find($data['user_id'])->name;
+        $data['name'] = User::find(Members::find($data['member_id'])->user_id)->name;
         return $data;
     }
 }
