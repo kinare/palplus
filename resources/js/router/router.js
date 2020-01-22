@@ -27,6 +27,7 @@ import Project from "../views/group/Project";
 import NextOfKin from "../views/member/NextOfKin";
 import GatewaySetting from "../views/setting/GatewaySetting";
 import PaypalRequests from "../views/transaction/PaypalRequests";
+import Reporting from "../views/group/Reporting";
 
 Vue.use(Router);
 
@@ -97,6 +98,12 @@ const router =new Router({
                     path: '/member/card/:id',
                     name: 'Member Card',
                     component: MemberCard,
+                    meta : { middleware : auth},
+                },
+                {
+                    path: '/reportings',
+                    name: 'Reportings',
+                    component: Reporting,
                     meta : { middleware : auth},
                 },
                 {

@@ -40,4 +40,12 @@ class LoanSetting extends BaseModel
         $self->show_loans = false;
         $self->save();
     }
+
+    public function getInterest($amount){
+        if ($this->fixed_interest_amount){
+            return $this->fixed_interest_amount;
+        }
+
+        return ((float)$amount * (float)$this->interest_rate)/100;
+    }
 }

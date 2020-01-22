@@ -78,6 +78,11 @@ export default {
             to: '/members',
             label: 'Members',
             icon: 'account-supervisor-circle'
+          },
+          {
+              to: '/reportings',
+              label: 'Reportings',
+              icon: 'account-supervisor-circle'
           }
         ],
           [{

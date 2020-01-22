@@ -9,6 +9,7 @@ const Group = {
     setting: [],
     activity: [],
       project: [],
+      reposrtings: [],
   },
   mutations: {
       SET_GROUPS : (state, payload) => {
@@ -30,6 +31,10 @@ const Group = {
       SET_PROJECT: (state, payload) => {
           state.project = payload
       },
+
+      SET_REPORTINGS: (state, payload) => {
+          state.reposrtings = payload
+      },
   },
   getters: {
       groups : state => state.groups,
@@ -37,6 +42,7 @@ const Group = {
       setting : state => state.setting,
       activity : state => state.activity,
       project : state => state.project,
+      reposrtings : state => state.reposrtings,
   },
 
   actions: {
@@ -91,6 +97,12 @@ const Group = {
       suspendGroup : ({dispatch}, data) => {
           call('post', endpoints.suspendGroup, data).then(res => {
               dispatch('getGroups');
+          })
+      },
+
+      getReportings : (context, data) => {
+          call('get', endpoints.reportings, data).then(res => {
+              context.commit('SET_REPORTINGS', res.data.data);
           })
       },
   }

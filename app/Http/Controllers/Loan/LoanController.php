@@ -8,6 +8,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\LoansResource;
 use App\Loan;
 use App\LoanApprovalEntry;
+use App\LoanSetting;
 use App\Members;
 use App\Wallet;
 use Carbon\Carbon;
@@ -107,6 +108,7 @@ class LoanController extends BaseController
                 'message' => 'Your loan amount is over your limit'
             ], 500);
 
+        $setting =  LoanSetting::whereGroupId($group->id)->first();
 
         $data = Loan::calculate($member);
         $loan = new Loan();
@@ -114,6 +116,7 @@ class LoanController extends BaseController
         $loan->member_id = $member->id;
         $loan->group_id = $group->id;
         $loan->payment_period = $data['period'];
+        $loan->interest_amount = $setting->getInterest($request->loan_amount);
         $loan->loan_amount = $request->loan_amount;
         $loan->balance_amount = $request->loan_amount;
         $loan->start_date =$data['start'];

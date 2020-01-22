@@ -17,6 +17,7 @@ use App\Http\Controllers\Group\GroupActivityController;
 use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Group\GroupProjectController;
 use App\Http\Controllers\Group\GroupSettingController;
+use App\Http\Controllers\Group\ReportingController;
 use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\Loan\LoanSettingController;
@@ -338,6 +339,7 @@ class DashboardController extends Controller
             'message' => 'group suspended'
         ],200);
     }
+
     public function suspendMember(Request $request){
         $memb = Members::find($request->id);
         $memb->status = 'suspended';
@@ -368,5 +370,10 @@ class DashboardController extends Controller
         return response()->json([
             'message' => 'Member suspended'
         ],200);
+    }
+
+    public function reportings(){
+        $r = new ReportingController();
+        return $r->index();
     }
 }

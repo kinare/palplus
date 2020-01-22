@@ -36,6 +36,7 @@ export default {
     opportunities : `investments`,
     setups : `setups`,
     paypalRequests : `paypal-withdrawals`,
+    reportings : `reportings`,
 
     toggleGroupActive : `toggle-group-active`,
     toggleMemberActive : `toggle-member-active`,

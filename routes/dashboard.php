@@ -61,6 +61,7 @@ Route::group(['prefix' => ''], function () {
             Route::get('/project', 'DashboardController@projects');
             Route::get('/setups', 'DashboardController@setups');
             Route::get('/paypal-withdrawals', 'DashboardController@paypalRequests');
+            Route::get('/reportings', 'DashboardController@reportings');
 
             Route::post('/suspend-group', 'DashboardController@suspendGroup');
             Route::post('/suspend-member', 'DashboardController@suspendMember');
