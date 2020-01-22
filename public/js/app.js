@@ -4475,6 +4475,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4487,7 +4538,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      isModalActive: false,
+      isModalActivateActive: false,
+      isModalSuspendActive: false,
+      reason: '',
+      id: '',
       trashObject: null,
       isLoading: false,
       paginated: true,
@@ -4506,6 +4560,32 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     transaction: function transaction(id) {
       alert(id);
+    },
+    toggleActive: function toggleActive(id) {
+      this.isModalActivateActive = true;
+      this.id = id;
+    },
+    onOkToggleActive: function onOkToggleActive() {
+      this.$store.dispatch('Group/toggleActiveGroup', {
+        id: this.id,
+        reason: this.reason
+      });
+      this.reason = '';
+      this.id = '';
+      this.isModalActivateActive = false;
+    },
+    suspend: function suspend(id) {
+      this.isModalSuspendActive = true;
+      this.id = id;
+    },
+    onOkSuspend: function onOkSuspend() {
+      this.$store.dispatch('Group/suspendGroup', {
+        id: this.id,
+        reason: this.reason
+      });
+      this.reason = '';
+      this.id = '';
+      this.isModalSuspendActive = false;
     }
   },
   computed: {
@@ -68941,6 +69021,25 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
+                                label: "Status",
+                                field: "status",
+                                sortable: "",
+                                searchable: true
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.status) +
+                                  "\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-table-column",
+                            {
+                              attrs: {
                                 label: "Created at",
                                 field: "created_at",
                                 sortable: "",
@@ -69188,13 +69287,35 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "b-dropdown-item",
-                                    { attrs: { "aria-role": "listitem" } },
-                                    [_vm._v("deactivate/activate")]
+                                    {
+                                      attrs: { "aria-role": "listitem" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.toggleActive(props.row.id)
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          props.row.active
+                                            ? "deactivate"
+                                            : "activate"
+                                        )
+                                      )
+                                    ]
                                   ),
                                   _vm._v(" "),
                                   _c(
                                     "b-dropdown-item",
-                                    { attrs: { "aria-role": "listitem" } },
+                                    {
+                                      attrs: { "aria-role": "listitem" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.suspend(props.row.id)
+                                        }
+                                      }
+                                    },
                                     [_vm._v("suspend")]
                                   )
                                 ],
@@ -69269,6 +69390,179 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            active: _vm.isModalActivateActive,
+            "has-modal-card": "",
+            "trap-focus": "",
+            "aria-role": "dialog",
+            "aria-modal": ""
+          },
+          on: {
+            "update:active": function($event) {
+              _vm.isModalActivateActive = $event
+            }
+          }
+        },
+        [
+          _c("form", { attrs: { action: "" } }, [
+            _c(
+              "div",
+              { staticClass: "modal-card", staticStyle: { width: "auto" } },
+              [
+                _c("header", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v("Please input reason")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "section",
+                  { staticClass: "modal-card-body" },
+                  [
+                    _c("b-field", { attrs: { label: "Reason" } }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.reason,
+                            expression: "reason"
+                          }
+                        ],
+                        attrs: { cols: "50" },
+                        domProps: { value: _vm.reason },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.reason = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("footer", { staticClass: "modal-card-foot" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "button",
+                      on: {
+                        click: function($event) {
+                          _vm.isModalActivateActive = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "button is-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.onOkToggleActive($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Save")]
+                  )
+                ])
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            active: _vm.isModalSuspendActive,
+            "has-modal-card": "",
+            "trap-focus": "",
+            "aria-role": "dialog",
+            "aria-modal": ""
+          },
+          on: {
+            "update:active": function($event) {
+              _vm.isModalSuspendActive = $event
+            }
+          }
+        },
+        [
+          _c("form", { attrs: { action: "" } }, [
+            _c(
+              "div",
+              { staticClass: "modal-card", staticStyle: { width: "auto" } },
+              [
+                _c("header", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v("Please input reason")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "section",
+                  { staticClass: "modal-card-body" },
+                  [
+                    _c("b-field", { attrs: { label: "Reason" } }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.reason,
+                            expression: "reason"
+                          }
+                        ],
+                        attrs: { cols: "50" },
+                        domProps: { value: _vm.reason },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.reason = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("footer", { staticClass: "modal-card-foot" }, [
+                  _c("a", { staticClass: "button" }, [_vm._v("Close")]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "button is-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.onOkSuspend($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Save")]
+                  )
+                ])
+              ]
+            )
+          ])
+        ]
       )
     ],
     1
@@ -92155,6 +92449,18 @@ var Group = {
       Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].myGroups(id)).then(function (res) {
         context.commit('SET_GROUPS', res.data.data);
       });
+    },
+    toggleActiveGroup: function toggleActiveGroup(_ref, data) {
+      var dispatch = _ref.dispatch;
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleGroupActive, data).then(function (res) {
+        dispatch('getGroups');
+      });
+    },
+    suspendGroup: function suspendGroup(_ref2, data) {
+      var dispatch = _ref2.dispatch;
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].suspendGroup, data).then(function (res) {
+        dispatch('getGroups');
+      });
     }
   }
 };
@@ -92310,6 +92616,18 @@ var Member = {
     getNok: function getNok(context) {
       Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].nok).then(function (res) {
         context.commit('SET_NOK', res.data.data);
+      });
+    },
+    toggleMemberActive: function toggleMemberActive(_ref, data) {
+      var dispatch = _ref.dispatch;
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleMemberActive, data).then(function (res) {
+        dispatch('getMembers');
+      });
+    },
+    suspendMember: function suspendMember(_ref2, data) {
+      var dispatch = _ref2.dispatch;
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].suspendMember, data).then(function (res) {
+        dispatch('getMembers');
       });
     }
   }
@@ -92547,7 +92865,11 @@ __webpack_require__.r(__webpack_exports__);
   requests: "withdrawal-requests",
   opportunities: "investments",
   setups: "setups",
-  paypalRequests: "paypal-withdrawals" // Groups
+  paypalRequests: "paypal-withdrawals",
+  toggleGroupActive: "toggle-group-active",
+  toggleMemberActive: "toggle-member-active",
+  suspendGroup: "suspend-group",
+  suspendMember: "suspend-member" // Groups
 
 });
 

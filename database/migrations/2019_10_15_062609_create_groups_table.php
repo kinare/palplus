@@ -28,6 +28,9 @@ class CreateGroupsTable extends Migration
             $table->unsignedInteger('loan_setting_id')->nullable();
             $table->unsignedInteger('withdrawal_setting_id')->nullable();
             $table->unsignedInteger('wallet_id')->nullable();
+            $table->boolean('active')->default(true);
+            $table->string('reasons')->nullable();
+            $table->enum('status', ['active', 'inactive', 'suspended', 'closed'])->default('active');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

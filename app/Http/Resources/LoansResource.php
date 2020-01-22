@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Loan;
 use App\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LoansResource extends JsonResource
@@ -17,6 +19,8 @@ class LoansResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
+        $data['start_date'] = Carbon::parse($data['start_date'])->toFormattedDateString();
+        $data['end_date'] = Carbon::parse($data['end_date'])->toFormattedDateString();
         return $data;
     }
 }

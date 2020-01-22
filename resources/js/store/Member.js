@@ -44,6 +44,18 @@ const Member = {
               context.commit('SET_NOK', res.data.data);
           })
       },
+
+      toggleMemberActive : ({dispatch}, data) => {
+          call('post', endpoints.toggleMemberActive, data).then(res => {
+              dispatch('getMembers');
+          })
+      },
+
+      suspendMember : ({dispatch}, data) => {
+          call('post', endpoints.suspendMember, data).then(res => {
+              dispatch('getMembers');
+          })
+      },
   }
 };
 

@@ -31,6 +31,9 @@
                         <b-table-column label="Access level" field="access_level" sortable :searchable="true">
                             {{ props.row.access_level }}
                         </b-table-column>
+                        <b-table-column label="Status" field="status" sortable :searchable="true">
+                            {{ props.row.status }}
+                        </b-table-column>
                         <b-table-column label="Created at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
                         </b-table-column>
@@ -60,8 +63,8 @@
                                     <router-link :to="`activity/tour/${props.row.id}`">Tours</router-link>
                                     <router-link :to="`project/${props.row.id}`">Projects</router-link>
                                 </b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">deactivate/activate</b-dropdown-item>
-                                <b-dropdown-item aria-role="listitem">suspend</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" @click="toggleActive(props.row.id)">{{props.row.active ? 'deactivate' : 'activate'}}</b-dropdown-item>
+                                <b-dropdown-item aria-role="listitem" @click="suspend(props.row.id)">suspend</b-dropdown-item>
                             </b-dropdown>
                         </b-table-column>
                     </template>
@@ -85,6 +88,54 @@
                 </b-table>
             </card-component>
         </section>
+
+        <b-modal :active.sync="isModalActivateActive"
+                 has-modal-card
+                 trap-focus
+                 aria-role="dialog"
+                 aria-modal>
+
+            <form action="">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Please input reason</p>
+                    </header>
+                    <section class="modal-card-body">
+                        <b-field label="Reason">
+                            <textarea v-model="reason" cols="50"/>
+                        </b-field>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <a class="button" @click="isModalActivateActive = false">Close</a>
+                        <a class="button is-primary" @click.prevent="onOkToggleActive">Save</a>
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
+
+        <b-modal :active.sync="isModalSuspendActive"
+                 has-modal-card
+                 trap-focus
+                 aria-role="dialog"
+                 aria-modal>
+            <form action="">
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Please input reason</p>
+                    </header>
+                    <section class="modal-card-body">
+                        <b-field label="Reason">
+                            <textarea v-model="reason" cols="50"/>
+                        </b-field>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <a class="button">Close</a>
+                        <a class="button is-primary" @click.prevent="onOkSuspend">Save</a>
+                    </footer>
+                </div>
+            </form>
+        </b-modal>
+
     </div>
 </template>
 
@@ -92,12 +143,16 @@
     import ModalBox from '../../components/ModalBox'
     import CardComponent from "../../components/CardComponent";
     import HeroBar from "../../components/HeroBar";
+
     export default {
         name: "Group",
         components: {HeroBar, CardComponent,  ModalBox },
         data () {
             return {
-                isModalActive: false,
+                isModalActivateActive: false,
+                isModalSuspendActive: false,
+                reason : '',
+                id : '',
                 trashObject: null,
                 isLoading: false,
                 paginated: true,
@@ -116,6 +171,37 @@
         methods : {
             transaction : function (id) {
                 alert(id);
+            },
+            toggleActive : function (id) {
+                this.isModalActivateActive = true;
+                this.id = id;
+            },
+
+            onOkToggleActive : function(){
+                this.$store.dispatch('Group/toggleActiveGroup', {
+                    id : this.id,
+                    reason : this.reason
+                });
+
+                this.reason = '';
+                this.id = '';
+                this.isModalActivateActive = false;
+            },
+
+            suspend : function (id) {
+                this.isModalSuspendActive = true;
+                this.id = id;
+            },
+
+            onOkSuspend : function () {
+                this.$store.dispatch('Group/suspendGroup', {
+                    id : this.id,
+                    reason : this.reason
+                });
+
+                this.reason = '';
+                this.id = '';
+                this.isModalSuspendActive = false;
             }
         },
         computed: {

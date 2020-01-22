@@ -301,6 +301,12 @@ Route::group(['middleware' => ['json.response']], function () {
         /*Groups*/
         Route::namespace('Group')->group(function (){
 
+            Route::group(['prefix' => 'reporting'], function () {
+                Route::get('/', 'ReportingController@index');
+                Route::post('/', 'ReportingController@store');
+                Route::get('/{id}', 'ReportingController@show');
+            });
+
             Route::group(['prefix' => 'project'], function () {
                 Route::get('/', 'GroupProjectController@index');
                 Route::post('/', 'GroupProjectController@store');

@@ -76,7 +76,6 @@ class GroupExpenseController extends BaseController
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
-     *
      * )
      */
 

@@ -6069,27 +6069,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "group_id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "activity_id",
-                        "in": "query",
-                        "description": "activity_id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "supplier_id",
-                        "in": "query",
-                        "description": "supplier_id",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "name": "date",
                         "in": "query",
                         "description": "date",
@@ -7568,6 +7547,108 @@
                         "description": "Activity Itinerary  id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/reporting": {
+            "get": {
+                "tags": [
+                    "Reporting"
+                ],
+                "summary": "Retrieve reportings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Reporting"
+                ],
+                "summary": "Create Reporting",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "message",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/reporting/{id}": {
+            "get": {
+                "tags": [
+                    "Reporting"
+                ],
+                "summary": "Fetch Reporting",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "reporting id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {

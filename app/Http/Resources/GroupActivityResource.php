@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Wallet;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupActivityResource extends JsonResource
@@ -18,6 +19,9 @@ class GroupActivityResource extends JsonResource
         $data =  parent::toArray($request);
         $data['is_member'] = $this->hasJoined($this->group_id) ? true : false;
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
+        $data['cut_off_date'] = Carbon::parse($data['cut_off_date'])->toFormattedDateString();
+        $data['start_date'] = Carbon::parse($data['start_date'])->toFormattedDateString();
+        $data['end_date'] = Carbon::parse($data['end_date'])->toFormattedDateString();
         return $data;
     }
 }

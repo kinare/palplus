@@ -47,6 +47,17 @@ class GroupActivityController extends BaseController
      *
      * )
      */
+    public function index()
+    {
+        try{
+            return $this->response($this->model::all()->orderBy('cut_off_date', 'ASC')->get());
+        }catch (Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+
+    }
 
     /**
      * @SWG\Post(

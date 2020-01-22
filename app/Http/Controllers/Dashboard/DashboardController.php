@@ -34,6 +34,7 @@ use App\PaypalWithdrawalRequest;
 use App\Transaction;
 use App\User;
 use App\Wallet;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -325,5 +326,47 @@ class DashboardController extends Controller
     public function paypalRequests(){
         $s = new PaypalWithdrawalRequestController();
         return $s->index();
+    }
+
+    public function suspendGroup(Request $request){
+        $group = Group::find($request->id);
+        $group->status = 'suspended';
+        $group->active = false;
+        $group->reasons = $request->reason;
+        $group->save();
+        return response()->json([
+            'message' => 'group suspended'
+        ],200);
+    }
+    public function suspendMember(Request $request){
+        $memb = Members::find($request->id);
+        $memb->status = 'suspended';
+        $memb->active = false;
+        $memb->reasons = $request->reason;
+        $memb->save();
+        return response()->json([
+            'message' => 'group suspended'
+        ],200);
+    }
+
+    public function toggleGroupActive(Request $request){
+        $group = Group::find($request->id);
+        $group->active = $group->active ? 0 : 1;
+        $group->reasons = $request->reason;
+        $group->status = $group->active ? 'inactive' : 'active' ;
+        $group->save();
+        return response()->json([
+            'message' => 'group suspended'
+        ],200);
+    }
+
+    public function toggleMemberActive(Request $request){
+        $memb = Members::find($request->id);
+        $memb->active = $memb->active ? 0 : 1;
+        $memb->reasons = $request->reason;
+        $memb->save();
+        return response()->json([
+            'message' => 'Member suspended'
+        ],200);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Itinerary;
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ItineraryResource extends JsonResource
+class ReportingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +14,6 @@ class ItineraryResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data =  parent::toArray($request);
-        $data['date'] = Carbon::parse($data['date'])->toFormattedDateString();
-        return $data;
+        return parent::toArray($request);
     }
 }

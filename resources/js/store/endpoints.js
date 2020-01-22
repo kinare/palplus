@@ -35,7 +35,12 @@ export default {
     requests : `withdrawal-requests`,
     opportunities : `investments`,
     setups : `setups`,
-    paypalRequests : `paypal-withdrawals`
+    paypalRequests : `paypal-withdrawals`,
+
+    toggleGroupActive : `toggle-group-active`,
+    toggleMemberActive : `toggle-member-active`,
+    suspendGroup : `suspend-group`,
+    suspendMember : `suspend-member`,
 
   // Groups
 

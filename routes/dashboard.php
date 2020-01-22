@@ -61,6 +61,11 @@ Route::group(['prefix' => ''], function () {
             Route::get('/project', 'DashboardController@projects');
             Route::get('/setups', 'DashboardController@setups');
             Route::get('/paypal-withdrawals', 'DashboardController@paypalRequests');
+
+            Route::post('/suspend-group', 'DashboardController@suspendGroup');
+            Route::post('/suspend-member', 'DashboardController@suspendMember');
+            Route::post('/toggle-group-active', 'DashboardController@toggleGroupActive');
+            Route::post('/toggle-member-active', 'DashboardController@toggleMemberActive');
         });
     });
 });

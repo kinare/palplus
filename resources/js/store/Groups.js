@@ -81,6 +81,18 @@ const Group = {
               context.commit('SET_GROUPS', res.data.data);
           })
       },
+
+      toggleActiveGroup : ({dispatch}, data) => {
+          call('post', endpoints.toggleGroupActive, data).then(res => {
+              dispatch('getGroups');
+          })
+      },
+
+      suspendGroup : ({dispatch}, data) => {
+          call('post', endpoints.suspendGroup, data).then(res => {
+              dispatch('getGroups');
+          })
+      },
   }
 };
 
