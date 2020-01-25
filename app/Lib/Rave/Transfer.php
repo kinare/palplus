@@ -15,7 +15,6 @@ class Transfer extends Rave
     public function send(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload);
         $data->seckey = Config::getConfig('RAVE_SECRET_KEY');
-        $data->account_bank = '044';
         $res = $this->execute($data, 'https://api.ravepay.co/v2/gpx/transfers/create');
 
         if ($res['status'] === 'success')
