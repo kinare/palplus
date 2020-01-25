@@ -34,13 +34,8 @@ class GatewayTransactionController extends Controller
         $data = json_decode($gt->payload);
         $amount = $data->amount;
 
-
-        try {
-            $transaction = new Transaction();
-            $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
-        }catch (\Exception $e){
-            dump($e);
-        }
+        $transaction = new Transaction();
+        $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
 
         if ($transaction){
             $gt->status = 'done';

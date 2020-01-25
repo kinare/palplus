@@ -91,13 +91,9 @@ class Transaction extends Accounting
         $converted = (object)Converter::Convert($account->currency , $wallet->currencyShortDesc(), $amount);
         $this->state++;
 
-        dump($converted);
-
         /* Credit the to wallet */
         $credit = $this->credit($wallet, $converted->amount);
         $this->state++;
-
-        dump($credit);
 
         if ($credit)
         $this->record([
