@@ -54,7 +54,9 @@ class TransactionController extends BaseController
         if (!$account)
             return $this->empty('Please add your '.mb_strtolower($request->gateway).' in account settings to proceed');
 
-        switch ($request->gateway){
+        $type = AccountType::find($account->account_type_id);
+
+        switch ($type->type){
             case 'CARD' : //
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
                 $card = new Card();
@@ -116,7 +118,9 @@ class TransactionController extends BaseController
             'message' => 'Please add your account in account settings to proceed'
         ], 500);
 
-        switch ($request->gateway){
+        $type = AccountType::find($account->account_type_id);
+
+        switch ($type->type){
             case 'BANK ACCOUNT' :
                 /* implement bank transfer */
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);

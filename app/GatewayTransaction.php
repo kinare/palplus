@@ -23,7 +23,7 @@ class GatewayTransaction extends BaseModel
             'expiryyear' => $account->expiryyear,
             'currency' => $account->currency,
             'country' => $account->country,
-            'amount' => $amount,
+            'amount' => self::addTransactionFee('Rave', 'Deposit', $amount),
             'email' => $account->email,
             'phonenumber' => $account->phonenumber,
             'firstname' => $account->firstname,
@@ -55,7 +55,7 @@ class GatewayTransaction extends BaseModel
             'currency' => 'NGN', //$account->currency,
             'payment_type' => $account->payment_type ?: '',
             'country' => 'NG', // $account->country,
-            'amount' => $amount,
+            'amount' => self::addTransactionFee('Rave', 'Deposit', $amount),
             'passcode' => $account->passcode ?: '',
             'bvn' => $account->bvn ?: '',
             'email' => $account->email,
@@ -83,7 +83,7 @@ class GatewayTransaction extends BaseModel
             'currency' => $account->currency,
             'payment_type' => $account->payment_type ?: '',
             'country' => $account->country,
-            'amount' => $amount,
+            'amount' => self::addTransactionFee('Rave', 'Deposit', $amount),
             'email' => $account->email,
             'firstname' => $account->firstname,
             'lastname' => $account->lastname,
@@ -155,7 +155,7 @@ class GatewayTransaction extends BaseModel
         $data = [
             'account_bank' => $account->accountbank,
             'account_number' => $account->number,
-            'amount' => $amount,
+            'amount' =>self::addTransactionFee('Rave', 'Withdrawal', $amount),
             'narration' => 'Yunited wallet withdrawal',
             'currency' => $account->currency,
             'seckey' => '',
@@ -174,8 +174,12 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
-    public static function addTransactionFee(){
+    public static function addTransactionFee($gateway, $type, $amount){
+        $setup = GatewaySetup::getSetup($gateway, $type);
+        if (!$setup || $setup->rate === 0)
+            return $amount;
 
+        return (float)$amount + $setup->getTransactionFee($amount);
     }
 
 }
