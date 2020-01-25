@@ -28,10 +28,7 @@ class GatewayTransactionController extends Controller
         if (!$gt)
             exit(0);
 
-        $account = Account::where([
-            'user_id' => $gt->user_id,
-            'account_type_id' => AccountType::type($gt->type)->id
-        ])->first();
+        $account = Account::find($gt->type);
 
         dump($account);
 
