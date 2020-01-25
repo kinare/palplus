@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gateway;
 
 use App\Account;
 use App\AccountType;
 use App\GatewayTransaction;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Finance\Transaction;
 use App\Wallet;
 use Illuminate\Http\Request;
