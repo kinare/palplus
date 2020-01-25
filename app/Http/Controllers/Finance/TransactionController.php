@@ -74,7 +74,7 @@ class TransactionController extends BaseController
 
                 //set relevant account field
                 $account->payment_type = 'mpesa';
-                $account->narration = 'payment details';
+                $account->narration = 'Wallet deposit';
                 $account->is_mpesa = '1';
                 $account->is_mpesa_lipa = '1';
                 $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip());
