@@ -2826,11 +2826,11 @@
                         "type": "number"
                     },
                     {
-                        "name": "gateway",
+                        "name": "account_id",
                         "in": "query",
-                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",
+                        "description": "account id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -2866,11 +2866,11 @@
                         "type": "number"
                     },
                     {
-                        "name": "gateway",
+                        "name": "account_id",
                         "in": "query",
-                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",
+                        "description": "account id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gateway;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Resources\RaveHookDumpResource;
 use App\RaveHookDump;
 use Illuminate\Http\Request;
