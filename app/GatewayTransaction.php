@@ -95,7 +95,7 @@ class GatewayTransaction extends BaseModel
         ];
 
         $transaction = new self();
-        $transaction->ref = $account['txRef'];
+        $transaction->ref = $data['txRef'];
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
         $transaction->payload = json_encode($data);
@@ -104,8 +104,8 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
-    public static function initPaypal($amount) {
-        $account = [
+    public static function initPaypal(Account $account, $amount) {
+        $data = [
             'item' => [
                 [
                     'name'  => 'Wallet deposit',
@@ -122,8 +122,8 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
-        $transaction->ref = $account['invoice']['invoice_id'];
-        $transaction->payload = json_encode($account);
+        $transaction->ref = $data['invoice']['invoice_id'];
+        $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
