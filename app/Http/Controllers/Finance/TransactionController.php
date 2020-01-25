@@ -58,14 +58,14 @@ class TransactionController extends BaseController
 
         switch ($type->type){
             case 'CARD' : //
-                $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip(), $type->type);
+                $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
                 $card = new Card();
                 return $card->transact($transaction);
 
             case 'BANK ACCOUNT' : //done
                 $account->payment_type = 'account';
                 $account->accountbank = '232';
-                $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip(), $type->type);
+                $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
                 $bank = new BankAccount();
                 return $bank->transact($transaction);
 
@@ -77,12 +77,12 @@ class TransactionController extends BaseController
                 $account->narration = 'Wallet deposit';
                 $account->is_mpesa = '1';
                 $account->is_mpesa_lipa = '1';
-                $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip(), $type->type);
+                $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip());
                 $mobile = new Mobile();
                 return $mobile->transact($transaction);
 
             case 'PAYPAL' : // done
-                $transaction = GatewayTransaction::initPaypal($request->amount, $type->type);
+                $transaction = GatewayTransaction::initPaypal($request->amount);
                 $pp = new Checkout();
                 return $pp->transact($transaction);
         }
@@ -123,7 +123,7 @@ class TransactionController extends BaseController
         switch ($type->type){
             case 'BANK ACCOUNT' :
                 /* implement bank transfer */
-                $transaction = GatewayTransaction::bankTransfer($account, $request->amount, $type->type);
+                $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
                 return;
@@ -131,7 +131,7 @@ class TransactionController extends BaseController
                 /* implement mobile transfer */
                 return;
             case 'PAYPAL' :
-                $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount, $type->type);
+                $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payment();
                 return $pp->transact($transaction);
         }

@@ -15,7 +15,7 @@ class GatewayTransaction extends BaseModel
         'payload',
     ];
 
-    public static function initCard(Account $account, $amount, $ip= null, $fingerPrint = null, $type = '') {
+    public static function initCard(Account $account, $amount, $ip= null, $fingerPrint = null) {
         $card = [
             'cardno' => $account->number,
             'cvv' => $account->cvv,
@@ -41,14 +41,14 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->ref = $card['txRef'];
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->payload = json_encode($card);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
     }
 
-    public static function initAccount(Account $account, $amount, $ip= null, $fingerPrint = null, $type = '') {
+    public static function initAccount(Account $account, $amount, $ip= null, $fingerPrint = null) {
         $account = [
             'accountbank' => $account->accountbank ?: '',
             'accountnumber' => $account->number,
@@ -70,14 +70,14 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->ref = $account['txRef'];
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
     }
 
-    public static function initMobile(Account $account, $amount, $ip= null, $fingerPrint = null, $type = '') {
+    public static function initMobile(Account $account, $amount, $ip= null, $fingerPrint = null) {
         $account = [
             'phonenumber' => $account->number,
             'currency' => $account->currency,
@@ -97,14 +97,14 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->ref = $account['txRef'];
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
     }
 
-    public static function initPaypal($amount, $type = '') {
+    public static function initPaypal($amount) {
         $account = [
             'item' => [
                 [
@@ -121,7 +121,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->ref = $account['invoice']['invoice_id'];
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
@@ -129,7 +129,7 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
-    public static function initPaypalPayout(Account $account, $amount, $type = '') {
+    public static function initPaypalPayout(Account $account, $amount) {
 
         $data = [
             'receivers'  => [
@@ -143,7 +143,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->ref = 'PP-'.Carbon::now()->timestamp;
         $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
@@ -151,7 +151,7 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
-    public static function bankTransfer(Account $account, $amount, $type = ''){
+    public static function bankTransfer(Account $account, $amount){
         $data = [
             'account_bank' => $account->accountbank,
             'account_number' => $account->number,
@@ -166,7 +166,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = $type;
+        $transaction->type = $account->id;
         $transaction->ref = $data['reference'];
         $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
