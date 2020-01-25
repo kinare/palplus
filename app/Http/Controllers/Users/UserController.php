@@ -521,7 +521,7 @@ class UserController extends BaseController
             'amount' => 'required'
         ]);
 
-        $wallet = Wallet::whereUserId($request->user_id)->first();
+        $wallet = Wallet::mine();
 
         if(!$wallet->canWithdraw($request->amount))
             return response()->json([
@@ -530,7 +530,7 @@ class UserController extends BaseController
 
         $transaction = new \App\Http\Controllers\Finance\Transaction();
         $transaction->transact(
-            Wallet::mine(),
+            $wallet,
             Wallet::whereUserId($request->user_id)->first(),
             $request->amount,
             'Wallet Transfer',
