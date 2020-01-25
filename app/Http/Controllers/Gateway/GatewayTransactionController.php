@@ -29,9 +29,7 @@ class GatewayTransactionController extends Controller
 
         $account = Account::find($gt->type);
 
-
         $wallet = Wallet::whereUserId($gt->user_id)->first();
-
 
         $data = json_decode($gt->payload);
         $amount = $data->amount;
@@ -41,7 +39,7 @@ class GatewayTransactionController extends Controller
             $transaction = new Transaction();
             $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
         }catch (\Exception $e){
-            throw $e;
+            return $e;
         }
 
         if ($transaction){
