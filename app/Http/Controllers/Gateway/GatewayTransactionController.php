@@ -33,9 +33,13 @@ class GatewayTransactionController extends Controller
         dump($account);
 
         $wallet = Wallet::whereUserId($gt->user_id)->first();
+        dump($wallet);
+
 
         $data = json_decode($gt->payload);
         $amount = $data->amount;
+
+        dump($amount);
 
         $transaction = new Transaction();
         $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
@@ -44,5 +48,7 @@ class GatewayTransactionController extends Controller
             $gt->status = 'done';
             $gt->save();
         }
+
+        dump($gt);
     }
 }
