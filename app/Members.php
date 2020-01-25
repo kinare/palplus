@@ -17,7 +17,7 @@ class Members extends BaseModel
         return $this->belongsTo("App\User")->withTrashed();
     }
 
-    public static function member($group_id) : self
+    public static function member($group_id)
     {
       return self::where([
             'user_id' => Auth::user()->id,

@@ -23,6 +23,7 @@ class GroupSettingObserver
     {
         /* Get the respective group */
         $group = Group::find($groupSetting->group_id);
+        $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
 
         /* Check for group type and update accordingly */
         switch (GroupType::find($group->type_id)->type){
@@ -31,7 +32,7 @@ class GroupSettingObserver
                 ContributionType::init([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
+                    'name'  => $frequency->name.' contribution',
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -57,7 +58,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => 'Savings contribution',
+                    'name' => $frequency ?  $frequency->name : 'Savings contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);
@@ -96,6 +97,7 @@ class GroupSettingObserver
 
         /* Get the respective group */
         $group = Group::find($groupSetting->group_id);
+        $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
 
         /* Check for group type and update accordingly */
         switch (GroupType::find($group->type_id)->type){
@@ -111,7 +113,7 @@ class GroupSettingObserver
                 $contribytionType->fill([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
+                    'name'  => $frequency->name.' contribution',
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -148,7 +150,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => 'Savings contribution',
+                    'name' => $frequency ?  $frequency->name : 'Savings contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);

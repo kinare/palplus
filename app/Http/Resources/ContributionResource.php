@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Currency;
+use App\Members;
+use App\User;
 use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +22,7 @@ class ContributionResource extends JsonResource
         $data['contribution_type'] = $this->type()->first()->name ?: null;
         $data['group'] = $this->group()->first()->name ?: null;
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
+        $data['name'] = User::find(Members::member($data['group_id']))->name;
         return $data;
     }
 }

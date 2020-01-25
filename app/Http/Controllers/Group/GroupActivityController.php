@@ -656,7 +656,7 @@ class GroupActivityController extends BaseController
         $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
         $contributions = Contribution::where([
             'contribution_types_id' => $type->id,
-            'member_id' => Members::member($type->group_id)
+            'member_id' => Members::member($type->group_id)->id
         ])->get();
         return ContributionResource::collection($contributions);
     }

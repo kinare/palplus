@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gateway;
 
 use App\Account;
 use App\AccountType;
+use App\GatewaySetup;
 use App\GatewayTransaction;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Finance\Transaction;
@@ -23,7 +24,6 @@ class GatewayTransactionController extends Controller
             'status' => 'pending'
         ])->first();
 
-
         if (!$gt)
             exit(0);
 
@@ -42,4 +42,13 @@ class GatewayTransactionController extends Controller
             $gt->save();
         }
     }
+
+    public static function addTransactionFee($gateway, $type, $amount){
+        $setup = GatewaySetup::getSetup($gateway, $type);
+        if (!$setup || $setup->rate === 0)
+            return $amount;
+
+        return (float)$amount + $setup->getTransactionFee($amount);
+    }
+
 }

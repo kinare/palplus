@@ -122,14 +122,13 @@ class TransactionController extends BaseController
 
         switch ($type->type){
             case 'BANK ACCOUNT' :
-                /* implement bank transfer */
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
-                return;
             case 'MOBILE MONEY' :
-                /* implement mobile transfer */
-                return;
+                $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
+                $transfer = new Transfer();
+                return $transfer->send($transaction);
             case 'PAYPAL' :
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payment();
