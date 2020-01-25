@@ -34,12 +34,16 @@ class GatewayTransactionController extends Controller
         $data = json_decode($gt->payload);
         $amount = self::addTransactionFee('RAVE', $gt->transaction , $data->amount);
 
-        $transaction = new Transaction();
-        if ($gt->transaction = 'DEPOSIT')
-            $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+        try {
+            $transaction = new Transaction();
+            if ($gt->transaction = 'DEPOSIT')
+                $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
 
-        if ($gt->transaction = 'WITHDRAWAL')
-            $transaction->withdraw($account, $wallet, $amount, 'Withdraw', 'Wallet withdrawal');
+            if ($gt->transaction = 'WITHDRAWAL')
+                $transaction->withdraw($account, $wallet, $amount, 'Withdraw', 'Wallet withdrawal');
+        }catch (\Exception $e){
+            dump($e);
+        }
 
         if ($transaction){
             $gt->status = 'done';
