@@ -32,7 +32,7 @@ class GatewayTransactionController extends Controller
         $wallet = Wallet::whereUserId($gt->user_id)->first();
 
         $data = json_decode($gt->payload);
-        $amount = $data->amount;
+        $amount = self::addTransactionFee('RAVE', $gt->transaction , $data->amount);
 
         $transaction = new Transaction();
         if ($gt->transaction = 'DEPOSIT')
