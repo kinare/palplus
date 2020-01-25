@@ -41,8 +41,12 @@ class GatewayTransactionController extends Controller
 
         dump($amount);
 
-        $transaction = new Transaction();
-        $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+        try {
+            $transaction = new Transaction();
+            $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+        }catch (\Exception $e){
+            throw $e;
+        }
 
         if ($transaction){
             $gt->status = 'done';
