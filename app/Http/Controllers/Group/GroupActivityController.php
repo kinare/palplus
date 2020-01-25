@@ -12,6 +12,7 @@ use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Finance\Transaction;
 use App\Http\Resources\ActivityContactResource;
+use App\Http\Resources\ContributionResource;
 use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupExpenseResource;
@@ -218,7 +219,7 @@ class GroupActivityController extends BaseController
 
     /**
      * @SWG\Get(
-     *   path="/activity/contributions/{activity_id}",
+     *   path="/activity/contribution-types/{activity_id}",
      *   tags={"Activity"},
      *   summary="Retrieve Activity contribution types",
      *  security={
@@ -581,5 +582,82 @@ class GroupActivityController extends BaseController
                 'message' => $e->getMessage()
             ],500);
         }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/wallet/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity wallet",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function wallet($activity_id){
+        $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
+        $contributions = Contribution::whereContributionTypesId($type->id)->get();
+        $activity = GroupActivity::find($activity_id);
+
+        $total = 0;
+        foreach ($contributions as $contribution){
+            $total += $contribution->amount;
+        }
+
+        return response()->json([
+            'data' => [
+                'target' => $activity->total_cost,
+                'total_contribution' => $total,
+                'currency' => Wallet::whereGroupId($activity->group_id)->first()->walletCurrency()
+            ]
+        ], 200);
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/contributions/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function contributions($activity_id){
+        $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
+        $contributions = Contribution::whereContributionTypesId($type->id)->get();
+        return ContributionResource::collection($contributions);
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/my-contributions/{activity_id}",
+     *   tags={"Activity"},
+     *   summary="Activity my contributions",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="path",description="activity id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function myContributions($activity_id){
+        $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
+        $contributions = Contribution::where([
+            'contribution_types_id' => $type->id,
+            'member_id' => Members::member($type->group_id)
+        ])->get();
+        return ContributionResource::collection($contributions);
     }
 }

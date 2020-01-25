@@ -57,7 +57,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
+                    'name'  => 'Savings contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);
@@ -148,7 +148,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
+                    'name'  => 'Savings contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);

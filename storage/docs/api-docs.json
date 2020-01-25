@@ -4620,7 +4620,7 @@
                 ]
             }
         },
-        "/activity/contributions/{activity_id}": {
+        "/activity/contribution-types/{activity_id}": {
             "get": {
                 "tags": [
                     "Activity"
@@ -4944,6 +4944,105 @@
                     "Activity"
                 ],
                 "summary": "Featured activities",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/wallet/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity wallet",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contributions/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity contributions",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/my-contributions/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity my contributions",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"

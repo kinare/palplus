@@ -406,8 +406,11 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/', 'GroupActivityController@index');
                     Route::post('/', 'GroupActivityController@store');
                     Route::get('/featured', 'GroupActivityController@featured');
+                    Route::get('/wallet/{activity_id}', 'GroupActivityController@wallet');
+                    Route::get('/contributions/{activity_id}', 'GroupActivityController@contributions');
+                    Route::get('/my-contributions/{activity_id}', 'GroupActivityController@myContributions');
+                    Route::get('/contribution-types/{activity_id}', 'GroupActivityController@activityContributionTypes');
                     Route::get('/{id}', 'GroupActivityController@show');
-                    Route::get('/contributions/{activity_id}', 'GroupActivityController@activityContributionTypes');
                     Route::patch('/{id}', 'GroupActivityController@update');
                     Route::delete('/{id}', 'GroupActivityController@destroy');
                     Route::delete('/{id}/force', 'GroupActivityController@forceDestroy');

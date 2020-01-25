@@ -30,6 +30,7 @@ use App\Wallet;
 use App\Withdrawal;
 use App\WithdrawalSetting;
 use Auth;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -102,7 +103,7 @@ class GroupController extends BaseController
             $data = $request->all();
             $model->fill($data);
             $model->created_by = $request->user()->id;
-            $model->code = Str::random(60);
+            $model->code = Str::random(40).Carbon::now()->timestamp;
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
