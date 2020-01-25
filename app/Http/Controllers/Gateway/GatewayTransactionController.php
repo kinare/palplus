@@ -49,6 +49,7 @@ class GatewayTransactionController extends Controller
 
     public static function addTransactionFee($gateway, $type, $amount){
         $setup = GatewaySetup::getSetup($gateway, $type);
+        dump($setup);
         if (!$setup || $setup->rate === 0)
             return $amount;
 

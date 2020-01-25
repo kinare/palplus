@@ -163,9 +163,7 @@ class GatewayTransaction extends BaseModel
             'amount' => $amount,
             'narration' => 'Yunited wallet withdrawal',
             'currency' => $account->currency,
-            'seckey' => '',
             'reference' => 'PP-'.Carbon::now()->timestamp,
-            'callback_url' => '',
             'beneficiary_name' => $account->beneficiary,
         ];
 
@@ -187,9 +185,7 @@ class GatewayTransaction extends BaseModel
             'amount' => $amount,
             'narration' => 'Yunited wallet withdrawal',
             'currency' => $account->currency,
-            'seckey' => '',
             'reference' => 'PP-'.Carbon::now()->timestamp,
-            'callback_url' => '',
             'beneficiary_name' => $account->beneficiary,
         ];
 
