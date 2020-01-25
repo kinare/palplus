@@ -59,14 +59,17 @@ class RaveHookDumpController extends BaseController
             $model->save();
 
             $response = json_decode($body);
-            if (isset($response->status) && $response->status === 'successful') {
-               GatewayTransactionController::processTransaction($response->txRef);
+            if (isset($response->status) ) {
                 dump($response);
+
+                if ($response->status === 'successful')
+                    GatewayTransactionController::processTransaction($response->txRef);
             }
 
-            if (isset($response->transfer) && $response->transfer->status === 'SUCCESSFUL'){
-                GatewayTransactionController::processTransaction($response->txRef);
-                dump($response);
+            if (isset($response->transfer) ){
+
+                if ($response->transfer->status === 'SUCCESSFUL')
+                    GatewayTransactionController::processTransaction($response->transfer->reference);
             }
 
             exit();
