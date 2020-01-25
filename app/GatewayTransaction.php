@@ -43,6 +43,7 @@ class GatewayTransaction extends BaseModel
         $transaction->ref = $card['txRef'];
         $transaction->type = $account->id;
         $transaction->payload = json_encode($card);
+        $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -72,6 +73,7 @@ class GatewayTransaction extends BaseModel
         $transaction->ref = $account['txRef'];
         $transaction->type = $account->id;
         $transaction->payload = json_encode($account);
+        $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -99,6 +101,7 @@ class GatewayTransaction extends BaseModel
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
         $transaction->payload = json_encode($data);
+        $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -124,6 +127,7 @@ class GatewayTransaction extends BaseModel
         $transaction->type = $account->id;
         $transaction->ref = $data['invoice']['invoice_id'];
         $transaction->payload = json_encode($data);
+        $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -146,6 +150,7 @@ class GatewayTransaction extends BaseModel
         $transaction->type = $account->id;
         $transaction->ref = 'PP-'.Carbon::now()->timestamp;
         $transaction->payload = json_encode($data);
+        $transaction->transaction = 'WITHDRAWAL';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -169,6 +174,7 @@ class GatewayTransaction extends BaseModel
         $transaction->type = $account->id;
         $transaction->ref = $data['reference'];
         $transaction->payload = json_encode($data);
+        $transaction->transaction = 'WITHDRAWAL';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
@@ -192,6 +198,7 @@ class GatewayTransaction extends BaseModel
         $transaction->type = $account->id;
         $transaction->ref = $data['reference'];
         $transaction->payload = json_encode($data);
+        $transaction->transaction = 'WITHDRAWAL';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;

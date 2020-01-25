@@ -18,6 +18,8 @@ class CreateGatewaySetupsTable extends Migration
             $table->enum('type', ['withdrawal', 'deposit']);
             $table->string('gateway');
             $table->decimal('rate', 8, 0)->default(0);
+            $table->decimal('min_amount', 8, 0)->default(0);
+            $table->decimal('max_amount', 8, 0)->default(0);
             $table->boolean('active')->default(false);
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();

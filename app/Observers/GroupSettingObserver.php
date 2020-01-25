@@ -32,7 +32,7 @@ class GroupSettingObserver
                 ContributionType::init([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => $frequency->name.' contribution',
+                    'name'  => $frequency->name.' contribution '.$groupSetting->contribution_amount,
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -58,7 +58,9 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name' => $frequency ?  $frequency->name : 'Savings contribution',
+                    'name' => $frequency ?  $frequency->name.' contribution '.$groupSetting->contribution_amount : 'Savings contribution '.$groupSetting->contribution_amount,
+                    'amount'  => $groupSetting->contribution_amount ?: 0,
+                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);
@@ -79,7 +81,7 @@ class GroupSettingObserver
             if ($groupSetting->membership_fee)
                 ContributionType::init([
                     'group_id' => $groupSetting->group_id,
-                    'name' => 'Membership Fee',
+                    'name' => 'Membership Fee '.$groupSetting->contribution_amount,
                     'description' => 'Group Joining Fee',
                     'amount' => $groupSetting->membership_fee_amount,
                     'membership_fee' => $groupSetting->membership_fee,
@@ -113,7 +115,7 @@ class GroupSettingObserver
                 $contribytionType->fill([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => $frequency->name.' contribution',
+                    'name'  => $frequency->name.' contribution '.$groupSetting->contribution_amount,
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -150,9 +152,9 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name' => $frequency ?  $frequency->name : 'Savings contribution',
-                    'description'  => 'Group Savings',
-                    'type'  => 'Saving-and-investments'
+                    'name' => $frequency ?  $frequency->name.' contribution '.$groupSetting->contribution_amount : 'Savings contribution '.$groupSetting->contribution_amount,
+                    'amount'  => $groupSetting->contribution_amount ?: 0,
+                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
                 ]);
                 $contribytionType->save();
                 break;

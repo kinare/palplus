@@ -81,8 +81,38 @@ class Transaction extends Accounting
         return false;
     }
 
-    public function withdraw(Wallet $wallet, Account $account, $amount, $type = null, $description = null){
-        /* TODO implement withdrawal */
+    public function withdraw(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
+
+        /* Convert currency between wallets */
+        $converted = (object)Converter::Convert($account->currency , $wallet->currencyShortDesc(), $amount);
+        $this->state++;
+
+        /* Credit the to wallet */
+        $debit = $this->debit($wallet, $converted->amount);
+        $this->state++;
+
+        if ($debit)
+            $this->record([
+                'transaction_code' => 'PP-'.Carbon::now()->timestamp,
+                'wallet_id' => $wallet->id,
+                'entry' => 'credit',
+                'transaction_from' => $account->id,
+                'transaction_to' => $wallet->id,
+                'account_no' => $account->number,
+                'type' => $type,
+                'description' => $description,
+                'amount' => $converted->amount,
+                'from_currency' => $account->currency,
+                'to_currency' => $wallet->currencyShortDesc(),
+                'conversion_rate' => serialize($converted->rate),
+                'conversion_time' => $converted->time,
+            ]);
+
+        /* check the transaction status */
+        if ($this->state >= 2)
+            return true;
+
+        return false;
     }
 
     public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){

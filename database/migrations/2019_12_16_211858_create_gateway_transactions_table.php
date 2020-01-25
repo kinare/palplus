@@ -20,6 +20,7 @@ class CreateGatewayTransactionsTable extends Migration
             $table->string('type');
             $table->enum('status', ['pending', 'done'])->default('pending');
             $table->mediumText('payload');
+            $table->string('transaction');
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

@@ -35,7 +35,11 @@ class GatewayTransactionController extends Controller
         $amount = $data->amount;
 
         $transaction = new Transaction();
-        $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+        if ($gt->transaction = 'DEPOSIT')
+            $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+
+        if ($gt->transaction = 'WITHDRAWAL')
+            $transaction->withdraw($account, $wallet, $amount, 'Withdraw', 'Wallet withdrawal');
 
         if ($transaction){
             $gt->status = 'done';
