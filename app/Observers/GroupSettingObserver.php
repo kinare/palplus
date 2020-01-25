@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Contribution;
 use App\ContributionCategory;
+use App\ContributionPeriod;
 use App\ContributionType;
 use App\Group;
 use App\GroupSetting;
@@ -30,7 +31,7 @@ class GroupSettingObserver
                 ContributionType::init([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => 'Merry go round contribution',
+                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -56,7 +57,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => $group->name.' Savings',
+                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);
@@ -110,7 +111,7 @@ class GroupSettingObserver
                 $contribytionType->fill([
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => 'Merry go round contribution',
+                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
                     'description'  => $group->name.' contributions',
                     'amount'  => $groupSetting->contribution_amount,
                     'target_amount'  => $groupSetting->contribution_target_amount,
@@ -147,7 +148,7 @@ class GroupSettingObserver
                     'group_id' => $group->id,
                     'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                     'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => $group->name.' Savings',
+                    'name'  => ContributionPeriod::find($groupSetting->contribution_periods_id)->name.' contribution',
                     'description'  => 'Group Savings',
                     'type'  => 'Saving-and-investments'
                 ]);

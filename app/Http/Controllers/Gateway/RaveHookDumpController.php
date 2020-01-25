@@ -62,6 +62,8 @@ class RaveHookDumpController extends BaseController
                GatewayTransactionController::processTransaction($response->txRef);
             }
 
+            if ($response->event.type)
+
             exit();
     }
 

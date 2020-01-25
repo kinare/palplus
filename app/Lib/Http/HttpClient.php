@@ -6,16 +6,17 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
 class HttpClient{
+
     public static function post($url, $params = null, $headers = []){
         $client = new Client();
         $res =  $client->request('POST', $url,[$params,$headers ] );
         return $res->getBody();
     }
 
-    public static function get($url){
+    public static function get($url, $options = []){
         try{
             $client = new Client();
-            $res =  $client->request('GET', $url);
+            $res =  $client->request('GET', $url, $options);
             return $res->getBody();
         }catch (ClientException $exception){
             return $exception;

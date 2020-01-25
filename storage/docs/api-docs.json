@@ -529,44 +529,6 @@
                 }
             }
         },
-        "/test/rave/card": {
-            "get": {
-                "tags": [
-                    "Test"
-                ],
-                "summary": "Test Rave card",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                }
-            }
-        },
-        "/test/rave/validate-card": {
-            "get": {
-                "tags": [
-                    "Test"
-                ],
-                "summary": "Validate Rave card",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                }
-            }
-        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -1953,6 +1915,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "Bank Code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "firstname",
                         "in": "query",
                         "description": "firstname",
@@ -1998,6 +1967,13 @@
                         "name": "currency",
                         "in": "query",
                         "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "beneficiary",
+                        "in": "query",
+                        "description": "beneficiary name",
                         "required": false,
                         "type": "string"
                     },
@@ -2068,13 +2044,6 @@
                         "name": "passcode",
                         "in": "query",
                         "description": "passcode",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "accountbank",
-                        "in": "query",
-                        "description": "bank code",
                         "required": false,
                         "type": "string"
                     }
@@ -2181,6 +2150,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "Bank Code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "firstname",
                         "in": "query",
                         "description": "firstname",
@@ -2226,6 +2202,13 @@
                         "name": "currency",
                         "in": "query",
                         "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "beneficiary",
+                        "in": "query",
+                        "description": "beneficiary name",
                         "required": false,
                         "type": "string"
                     },
@@ -2296,13 +2279,6 @@
                         "name": "passcode",
                         "in": "query",
                         "description": "passcode",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "accountbank",
-                        "in": "query",
-                        "description": "bank code",
                         "required": false,
                         "type": "string"
                     }
@@ -2852,7 +2828,7 @@
                     {
                         "name": "gateway",
                         "in": "query",
-                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",
+                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",
                         "required": true,
                         "type": "string"
                     }
@@ -2892,7 +2868,7 @@
                     {
                         "name": "gateway",
                         "in": "query",
-                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",
+                        "description": "gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",
                         "required": true,
                         "type": "string"
                     }
@@ -3597,6 +3573,172 @@
                         "type": "integer"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/transfer-countries": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Get Transfere Countries",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/transfer-banks/{countryCode}": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Get Transfere Countries",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country Code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Vie Hook requests ",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/hook": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "in": "query",
+                        "description": "payload",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/gateway/rave/test": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook Test",
+                "parameters": [
+                    {
+                        "name": "txref",
+                        "in": "query",
+                        "description": "Trans Ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/process": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Proccess all webhook request",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -5112,6 +5254,39 @@
                         "description": "group id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/validate/{member_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Validate Member",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "path",
+                        "description": "Member Id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -7669,30 +7844,6 @@
                 ]
             }
         },
-        "/gateway/test": {
-            "get": {
-                "tags": [
-                    "Gateway"
-                ],
-                "summary": "Test Integration",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
         "/investment-opportunity": {
             "get": {
                 "tags": [
@@ -8812,155 +8963,6 @@
                     "Notification"
                 ],
                 "summary": "Retrieve Notification Types",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/gateway/rave": {
-            "get": {
-                "tags": [
-                    "Gateway"
-                ],
-                "summary": "Vie Hook requests ",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/gateway/rave/hook": {
-            "post": {
-                "tags": [
-                    "Gateway"
-                ],
-                "summary": "Rave Webhook",
-                "parameters": [
-                    {
-                        "name": "payload",
-                        "in": "query",
-                        "description": "payload",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                }
-            }
-        },
-        "/gateway/rave/test": {
-            "post": {
-                "tags": [
-                    "Gateway"
-                ],
-                "summary": "Rave Webhook Test",
-                "parameters": [
-                    {
-                        "name": "txref",
-                        "in": "query",
-                        "description": "Trans Ref",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/gateway/rave/process": {
-            "get": {
-                "tags": [
-                    "Gateway"
-                ],
-                "summary": "Proccess all webhook request",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/sms": {
-            "post": {
-                "tags": [
-                    "SMS"
-                ],
-                "summary": "Send SMS",
-                "parameters": [
-                    {
-                        "name": "phone",
-                        "in": "query",
-                        "description": "phone",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "message",
-                        "in": "query",
-                        "description": "message",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success"

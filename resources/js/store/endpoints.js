@@ -35,6 +35,7 @@ export default {
     requests : `withdrawal-requests`,
     opportunities : `investments`,
     setups : `setups`,
+    setup : id => `setup/${id}`,
     paypalRequests : `paypal-withdrawals`,
     reportings : `reportings`,
 

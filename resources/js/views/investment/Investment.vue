@@ -4,7 +4,7 @@
             Investment Opportunities
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Admins" class="has-mobile-sort-spaced">
+            <card-component title="opportunities" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"

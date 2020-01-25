@@ -267,6 +267,51 @@ class GroupController extends BaseController
      */
 
     /**
+     * @SWG\Get(
+     *   path="/group/validate/{member_id}",
+     *   tags={"Group"},
+     *   summary="Validate Member",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *  @SWG\Parameter(name="member_id",in="path",description="Member Id",required=true,type="integer"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function validateMember($member_id)
+    {
+        try{
+            $member = Members::find($member_id);
+            $settings = GroupSetting::whereGroupId($member->group_id)->first();
+
+            if ($member->active)
+                return response()->json([
+                    'validated' => 1
+                ], 200);
+
+            if ($settings->membership_fee)
+                return response()->json([
+                    'validated' => 0
+                ], 200);
+
+            $member->active = true;
+            $member->save();
+
+            return response()->json([
+                'validated' => 1
+            ], 200);
+
+        }catch (Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * @SWG\Post(
      *   path="/group/join",
      *   tags={"Group"},

@@ -1,17 +1,20 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Admins
+            Gateway Settings
+            <router-link slot="right" to="/setup" class="button">
+                New Setup
+            </router-link>
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Admins" class="has-mobile-sort-spaced">
+            <card-component title="setups" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"
                     :per-page="perPage"
                     :striped="true"
                     :hoverable="true"
-                    default-sort="name"
+                    default-sort="type"
                     :data="setups"
                 >
 
@@ -27,6 +30,12 @@
                         </b-table-column>
                         <b-table-column label="created_at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
+                        </b-table-column>
+
+                        <b-table-column label="Actions" >
+                                <router-link :to="`/setup/${props.row.id}`" class="button is-primary">
+                                   Edit
+                                </router-link>
                         </b-table-column>
 
 

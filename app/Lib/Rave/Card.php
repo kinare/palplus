@@ -44,7 +44,7 @@ class Card extends Rave
                             'ref' => $data['txRef']
                         ]);
                 }
-                return $response;
+                return $res;
             }
         }
 

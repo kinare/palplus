@@ -60,6 +60,8 @@ Route::group(['prefix' => ''], function () {
             Route::get('/member-activity/{id}', 'DashboardController@memberActivity');
             Route::get('/project', 'DashboardController@projects');
             Route::get('/setups', 'DashboardController@setups');
+            Route::post('/setups', 'DashboardController@setupsStore');
+            Route::get('/setup/{id}', 'DashboardController@setup');
             Route::get('/paypal-withdrawals', 'DashboardController@paypalRequests');
             Route::get('/reportings', 'DashboardController@reportings');
 

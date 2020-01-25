@@ -28,6 +28,7 @@ import NextOfKin from "../views/member/NextOfKin";
 import GatewaySetting from "../views/setting/GatewaySetting";
 import PaypalRequests from "../views/transaction/PaypalRequests";
 import Reporting from "../views/group/Reporting";
+import GatewaySettingCard from "../views/setting/GatewaySettingCard";
 
 Vue.use(Router);
 
@@ -174,9 +175,16 @@ const router =new Router({
                     props : true
                 },
                 {
-                    path: '/setup/:type?',
+                    path: '/setups/:type?',
                     name: 'Setups',
                     component: GatewaySetting,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/setup/:id?',
+                    name: 'Setups Card',
+                    component: GatewaySettingCard,
                     meta : { middleware : auth},
                     props : true
                 },

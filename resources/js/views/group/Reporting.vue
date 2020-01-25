@@ -1,10 +1,10 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Group Activities
+            App Reportings
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Projects" class="has-mobile-sort-spaced">
+            <card-component title="feedback" class="has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"

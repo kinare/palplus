@@ -24,14 +24,20 @@ Route::group(['prefix' => 'setup'], function () {
 });
 
 Route::group(['prefix' => 'rave'], function () {
-    Route::any('/hook', 'RaveHookDumpController@store');
+    Route::namespace('Gateway')->group(function (){
+        Route::any('/hook', 'RaveHookDumpController@store');
 
-    Route::group(['middleware' => 'auth:admin'], function () {
-        Route::get('/', 'RaveHookDumpController@index');
-        Route::get('/process', 'RaveHookDumpController@process');
-        Route::post('/test', 'RaveHookDumpController@test');
+        Route::group(['middleware' => 'auth:api'], function () {
+            Route::get('/transfer-countries', 'RaveController@getRaveTransferCountries');
+            Route::get('/transfer-banks/{countryCode}', 'RaveController@getBanksForTransfer');
+        });
+
+        Route::group(['middleware' => 'auth:admin'], function () {
+            Route::get('/', 'RaveHookDumpController@index');
+            Route::get('/process', 'RaveHookDumpController@process');
+            Route::post('/test', 'RaveHookDumpController@test');
+        });
     });
-
 });
 
 Route::namespace('Finance')->group(function (){

@@ -4,7 +4,7 @@
             Pending Payments
         </hero-bar>
         <section class="section is-main-section">
-            <card-component title="Clients" class="has-table has-mobile-sort-spaced">
+            <card-component title="Payments" class="has-table has-mobile-sort-spaced">
                 <b-table
                     :loading="isLoading"
                     :paginated="paginated"

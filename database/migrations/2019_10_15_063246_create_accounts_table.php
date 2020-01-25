@@ -37,6 +37,7 @@ class CreateAccountsTable extends Migration
             $table->string('billingaddress')->nullable();
             $table->string('billingstate')->nullable();
             $table->string('billingcountry')->nullable();
+            $table->string('beneficiary')->nullable();
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();

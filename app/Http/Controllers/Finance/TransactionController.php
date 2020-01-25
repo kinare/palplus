@@ -12,6 +12,7 @@ use App\Lib\Paypal\Payment;
 use App\Lib\Rave\Account as BankAccount;
 use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
+use App\Lib\Rave\Transfer;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -69,7 +70,7 @@ class TransactionController extends BaseController
                 $bank = new BankAccount();
                 return $bank->transact($transaction);
 
-            case 'MOBILE' :// done
+            case 'MOBILE MONEY' :// done
                 //todo implement for other mobile money options
 
                 //set relevant account field
@@ -97,7 +98,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -109,7 +110,6 @@ class TransactionController extends BaseController
             'amount' => 'required',
             'gateway' => 'required',
         ]);
-
 
         //get payment account
         $account =  $account = Account::where([
@@ -123,10 +123,13 @@ class TransactionController extends BaseController
         ], 500);
 
         switch ($request->gateway){
-            case 'ACCOUNT' :
+            case 'BANK ACCOUNT' :
                 /* implement bank transfer */
+                $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
+                $transfer = new Transfer();
+                return $transfer->send($transaction);
                 return;
-            case 'MOBILE' :
+            case 'MOBILE MONEY' :
                 /* implement mobile transfer */
                 return;
             case 'PAYPAL' :

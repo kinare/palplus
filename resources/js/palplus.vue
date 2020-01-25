@@ -82,7 +82,7 @@ export default {
           {
               to: '/reportings',
               label: 'Reportings',
-              icon: 'account-supervisor-circle'
+              icon: 'whistle'
           }
         ],
           [{
@@ -128,14 +128,14 @@ export default {
           }],
           [{
               label: 'Setup',
-              icon: 'cash-multiple',
+              icon: 'cogs',
               menu: [
                   {
-                      to: '/setup/withdrawal',
+                      to: '/setups/withdrawal',
                       label: 'Withdrawal'
                   },
                   {
-                      to: '/setup/deposit',
+                      to: '/setups/deposit',
                       label: 'Deposit'
                   },
               ]

@@ -41,7 +41,7 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->ref = $card['txRef'];
-        $transaction->type = 'CARD';
+        $transaction->type = 'CARD DEPOSIT';
         $transaction->payload = json_encode($card);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
@@ -70,7 +70,7 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->ref = $account['txRef'];
-        $transaction->type = 'BANK';
+        $transaction->type = 'BANK DEPOSIT';
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
@@ -97,7 +97,7 @@ class GatewayTransaction extends BaseModel
         $transaction = new self();
         $transaction->ref = $account['txRef'];
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = 'MOBILE';
+        $transaction->type = 'MOBILE DEPOSIT';
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
@@ -121,7 +121,7 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = 'PAYPAL';
+        $transaction->type = 'PAYPAL DEPOTI';
         $transaction->ref = $account['invoice']['invoice_id'];
         $transaction->payload = json_encode($account);
         $transaction->created_by = Auth::user()->id;
@@ -143,8 +143,31 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->type = 'PAYPAL';
+        $transaction->type = 'PAYPAL WITHDRAWAL';
         $transaction->ref = 'PP-'.Carbon::now()->timestamp;
+        $transaction->payload = json_encode($data);
+        $transaction->created_by = Auth::user()->id;
+        $transaction->save();
+        return $transaction;
+    }
+
+    public static function bankTransfer(Account $account, $amount){
+        $data = [
+            'account_bank' => $account->accountbank,
+            'account_number' => $account->number,
+            'amount' => $amount,
+            'narration' => 'Yunited wallet withdrawal',
+            'currency' => $account->currency,
+            'seckey' => '',
+            'reference' => 'PP-'.Carbon::now()->timestamp,
+            'callback_url' => '',
+            'beneficiary_name' => $account->beneficiary,
+        ];
+
+        $transaction = new self();
+        $transaction->user_id = Auth::user()->id;
+        $transaction->type = 'BANK WITHDRAWAL';
+        $transaction->ref = $data['reference'];
         $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();

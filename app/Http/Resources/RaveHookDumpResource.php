@@ -14,6 +14,8 @@ class RaveHookDumpResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data =  parent::toArray($request);
+        $data['payload'] = json_decode($this->payload);
+        return $data;
     }
 }

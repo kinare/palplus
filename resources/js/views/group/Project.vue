@@ -1,7 +1,7 @@
 <template>
     <div>
         <hero-bar :has-right-visible="true">
-            Group Activities
+            Group Projects
         </hero-bar>
         <section class="section is-main-section">
             <card-component title="Projects" class="has-mobile-sort-spaced">

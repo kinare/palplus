@@ -25,5 +25,7 @@ class Account extends BaseModel
         'billingaddress',
         'billingstate',
         'billingcountry',
+        'accountbank',
+        'beneficiary'
     ];
 }

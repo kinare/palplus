@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\ActivityMembers;
+use App\GatewaySetup;
 use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
@@ -322,6 +323,17 @@ class DashboardController extends Controller
     public function setups(){
         $s = new GatewaySetupController();
         return $s->index();
+    }
+
+
+    public function setupsStore(Request $request){
+        $r = new GatewaySetupController();
+        return  $request->id ? $r->update($request, $request->id) : $r->store($request);
+    }
+
+    public function setup($id){
+        $s = new GatewaySetupController();
+        return $s->show($id);
     }
 
     public function paypalRequests(){
