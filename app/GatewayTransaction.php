@@ -78,7 +78,7 @@ class GatewayTransaction extends BaseModel
     }
 
     public static function initMobile(Account $account, $amount, $ip= null, $fingerPrint = null) {
-        $account = [
+        $data = [
             'phonenumber' => $account->number,
             'currency' => $account->currency,
             'payment_type' => $account->payment_type ?: '',
@@ -98,7 +98,7 @@ class GatewayTransaction extends BaseModel
         $transaction->ref = $account['txRef'];
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
-        $transaction->payload = json_encode($account);
+        $transaction->payload = json_encode($data);
         $transaction->created_by = Auth::user()->id;
         $transaction->save();
         return $transaction;
