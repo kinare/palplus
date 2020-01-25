@@ -12,4 +12,15 @@ class GatewaySetup extends BaseModel
       'rate',
       'active'
     ];
+
+    public static function getSetup($gateway, $type){
+        return self::where([
+            'type' => $type,
+            'gateway' => $gateway
+        ])->first();
+    }
+
+    public function getTransactionFee($amount){
+        return ((float)$this->rate * (float)$amount)/100;
+    }
 }

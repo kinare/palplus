@@ -34,7 +34,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="account_id",in="query",description="account id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -44,14 +44,11 @@ class TransactionController extends BaseController
     public function deposit(Request $request){
         $request->validate([
             'amount' => 'required',
-            'gateway' => 'required',
+            'account_id' => 'required',
         ]);
 
         //get payment account
-        $account =  $account = Account::where([
-            'user_id' => $request->user()->id,
-            'account_type_id' => AccountType::type($request->gateway)->id
-        ])->first();
+        $account =  $account = Account::find($request->account_id);
 
         //if account not set
         if (!$account)
@@ -98,7 +95,7 @@ class TransactionController extends BaseController
      *     {"bearer": {}},
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
-     *   @SWG\Parameter(name="gateway",in="query",description="gateway i.e CARD/BANK ACCOUNT/MOBILE MONEY/PAYPAL",required=true,type="string"),
+     *   @SWG\Parameter(name="account_id",in="query",description="account id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -112,10 +109,7 @@ class TransactionController extends BaseController
         ]);
 
         //get payment account
-        $account =  $account = Account::where([
-            'user_id' => $request->user()->id,
-            'account_type_id' => AccountType::type($request->gateway)->id
-        ])->first();
+        $account =  $account = Account::find($request->account_id);
 
         //if account not set
         if (!$account) return response()->json([

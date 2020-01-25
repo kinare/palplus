@@ -174,4 +174,8 @@ class GatewayTransaction extends BaseModel
         return $transaction;
     }
 
+    public static function addTransactionFee(){
+
+    }
+
 }
