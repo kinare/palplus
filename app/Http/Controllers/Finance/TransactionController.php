@@ -48,7 +48,7 @@ class TransactionController extends BaseController
         ]);
 
         //get payment account
-        $account =  $account = Account::find($request->account_id);
+        $account = Account::find($request->account_id);
 
         //if account not set
         if (!$account)
@@ -105,11 +105,11 @@ class TransactionController extends BaseController
     public function withdraw(Request $request){
         $request->validate([
             'amount' => 'required',
-            'gateway' => 'required',
+            'account_id' => 'required',
         ]);
 
         //get payment account
-        $account =  $account = Account::find($request->account_id);
+        $account = Account::find($request->account_id);
 
         //if account not set
         if (!$account) return response()->json([
