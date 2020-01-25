@@ -23,6 +23,8 @@ class GatewayTransactionController extends Controller
             'status' => 'pending'
         ])->first();
 
+        dump($gt);
+
         if (!$gt)
             exit(0);
 
@@ -30,6 +32,8 @@ class GatewayTransactionController extends Controller
             'user_id' => $gt->user_id,
             'account_type_id' => AccountType::type($gt->type)->id
         ])->first();
+
+        dump($account);
 
         $wallet = Wallet::whereUserId($gt->user_id)->first();
 
