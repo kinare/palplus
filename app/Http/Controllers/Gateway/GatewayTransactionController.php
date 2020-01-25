@@ -36,13 +36,13 @@ class GatewayTransactionController extends Controller
 
         try {
             $transaction = new Transaction();
-            if ($gt->transaction = 'DEPOSIT')
+            if ($gt->transaction === 'DEPOSIT')
                 $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
 
-            if ($gt->transaction = 'WITHDRAWAL')
+            if ($gt->transaction === 'WITHDRAWAL')
                 $transaction->withdraw($account, $wallet, $amount, 'Withdraw', 'Wallet withdrawal');
         }catch (\Exception $e){
-            dump($e);
+            return $e;
         }
 
         if ($transaction){
@@ -53,7 +53,6 @@ class GatewayTransactionController extends Controller
 
     public static function addTransactionFee($gateway, $type, $amount){
         $setup = GatewaySetup::getSetup($gateway, $type);
-        dump($setup);
         if (!$setup || $setup->rate === 0)
             return $amount;
 
