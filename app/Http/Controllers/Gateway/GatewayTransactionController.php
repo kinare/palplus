@@ -39,7 +39,7 @@ class GatewayTransactionController extends Controller
             $transaction = new Transaction();
             $transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
         }catch (\Exception $e){
-            return $e;
+            dump($e);
         }
 
         if ($transaction){
