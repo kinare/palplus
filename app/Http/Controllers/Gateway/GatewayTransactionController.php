@@ -23,23 +23,19 @@ class GatewayTransactionController extends Controller
             'status' => 'pending'
         ])->first();
 
-        dump($gt);
 
         if (!$gt)
             exit(0);
 
         $account = Account::find($gt->type);
 
-        dump($account);
 
         $wallet = Wallet::whereUserId($gt->user_id)->first();
-        dump($wallet);
 
 
         $data = json_decode($gt->payload);
         $amount = $data->amount;
 
-        dump($amount);
 
         try {
             $transaction = new Transaction();
@@ -52,7 +48,5 @@ class GatewayTransactionController extends Controller
             $gt->status = 'done';
             $gt->save();
         }
-
-        dump($gt);
     }
 }
