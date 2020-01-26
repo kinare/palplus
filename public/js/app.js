@@ -5549,6 +5549,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5579,7 +5585,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.$route.params.type) {
         return this.$store.getters['Setup/setups'].filter(function (s) {
-          return s.type === _this.$route.params.type;
+          return s.type.toLowerCase() === _this.$route.params.type.toLowerCase();
         });
       }
 
@@ -5602,6 +5608,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ModalBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/ModalBox */ "./resources/js/components/ModalBox.vue");
 /* harmony import */ var _components_CardComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/CardComponent */ "./resources/js/components/CardComponent.vue");
 /* harmony import */ var _components_HeroBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/HeroBar */ "./resources/js/components/HeroBar.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5671,7 +5688,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveSetting: function saveSetting() {
       this.$store.dispatch('Setup/saveSetup', this.setting);
-      this.$router.push('/setups');
+      this.$router.go(-1);
     }
   },
   watch: {
@@ -71890,7 +71907,7 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
-                                label: "gateway",
+                                label: "Gateway",
                                 field: "gateway",
                                 sortable: "",
                                 searchable: true
@@ -71909,7 +71926,7 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
-                                label: "rate",
+                                label: "Rate %",
                                 field: "rate",
                                 sortable: "",
                                 searchable: true
@@ -71928,7 +71945,45 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
-                                label: "created_at",
+                                label: "Minimum amount",
+                                field: "min_amount",
+                                sortable: "",
+                                searchable: true
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(props.row.min_amount) +
+                                  "\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-table-column",
+                            {
+                              attrs: {
+                                label: "Maximum amount",
+                                field: "max_amount",
+                                sortable: "",
+                                searchable: true
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(props.row.max_amount) +
+                                  "\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-table-column",
+                            {
+                              attrs: {
+                                label: "Created at",
                                 field: "created_at",
                                 sortable: "",
                                 searchable: true
@@ -72149,15 +72204,16 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-field",
-                    { attrs: { label: "status" } },
+                    { attrs: { label: "Minimum Amount" } },
                     [
                       _c("b-input", {
+                        attrs: { type: "number" },
                         model: {
-                          value: _vm.setting.active,
+                          value: _vm.setting.min_amount,
                           callback: function($$v) {
-                            _vm.$set(_vm.setting, "active", $$v)
+                            _vm.$set(_vm.setting, "min_amount", $$v)
                           },
-                          expression: "setting.active"
+                          expression: "setting.min_amount"
                         }
                       })
                     ],
@@ -72165,8 +72221,59 @@ var render = function() {
                   ),
                   _vm._v(" "),
                   _c(
+                    "b-field",
+                    { attrs: { label: "Maximum Amount" } },
+                    [
+                      _c("b-input", {
+                        attrs: { type: "number" },
+                        model: {
+                          value: _vm.setting.max_amount,
+                          callback: function($$v) {
+                            _vm.$set(_vm.setting, "max_amount", $$v)
+                          },
+                          expression: "setting.max_amount"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    { attrs: { label: "status" } },
+                    [
+                      _c(
+                        "b-select",
+                        {
+                          attrs: { expanded: "" },
+                          model: {
+                            value: _vm.setting.active,
+                            callback: function($$v) {
+                              _vm.$set(_vm.setting, "active", $$v)
+                            },
+                            expression: "setting.active"
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Active")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "0" } }, [
+                            _vm._v("Inactive")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "div",
-                    { staticClass: "buttons" },
+                    {
+                      staticClass: "buttons",
+                      staticStyle: { "margin-top": "40px" }
+                    },
                     [
                       _c(
                         "b-button",

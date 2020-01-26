@@ -10,7 +10,9 @@ class GatewaySetup extends BaseModel
       'type',
       'gateway',
       'rate',
-      'active'
+      'active',
+      'max_amount',
+      'min_amount'
     ];
 
     public static function getSetup($gateway, $type){

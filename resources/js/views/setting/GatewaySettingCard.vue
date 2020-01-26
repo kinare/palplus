@@ -19,11 +19,22 @@
                             <b-input v-model="setting.gateway"  />
                         </b-field>
 
-                        <b-field  label="status">
-                            <b-input v-model="setting.active"  />
+                        <b-field  label="Minimum Amount">
+                            <b-input type="number" v-model="setting.min_amount"  />
                         </b-field>
 
-                        <div class="buttons">
+                        <b-field  label="Maximum Amount">
+                            <b-input type="number" v-model="setting.max_amount"  />
+                        </b-field>
+
+                        <b-field  label="status">
+                            <b-select expanded v-model="setting.active">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </b-select>
+                        </b-field>
+
+                        <div class="buttons" style="margin-top: 40px">
                             <b-button @click="saveSetting()" type="is-primary" expanded>Submit</b-button>
                         </div>
 
@@ -65,7 +76,7 @@
         methods : {
             saveSetting : function () {
                 this.$store.dispatch('Setup/saveSetup', this.setting);
-                this.$router.push('/setups');
+                this.$router.go(-1);
             }
         },
         watch : {

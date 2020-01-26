@@ -22,13 +22,19 @@
                         <b-table-column label="Type" field="type" sortable :searchable="true">
                             {{ props.row.type }}
                         </b-table-column>
-                        <b-table-column label="gateway" field="gateway" sortable :searchable="true">
+                        <b-table-column label="Gateway" field="gateway" sortable :searchable="true">
                             {{ props.row.gateway }}
                         </b-table-column>
-                        <b-table-column label="rate" field="rate" sortable :searchable="true">
+                        <b-table-column label="Rate %" field="rate" sortable :searchable="true">
                             {{ props.row.rate }}
                         </b-table-column>
-                        <b-table-column label="created_at" field="created_at" sortable :searchable="true">
+                        <b-table-column label="Minimum amount" field="min_amount" sortable :searchable="true">
+                            {{ props.row.min_amount }}
+                        </b-table-column>
+                        <b-table-column label="Maximum amount" field="max_amount" sortable :searchable="true">
+                            {{ props.row.max_amount }}
+                        </b-table-column>
+                        <b-table-column label="Created at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
                         </b-table-column>
 
@@ -94,7 +100,7 @@
             setups(){
                 if (this.$route.params.type){
                     return this.$store.getters['Setup/setups'].filter(s => {
-                        return s.type === this.$route.params.type
+                        return s.type.toLowerCase() === this.$route.params.type.toLowerCase()
                     })
                 }
                 return this.$store.getters['Setup/setups'];

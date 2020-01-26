@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id');
             $table->date('dob')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('gender')->nullable();
             $table->string('physical_address')->nullable();
             $table->string('avatar')->nullable();
             $table->unsignedInteger('created_by')->nullable();
