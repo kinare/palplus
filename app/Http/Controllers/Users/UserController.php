@@ -22,6 +22,7 @@ use App\Loan;
 use App\Members;
 use App\Notification;
 use App\Payment;
+use App\Profile;
 use App\Transaction;
 use App\User;
 use App\Wallet;
@@ -560,9 +561,11 @@ class UserController extends BaseController
     public function initUsers(){
         $users = User::all();
         foreach ($users as $user){
-            Wallet::make('User', $user, $user->currency_id);
+//            Wallet::make('User', $user, $user->currency_id);
+            Profile::init($user);
         }
 
         return 'success';
     }
+
 }

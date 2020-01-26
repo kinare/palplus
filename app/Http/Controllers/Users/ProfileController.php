@@ -68,8 +68,6 @@ class ProfileController extends BaseController
                 $model->avatar =  'avatar.png';
             }
 
-
-
             $model->save();
 
 //            save user
@@ -93,7 +91,7 @@ class ProfileController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="id",in="path",description="activity id",required=true,type="string"),
+     *   @SWG\Parameter(name="id",in="path",description="proffile id",required=true,type="integer"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Profile;
 use App\User;
 use App\Wallet;
 
@@ -18,6 +19,7 @@ class UserObserver
     {
         //Init related models
         Wallet::make('User', $user, $user->currency_id);
+        Profile::init($user);
 
     }
 
@@ -29,7 +31,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        //
+
     }
 
     /**
