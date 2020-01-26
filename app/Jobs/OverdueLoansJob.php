@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Loan;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -29,6 +31,14 @@ class OverdueLoansJob implements ShouldQueue
      */
     public function handle()
     {
-        //todo mark overdue loans as overdue
+        $loans = Loan::whereOverdue(false)->get();
+
+        foreach ($loans as $loan){
+            if ($loan->end_date > Carbon::now()){
+                $loan->overdue = true;
+                $loan->save();
+                echo $loan->code.' overdue';
+            }
+        }
     }
 }

@@ -198,6 +198,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::group(['prefix' => 'wallet'], function () {
                     Route::post('/deposit', 'TransactionController@deposit');
                     Route::post('/withdraw', 'TransactionController@withdraw');
+                    Route::post('/request', 'TransactionController@transactionRequest');
                 });
                 Route::group(['prefix' => 'card'], function () {
                     Route::post('/pin', 'TransactionController@setCardPin');

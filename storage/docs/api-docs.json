@@ -2971,6 +2971,53 @@
                 ]
             }
         },
+        "/transaction/wallet/request": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Transaction request",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "account_id",
+                        "in": "query",
+                        "description": "Account ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Transaction Type(WITHDRAW/DEPOSIT)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/wallet": {
             "get": {
                 "tags": [

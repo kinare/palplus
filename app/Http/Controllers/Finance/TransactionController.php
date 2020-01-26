@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Finance;
 
 use App\Account;
 use App\AccountType;
+use App\GatewaySetup;
 use App\GatewayTransaction;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Gateway\GatewayTransactionController;
 use App\Http\Resources\TransactionResource;
 use App\Lib\Paypal\Checkout;
 use App\Lib\Paypal\Payment;
@@ -14,6 +16,7 @@ use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
 use App\Lib\Rave\Transfer;
 use App\Transaction;
+use App\Wallet;
 use Illuminate\Http\Request;
 
 class TransactionController extends BaseController
@@ -197,6 +200,45 @@ class TransactionController extends BaseController
     public function paypalToken(Request $request){
         $pp = new Checkout();
         return $pp->getCheckoutSuccess($request->token);
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/transaction/wallet/request",
+     *   tags={"Transactions"},
+     *   summary="Transaction request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Parameter(name="account_id",in="query",description="Account ID",required=true,type="integer"),
+     *   @SWG\Parameter(name="type",in="query",description="Transaction Type(WITHDRAWAL/DEPOSIT)",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+    public function transactionRequest(Request $request){
+
+        $request->validate([
+            'amount' => 'required',
+            'account_id' => 'required',
+            'type' => 'required'
+        ]);
+
+        $account = Account::find($request->account_id);
+        $type = AccountType::find($account->account_type_id);
+        $fee = 0;
+
+        if ($type->type === 'CARD' || $type->type === 'BANK ACCOUNT' || $type->type === 'MOBILE MONEY'){
+            $fee = (float)GatewayTransactionController::addTransactionFee('RAVE', $request->type, $request->amount) - (float)$request->amount;
+        }
+
+        return response()->json([
+            'message' => 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee  '.Wallet::mine()->currencyShortDesc().' '.$fee
+        ], 200);
     }
 
 
