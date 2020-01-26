@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProfileResource extends JsonResource
@@ -14,6 +15,11 @@ class ProfileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data =  parent::toArray($request);
+        $user = User::find($data['user_id']);
+        $data['name'] = $user->name;
+        $data['email'] = $user->email;
+        $data['phone'] = $user->phone;
+        return $data;
     }
 }

@@ -26,4 +26,8 @@ class Profile extends BaseModel
         $profile->created_by = Auth::id();
         $profile->save();
     }
+
+    public function user(){
+        return $this->hasMany('App/User');
+    }
 }

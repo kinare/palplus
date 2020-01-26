@@ -219,7 +219,7 @@ class UserController extends BaseController
     public function profile(Request $request)
     {
         try{
-            return new ProfileResource($request->user()->profile()->get());
+            return new ProfileResource($request->user()->profile()->first());
 
         }catch (Exception $exception){
             return response()->json([
@@ -561,8 +561,8 @@ class UserController extends BaseController
     public function initUsers(){
         $users = User::all();
         foreach ($users as $user){
-            Wallet::make('User', $user, $user->currency_id);
-//            Profile::init($user);
+//            Wallet::make('User', $user, $user->currency_id);
+            Profile::init($user);
         }
 
         return 'success';
