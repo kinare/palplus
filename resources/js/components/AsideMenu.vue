@@ -4,7 +4,7 @@
       class="aside is-placed-left is-expanded">
     <aside-tools :is-main-menu="true">
       <span slot="label">
-        <b>Palplus</b> dashboard
+        <b>Yunited</b> dashboard
       </span>
     </aside-tools>
     <div class="menu is-menu-main">

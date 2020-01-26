@@ -44,7 +44,6 @@ const Group = {
       project : state => state.project,
       reposrtings : state => state.reposrtings,
   },
-
   actions: {
       getGroups : (context) => {
           call('get', endpoints.groups).then(res => {
@@ -91,12 +90,14 @@ const Group = {
       toggleActiveGroup : ({dispatch}, data) => {
           call('post', endpoints.toggleGroupActive, data).then(res => {
               dispatch('getGroups');
+              dispatch('getGroup', data.id);
           })
       },
 
       suspendGroup : ({dispatch}, data) => {
           call('post', endpoints.suspendGroup, data).then(res => {
               dispatch('getGroups');
+              dispatch('getGroup', data.id);
           })
       },
 

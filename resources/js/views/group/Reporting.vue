@@ -28,6 +28,10 @@
                         <b-table-column label="Created at" field="created_at" sortable :searchable="true">
                             {{ props.row.created_at }}
                         </b-table-column>
+                        <b-table-column label="Actions" >
+                            <router-link class="button is-primary" :to="`group-card/${props.row.group_id}`">view group</router-link>
+                        </b-table-column>
+
                     </template>
 
                     <section class="section" slot="empty">

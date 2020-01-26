@@ -10,9 +10,9 @@ use Illuminate\Routing\Controller as BaseController;
  * @SWG\Swagger(
  *   basePath="/api/",
  *   @SWG\Info(
- *     title="Palplus UAA",
- *     description="Palplus Swagger API description",
- *     version="1.0.0",
+ *     title="Yunited UAA",
+ *     description="Yunited Swagger API description",
+ *     version="1.1.0",
  *     @SWG\Contact(
  *             email="michaelkinare@gmail.com"
  *         ),

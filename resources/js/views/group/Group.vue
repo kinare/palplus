@@ -172,6 +172,7 @@
             transaction : function (id) {
                 alert(id);
             },
+
             toggleActive : function (id) {
                 this.isModalActivateActive = true;
                 this.id = id;

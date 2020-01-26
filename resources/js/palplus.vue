@@ -25,7 +25,7 @@ export default {
       return [
           [
               {
-              label: 'Palplus wallet',
+              label: 'App wallet',
               icon: 'wallet',
               menu: [
                   {

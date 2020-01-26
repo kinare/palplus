@@ -1,12 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Palplus UAA",
-        "description": "Palplus Swagger API description",
+        "title": "Yunited UAA",
+        "description": "Yunited Swagger API description",
         "contact": {
             "email": "michaelkinare@gmail.com"
         },
-        "version": "1.0.0"
+        "version": "1.1.0"
     },
     "basePath": "/api/",
     "paths": {
@@ -2995,7 +2995,7 @@
                     {
                         "name": "type",
                         "in": "query",
-                        "description": "Transaction Type(WITHDRAW/DEPOSIT)",
+                        "description": "Transaction Type(WITHDRAWAL/DEPOSIT)",
                         "required": true,
                         "type": "string"
                     }
