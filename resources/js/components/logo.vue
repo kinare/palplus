@@ -2,7 +2,7 @@
   <div class="content has-text-centered">
     <figure>
       <router-link  to="/">
-        <img src="/img/logo.jfif" alt="Palplus" />
+        <img src="/img/symbol.png" alt="Palplus" />
       </router-link>
     </figure>
   </div>
