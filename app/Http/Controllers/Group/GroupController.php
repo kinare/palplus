@@ -138,9 +138,10 @@ class GroupController extends BaseController
             $member->save();
             return $this->response($model);
         }catch (Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
+            return $exception;
+//            response()->json([
+//                'message' => $exception
+//            ]);
         }
 
     }

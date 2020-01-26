@@ -25,8 +25,8 @@ class GroupSettingObserver
         $group = Group::find($groupSetting->group_id);
         $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
 
-        /* Check for group type and update accordingly */
-        switch (GroupType::find($group->type_id)->type){
+        if ($groupSetting->contributions)
+            switch (GroupType::find($group->type_id)->type){
 
             case 'Merry-go-round' :
                 ContributionType::init([
@@ -102,7 +102,8 @@ class GroupSettingObserver
         $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
 
         /* Check for group type and update accordingly */
-        switch (GroupType::find($group->type_id)->type){
+        if ($groupSetting->contributions)
+            switch (GroupType::find($group->type_id)->type){
 
             case 'Merry-go-round' :
                 $contribytionType = ContributionType::where([
