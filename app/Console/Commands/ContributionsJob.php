@@ -2,25 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\OverdueLoansJob;
-use App\Loan;
+use App\Jobs\OverdueContributionsJob;
 use Illuminate\Console\Command;
 
-class OverdueLoans extends Command
+class ContributionsJob extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'run:loans';
+    protected $signature = 'run:contributions';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Process overdue loans';
+    protected $description = 'Process contribution and reminders';
 
     /**
      * Create a new command instance.
@@ -39,6 +38,6 @@ class OverdueLoans extends Command
      */
     public function handle()
     {
-       OverdueLoansJob::dispatchNow();
+        OverdueContributionsJob::dispatchNow();
     }
 }
