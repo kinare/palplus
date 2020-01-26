@@ -2,8 +2,10 @@
 
 namespace App\Observers;
 
+use App\ContributionPeriod;
 use App\ContributionType;
 use App\GroupProject;
+use App\Wallet;
 
 class GroupProjectObserver
 {
@@ -15,12 +17,14 @@ class GroupProjectObserver
      */
     public function created(GroupProject $groupProject)
     {
+        $frequency = ContributionPeriod::find($groupProject->contribution_frequency);
+
         //init contribution
         if ($groupProject->allow_contributions){
             ContributionType::init([
                 'group_id'  => $groupProject->group_id,
                 'contribution_periods_id'  => $groupProject->contribution_frequency,
-                'name'  => $groupProject->name.' contribution',
+                'name'  => $frequency ? $frequency->name.' project contribution '.Wallet::group($groupProject->group_id)->currencyShortDesc().' '.$groupProject->contribution_amount : 'project contribution'.Wallet::group($groupProject->group_id)->currencyShortDesc().' '.$groupProject->contribution_amount,
                 'description'  => $groupProject->description,
                 'amount'  => $groupProject->contribution_amount,
                 'target_amount'  => $groupProject->estimated_cost,
@@ -37,12 +41,13 @@ class GroupProjectObserver
      */
     public function updated(GroupProject $groupProject)
     {
+        $frequency = ContributionPeriod::find($groupProject->contribution_frequency);
         //init contribution
         if ($groupProject->allow_contributions){
             ContributionType::amend([
                 'group_id'  => $groupProject->group_id,
                 'contribution_periods_id'  => $groupProject->contribution_frequency,
-                'name'  => $groupProject->name,
+                'name'  => $frequency ? $frequency->name.' project contribution '.Wallet::group($groupProject->group_id)->currencyShortDesc().' '.$groupProject->contribution_amount : 'project contribution'.Wallet::group($groupProject->group_id)->currencyShortDesc().' '.$groupProject->contribution_amount,
                 'description'  => $groupProject->description,
                 'amount'  => $groupProject->contribution_amount,
                 'target_amount'  => $groupProject->estimated_cost,
