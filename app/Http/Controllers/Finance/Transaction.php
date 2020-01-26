@@ -38,6 +38,7 @@ class Transaction extends Accounting
                 'entry' => 'debit',
                 'transaction_from' => $from->id,
                 'transaction_to' => $to->id,
+                'transaction_type' => 'internal',
                 'account_no' => null,
                 'type' => $type,
                 'description' => $description,
@@ -62,6 +63,7 @@ class Transaction extends Accounting
                 'entry' => 'credit',
                 'transaction_from' => $from->id,
                 'transaction_to' => $to->id,
+                'transaction_type' => 'internal',
                 'account_no' => null,
                 'type' => $type,
                 'description' => $description,
@@ -95,9 +97,10 @@ class Transaction extends Accounting
             $this->record([
                 'transaction_code' => 'PP-'.Carbon::now()->timestamp,
                 'wallet_id' => $wallet->id,
-                'entry' => 'credit',
-                'transaction_from' => $account->id,
-                'transaction_to' => $wallet->id,
+                'entry' => 'debit',
+                'transaction_from' => $wallet->id,
+                'transaction_to' => $account->id,
+                'transaction_type' => 'external',
                 'account_no' => $account->number,
                 'type' => $type,
                 'description' => $description,
@@ -132,6 +135,7 @@ class Transaction extends Accounting
                 'entry' => 'credit',
                 'transaction_from' => $account->id,
                 'transaction_to' => $wallet->id,
+                'transaction_type' => 'external',
                 'account_no' => $account->number,
                 'type' => $type,
                 'description' => $description,
@@ -156,6 +160,7 @@ class Transaction extends Accounting
     protected function record($details){
         $transaction = new TransactionRecords();
         $transaction->fill($details);
+        $transaction->created_by = Auth::id();
         $transaction->save();
         return $transaction;
     }

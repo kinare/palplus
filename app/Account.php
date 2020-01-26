@@ -28,4 +28,8 @@ class Account extends BaseModel
         'accountbank',
         'beneficiary'
     ];
+
+    public function name(){
+        return $this->firstname.' '.$this->lastname;
+    }
 }

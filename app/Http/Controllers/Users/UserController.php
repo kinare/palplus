@@ -562,7 +562,7 @@ class UserController extends BaseController
         $users = User::all();
         foreach ($users as $user){
 //            Wallet::make('User', $user, $user->currency_id);
-            Profile::init($user);
+//            Profile::init($user);
         }
 
         return 'success';

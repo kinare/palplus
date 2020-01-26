@@ -75,5 +75,9 @@ class Wallet extends BaseModel
         return  Currency::find($this->currency_id)->short_description;
     }
 
+    public function user(){
+        return User::find($this->user_id);
+    }
+
 
 }

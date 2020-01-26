@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->enum('entry', array('debit', 'credit'));
             $table->string('transaction_from')->nullable();
             $table->string('transaction_to')->nullable();
+            $table->enum('transaction_type', ['internal', 'external']);
             $table->string('account_no')->nullable();
             $table->string('type')->nullable();
             $table->string('description')->nullable();
