@@ -18,8 +18,8 @@ class TransactionResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
-        $data['from'] = $this->getUser($data);
-        $data['to'] = $this->getUser($data, 'to');
+//        $data['from'] = $this->getUser($data);
+//        $data['to'] = $this->getUser($data, 'to');
         return $data;
     }
 
