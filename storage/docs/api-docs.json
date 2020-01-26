@@ -9763,7 +9763,7 @@
                         "name": "name",
                         "in": "formData",
                         "description": "name",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
@@ -9784,21 +9784,21 @@
                         "name": "gender",
                         "in": "formData",
                         "description": "gender",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "physical_address",
                         "in": "formData",
                         "description": "physical_address",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "avatar",
                         "in": "formData",
                         "description": "profile photo",
-                        "required": true,
+                        "required": false,
                         "type": "file"
                     }
                 ],
@@ -9830,9 +9830,9 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "activity id",
+                        "description": "proffile id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {

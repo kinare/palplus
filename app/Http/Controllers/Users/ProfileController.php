@@ -28,12 +28,12 @@ class ProfileController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="name",in="formData",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="name",in="formData",description="name",required=false,type="string"),
      *   @SWG\Parameter(name="email",in="formData",description="email",required=false,type="string"),
      *   @SWG\Parameter(name="dob",in="formData",description="Date of Birth",required=false,type="string"),
-     *   @SWG\Parameter(name="gender",in="formData",description="gender",required=true,type="string"),
-     *   @SWG\Parameter(name="physical_address",in="formData",description="physical_address",required=true,type="string"),
-     *   @SWG\Parameter(name="avatar",in="formData",description="profile photo",required=true,type="file"),
+     *   @SWG\Parameter(name="gender",in="formData",description="gender",required=false,type="string"),
+     *   @SWG\Parameter(name="physical_address",in="formData",description="physical_address",required=false,type="string"),
+     *   @SWG\Parameter(name="avatar",in="formData",description="profile photo",required=false,type="file"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -72,8 +72,7 @@ class ProfileController extends BaseController
 
 //            save user
             $user = User::find($request->user()->id);
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user->fill($request->all());
             $user->save();
             return $this->response($model);
         }catch (Exception $exception){
