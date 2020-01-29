@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\ContributionType;
 use App\GroupActivity;
+use App\Wallet;
 
 class ActivityObserver
 {
@@ -33,8 +34,8 @@ class ActivityObserver
                 for ($i = 1; $i <= (int)$activity->no_of_installments; $i++){
                     ContributionType::init([
                         'group_id'  => $activity->group_id,
-                        'name'  => ($i + 1) .' '.$activity->name.' '.$activity->instalment_amount,
-                        'description'  => 'Instalments for '.$activity->name,
+                        'name'  => 'Instalment '.$i.' '.Wallet::group($activity->group_id)->walletCurrency().' '.$activity->instalment_amount,
+                        'description'  => 'Instalments '.$i.' for '.$activity->name,
                         'amount'  => $activity->instalment_amount,
                         'target_amount'  => $activity->total_cost,
                         'activity_id' => $activity->id

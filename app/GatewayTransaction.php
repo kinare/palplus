@@ -50,7 +50,7 @@ class GatewayTransaction extends BaseModel
     }
 
     public static function initAccount(Account $account, $amount, $ip= null, $fingerPrint = null) {
-        $account = [
+        $data = [
             'accountbank' => $account->accountbank ?: '',
             'accountnumber' => $account->number,
             'currency' => 'NGN', //$account->currency,
@@ -70,9 +70,9 @@ class GatewayTransaction extends BaseModel
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
-        $transaction->ref = $account['txRef'];
+        $transaction->ref = $data['txRef'];
         $transaction->type = $account->id;
-        $transaction->payload = json_encode($account);
+        $transaction->payload = json_encode($data);
         $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
         $transaction->save();

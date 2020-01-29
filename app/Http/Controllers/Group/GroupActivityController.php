@@ -51,7 +51,7 @@ class GroupActivityController extends BaseController
     public function index()
     {
         try{
-            return $this->response($this->model::all()->orderBy('cut_off_date', 'ASC')->get());
+            return $this->response($this->model::orderBy('cut_off_date', 'ASC')->get());
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()
@@ -404,7 +404,7 @@ class GroupActivityController extends BaseController
             $myWallet = Wallet::mine();
             if (!$myWallet->canWithdraw($request->amount))
                 return response()->json([
-                    'message' => 'Insufficient Funds'
+                    'message' => 'Insufficient Funds. top up to continue'
                 ], 401);
 
             /* Get member and perfom contribution */
@@ -600,19 +600,24 @@ class GroupActivityController extends BaseController
      * )
      */
     public function wallet($activity_id){
-        $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
-        $contributions = Contribution::whereContributionTypesId($type->id)->get();
+        $types = ContributionType::whereActivityId($activity_id)->get();
+        $ids = [];
+        foreach ($types as $type) {
+            array_push($ids, $type->id);
+        }
+
+        $contributions = Contribution::whereIn('contribution_types_id', $ids)->get();
         $activity = GroupActivity::find($activity_id);
 
-        $total = 0;
+        $total = 0.00;
         foreach ($contributions as $contribution){
-            $total += $contribution->amount;
+            $total += (float)$contribution->amount;
         }
 
         return response()->json([
             'data' => [
                 'target' => $activity->total_cost,
-                'total_contribution' => $total,
+                'total_contribution' => (float)$total,
                 'currency' => Wallet::whereGroupId($activity->group_id)->first()->walletCurrency()
             ]
         ], 200);
@@ -633,8 +638,12 @@ class GroupActivityController extends BaseController
      * )
      */
     public function contributions($activity_id){
-        $type = ContributionType::whereActivityId($activity_id)->firstOrFail();
-        $contributions = Contribution::whereContributionTypesId($type->id)->get();
+        $types = ContributionType::whereActivityId($activity_id)->get();
+        $ids = [];
+        foreach ($types as $type) {
+            array_push($ids, $type->id);
+        }
+         $contributions = Contribution::whereIn('contribution_types_id', $ids)->get();
         return ContributionResource::collection($contributions);
     }
 

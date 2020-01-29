@@ -6385,8 +6385,15 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "group id",
+                        "description": "Expense id",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "supplier_id",
+                        "in": "query",
+                        "description": "supplier_id",
+                        "required": false,
                         "type": "string"
                     },
                     {
@@ -6436,20 +6443,6 @@
                         "in": "query",
                         "description": "photo",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "type",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "description",
-                        "in": "query",
-                        "description": "group Description",
-                        "required": true,
                         "type": "string"
                     }
                 ],

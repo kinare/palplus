@@ -63,7 +63,8 @@ class GroupExpenseController extends BaseController
      *  security={
      *     {"bearer": {}},
      *   },
-     *   @SWG\Parameter(name="id",in="path",description="group id",required=true,type="string"),
+     *   @SWG\Parameter(name="id",in="path",description="Expense id",required=true,type="integer"),
+     *   @SWG\Parameter(name="supplier_id",in="query",description="supplier_id",required=false,type="string"),
      *   @SWG\Parameter(name="date",in="query",description="date",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="query",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="location",in="query",description="location",required=true,type="string"),
@@ -71,8 +72,6 @@ class GroupExpenseController extends BaseController
      *   @SWG\Parameter(name="document_no",in="query",description="document_no",required=true,type="string"),
      *   @SWG\Parameter(name="total",in="query",description="total",required=true,type="string"),
      *   @SWG\Parameter(name="photo",in="query",description="photo",required=false,type="string"),
-     *   @SWG\Parameter(name="type",in="query",description="type",required=true,type="string"),
-     *   @SWG\Parameter(name="description",in="query",description="group Description",required=true,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")

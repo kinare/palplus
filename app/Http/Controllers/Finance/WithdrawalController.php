@@ -68,7 +68,7 @@ class WithdrawalController extends BaseController
         $wallet = Wallet::group($group->id);
         if (!$wallet->canWithdraw($request->amount))
             return response()->json([
-                'message' => 'Insufficient funds'
+                'message' => 'Insufficient Group funds'
             ], 403);
 
         $withdrawal = Withdrawal::withdraw($member,  $request->amount);

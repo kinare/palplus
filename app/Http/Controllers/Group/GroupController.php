@@ -847,7 +847,7 @@ class GroupController extends BaseController
     public function wallet($group_id)
     {
         try{
-            return new WalletResource(Wallet::where('group_id', $group_id)->get());
+            return new WalletResource(Wallet::where('group_id', $group_id)->first());
         }catch (Exception $e){
             return response()->json([
                 'message' => $e->getMessage()
