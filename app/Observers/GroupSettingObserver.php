@@ -116,6 +116,7 @@ class GroupSettingObserver
         $group = Group::find($groupSetting->group_id);
         $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
         $category = ContributionCategory::find($groupSetting->contribution_categories_id);
+        $currency = Wallet::group($groupSetting->group_id)->walletCurrency();
 
         /* Check for group type and update accordingly */
         if ($groupSetting->contributions)
@@ -127,11 +128,11 @@ class GroupSettingObserver
                         'type'  => 'Merry-go-round'
                     ])->first();
 
-                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType = $contribytionType ? $contribytionType : new ContributionType();
                     $contribytionType->fill([
                         'group_id' => $group->id,
                         'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                        'name'  => $frequency ? $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'name'  => ($frequency ? $frequency->name : '').' contribution '.$currency.' '.$groupSetting->contribution_amount,
                         'description'  => $group->name.' contributions',
                         'amount'  => $groupSetting->contribution_amount,
                         'target_amount'  => $groupSetting->contribution_target_amount,
@@ -146,11 +147,11 @@ class GroupSettingObserver
                         'type'  => 'Fundraising'
                     ])->first();
 
-                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType = $contribytionType ? $contribytionType : new ContributionType();
                     $contribytionType->fill([
                         'group_id' => $group->id,
                         'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                        'name'  => $category ? $category->category : ''.' Contribution '. Wallet::group($groupSetting->group_id)->walletCurrency().' '. $groupSetting->contribution_amount,
+                        'name'  => ($category ? $category->category : '').' Contribution '.$currency.' '. $groupSetting->contribution_amount,
                         'description'  => 'Fundraising for '.$group->name,
                         'amount'  => $groupSetting->contribution_amount ?: 0,
                         'target_amount'  => $groupSetting->contribution_target_amount?: 0,
@@ -165,12 +166,12 @@ class GroupSettingObserver
                         'type'  => 'Saving-and-investments'
                     ])->first();
 
-                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType = $contribytionType ? $contribytionType : new ContributionType();
                     $contribytionType->fill([
                         'group_id' => $group->id,
                         'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                         'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                        'name' => $frequency ?  $frequency->name : ''.' contribution '.Wallet::group($groupSetting->group_id)->walletCurrency().' '.$groupSetting->contribution_amount,
+                        'name' => ($frequency ?  $frequency->name : '').' contribution '.$currency.' '.$groupSetting->contribution_amount,
                         'amount'  => $groupSetting->contribution_amount ?: 0,
                         'target_amount'  => $groupSetting->contribution_target_amount?: 0,
                         'description'  => 'Group Savings',
@@ -185,13 +186,12 @@ class GroupSettingObserver
                         'type'  => 'Tours-and-travels'
                     ])->first();
 
-                    $contribytionType = $contribytionType ?: new ContributionType();
-
+                    $contribytionType = $contribytionType ? $contribytionType : new ContributionType();
                     $contribytionType->fill([
                         'group_id' => $group->id,
                         'contribution_periods_id'  => $groupSetting->contribution_periods_id,
                         'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                        'name' => $frequency ?  $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'name' => ($frequency ?  $frequency->name : '').' contribution '.$currency.' '.$groupSetting->contribution_amount,
                         'amount'  => $groupSetting->contribution_amount ?: 0,
                         'target_amount'  => $groupSetting->contribution_target_amount ?: 0,
                         'description'  => 'Group Savings',
