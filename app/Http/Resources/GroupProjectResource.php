@@ -22,8 +22,8 @@ class GroupProjectResource extends JsonResource
         $data['currency'] = Wallet::group($data['group_id'])->walletCurrency();
         $data['frequency'] = isset($data['contribution_frequency']) ? ContributionPeriod::find($data['contribution_frequency'])->name : null;
         $data['hasContributions'] = ContributionType::whereProjectId($this->id)->first() ? true : false;
-        $data['start_date'] = Carbon::parse($data['start_date'])->toFormattedDateString();
-        $data['end_date'] = Carbon::parse($data['end_date'])->toFormattedDateString();
+        $data['start_date_readable'] = Carbon::parse($data['start_date'])->toFormattedDateString();
+        $data['end_date_readable'] = Carbon::parse($data['end_date'])->toFormattedDateString();
         return $data;
     }
 }

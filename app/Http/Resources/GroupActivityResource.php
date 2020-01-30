@@ -19,9 +19,9 @@ class GroupActivityResource extends JsonResource
         $data =  parent::toArray($request);
         $data['is_member'] = $this->hasJoined($this->group_id) ? true : false;
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
-        $data['cut_off_date'] = Carbon::parse($data['cut_off_date'])->toFormattedDateString();
-        $data['start_date'] = Carbon::parse($data['start_date'])->toFormattedDateString();
-        $data['end_date'] = Carbon::parse($data['end_date'])->toFormattedDateString();
+        $data['cut_off_date_readable'] = Carbon::parse($data['cut_off_date'])->toFormattedDateString();
+        $data['start_date_readable'] = Carbon::parse($data['start_date'])->toFormattedDateString();
+        $data['end_date_readable'] = Carbon::parse($data['end_date'])->toFormattedDateString();
         return $data;
     }
 }

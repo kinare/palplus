@@ -17,7 +17,7 @@ class ItineraryResource extends JsonResource
     public function toArray($request)
     {
         $data =  parent::toArray($request);
-        $data['date'] = Carbon::parse($data['date'])->toFormattedDateString();
+        $data['date_readable'] = Carbon::parse($data['date'])->toFormattedDateString();
         return $data;
     }
 }
