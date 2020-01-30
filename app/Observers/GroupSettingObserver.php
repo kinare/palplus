@@ -10,6 +10,7 @@ use App\Group;
 use App\GroupSetting;
 use App\GroupType;
 use App\Payment;
+use App\Wallet;
 
 class GroupSettingObserver
 {
@@ -24,47 +25,61 @@ class GroupSettingObserver
         /* Get the respective group */
         $group = Group::find($groupSetting->group_id);
         $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
+        $category = ContributionCategory::find($groupSetting->contribution_categories_id);
 
         if ($groupSetting->contributions)
             switch (GroupType::find($group->type_id)->type){
 
-            case 'Merry-go-round' :
-                ContributionType::init([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => $frequency->name.' contribution '.$groupSetting->contribution_amount,
-                    'description'  => $group->name.' contributions',
-                    'amount'  => $groupSetting->contribution_amount,
-                    'target_amount'  => $groupSetting->contribution_target_amount,
-                    'type'  => 'Merry-go-round'
-                ]);
-                break;
+                case 'Merry-go-round' :
+                    ContributionType::init([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'name'  => $frequency ? $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'description'  => $group->name.' contributions',
+                        'amount'  => $groupSetting->contribution_amount,
+                        'target_amount'  => $groupSetting->contribution_target_amount,
+                        'type'  => 'Merry-go-round'
+                    ]);
+                    break;
 
-            case 'Fundraising' :
-                ContributionType::init([
-                    'group_id' => $group->id,
-                    'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => ContributionCategory::find($groupSetting->contribution_categories_id)->category.' Contribution',
-                    'description'  => 'Fundraising for '.$group->name,
-                    'amount'  => $groupSetting->contribution_amount ?: 0,
-                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
-                    'type'  => 'Fundraising'
-                ]);
+                case 'Fundraising' :
+                    ContributionType::init([
+                        'group_id' => $group->id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name'  => $category ? $category->category : ''.' Contribution '. Wallet::group($groupSetting->group_id)->walletCurrency().' '. $groupSetting->contribution_amount,
+                        'description'  => 'Fundraising for '.$group->name,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount?: 0,
+                        'type'  => 'Fundraising'
+                    ]);
 
-                break;
+                    break;
 
-            case 'Saving-and-investments' :
-                ContributionType::init([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name' => $frequency ?  $frequency->name.' contribution '.$groupSetting->contribution_amount : 'Savings contribution '.$groupSetting->contribution_amount,
-                    'amount'  => $groupSetting->contribution_amount ?: 0,
-                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
-                    'description'  => 'Group Savings',
-                    'type'  => 'Saving-and-investments'
-                ]);
-                break;
+                case 'Saving-and-investments' :
+                    ContributionType::init([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name' => $frequency ?  $frequency->name : ''.' contribution '.Wallet::group($groupSetting->group_id)->walletCurrency().' '.$groupSetting->contribution_amount,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount?: 0,
+                        'description'  => 'Group Savings',
+                        'type'  => 'Saving-and-investments'
+                    ]);
+                    break;
+
+                case 'Tours-and-travel' :
+                    ContributionType::init([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name' => $frequency ?  $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount ?: 0,
+                        'description'  => 'Group Savings',
+                        'type'  => 'Saving-and-investments'
+                    ]);
+                    break;
         }
     }
 
@@ -100,65 +115,90 @@ class GroupSettingObserver
         /* Get the respective group */
         $group = Group::find($groupSetting->group_id);
         $frequency = ContributionPeriod::find($groupSetting->contribution_periods_id);
+        $category = ContributionCategory::find($groupSetting->contribution_categories_id);
 
         /* Check for group type and update accordingly */
         if ($groupSetting->contributions)
             switch (GroupType::find($group->type_id)->type){
 
-            case 'Merry-go-round' :
-                $contribytionType = ContributionType::where([
-                    'group_id' => $group->id,
-                    'type'  => 'Merry-go-round'
-                ])->first();
+                case 'Merry-go-round' :
+                    $contribytionType = ContributionType::where([
+                        'group_id' => $group->id,
+                        'type'  => 'Merry-go-round'
+                    ])->first();
 
-                if (!$contribytionType) $contribytionType = new ContributionType();
+                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType->fill([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'name'  => $frequency ? $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'description'  => $group->name.' contributions',
+                        'amount'  => $groupSetting->contribution_amount,
+                        'target_amount'  => $groupSetting->contribution_target_amount,
+                        'type'  => 'Merry-go-round'
+                    ]);
+                    $contribytionType->save();
+                    break;
 
-                $contribytionType->fill([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'name'  => $frequency->name.' contribution '.$groupSetting->contribution_amount,
-                    'description'  => $group->name.' contributions',
-                    'amount'  => $groupSetting->contribution_amount,
-                    'target_amount'  => $groupSetting->contribution_target_amount,
-                    'type'  => 'Merry-go-round'
-                ]);
-                $contribytionType->save();
-                break;
+                case 'Fundraising' :
+                    $contribytionType = ContributionType::where([
+                        'group_id' => $group->id,
+                        'type'  => 'Fundraising'
+                    ])->first();
 
-            case 'Fundraising' :
-                $contribytionType = ContributionType::where([
-                    'group_id' => $group->id,
-                    'type'  => 'Fundraising'
-                ])->first();
+                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType->fill([
+                        'group_id' => $group->id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name'  => $category ? $category->category : ''.' Contribution '. Wallet::group($groupSetting->group_id)->walletCurrency().' '. $groupSetting->contribution_amount,
+                        'description'  => 'Fundraising for '.$group->name,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount?: 0,
+                        'type'  => 'Fundraising'
+                    ]);
+                    $contribytionType->save();
+                    break;
 
-                $contribytionType->fill([
-                    'group_id' => $group->id,
-                    'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name'  => ContributionCategory::find($groupSetting->contribution_categories_id)->category.' Contribution',
-                    'description'  => 'Fundraising for '.$group->name,
-                    'amount'  => $groupSetting->contribution_amount ?: 0,
-                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
-                    'type'  => 'Fundraising'
-                ]);
-                $contribytionType->save();
-                break;
+                case 'Saving-and-investments' :
+                    $contribytionType = ContributionType::where([
+                        'group_id' => $group->id,
+                        'type'  => 'Saving-and-investments'
+                    ])->first();
 
-            case 'Saving-and-investments' :
-                $contribytionType = ContributionType::where([
-                    'group_id' => $group->id,
-                    'type'  => 'Saving-and-investments'
-                ])->first();
+                    $contribytionType = $contribytionType ?: new ContributionType();
+                    $contribytionType->fill([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name' => $frequency ?  $frequency->name : ''.' contribution '.Wallet::group($groupSetting->group_id)->walletCurrency().' '.$groupSetting->contribution_amount,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount?: 0,
+                        'description'  => 'Group Savings',
+                        'type'  => 'Saving-and-investments'
+                    ]);
+                    $contribytionType->save();
+                    break;
 
-                $contribytionType->fill([
-                    'group_id' => $group->id,
-                    'contribution_periods_id'  => $groupSetting->contribution_periods_id,
-                    'contribution_categories_id' => $groupSetting->contribution_categories_id,
-                    'name' => $frequency ?  $frequency->name.' contribution '.$groupSetting->contribution_amount : 'Savings contribution '.$groupSetting->contribution_amount,
-                    'amount'  => $groupSetting->contribution_amount ?: 0,
-                    'target_amount'  => $groupSetting->contribution_target_amount?: 0,
-                ]);
-                $contribytionType->save();
-                break;
+                case 'Tours-and-travel' :
+                    $contribytionType = ContributionType::where([
+                        'group_id' => $group->id,
+                        'type'  => 'Tours-and-travels'
+                    ])->first();
+
+                    $contribytionType = $contribytionType ?: new ContributionType();
+
+                    $contribytionType->fill([
+                        'group_id' => $group->id,
+                        'contribution_periods_id'  => $groupSetting->contribution_periods_id,
+                        'contribution_categories_id' => $groupSetting->contribution_categories_id,
+                        'name' => $frequency ?  $frequency->name : ''.' contribution '.$groupSetting->contribution_amount,
+                        'amount'  => $groupSetting->contribution_amount ?: 0,
+                        'target_amount'  => $groupSetting->contribution_target_amount ?: 0,
+                        'description'  => 'Group Savings',
+                        'type'  => 'Saving-and-investments'
+                    ]);
+                    $contribytionType->save();
+                    break;
         }
     }
 
