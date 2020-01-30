@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
          $this->call(NotificationTypesSeed::class);
          $this->call(AccountTypeSeeder::class);
          $this->call(GatewaySetupSeed::class);
+         $this->call(AdvertSetupSeed::class);
     }
 }

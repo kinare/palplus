@@ -70,6 +70,14 @@ Route::group(['prefix' => ''], function () {
             Route::post('/toggle-group-active', 'DashboardController@toggleGroupActive');
             Route::post('/toggle-member-active', 'DashboardController@toggleMemberActive');
         });
+
+        Route::group(['prefix' => 'advert-setup'], function (){
+            Route::get('/', 'AdvertSetupController@index');
+            Route::post('/', 'AdvertSetupController@store');
+            Route::get('/{id}', 'AdvertSetupController@show');
+            Route::patch('/{id}', 'AdvertSetupController@update');
+            Route::delete('/{id}', 'AdvertSetupController@destroy');
+        });
     });
 });
 
