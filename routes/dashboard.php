@@ -39,13 +39,14 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => ''], function () {
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::namespace('Dashboard')->group(function (){
+            Route::get('/', 'DashboardController@index');
             Route::get('/currency', 'DashboardController@currency');
             Route::get('/admins', 'DashboardController@admins');
             Route::get('/groups', 'DashboardController@groups');
             Route::get('/group/{id}', 'DashboardController@group');
             Route::get('/my-groups/{id}', 'DashboardController@myGroups');
-            Route::get('/members', 'DashboardController@members');
-            Route::get('/member/{id}', 'DashboardController@member');
+            Route::get('/users', 'DashboardController@users');
+            Route::get('/user/{id}', 'DashboardController@user');
             Route::get('/nok', 'DashboardController@nok');
             Route::get('/membership-setting', 'DashboardController@membershipSettings');
             Route::get('/transactions', 'DashboardController@transactions');
@@ -64,20 +65,19 @@ Route::group(['prefix' => ''], function () {
             Route::get('/setup/{id}', 'DashboardController@setup');
             Route::get('/paypal-withdrawals', 'DashboardController@paypalRequests');
             Route::get('/reportings', 'DashboardController@reportings');
-
             Route::post('/suspend-group', 'DashboardController@suspendGroup');
             Route::post('/suspend-member', 'DashboardController@suspendMember');
             Route::post('/toggle-group-active', 'DashboardController@toggleGroupActive');
             Route::post('/toggle-member-active', 'DashboardController@toggleMemberActive');
+
+            Route::group(['prefix' => 'advert-setup'], function (){
+                Route::get('/', 'DashboardController@advertSetups');
+                Route::post('/', 'DashboardController@saveAdvertSetup');
+                Route::get('/{id}', 'DashboardController@advertSetup');
+            });
         });
 
-        Route::group(['prefix' => 'advert-setup'], function (){
-            Route::get('/', 'AdvertSetupController@index');
-            Route::post('/', 'AdvertSetupController@store');
-            Route::get('/{id}', 'AdvertSetupController@show');
-            Route::patch('/{id}', 'AdvertSetupController@update');
-            Route::delete('/{id}', 'AdvertSetupController@destroy');
-        });
+
     });
 });
 

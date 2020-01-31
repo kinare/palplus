@@ -56,7 +56,9 @@ class Loan extends BaseModel
         return [
             'limit' => ((float)$savings * (float)$settings->limit_rate)/100,
             'period' => (int)$settings->repayment_period,
-            'rate' => $settings->interest_rate
+            'fixed_interest_amount' => $settings->fixed_interest_amount,
+            'rate' => $settings->interest_rate,
+            'amount' => $settings->interest_amount
         ];
     }
 

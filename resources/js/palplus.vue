@@ -25,6 +25,13 @@ export default {
       return [
           [
               {
+                  to: '/dashboard',
+                  icon: 'desktop-mac-dashboard',
+                  label: 'Dashboard'
+              }
+          ],
+          [
+              {
               label: 'App wallet',
               icon: 'wallet',
               menu: [
@@ -47,7 +54,7 @@ export default {
           {
             to: '/currency-rates',
             icon: 'cash',
-            label: 'currency rates'
+            label: 'Currency rates'
           }
         ],
           [
@@ -58,12 +65,12 @@ export default {
                   {
                       to: '/admins',
                       icon: 'account-supervisor',
-                      label: 'view admin users'
+                      label: 'View admin users'
                   },
                   {
                       to: '/admin-card',
                       icon: 'account-plus',
-                      label: 'new admin'
+                      label: 'New admin'
                   }
               ]
           }
@@ -137,6 +144,10 @@ export default {
                   {
                       to: '/setups/deposit',
                       label: 'Deposit'
+                  },
+                  {
+                      to: '/advert-setups',
+                      label: 'Ad setup'
                   },
               ]
           }],

@@ -29,6 +29,9 @@ import GatewaySetting from "../views/setting/GatewaySetting";
 import PaypalRequests from "../views/transaction/PaypalRequests";
 import Reporting from "../views/group/Reporting";
 import GatewaySettingCard from "../views/setting/GatewaySettingCard";
+import AdvertSetup from "../views/setting/AdvertSetup";
+import AdvertSetupCard from "../views/setting/AdvertSetupCard";
+import Dashboard from "../views/admin/Dashboard";
 
 Vue.use(Router);
 
@@ -42,7 +45,13 @@ const router =new Router({
             children : [
                 {
                     path: '/',
-                    redirect : '/wallets'
+                    redirect : '/dashboard'
+                },
+                {
+                    path: '/dashboard',
+                    name: 'Dashboard',
+                    component: Dashboard,
+                    meta : { middleware : auth}
                 },
                 {
                     path: '/wallets/:type?/:id?',
@@ -185,6 +194,20 @@ const router =new Router({
                     path: '/setup/:id?',
                     name: 'Setups Card',
                     component: GatewaySettingCard,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/advert-setups',
+                    name: 'Advert Setups',
+                    component: AdvertSetup,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/advert-setup/:id?',
+                    name: 'Advert Setups Card',
+                    component: AdvertSetupCard,
                     meta : { middleware : auth},
                     props : true
                 },

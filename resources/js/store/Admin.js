@@ -6,6 +6,7 @@ const Admin = {
   state: {
     admins: [],
     admin: {},
+    stats: {},
   },
   mutations: {
       SET_ADMINS : (state, payload) => {
@@ -20,11 +21,16 @@ const Admin = {
           state.admin = state.admins.filter(admin =>{
               return admin.id === id
           }).shift();
+      },
+
+      SET_STATS : (state, payload) =>{
+          state.stats = payload
       }
   },
   getters: {
       admins : state => state.admins,
       admin : state => state.admin,
+      stats : state => state.stats,
   },
 
   actions: {
@@ -79,6 +85,12 @@ const Admin = {
       delete : ({dispatch}, id) =>{
           call('delete', endpoints.deleteAdmin(id)).then(() =>{
               dispatch('getAdmins');
+          })
+      },
+
+      getStats : (context) =>{
+          call('get', endpoints.stats).then((res) =>{
+              context.commit('SET_STATS', res.data.data);
           })
       },
 

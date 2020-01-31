@@ -80,7 +80,7 @@ class Group extends BaseModel
             'total_withdrawals' => $withdrawals,
             'loan_balance' => $loans['balance'],
             'leaveGroupFee' => $leaveGroupFee,
-            'total_withdrawable' => ((float)$contributions - ((float)$withdrawals + (float)$loans['balance'] + $leaveGroupFee))
+            'total_withdrawable' => (float)$contributions - ((float)$withdrawals + (float)$loans['balance'] + $leaveGroupFee)
         ];
     }
 }

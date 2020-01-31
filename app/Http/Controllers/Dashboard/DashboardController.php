@@ -8,6 +8,7 @@ use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AdvertSetupController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Currency\CurrencyController;
 use App\Http\Controllers\Finance\PaymentController;
@@ -62,7 +63,7 @@ class DashboardController extends Controller
                 'groups' => count(Group::all()),
                 'wallets' => Wallet::total(),
                 'users' => count(User::all()),
-                'loans' => Loan::total()
+                'loans' => Loan::total()['amount']
             ]
         ];
     }
@@ -188,14 +189,14 @@ class DashboardController extends Controller
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-    public function members(){
-        $members= new MembersController();
-        return $members->index();
+    public function users(){
+        $user = new UserController();
+        return $user->index();
     }
 
-    public function member($id){
-        $members= new MembersController();
-        return $members->show($id);
+    public function user($id){
+        $user= new UserController();
+        return $user->show($id);
     }
 
     public function membershipSettings(){
@@ -325,7 +326,6 @@ class DashboardController extends Controller
         return $s->index();
     }
 
-
     public function setupsStore(Request $request){
         $r = new GatewaySetupController();
         return  $request->id ? $r->update($request, $request->id) : $r->store($request);
@@ -353,13 +353,13 @@ class DashboardController extends Controller
     }
 
     public function suspendMember(Request $request){
-        $memb = Members::find($request->id);
-        $memb->status = 'suspended';
-        $memb->active = false;
-        $memb->reasons = $request->reason;
-        $memb->save();
+        $user = User::find($request->id);
+        $user->status = 'suspended';
+        $user->active = false;
+        $user->reasons = $request->reason;
+        $user->save();
         return response()->json([
-            'message' => 'group suspended'
+            'message' => 'User suspended'
         ],200);
     }
 
@@ -375,17 +375,32 @@ class DashboardController extends Controller
     }
 
     public function toggleMemberActive(Request $request){
-        $memb = Members::find($request->id);
-        $memb->active = $memb->active ? 0 : 1;
-        $memb->reasons = $request->reason;
-        $memb->save();
+        $user = User::find($request->id);
+        $user->active = $user->active ? 0 : 1;
+        $user->reasons = $request->reason;
+        $user->save();
         return response()->json([
-            'message' => 'Member suspended'
+            'message' => 'User'. $user->active ? "Acivated" : "Deactivated"
         ],200);
     }
 
     public function reportings(){
         $r = new ReportingController();
         return $r->index();
+    }
+
+    public function advertSetups(){
+        $a = new AdvertSetupController();
+        return $a->index();
+    }
+
+    public function advertSetup($id){
+        $a = new AdvertSetupController();
+        return $a->show($id);
+    }
+
+    public function saveAdvertSetup(Request $request){
+        $a = new AdvertSetupController();
+        return  $request->id ? $a->update($request, $request->id) : $a->store($request);
     }
 }

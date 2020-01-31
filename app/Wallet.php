@@ -60,7 +60,7 @@ class Wallet extends BaseModel
         foreach ($wallets as $wallet){
             $total += $wallet->$balance;
         }
-        return $total;
+        return (float)$total;
     }
 
     public function currencyShortDesc(){

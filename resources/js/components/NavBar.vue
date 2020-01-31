@@ -21,7 +21,7 @@
           <b-icon icon="menu" custom-size="default"/>
           <span>{{user.name}}</span>
           <div slot="dropdown" class="navbar-dropdown">
-            <router-link to="/profile" class="navbar-item" exact-active-class="is-active">
+            <router-link to="/" class="navbar-item" exact-active-class="is-active">
               <b-icon icon="account" custom-size="default"/>
               <span>My Profile</span>
             </router-link>
@@ -40,7 +40,7 @@
             </a>
           </div>
         </nav-bar-menu>
-        <a href="https://justboil.me/bulma-admin-template/one" class="navbar-item has-divider is-desktop-icon-only" title="About">
+        <a href="#" class="navbar-item has-divider is-desktop-icon-only" title="About">
           <b-icon icon="help-circle-outline" custom-size="default"/>
           <span>About</span>
         </a>
