@@ -111,9 +111,9 @@
             }
         },
         watch : {
-            '$route.params.type' : {
+            '$route.params.status' : {
                 handler : function(n){
-                    this.type = n
+                    this.status = n
                 }
             }
         }

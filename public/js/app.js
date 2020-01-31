@@ -5236,9 +5236,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
-    '$route.params.type': {
+    '$route.params.status': {
       handler: function handler(n) {
-        this.type = n;
+        this.status = n;
       }
     }
   }
