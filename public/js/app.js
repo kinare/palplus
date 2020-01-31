@@ -5234,6 +5234,13 @@ __webpack_require__.r(__webpack_exports__);
         return loan.status === _this.status;
       });
     }
+  },
+  watch: {
+    '$route.params.type': {
+      handler: function handler(n) {
+        this.type = n;
+      }
+    }
   }
 });
 

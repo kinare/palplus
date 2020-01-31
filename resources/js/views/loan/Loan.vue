@@ -110,6 +110,13 @@
                 })
             }
         },
+        watch : {
+            '$route.params.type' : {
+                handler : function(n){
+                    this.type = n
+                }
+            }
+        }
     }
 </script>
 
