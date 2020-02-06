@@ -27,7 +27,6 @@ class AdvertSetupController extends BaseController
      * )
      */
 
-
     /**
      * @SWG\Post(
      *   path="/dashboard/advert-setup",

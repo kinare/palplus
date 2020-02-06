@@ -71479,7 +71479,7 @@ var render = function() {
                             {
                               attrs: {
                                 label: "Member",
-                                field: "member_id",
+                                field: "name",
                                 sortable: "",
                                 searchable: true
                               }
@@ -71487,7 +71487,7 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                        " +
-                                  _vm._s(props.row.member_id) +
+                                  _vm._s(props.row.name) +
                                   "\n                    "
                               )
                             ]

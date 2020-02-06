@@ -61,6 +61,12 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::post('/', 'SmsController@send');
         });
 
+        Route::group(['prefix' => 'feedback'], function () {
+            Route::get('/', 'AppFeedbackController@index');
+            Route::post('/', 'AppFeedbackController@store');
+            Route::get('/{id}', 'AppFeedbackController@show');
+        });
+
         Route::namespace('Loan')->group(function (){
             Route::group(['prefix' => 'loan'], function () {
 
@@ -104,6 +110,7 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::namespace('Investment')->group(function (){
             Route::group(['prefix' => 'investment-opportunity'], function () {
                 Route::get('/', 'InvestmentOpportunityController@index');
+                Route::get('/featured-rate', 'InvestmentOpportunityController@featuredRate');
                 Route::post('/', 'InvestmentOpportunityController@store');
                 Route::get('/{id}', 'InvestmentOpportunityController@show');
                 Route::patch('/{id}', 'InvestmentOpportunityController@update');
@@ -229,6 +236,8 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::group(['prefix' => ''], function () {
                     Route::get('/limit/{type}/{group_id}', 'WithdrawalController@limit');
                     Route::post('/withdraw', 'WithdrawalController@withdraw');
+                    Route::post('/project/withdraw', 'WithdrawalController@withdrawProject');
+                    Route::post('/activity/withdraw', 'WithdrawalController@withdrawEvent');
                     Route::post('/approve', 'WithdrawalController@approve');
                     Route::post('/decline', 'WithdrawalController@decline');
                 });
@@ -407,6 +416,7 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::get('/', 'GroupActivityController@index');
                     Route::post('/', 'GroupActivityController@store');
                     Route::get('/featured', 'GroupActivityController@featured');
+                    Route::get('/featured-rate', 'GroupActivityController@featuredRate');
                     Route::get('/wallet/{activity_id}', 'GroupActivityController@wallet');
                     Route::get('/contributions/{activity_id}', 'GroupActivityController@contributions');
                     Route::get('/my-contributions/{activity_id}', 'GroupActivityController@myContributions');

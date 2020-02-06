@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Investment;
 
+use App\AdvertSetup;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Currency\Converter;
+use App\Http\Controllers\Finance\Transaction;
 use App\Http\Resources\InvestmentOpportunityResource;
 use App\InvestmentOpportunity;
+use App\Wallet;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -55,14 +59,13 @@ class InvestmentOpportunityController extends BaseController
      *   @SWG\Parameter(name="title",in="formData",description="title",required=true,type="string"),
      *   @SWG\Parameter(name="description",in="formData",description="description",required=true,type="string"),
      *   @SWG\Parameter(name="image",in="formData",description="image",required=false,type="file"),
-     *   @SWG\Parameter(name="featured",in="formData",description="featured",required=false,type="string"),
+     *   @SWG\Parameter(name="featured",in="formData",description="featured",required=false,type="integer"),
      *   @SWG\Parameter(name="amount",in="formData",description="amount",required=false,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
     public function store(Request $request)
     {
         try{
@@ -85,14 +88,58 @@ class InvestmentOpportunityController extends BaseController
                 Storage::disk('investments')->put("investments/".$request->user()->id.'/investment.png', (string) $avatar);
                 $model->avatar =  'investment.png';
             }
-
             $model->save();
+
+            if ($request->featured){
+                $wallet = Wallet::mine();
+                $adSetup = AdvertSetup::whereType('INVESTMENT')->first();
+                $adRate = Converter::Convert($adSetup->currency, $wallet->walletCurrency(), $adSetup->rate)['amount'];
+
+                if (!$wallet->canWithdraw($adRate)){
+                    $model->featured = 0;
+                    $model->save();
+                    return response()->json([
+                        'message' => 'Your event would not be featured due to insufficient funds'
+                    ]);
+                }
+
+                $transaction = new Transaction();
+                $transaction->transact(
+                    $wallet,
+                    Wallet::app(),
+                    $adRate,
+                    'Ad Payment',
+                    'Investment opportunity add payment'
+                );
+            }
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()
             ]);
         }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/investment-opportunity/featured-rate",
+     *   tags={"Investment Opportunity"},
+     *   summary="Get featured rate",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function featuredRate(){
+        $adSetup = AdvertSetup::whereType('INVESTMENT')->first();
+        $adRate = Converter::Convert($adSetup->currency, Wallet::mine()->walletCurrency(), $adSetup->rate)['amount'];
+        return response()->json([
+            'message' => 'A fee of '.Wallet::mine()->walletCurrency().' '.$adRate.' applies for this featured investment opportunity.'
+        ], 200);
     }
 
     /**
@@ -117,7 +164,6 @@ class InvestmentOpportunityController extends BaseController
      *
      * )
      */
-
     public function update(Request $request, $id)
     {
         try{

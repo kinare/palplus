@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Group;
 
 use App\ActivityContacts;
 use App\ActivityMembers;
+use App\AdvertSetup;
 use App\Contribution;
 use App\ContributionType;
 use App\GroupActivity;
 use App\GroupExpense;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Currency\Converter;
 use App\Http\Controllers\Finance\Transaction;
 use App\Http\Resources\ActivityContactResource;
 use App\Http\Resources\ContributionResource;
@@ -128,6 +130,29 @@ class GroupActivityController extends BaseController
             $actMember->status = $model->booking_fee ? 'inactive' : 'active';
             $actMember->save();
 
+            if ($request->featured){
+                $wallet = Wallet::mine();
+                $adSetup = AdvertSetup::whereType('EVENT')->first();
+                $adRate = Converter::Convert($adSetup->currency, $wallet->walletCurrency(), $adSetup->rate)['amount'];
+
+                if (!$wallet->canWithdraw($adRate)){
+                    $model->featured = 0;
+                    $model->save();
+                    return response()->json([
+                        'message' => 'Your event would not be featured due to insufficient funds'
+                    ]);
+                }
+
+                $transaction = new Transaction();
+                $transaction->transact(
+                    $wallet,
+                    Wallet::app(),
+                    $adRate,
+                    'Ad Payment',
+                    'Event add payment'
+                );
+            }
+
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
@@ -135,6 +160,28 @@ class GroupActivityController extends BaseController
             ]);
         }
 
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/activity/featured-rate",
+     *   tags={"Activity"},
+     *   summary="Get featured Activity rate",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+    public function featuredRate(){
+        $adSetup = AdvertSetup::whereType('EVENT')->first();
+        $adRate = Converter::Convert($adSetup->currency, Wallet::mine()->walletCurrency(), $adSetup->rate)['amount'];
+        return response()->json([
+            'message' => 'A fee of '.Wallet::mine()->walletCurrency().' '.$adRate.' applies for this featured event.'
+        ], 200);
     }
 
     /**
@@ -313,6 +360,9 @@ class GroupActivityController extends BaseController
             $actMember->activity_id = $activity->id;
             $actMember->status = $activity->booking_fee ? 'inactive' : 'active';
             $actMember->save();
+
+            $activity->slots--;
+            $activity->save();
 
             return response()->json([
                 'message' => 'Succesfully joined '.$activity->name

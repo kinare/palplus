@@ -79,5 +79,9 @@ class Wallet extends BaseModel
         return User::find($this->user_id);
     }
 
+    public static function app(){
+        return Wallet::whereUserId(0)->whereGroupId(0)->first();
+    }
+
 
 }

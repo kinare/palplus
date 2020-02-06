@@ -15,8 +15,8 @@
                     :data="transactions">
 
                     <template slot-scope="props">
-                        <b-table-column label="Member" field="member_id" sortable :searchable="true">
-                            {{ props.row.member_id }}
+                        <b-table-column label="Member" field="name" sortable :searchable="true">
+                            {{ props.row.name }}
                         </b-table-column>
                         <b-table-column label="Group" field="group_id" sortable :searchable="true">
                             {{ props.row.group_id }}

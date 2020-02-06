@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
          $this->call(AccountTypeSeeder::class);
          $this->call(GatewaySetupSeed::class);
          $this->call(AdvertSetupSeed::class);
+         $this->call(AppWalletSeeder::class);
     }
 }

@@ -15,12 +15,12 @@ class ActivityMemberObserver
      */
     public function created(ActivityMembers $member)
     {
-        //check slots
-        $activity = GroupActivity::find($member->activity_id);
-        if (isset($activity->slots)){
-            $activity->slots--;
-            $activity->save();
-        }
+//        //check slots
+//        $activity = GroupActivity::find($member->activity_id);
+//        if (isset($activity->slots)){
+//            $activity->slots--;
+//            $activity->save();
+//        }
     }
 
     /**

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Finance;
 
+use App\Contribution;
+use App\ContributionType;
 use App\Group;
+use App\GroupActivity;
+use App\GroupProject;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ContributionResource;
 use App\Http\Resources\WithdrawalResource;
 use App\Members;
 use App\Wallet;
@@ -167,5 +172,73 @@ class WithdrawalController extends BaseController
         $withdrawal->status = 'declined';
         $withdrawal->modified_by = $request->user()->id;
         $withdrawal->save();
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/withdrawal/activity/withdraw",
+     *   tags={"Withdraw"},
+     *   summary="Event withdrawal request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="activity_id",in="query",description="activity id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function withdrawEvent(Request $request){
+        $request->validate([
+            'activity_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $activity = GroupActivity::find($request->activity_id);
+
+        if ($request->amount > $activity->total_cost){
+            return response()->json([
+                'message' => 'Can not withdraw more than event total cost'
+            ], 200);
+        }
+
+        $request->merge(['group_id' => $activity->group_id]);
+
+       return $this->withdraw($request);
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/withdrawal/project/withdraw",
+     *   tags={"Withdraw"},
+     *   summary="Project withdrawal request",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="project_id",in="query",description="project id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function withdrawProject(Request $request){
+        $request->validate([
+            'project_id' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $project = GroupProject::find($request->project_id);
+
+        if ($request->amount > $project->estimated_cost || $request->amount > $project->actual_cost){
+            return response()->json([
+                'message' => 'Can not withdraw more than project total cost'
+            ], 200);
+        }
+
+        $request->merge(['group_id' => $project->group_id]);
+
+        return $this->withdraw($request);
     }
 }

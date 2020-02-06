@@ -195,7 +195,6 @@ class GroupProjectController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
     public function contribute(Request $request){
         $request->validate([
             'project_id' => 'required',
@@ -221,6 +220,25 @@ class GroupProjectController extends BaseController
         return response()->json([
             'message' => 'Contribution Successful'
         ], 200);
+    }
+
+    /**
+     * @SWG\Post(
+     *   path="/project/withdraw",
+     *   tags={"Group Project"},
+     *   summary="Contribute to project",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="project_id",in="query",description="Project id",required=true,type="integer"),
+     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function withdraw(Request $request){
+
     }
 }
 

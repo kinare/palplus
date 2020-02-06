@@ -728,6 +728,94 @@
                 ]
             }
         },
+        "/feedback": {
+            "get": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "App feedbacks",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Create App feedback",
+                "parameters": [
+                    {
+                        "name": "feedback",
+                        "in": "query",
+                        "description": "feedback",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/feedback/{id}": {
+            "get": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Retrieve App Feedback",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "feedback id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/auth/register": {
             "post": {
                 "tags": [
@@ -3420,6 +3508,86 @@
                 ]
             }
         },
+        "/withdrawal/activity/withdraw": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Event withdrawal request",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/project/withdraw": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Project withdrawal request",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/withdrawal/settings": {
             "get": {
                 "tags": [
@@ -4608,6 +4776,30 @@
                         "type": "number"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/featured-rate": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Get featured Activity rate",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -7205,6 +7397,46 @@
                 ]
             }
         },
+        "/project/withdraw": {
+            "post": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Contribute to project",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group-request": {
             "get": {
                 "tags": [
@@ -8243,7 +8475,7 @@
                         "in": "formData",
                         "description": "featured",
                         "required": false,
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "amount",
@@ -8253,6 +8485,30 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/investment-opportunity/featured-rate": {
+            "get": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Get featured rate",
                 "responses": {
                     "200": {
                         "description": "Success"
