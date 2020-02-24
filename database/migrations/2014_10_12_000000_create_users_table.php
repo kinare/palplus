@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->boolean('phone_verified')->default(false);
             $table->string('verification_code')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->string('reasons')->nullable();
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
