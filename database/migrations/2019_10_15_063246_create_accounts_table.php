@@ -20,6 +20,7 @@ class CreateAccountsTable extends Migration
             $table->string('number');
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
+            $table->string('beneficiary')->nullable();
             $table->string('address')->nullable();
             $table->string('email')->nullable();
             $table->string('phonenumber')->nullable();
