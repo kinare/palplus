@@ -33,7 +33,7 @@ class Members extends BaseModel
     public static function approvers($group_id, $type = 'LOAN'){
         return self::where([
             'group_id' => $group_id,
-            $type === 'LOAN' ? 'loan_approver' : 'withdrawal_approver' => true,
+            ($type === 'LOAN' ? 'loan_approver' : 'withdrawal_approver') => true,
         ])->get();
     }
 
