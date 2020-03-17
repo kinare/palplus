@@ -1,12 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Palplus UAA",
-        "description": "Palplus Swagger API description",
+        "title": "Yunited UAA",
+        "description": "Yunited Swagger API description",
         "contact": {
             "email": "michaelkinare@gmail.com"
         },
-        "version": "1.0.0"
+        "version": "1.1.0"
     },
     "basePath": "/api/",
     "paths": {
@@ -352,12 +352,12 @@
                 ]
             }
         },
-        "/admin/activate/{id}": {
+        "/admin/toggle-status/{id}": {
             "get": {
                 "tags": [
                     "Admins"
                 ],
-                "summary": "Activate an admin",
+                "summary": "admin status change",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -529,12 +529,12 @@
                 }
             }
         },
-        "/test/rave/card": {
+        "/dashboard/advert-setup": {
             "get": {
                 "tags": [
-                    "Test"
+                    "Dashboard"
                 ],
-                "summary": "Test Rave card",
+                "summary": "Advert setups",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -545,15 +545,81 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Create Advert setups",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
-        "/test/rave/validate-card": {
+        "/dashboard/advert-setup/{id}": {
             "get": {
                 "tags": [
-                    "Test"
+                    "Dashboard"
                 ],
-                "summary": "Validate Rave card",
+                "summary": "Retrieve Advert setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "type",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -564,7 +630,190 @@
                     "500": {
                         "description": "internal server error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Delete Advert setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "type",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Edit Advert setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "type",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "currency",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/feedback": {
+            "get": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "App feedbacks",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Create App feedback",
+                "parameters": [
+                    {
+                        "name": "feedback",
+                        "in": "query",
+                        "description": "feedback",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/feedback/{id}": {
+            "get": {
+                "tags": [
+                    "Feedback"
+                ],
+                "summary": "Retrieve App Feedback",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "feedback id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/auth/register": {
@@ -1758,6 +2007,30 @@
                 ]
             }
         },
+        "/dashboard/group/{id}": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get group",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/dashboard/members": {
             "get": {
                 "tags": [
@@ -1929,6 +2202,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "Bank Code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "firstname",
                         "in": "query",
                         "description": "firstname",
@@ -1971,9 +2251,16 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency_id",
+                        "name": "currency",
                         "in": "query",
                         "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "beneficiary",
+                        "in": "query",
+                        "description": "beneficiary name",
                         "required": false,
                         "type": "string"
                     },
@@ -2044,13 +2331,6 @@
                         "name": "passcode",
                         "in": "query",
                         "description": "passcode",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "accountbank",
-                        "in": "query",
-                        "description": "bank code",
                         "required": false,
                         "type": "string"
                     }
@@ -2157,6 +2437,13 @@
                         "type": "string"
                     },
                     {
+                        "name": "accountbank",
+                        "in": "query",
+                        "description": "Bank Code",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "firstname",
                         "in": "query",
                         "description": "firstname",
@@ -2199,9 +2486,16 @@
                         "type": "string"
                     },
                     {
-                        "name": "currency_id",
+                        "name": "currency",
                         "in": "query",
                         "description": "currency",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "beneficiary",
+                        "in": "query",
+                        "description": "beneficiary name",
                         "required": false,
                         "type": "string"
                     },
@@ -2272,13 +2566,6 @@
                         "name": "passcode",
                         "in": "query",
                         "description": "passcode",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "accountbank",
-                        "in": "query",
-                        "description": "bank code",
                         "required": false,
                         "type": "string"
                     }
@@ -2403,6 +2690,29 @@
                         "required": true,
                         "type": "number"
                     }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/paypal/withdrawal-requests": {
+            "get": {
+                "tags": [
+                    "Paypal withdrawal requests"
                 ],
                 "responses": {
                     "200": {
@@ -2803,11 +3113,11 @@
                         "type": "number"
                     },
                     {
-                        "name": "gateway",
+                        "name": "account_id",
                         "in": "query",
-                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "description": "account id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -2843,11 +3153,11 @@
                         "type": "number"
                     },
                     {
-                        "name": "gateway",
+                        "name": "account_id",
                         "in": "query",
-                        "description": "gateway i.e CARD/ACCOUNT/MOBILE/PAYPAL",
+                        "description": "account id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -2926,6 +3236,53 @@
                         "name": "ref",
                         "in": "query",
                         "description": "ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/transaction/wallet/request": {
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Transaction request",
+                "parameters": [
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "account_id",
+                        "in": "query",
+                        "description": "Account ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Transaction Type(WITHDRAWAL/DEPOSIT)",
                         "required": true,
                         "type": "string"
                     }
@@ -3151,6 +3508,86 @@
                 ]
             }
         },
+        "/withdrawal/activity/withdraw": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Event withdrawal request",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "query",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/withdrawal/project/withdraw": {
+            "post": {
+                "tags": [
+                    "Withdraw"
+                ],
+                "summary": "Project withdrawal request",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/withdrawal/settings": {
             "get": {
                 "tags": [
@@ -3351,6 +3788,371 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/setup": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Retrieve Gateway setups",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Create Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "active",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/setup/{id}": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Fetch Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Delete Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Update Gateway Setup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "setup id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "gateway",
+                        "in": "query",
+                        "description": "gateway",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rate",
+                        "in": "query",
+                        "description": "rate",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "active",
+                        "in": "query",
+                        "description": "active",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/transfer-countries": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Get Transfere Countries",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/transfer-banks/{countryCode}": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Get Transfere Countries",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country Code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Vie Hook requests ",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/hook": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "in": "query",
+                        "description": "payload",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                }
+            }
+        },
+        "/gateway/rave/test": {
+            "post": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Rave Webhook Test",
+                "parameters": [
+                    {
+                        "name": "txref",
+                        "in": "query",
+                        "description": "Trans Ref",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/gateway/rave/process": {
+            "get": {
+                "tags": [
+                    "Gateway"
+                ],
+                "summary": "Proccess all webhook request",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -3992,6 +4794,30 @@
                 ]
             }
         },
+        "/activity/featured-rate": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Get featured Activity rate",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/activity/{id}": {
             "get": {
                 "tags": [
@@ -4232,7 +5058,7 @@
                 ]
             }
         },
-        "/activity/contributions/{activity_id}": {
+        "/activity/contribution-types/{activity_id}": {
             "get": {
                 "tags": [
                     "Activity"
@@ -4574,6 +5400,105 @@
                 ]
             }
         },
+        "/activity/wallet/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity wallet",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/contributions/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity contributions",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/activity/my-contributions/{activity_id}": {
+            "get": {
+                "tags": [
+                    "Activity"
+                ],
+                "summary": "Activity my contributions",
+                "parameters": [
+                    {
+                        "name": "activity_id",
+                        "in": "path",
+                        "description": "activity id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/group": {
             "get": {
                 "tags": [
@@ -4866,6 +5791,39 @@
                         "description": "group id",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/validate/{member_id}": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Validate Member",
+                "parameters": [
+                    {
+                        "name": "member_id",
+                        "in": "path",
+                        "description": "Member Id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -5818,23 +6776,9 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "group id",
+                        "description": "Expense id",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "group_id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "activity_id",
-                        "in": "query",
-                        "description": "activity_id",
-                        "required": true,
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "supplier_id",
@@ -5890,20 +6834,6 @@
                         "in": "query",
                         "description": "photo",
                         "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "type",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "description",
-                        "in": "query",
-                        "description": "group Description",
-                        "required": true,
                         "type": "string"
                     }
                 ],
@@ -6233,13 +7163,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "group_id",
-                        "in": "query",
-                        "description": "group_id",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "name",
                         "in": "query",
                         "description": "name",
@@ -6435,6 +7358,46 @@
             }
         },
         "/project/contribute": {
+            "post": {
+                "tags": [
+                    "Group Project"
+                ],
+                "summary": "Contribute to project",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "Project id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/project/withdraw": {
             "post": {
                 "tags": [
                     "Group Project"
@@ -7349,12 +8312,90 @@
                 ]
             }
         },
-        "/gateway/test": {
+        "/reporting": {
             "get": {
                 "tags": [
-                    "Gateway"
+                    "Reporting"
                 ],
-                "summary": "Test Integration",
+                "summary": "Retrieve reportings",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Reporting"
+                ],
+                "summary": "Create Reporting",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "group_id",
+                        "in": "query",
+                        "description": "group id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "message",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/reporting/{id}": {
+            "get": {
+                "tags": [
+                    "Reporting"
+                ],
+                "summary": "Fetch Reporting",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "reporting id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -7434,7 +8475,7 @@
                         "in": "formData",
                         "description": "featured",
                         "required": false,
-                        "type": "string"
+                        "type": "integer"
                     },
                     {
                         "name": "amount",
@@ -7444,6 +8485,30 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/investment-opportunity/featured-rate": {
+            "get": {
+                "tags": [
+                    "Investment Opportunity"
+                ],
+                "summary": "Get featured rate",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -7812,6 +8877,72 @@
                         "description": "amount",
                         "required": true,
                         "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/overdue/{group_id}": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Overdue Loans",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/loan/group/{group_id}": {
+            "get": {
+                "tags": [
+                    "Loan"
+                ],
+                "summary": "Group Loans",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "group_id",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -8426,46 +9557,6 @@
                     "Notification"
                 ],
                 "summary": "Retrieve Notification Types",
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Not found"
-                    },
-                    "500": {
-                        "description": "internal server error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearer": []
-                    }
-                ]
-            }
-        },
-        "/sms": {
-            "post": {
-                "tags": [
-                    "SMS"
-                ],
-                "summary": "Send SMS",
-                "parameters": [
-                    {
-                        "name": "phone",
-                        "in": "query",
-                        "description": "phone",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "message",
-                        "in": "query",
-                        "description": "message",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -9167,7 +10258,7 @@
                         "name": "name",
                         "in": "formData",
                         "description": "name",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
@@ -9188,21 +10279,21 @@
                         "name": "gender",
                         "in": "formData",
                         "description": "gender",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "physical_address",
                         "in": "formData",
                         "description": "physical_address",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "avatar",
                         "in": "formData",
                         "description": "profile photo",
-                        "required": true,
+                        "required": false,
                         "type": "file"
                     }
                 ],
@@ -9234,9 +10325,9 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "activity id",
+                        "description": "proffile id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -9773,6 +10864,70 @@
                     "User"
                 ],
                 "summary": "My Notifications",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/transfer": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Transfer funds to another user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "user id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "amount",
+                        "in": "query",
+                        "description": "amount",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/init-users": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Initialize user wallets",
                 "responses": {
                     "200": {
                         "description": "Success"
