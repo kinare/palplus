@@ -7,6 +7,7 @@ use App\ContributionType;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
 use App\Members;
+use App\Payment;
 use App\Wallet;
 use Illuminate\Http\Request;
 
@@ -80,6 +81,11 @@ class ContributionController extends BaseController
             if($type->membership_fee){
                 $member->active = true;
                 $member->save();
+
+                /*clear pending payments*/
+                $payment = Payment::whereUserId($request->user()->id)->whereModel(ContributionType::class)->whereModelId($type->id)->first();
+                $payment->status = 'cleared';
+                $payment->save();
             }
 
         return response()->json([

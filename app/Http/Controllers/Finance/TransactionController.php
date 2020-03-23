@@ -85,7 +85,7 @@ class TransactionController extends BaseController
                 return $mobile->transact($transaction);
 
             case 'PAYPAL' : // done
-                $transaction = GatewayTransaction::initPaypal($request->amount);
+                $transaction = GatewayTransaction::initPaypal($account, $request->amount);
                 $pp = new Checkout();
                 return $pp->transact($transaction);
         }

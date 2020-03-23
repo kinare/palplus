@@ -430,7 +430,7 @@ class GroupController extends BaseController
             $type = GroupType::find($group->type_id);
 
             /* leave direct for fundraising */
-            if ($type->type === 'Tours-and-travel'){
+            if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
                 $member->forceDelete();
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
