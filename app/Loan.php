@@ -52,13 +52,17 @@ class Loan extends BaseModel
     public static function limit(Members $member) : array
     {
         $settings = LoanSetting::settings($member->group_id);
-        $savings = Contribution::amount($member);
+        $savings = Contribution::total($member) - Withdrawal::total($member);
         return [
-            'limit' => ((float)$savings * (float)$settings->limit_rate)/100,
-            'period' => (int)$settings->repayment_period,
+            'limit' => $settings->fixed_amount ? $settings->fixed_amount : ((float)$savings * (float)$settings->limit_rate)/100,
+            'qualification_period' => (int)$settings->qualification_period,
+            'repayment_period' => (int)$settings->repayment_period,
+            'fixed_limit' => $settings->fixed_amount,
+            'limit_amount' => $settings->limit_amount,
+            'limit_rate' => $settings->limit_rate,
             'fixed_interest_amount' => $settings->fixed_interest_amount,
-            'rate' => $settings->interest_rate,
-            'amount' => $settings->interest_amount
+            'interest_rate' => $settings->interest_rate,
+            'interest_amount' => $settings->interest_amount
         ];
     }
 
