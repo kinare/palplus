@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Group;
 
+use App\Contact;
 use App\Gender;
 use App\Group;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Contact\ContactsController;
 use App\Http\Resources\InvitationResource;
 use App\Http\Resources\MemberResource;
+use App\Http\Resources\UserResource;
 use App\Invitation;
 use App\Members;
 use App\User;
@@ -73,13 +76,17 @@ class InvitationController extends BaseController
 
           $data = $request->all();
           if(empty($request->user_id)){
-              $user = User::where('phone', $request->phone)->first();
-              if (!$user){
-                  return response()->json([
-                      'message' => 'no user found'
-                  ], 404);
+              $users = User::all();
+              foreach ($users as $user){
+                  if (ContactsController::sanitize($user->phone)  === ContactsController::sanitize($request->phone)){
+                      Contact::add($user);
+                      $data['user_id'] = $user->id;
+                  }else{
+                      return response()->json([
+                          'message' => 'no user found'
+                      ], 404);
+                  }
               }
-              $data['user_id'] = $user->id;
           }
 
           $invitation = new $this->model();

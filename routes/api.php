@@ -104,6 +104,8 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::namespace('Contact')->group(function (){
             Route::group(['prefix' => 'contact'], function () {
                 Route::post('/my-contacts', 'ContactsController@myContacts');
+                Route::post('/search', 'ContactsController@search');
+                Route::get('/contact-list', 'ContactsController@myContactList');
             });
         });
 
@@ -356,6 +358,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}', 'GroupController@destroy');
                 Route::delete('/{id}/force', 'GroupController@forceDestroy');
                 Route::get('/me/{group_id}', 'GroupController@me');
+                Route::get('/init-group/{currency}', 'GroupController@beforeCreate');
                 Route::get('/members/{group_id}', 'GroupController@members');
                 Route::get('/admins/{group_id}', 'GroupController@admins');
                 Route::get('/contriburions/{group_id}', 'GroupController@contriburions');

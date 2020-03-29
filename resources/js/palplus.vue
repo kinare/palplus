@@ -149,6 +149,10 @@ export default {
                       to: '/advert-setups',
                       label: 'Ad setup'
                   },
+                  {
+                      to: '/group-setups',
+                      label: 'Group setup'
+                  },
               ]
           }],
       ]

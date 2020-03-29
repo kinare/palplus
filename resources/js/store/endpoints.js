@@ -38,6 +38,8 @@ export default {
     setups : `setups`,
     adSetups : `advert-setup`,
     adSetup : id => `advert-setup/${id}`,
+    groupSetups : `group-setup`,
+    groupSetup : id => `group-setup/${id}`,
     setup : id => `setup/${id}`,
     paypalRequests : `paypal-withdrawals`,
     reportings : `reportings`,

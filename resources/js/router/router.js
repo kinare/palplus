@@ -32,6 +32,8 @@ import GatewaySettingCard from "../views/setting/GatewaySettingCard";
 import AdvertSetup from "../views/setting/AdvertSetup";
 import AdvertSetupCard from "../views/setting/AdvertSetupCard";
 import Dashboard from "../views/admin/Dashboard";
+import GroupSetup from "../views/setting/GroupSetup";
+import GroupSetupCard from "../views/setting/GroupSetupCard";
 
 Vue.use(Router);
 
@@ -208,6 +210,20 @@ const router =new Router({
                     path: '/advert-setup/:id?',
                     name: 'Advert Setups Card',
                     component: AdvertSetupCard,
+                    meta : { middleware : auth},/*/group-setups*/
+                    props : true
+                },
+                {
+                    path: '/group-setups',
+                    name: 'Group Setups',
+                    component: GroupSetup,
+                    meta : { middleware : auth},
+                    props : true
+                },
+                {
+                    path: '/group-setup/:id?',
+                    name: 'Group Setups Card',
+                    component: GroupSetupCard,
                     meta : { middleware : auth},
                     props : true
                 },

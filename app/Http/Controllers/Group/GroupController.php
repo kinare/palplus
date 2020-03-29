@@ -9,8 +9,11 @@ use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
 use App\GroupSetting;
+use App\GroupSetup;
 use App\GroupType;
 use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Currency\Converter;
+use App\Http\Controllers\Finance\Transaction;
 use App\Http\Resources\ContributionResource;
 use App\Http\Resources\ContributionTypeResource;
 use App\Http\Resources\GroupActivityResource;
@@ -34,6 +37,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Facade as Avatar;
@@ -99,6 +103,18 @@ class GroupController extends BaseController
     public function store(Request $request)
     {
         try{
+            /* check setup fee*/
+            $setup = GroupSetup::first();
+
+            $wallet = Wallet::mine();
+            $amount = $this->beforeCreate($wallet->currencyShortDesc)['data']['amount'];
+
+            if (!$wallet->canWithdraw($amount)){
+                return response()->json([
+                    'message' => 'Insufficient funds'
+                ], 200);
+            }
+
             $model = new $this->model();
             $data = $request->all();
             $model->fill($data);
@@ -135,6 +151,17 @@ class GroupController extends BaseController
             $member->withdrawal_approver = true;
             $member->created_by = $request->user()->id;
             $member->save();
+
+            /* transact to group wallet */
+            $transaction = new Transaction();
+            $transaction->transact(
+                $wallet,
+                Wallet::group($model->id),
+                $amount,
+                'Group Setup Fee',
+                'Initial group setup fee'
+            );
+
             return $this->response($model);
         }catch (Exception $exception){
             return $exception;
@@ -1094,5 +1121,32 @@ class GroupController extends BaseController
                 'message' => $e->getMessage()
             ],500);
         }
+    }
+
+    /**
+     * @SWG\Get(
+     *   path="/group/init-group/{currency}",
+     *   tags={"Group"},
+     *   summary="Initialize group",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="currency",in="path",description="group currency",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     * )
+     */
+    public function beforeCreate($currency){
+        $setup = GroupSetup::first();
+
+        $amount = Converter::Convert($setup->currency, $currency, $setup->amount);
+
+        return [
+            'data' => [
+                'amount' => $amount['amount'],
+                'description' => $setup->description
+            ]
+        ];
     }
 }
