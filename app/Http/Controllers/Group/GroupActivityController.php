@@ -457,7 +457,7 @@ class GroupActivityController extends BaseController
                     'message' => 'Insufficient Funds. top up to continue'
                 ], 401);
 
-            /* Get member and perfom contribution */
+            /* Get member and perform contribution */
             $member = Members::member($type->group_id);
             $contribution = Contribution::contribute($type, $member, $request->amount);
 

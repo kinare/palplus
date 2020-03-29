@@ -20,6 +20,7 @@ use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Group\GroupProjectController;
 use App\Http\Controllers\Group\GroupSettingController;
 use App\Http\Controllers\Group\ReportingController;
+use App\Http\Controllers\GroupSetupController;
 use App\Http\Controllers\Investment\InvestmentOpportunityController;
 use App\Http\Controllers\Loan\LoanController;
 use App\Http\Controllers\Loan\LoanSettingController;
@@ -401,6 +402,21 @@ class DashboardController extends Controller
 
     public function saveAdvertSetup(Request $request){
         $a = new AdvertSetupController();
+        return  $request->id ? $a->update($request, $request->id) : $a->store($request);
+    }
+
+    public function groupSetups(){
+        $a = new GroupSetupController();
+        return $a->index();
+    }
+
+    public function groupSetup($id){
+        $a = new GroupSetupController();
+        return $a->show($id);
+    }
+
+    public function saveGroupSetup(Request $request){
+        $a = new GroupSetupController();
         return  $request->id ? $a->update($request, $request->id) : $a->store($request);
     }
 }

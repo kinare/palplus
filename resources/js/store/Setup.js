@@ -6,8 +6,10 @@ const Setup = {
     state: {
         setups: [],
         adSetups: [],
+        groupSetups: [],
         setup : {},
-        adSetup : {}
+        adSetup : {},
+        groupSetup : {}
     },
     mutations: {
         SET_SETUPS : (state, payload) => {
@@ -25,12 +27,21 @@ const Setup = {
         SET_AD_SETUP : (state, payload) => {
             state.adSetup = payload
         },
+
+        SET_GROUP_SETUPS : (state, payload) => {
+            state.groupSetups = payload
+        },
+        SET_GROUP_SETUP : (state, payload) => {
+            state.groupSetup = payload
+        },
     },
     getters: {
         setups : state => state.setups,
         setup : state => state.setup,
         adSetups : state => state.adSetups,
         adSetup : state => state.adSetup,
+        groupSetups : state => state.groupSetups,
+        groupSetup : state => state.groupSetup
     },
 
     actions: {
@@ -69,6 +80,26 @@ const Setup = {
                 dispatch('getAdSetups');
             })
         },
+
+        saveGroupSetup : ({dispatch}, data) => {
+            call('post', endpoints.groupSetups, data).then(res => {
+                dispatch('getGroupSetups');
+            })
+        },
+
+        getGroupSetups : (context) => {
+            call('get', endpoints.groupSetups).then(res => {
+                context.commit('SET_GROUP_SETUPS', res.data.data);
+            })
+        },
+
+        getGroupSetup : (context, id) => {
+            call('get', endpoints.groupSetup(id)).then(res => {
+                context.commit('SET_GROUP_SETUP', res.data.data);
+            })
+        },
+
+
 
     }
 };
