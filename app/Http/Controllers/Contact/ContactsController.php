@@ -65,7 +65,7 @@ class ContactsController extends Controller
     public function search(Request $request){
         $users = User::all();
         foreach ($users as $user){
-            if (self::sanitize($user->phone) === self::sanitize($contact)){
+            if (self::sanitize($user->phone) === self::sanitize($request->phone)){
                 Contact::add($user);
                 return new UserResource($user);
             }
