@@ -15,7 +15,7 @@ class Mobile extends Rave
 
     public function transact(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload, true);
-        $res = $this->initiate($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+        $res = $this->initiate($data, env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/charge');
         if ($res['status'] === 'error')
             return $this->error($res['message']);
 

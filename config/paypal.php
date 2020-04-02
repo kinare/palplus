@@ -11,7 +11,7 @@ return [
         'password'    => env('PAYPAL_SANDBOX_API_PASSWORD', ''),
         'secret'      => env('PAYPAL_SANDBOX_API_SECRET', ''),
         'certificate' => env('PAYPAL_SANDBOX_API_CERTIFICATE', ''),
-        'app_id'      => 'APP-80W284485P519543T', // Used for testing Adaptive Payments API in sandbox mode
+        'app_id'      => 'AY2hLaaAAG6UoCfwEPNFHj8-asNbE9d4dd4YnB0f4cf9QZlan3_DiW72fGEf3IaceBoJibOysA0FWtk7', // Used for testing Adaptive Payments API in sandbox mode
     ],
     'live' => [
         'username'    => env('PAYPAL_LIVE_API_USERNAME', ''),
