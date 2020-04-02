@@ -17,6 +17,7 @@ class Config
             'RAVE_ENVIRONMENT' => env('RAVE_ENVIRONMENT'),
             'RAVE_LOGO' => env('RAVE_LOGO'),
             'RAVE_PREFIX' => env('RAVE_PREFIX'),
+            'RAVE_ENDPOINT' => env('RAVE_ENDPOINT'),
             'RAVE_SECRET_HASH' => env('RAVE_SECRET_HASH'),
         ];
     }

@@ -17,7 +17,7 @@ class Card extends Rave
 
     public function transact(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload, true);
-        $res =  $this->initiate($data, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+        $res =  $this->initiate($data, env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/charge');
 
         /* check for response status  */
         if (isset($res['status']) && $res['status'] === 'success'){
@@ -74,7 +74,7 @@ class Card extends Rave
         $details = json_decode(GatewayTransaction::where('ref', $data['ref'])->first()->payload, true);
         $details['suggested_auth'] = 'PIN';
         $details['pin'] = $data['pin'];
-        $res = $this->initiate($details, 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge');
+        $res = $this->initiate($details, env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/charge');
         if ($res['status'] === 'success'){
             Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
             return $this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
@@ -84,7 +84,7 @@ class Card extends Rave
 
     public function otp($data){
         $data['flwRef'] = Cache::get($data['ref'])['data']['flwRef'];
-        $res = $this->validate($data,'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/validatecharge');
+        $res = $this->validate($data,env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/validatecharge');
 
         if ($res['status'] === 'success')
             return $this->success($res['message']);
@@ -93,7 +93,7 @@ class Card extends Rave
     }
 
     public function confirm($data){
-        $res = $this->verify($data['ref'], 'https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify');
+        $res = $this->verify($data['ref'], env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/verify');
 
         /*
         todo update wallet

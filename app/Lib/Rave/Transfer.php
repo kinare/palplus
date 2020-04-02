@@ -15,7 +15,7 @@ class Transfer extends Rave
     public function send(GatewayTransaction $transaction){
         $data = json_decode($transaction->payload);
         $data->seckey = Config::getConfig('RAVE_SECRET_KEY');
-        $res = $this->execute($data, 'https://api.ravepay.co/v2/gpx/transfers/create');
+        $res = $this->execute($data, env('RAVE_ENDPOINT').'/v2/gpx/transfers/create');
 
         if ($res['status'] === 'success')
             return $this->success($res['message']);
@@ -39,7 +39,7 @@ class Transfer extends Rave
     }
 
     public static function getBanksForTransfer($countryCode){
-       $url = 'https://api.ravepay.co/v2/banks/'.$countryCode.'?public_key='.Config::getConfig('RAVE_PUBLIC_KEY');
+       $url = env('RAVE_ENDPOINT').'/v2/banks/'.$countryCode.'?public_key='.Config::getConfig('RAVE_PUBLIC_KEY');
        $res = HttpClient::get($url, ['headers' => ['Content-Type' => 'application/json']]);
        $res = json_decode($res, true);
        return $res['data'];
