@@ -58,5 +58,4 @@ class GatewayTransactionController extends Controller
 
         return (float)$amount + $setup->getTransactionFee($amount);
     }
-
 }

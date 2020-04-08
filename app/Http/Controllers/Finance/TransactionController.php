@@ -10,7 +10,8 @@ use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Gateway\GatewayTransactionController;
 use App\Http\Resources\TransactionResource;
 use App\Lib\Paypal\Checkout;
-use App\Lib\Paypal\Payment;
+use App\Lib\Paypal\Payout;
+use App\Lib\Paypal\Status;
 use App\Lib\Rave\Account as BankAccount;
 use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
@@ -134,7 +135,7 @@ class TransactionController extends BaseController
                 return $transfer->send($transaction);
             case 'PAYPAL' :
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
-                $pp = new Payment();
+                $pp = new Payout();
                 return $pp->transact($transaction);
         }
     }
@@ -198,8 +199,8 @@ class TransactionController extends BaseController
     }
 
     public function paypalToken(Request $request){
-        $pp = new Checkout();
-        return $pp->getCheckoutSuccess($request->token);
+        $pp = new Status();
+        return $pp->getPaymentStatus($request->all());
     }
 
     /**
