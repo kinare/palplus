@@ -2,7 +2,9 @@
 
 
 namespace App\Lib\Paypal;
-use Srmklive\PayPal\Facades\PayPal as PP;
+
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
 
 class Paypal
 {
@@ -10,8 +12,11 @@ class Paypal
 
     protected $data;
 
-    public function __construct(String $provider)
+    public function __construct()
     {
-        $this->provider = PP::setProvider($provider);
+        $paypal_conf = \Config::get('paypal');
+
+        $this->_api_Context = new ApiContext( new OAuthTokenCredential( $paypal_conf['client_id'], $paypal_conf['secret']));
+        $this->_api_Context->setConfig($paypal_conf['settings']);
     }
 }

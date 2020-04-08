@@ -9,7 +9,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-curl": "*",
         "ext-json": "*",
+        "ext-openssl": "*",
         "africastalking/africastalking": "^2.3",
         "darkaonline/l5-swagger": "^6.0",
         "fideloper/proxy": "^4.0",
@@ -18,11 +20,11 @@
         "laravel/passport": "^7.5",
         "laravel/tinker": "^1.0",
         "laravolt/avatar": "^3.0",
+        "paypal/rest-api-sdk-php": "^1.14",
         "smartins/passport-multiauth": "^4.1",
         "srmklive/paypal": "~1.0",
         "zircote/swagger-php": "2.*",
-        "ext-curl": "*",
-      "ext-openssl": "*"
+      "ext-http": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

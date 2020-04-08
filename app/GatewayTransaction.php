@@ -110,22 +110,21 @@ class GatewayTransaction extends BaseModel
     public static function initPaypal(Account $account, $amount) {
         $data = [
             'item' => [
-                [
                     'name'  => 'Wallet deposit',
-                    'price' =>   Converter::Convert(Wallet::mine()->currencyShortDesc(), 'USD', $amount)['amount'],
+                    'currency'  => env('PAYPAL_CURRENCY'),
+                    'amount' =>   Converter::Convert(Wallet::mine()->currencyShortDesc(), env('PAYPAL_CURRENCY'), $amount)['amount'],
                     'qty'   => 1,
-                ]
             ],
             'invoice' => [
-                'invoice_id' => 'PP-'.Carbon::now()->timestamp,
-                'invoice_description' => "Wallet Deposit"
+                'invoice_no' => 'PP-'.Carbon::now()->timestamp,
+                'description' => "Wallet Deposit"
             ],
         ];
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
-        $transaction->ref = $data['invoice']['invoice_id'];
+        $transaction->ref = $data['invoice']['invoice_no'];
         $transaction->payload = json_encode($data);
         $transaction->transaction = 'DEPOSIT';
         $transaction->created_by = Auth::user()->id;
@@ -136,19 +135,20 @@ class GatewayTransaction extends BaseModel
     public static function initPaypalPayout(Account $account, $amount) {
 
         $data = [
-            'receivers'  => [
-                    'email' => $account->number,
-                    'amount' => $amount,
+            'receiver'  => [
+                    'email' => 'sb-qpdxr528392@personal.example.com', //$account->number,
+                    'amount' => Converter::Convert(Wallet::mine()->currencyShortDesc(), env('PAYPAL_CURRENCY'), $amount)['amount']
             ],
-            'payer' => 'EACHRECEIVER', // (Optional) Describes who pays PayPal fees. Allowed values are: 'SENDER', 'PRIMARYRECEIVER', 'EACHRECEIVER' (Default), 'SECONDARYONLY'
-            'return_url' => url('api/gateway/paypal/ec-payout-success'),
-            'cancel_url' => url('payment/cancel'),
+            'invoice' => [
+                'invoice_no' => 'PP-'.Carbon::now()->timestamp,
+                'description' => "Wallet Withdrawal"
+            ],
         ];
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;
         $transaction->type = $account->id;
-        $transaction->ref = 'PP-'.Carbon::now()->timestamp;
+        $transaction->ref = $data['invoice']['invoice_no'];
         $transaction->payload = json_encode($data);
         $transaction->transaction = 'WITHDRAWAL';
         $transaction->created_by = Auth::user()->id;

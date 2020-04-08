@@ -3,106 +3,89 @@
 
 namespace App\Lib\Paypal;
 
-
-use App\Account;
 use App\GatewayTransaction;
-use App\Http\Controllers\Currency\Converter;
 use App\Http\Controllers\Finance\HasTransction;
-use App\Http\Controllers\Finance\Transaction;
-use App\Wallet;
-use Cache;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Srmklive\PayPal\Services\ExpressCheckout;
+use PayPal\Api\Amount;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+use PayPal\Exception\PayPalConnectionException;
+use PayPal\Api\Payment;
 
 class Checkout extends Paypal
 {
     use HasTransction;
 
-    public function __construct($provider = 'express_checkout')
+    public function transact(GatewayTransaction $gatewayTransaction)
     {
-        parent::__construct($provider);
+        $data = json_decode($gatewayTransaction->payload);
 
-        $this->data['return_url'] = url('api/gateway/paypal/ec-checkout-success');
-        $this->data['cancel_url'] = url('api/');
-    }
+        /* set payment method */
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
 
-    public function transact(GatewayTransaction $transaction){
-        $data = json_decode($transaction->payload, true);
-        $this->setItems($data['item']);
-        $this->setInvoice($data['invoice']);
-        return $this->checkout();
-    }
+        /* set items */
+        $item_1 = new Item();
+        $item_1->setName($data->item->name)
+            ->setCurrency($data->item->currency)
+            ->setQuantity($data->item->qty)
+            ->setPrice($data->item->amount);
 
-    public function setItems(array $items){
-        $this->data['items'] = $items;
-    }
+        $item_list = new ItemList();
+        $item_list->setItems(array($item_1));
 
-    public function setInvoice(array $invoice){
-        $this->data['invoice_id'] = $invoice['invoice_id'];
-        $this->data['invoice_description'] = $invoice['invoice_description'];
 
-        $total = 0;
-        foreach ($this->data['items'] as $item) {
-            $total += $item['price'] * $item['qty'];
-        }
-        $this->data['total'] = $total;
-    }
+        /* set amount */
+        $amount = new Amount();
+        $amount->setCurrency($data->item->currency)
+            ->setTotal($data->item->amount);
 
-    public function checkout(){
-        $res = $this->provider->setExpressCheckout($this->data, false);
+        $transaction = new Transaction();
+        $transaction->setAmount($amount)
+            ->setItemList($item_list)
+            ->setInvoiceNumber($data->invoice->invoice_no)
+            ->setDescription($data->invoice->description);
 
-        if ($res['ACK'] === 'Failure')
-            return $this->error($res['L_LONGMESSAGE0']);
+        $redirect_urls = new RedirectUrls();
+        $redirect_urls->setReturnUrl(url('api/gateway/paypal/ec-checkout-success')) /** Specify return URL **/
+        ->setCancelUrl( url('api/'));
 
-        $paypalCache = [];
-        $cache = $this->data;
-        $cache['token'] = explode('=', $res['paypal_link']);
-        $cache['token'] = array_pop($cache['token']);
-        $cache['user_id'] = \Auth::user()->id;
-        array_push($paypalCache, $cache);
-        Cache::set('paypal', $paypalCache, Carbon::now()->addHours(24));
-        return $this->link($res['paypal_link']);
-    }
+        $payment = new Payment();
+        $payment->setIntent('Sale')
+            ->setPayer($payer)
+            ->setRedirectUrls($redirect_urls)
+            ->setTransactions(array($transaction));
 
-    public function getCheckoutSuccess($token){
-        $res = $this->provider->GetExpressCheckoutDetails($token);
-        return $this->doCheckout($res);
-    }
+        try {
+            $payment->create($this->_api_Context);
+        } catch (PayPalConnectionException $ex) {
 
-    public function doCheckout($checkout){
-        $response  = null;
-        $datas = Cache::get('paypal');
+            if (\Config::get('app.debug')) {
+                return $this->error('Connection timeout');
+            } else {
 
-        foreach ($datas as $key => $value){
-            if ($value['token'] === $checkout['TOKEN'] ){
-                $response = $this->provider->doExpressCheckoutPayment($value, $checkout['TOKEN'], $checkout['PAYERID']);
-
-                if ($response['ACK'] === 'SuccessWithWarning')
-                    return $this->error($response['L_SHORTMESSAGE0'].' : '.$response['L_LONGMESSAGE0']);
-
-                if ($response['ACK'] === 'Success'){
-                    $transaction = new Transaction();
-                    $transaction->deposit(
-                        Account::whereUserId($value['user_id'])->first(),
-                        Wallet::whereUserId($value['user_id'])->first(),
-                        $value['total'],
-                        'DEPOSIT',
-                        'Wallet deposit via paypal'
-                    );
-                    return $this->success($response['ACK']);
-                }
-
-                //unset transaction from cache
-                unset($datas[$key]);
-                Cache::set('paypal', $datas, Carbon::now()->addHours(24));
+                return $this->error('Some error occur, sorry for inconvenient');
             }
 
         }
 
-        if (!$response)
-            return $this->error('Transaction not found');
+        $redirect_url = '';
 
-       return  $response;
+        foreach ($payment->getLinks() as $link) {
+            if ($link->getRel() == 'approval_url') {
+                $redirect_url = $link->getHref();
+                break;
+            }
+        }
+
+        if (isset($redirect_url)){
+            $gatewayTransaction->ref = $payment->getId();
+            $gatewayTransaction->save();
+            return $this->link($redirect_url);
+        }else{
+            return $this->error('Unknown error occurred');
+        }
     }
 }
