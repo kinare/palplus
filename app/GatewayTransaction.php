@@ -136,7 +136,7 @@ class GatewayTransaction extends BaseModel
 
         $data = [
             'receiver'  => [
-                    'email' => 'sb-qpdxr528392@personal.example.com', //$account->number,
+                    'email' => $account->number,
                     'amount' => Converter::Convert(Wallet::mine()->currencyShortDesc(), env('PAYPAL_CURRENCY'), $amount)['amount']
             ],
             'invoice' => [
