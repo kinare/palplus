@@ -4,6 +4,7 @@ namespace App\Lib\Paypal;
 
 
 use App\Account;
+use App\Lib\Paypal\Paypal;
 use App\GatewayTransaction;
 use App\Http\Controllers\Finance\HasTransction;
 use App\Http\Controllers\Finance\Transaction;
