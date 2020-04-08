@@ -58,7 +58,6 @@ class Payout extends PayPal
                 return $this->error('Transaction failed');
             }
         }catch (\Exception $e){
-            return $e;
             return $this->error('Some error occur, sorry for inconvenient');
         }
     }
