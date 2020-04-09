@@ -39,6 +39,9 @@ class TransactionController extends BaseController
      *   },
      *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
      *   @SWG\Parameter(name="account_id",in="query",description="account id",required=true,type="integer"),
+     *   @SWG\Parameter(name="cvv",in="query",description="cvv",required=false,type="string"),
+     *   @SWG\Parameter(name="expirymonth",in="query",description="expirymonth",required=false,type="string"),
+     *   @SWG\Parameter(name="expiryyear",in="query",description="expiryyear",required=false,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -64,7 +67,11 @@ class TransactionController extends BaseController
             case 'CARD' : //
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
                 $card = new Card();
-                return $card->transact($transaction);
+                return $card->transact($transaction, [
+                    'cvv' => $request->cvv,
+                    'expirymonth' => $request->expirymonth,
+                    'expiryyear' => $request->expiryyear,
+                ]);
 
             case 'BANK ACCOUNT' : //done
                 $account->payment_type = 'account';
@@ -156,6 +163,9 @@ class TransactionController extends BaseController
      *   },
      *   @SWG\Parameter(name="pin",in="query",description="pin",required=true,type="string"),
      *   @SWG\Parameter(name="ref",in="query",description="ref",required=true,type="string"),
+     *   @SWG\Parameter(name="cvv",in="query",description="cvv",required=false,type="string"),
+     *   @SWG\Parameter(name="expirymonth",in="query",description="expirymonth",required=false,type="string"),
+     *   @SWG\Parameter(name="expiryyear",in="query",description="expiryyear",required=false,type="string"),
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
