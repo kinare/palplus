@@ -2322,13 +2322,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "cvv",
-                        "in": "query",
-                        "description": "cvv",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
                         "name": "billingzip",
                         "in": "query",
                         "description": "billingzip",
@@ -2360,20 +2353,6 @@
                         "name": "billingcountry",
                         "in": "query",
                         "description": "billingcountry",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "expirymonth",
-                        "in": "query",
-                        "description": "expirymonth",
-                        "required": false,
-                        "type": "string"
-                    },
-                    {
-                        "name": "expiryyear",
-                        "in": "query",
-                        "description": "expiryyear",
                         "required": false,
                         "type": "string"
                     },
@@ -3175,6 +3154,27 @@
                         "description": "account id",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "cvv",
+                        "in": "query",
+                        "description": "cvv",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expirymonth",
+                        "in": "query",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -3254,6 +3254,27 @@
                         "in": "query",
                         "description": "ref",
                         "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cvv",
+                        "in": "query",
+                        "description": "cvv",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expirymonth",
+                        "in": "query",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
+                        "required": false,
                         "type": "string"
                     }
                 ],
