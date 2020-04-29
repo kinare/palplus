@@ -3097,12 +3097,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3129,6 +3123,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     login: function login() {
       //todo validation
+      console.log(this.formData);
       this.$store.dispatch("Auth/login", _utils__WEBPACK_IMPORTED_MODULE_5__["helper"].prepareFormData(this.formData));
     }
   }
@@ -67701,7 +67696,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("b-field", [_c("b-checkbox", [_vm._v(" Remember Me")])], 1),
+          _c("b-field", [_c("b-checkbox", [_vm._v("Remember Me")])], 1),
           _vm._v(" "),
           _c(
             "b-field",
@@ -67729,7 +67724,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("br"),
-              _vm._v("\n\n      Forgot your password?\n      "),
+              _vm._v("Forgot your password?\n      "),
               _c("router-link", { attrs: { to: "/auth/reset" } }, [
                 _vm._v("Reset Password")
               ]),
@@ -92229,7 +92224,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/justboil-logo.svg?2144ea8cf3f358d715ff4570fab0745f";
+module.exports = "/images/justboil-logo.svg?7298fabbecbc6f87cf690f717af8652c";
 
 /***/ }),
 
@@ -93509,7 +93504,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apiBaseUrl", function() { return apiBaseUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appName", function() { return appName; });
-var apiBaseUrl = "http://localhost:9000/api/dashboard/";
+var apiBaseUrl = "http://localhost:8000/api/dashboard/";
 var appName = process.env.VUE_APP_NAME;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
@@ -93702,6 +93697,8 @@ httpClient.interceptors.response.use(function (response) {
 }, function (error) {
   /** Emit Api error event */
   Event.$emit("ApiError", 500, error.response.data.message);
+  console.log(error.status);
+  if (error.status === 422) console.log(error.status);
   return Promise.reject(error);
 });
 
@@ -93929,6 +93926,7 @@ var AuthStore = {
     login: function login(_ref, data) {
       var dispatch = _ref.dispatch;
       Object(_api__WEBPACK_IMPORTED_MODULE_2__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].login, data).then(function (res) {
+        // console.log(res.data.access_token)
         ___WEBPACK_IMPORTED_MODULE_1__["authService"].login(res.data.access_token);
       });
     },
@@ -98367,8 +98365,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\PALPLUS\uaa\paplus-uaa\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\PALPLUS\uaa\paplus-uaa\resources\scss\main.scss */"./resources/scss/main.scss");
+__webpack_require__(/*! /Users/macbookair/workspace/kinareDesigns/palplus-uaa/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/macbookair/workspace/kinareDesigns/palplus-uaa/resources/scss/main.scss */"./resources/scss/main.scss");
 
 
 /***/ })
