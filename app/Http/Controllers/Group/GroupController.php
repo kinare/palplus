@@ -499,6 +499,7 @@ class GroupController extends BaseController
 
             /* if total withdrawable is zero leave group */
             if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
+				// force delete of member
                 $member->forceDelete();
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
