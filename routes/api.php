@@ -118,7 +118,9 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::patch('/{id}', 'InvestmentOpportunityController@update');
                 Route::delete('/{id}', 'InvestmentOpportunityController@destroy');
                 Route::delete('/{id}/force', 'InvestmentOpportunityController@forceDestroy');
-            });
+			});
+			
+			//
         });
 
         Route::namespace('Currency')->group(function (){
@@ -139,8 +141,9 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
 
                 Route::group(['prefix' => ''], function () {
-                    Route::get('/read/{id}', 'NotificationController@read');
-                });
+					Route::get('/','NotificationController@index');
+					Route::get('/read/{id}', 'NotificationController@read');
+				});
 
             });
         });

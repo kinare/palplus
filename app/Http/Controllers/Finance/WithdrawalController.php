@@ -78,7 +78,8 @@ class WithdrawalController extends BaseController
 
         $withdrawal = Withdrawal::withdraw($member,  $request->amount);
         return response()->json([
-            'message' => 'Successful. Your withdrawal request is being processed'
+			'message' => 'Successful. Your withdrawal request is being processed',
+			$withdrawal => $withdrawal
         ], 200);
     }
 

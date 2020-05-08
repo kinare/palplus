@@ -86,7 +86,7 @@ class InvestmentOpportunityController extends BaseController
             }else{
                 $avatar = Avatar::create($model->title)->getImageObject()->encode('png');
                 Storage::disk('investments')->put("investments/".$request->user()->id.'/investment.png', (string) $avatar);
-                $model->avatar =  'investment.png';
+                $model->image =  'investment.png';
             }
             $model->save();
 

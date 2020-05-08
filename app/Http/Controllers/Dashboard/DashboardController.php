@@ -414,7 +414,11 @@ class DashboardController extends Controller
     public function groupSetup($id){
         $a = new GroupSetupController();
         return $a->show($id);
-    }
+	}
+	// public function groupSetupUpdate(Request $request, $id){
+	// 	$a = new GroupSetupController();
+	// 	return $a->store($request, $id);
+	// }
 
     public function saveGroupSetup(Request $request){
         $a = new GroupSetupController();

@@ -463,9 +463,18 @@ class GroupController extends BaseController
 
             /* leave direct for fundraising */
             if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
-                $member->forceDelete();
+				// here do softDelete()
+				if($member->is_admin){
+					// send the money to wallet
+					$group_wallet_amount_balance  = Wallet::group($group->id)->total_balance;
+					$user_wallet  = Wallet::mine();
+					$total_wallet_bal_amount  = $user_wallet->total_balance;
+					$user_wallet->total_balance  = ($total_wallet_bal_amount +  $group_wallet_amount_balance);
+					$user_wallet->save();
+				}
+				$member->forceDelete();
                 return response()->json([
-                    'message' => 'You left '. $group->name . ' successfully'
+                    'message' => 'You have left '. $group->name . ' successfully'
                 ], 200);
             }
 

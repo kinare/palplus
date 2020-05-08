@@ -21,16 +21,16 @@ const vuexLocalStorage = new VuexPersist({
 
 export default new Vuex.Store({
     modules: {
-        Auth : authStore,
-        Wallet : Wallet,
-        Currency : Currency,
-        Admin : Admin,
-        Group : Group,
-        Member : Member,
-        Investment : Investment,
-        Transaction : Transaction,
-        Loan : Loan,
-        Setup : Setup
+        Auth: authStore,
+        Wallet: Wallet,
+        Currency: Currency,
+        Admin: Admin,
+        Group: Group,
+        Member: Member,
+        Investment: Investment,
+        Transaction: Transaction,
+        Loan: Loan,
+        Setup: Setup
     },
     state: {
         /* User */
@@ -50,12 +50,12 @@ export default new Vuex.Store({
     },
     mutations: {
         /* A fit-them-all commit */
-        basic (state, payload) {
+        basic(state, payload) {
             state[payload.key] = payload.value
         },
 
         /* User */
-        user (state, payload) {
+        user(state, payload) {
             if (payload.name) {
                 state.userName = payload.name
             }
@@ -68,7 +68,7 @@ export default new Vuex.Store({
         },
 
         /* Aside Mobile */
-        asideMobileStateToggle (state, payload = null) {
+        asideMobileStateToggle(state, payload = null) {
             const htmlClassName = 'has-aside-mobile-expanded'
 
             let isShow
