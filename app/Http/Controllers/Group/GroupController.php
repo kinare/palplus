@@ -47,6 +47,7 @@ class GroupController extends BaseController
 {
  public function __construct()
  {
+     $this->middleware("auth:api");
      parent::__construct(Group::class, GroupResource::class);
  }
 
@@ -103,23 +104,28 @@ class GroupController extends BaseController
     public function store(Request $request)
     {
         try{
+			$type  = GroupType::find($request->type_id)->type;
+			if(type == 'Fundraising'){
+				echo "data";
+			}
             /* check setup fee*/
             $setup = GroupSetup::first();
-
             $wallet = Wallet::mine();
-            $amount = $this->beforeCreate($wallet->currencyShortDesc)['data']['amount'];
+			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
+			
 
-            if (!$wallet->canWithdraw($amount)){
-                return response()->json([
-                    'message' => 'Insufficient funds'
-                ], 200);
-            }
+            // if (!$wallet->canWithdraw($amount)){
+            //     return response()->json([
+            //         'message' => 'Insufficient funds'
+            //     ], 200);
+            // }
 
             $model = new $this->model();
-            $data = $request->all();
+			$data = $request->all();
             $model->fill($data);
-            $model->created_by = $request->user()->id;
-            $model->code = Str::random(40).Carbon::now()->timestamp;
+			$model->created_by = $request->user()->id;
+			$model->code = Str::random(40).Carbon::now()->timestamp;
+			
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
@@ -164,10 +170,9 @@ class GroupController extends BaseController
 
             return $this->response($model);
         }catch (Exception $exception){
-            return $exception;
-//            response()->json([
-//                'message' => $exception
-//            ]);
+            return response()->json([
+               'message' => $exception
+           ]);
         }
 
     }
@@ -458,9 +463,18 @@ class GroupController extends BaseController
 
             /* leave direct for fundraising */
             if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
-                $member->forceDelete();
+				// here do softDelete()
+				if($member->is_admin){
+					// send the money to wallet
+					$group_wallet_amount_balance  = Wallet::group($group->id)->total_balance;
+					$user_wallet  = Wallet::mine();
+					$total_wallet_bal_amount  = $user_wallet->total_balance;
+					$user_wallet->total_balance  = ($total_wallet_bal_amount +  $group_wallet_amount_balance);
+					$user_wallet->save();
+				}
+				$member->forceDelete();
                 return response()->json([
-                    'message' => 'You left '. $group->name . ' successfully'
+                    'message' => 'You have left '. $group->name . ' successfully'
                 ], 200);
             }
 
@@ -494,6 +508,7 @@ class GroupController extends BaseController
 
             /* if total withdrawable is zero leave group */
             if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
+				// force delete of member
                 $member->forceDelete();
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
@@ -802,6 +817,8 @@ class GroupController extends BaseController
             ], 500);
         }
     }
+
+
 
     /**
  * @SWG\Get(

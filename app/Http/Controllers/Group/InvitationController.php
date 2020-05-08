@@ -60,6 +60,8 @@ class InvitationController extends BaseController
    public function invite(Request $request)
    {
        try{
+		//    generate token to allow user be invited to a group
+
           $request->validate([
               'group_id' => 'required',
               'user_id' => 'required_without:phone',
@@ -87,15 +89,18 @@ class InvitationController extends BaseController
                       ], 404);
                   }
               }
-          }
+		  }
 
           $invitation = new $this->model();
           $invitation->fill($data);
           $invitation->invitation_code = Str::random(60).Carbon::now()->timestamp;
-          $invitation->save();
+		  $invitation->save();
+		  
+		//Send sms to user to enable use to access it via email and can now accept via web portal;
 
           return response()->json([
-              'message' => 'An invitation has been sent to the user'
+			  'message' => 'An invitation has been sent to the user',
+			  'token' => $invitation->invitation_code
           ], 200);
 
        }catch (\Exception $e){

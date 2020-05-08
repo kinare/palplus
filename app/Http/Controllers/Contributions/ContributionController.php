@@ -6,6 +6,7 @@ use App\Contribution;
 use App\ContributionType;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Members;
 use App\Payment;
 use App\Wallet;

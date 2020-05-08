@@ -14,7 +14,8 @@ class AdvertSetupSeed extends Seeder
         \App\AdvertSetup::truncate();
         \App\AdvertSetup::insert([
             ['type' => 'EVENT', 'description'  => 'Event advert fee', 'rate'  => '2', 'currency'  => 'USD'],
-            ['type' => 'INVESTMENT', 'description'  => 'Investment Opportunity advert fee', 'rate'  => '2', 'currency'  => 'USD']
+            ['type' => 'INVESTMENT', 'description'  => 'Investment Opportunity advert fee', 'rate'  => '2', 'currency'  => 'USD'],
+            ['type' => 'GROUP', 'description'  => 'Group setup fee', 'rate'  => '2', 'currency'  => 'USD'],
         ]);
     }
 }

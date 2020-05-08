@@ -6,11 +6,6 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
 */
 Route::group(['middleware' => ['json.response']], function () {
 
@@ -70,6 +65,17 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::namespace('Loan')->group(function (){
             Route::group(['prefix' => 'loan'], function () {
 
+				Route::group(['prefix' => ''], function () {
+                    Route::get('/', 'LoanController@index');
+                    Route::get('/limit/{group_id}', 'LoanController@limit');
+                    Route::get('/group/{group_id}', 'LoanController@group');
+                    Route::get('/overdue/{group_id?}', 'LoanController@overdue');
+                    Route::post('/', 'LoanController@loan');
+                    Route::post('/pay', 'LoanController@pay');
+                    Route::post('/approve', 'LoanController@approve');
+                    Route::post('/decline', 'LoanController@decline');
+                });
+
                 Route::group(['prefix' => 'settings'], function () {
                     Route::get('/', 'LoanSettingController@index');
                     Route::post('/', 'LoanSettingController@store');
@@ -88,19 +94,12 @@ Route::group(['middleware' => ['json.response']], function () {
                     Route::delete('/{id}/force', 'LoanPeriodController@forceDestroy');
                 });
 
-                Route::group(['prefix' => ''], function () {
-                    Route::get('/', 'LoanController@index');
-                    Route::get('/limit/{group_id}', 'LoanController@limit');
-                    Route::get('/group/{group_id}', 'LoanController@group');
-                    Route::get('/overdue/{group_id?}', 'LoanController@overdue');
-                    Route::post('/', 'LoanController@loan');
-                    Route::post('/pay', 'LoanController@pay');
-                    Route::post('/approve', 'LoanController@approve');
-                    Route::post('/decline', 'LoanController@decline');
-                });
+               
             });
         });
 
+
+		// Not Working
         Route::namespace('Contact')->group(function (){
             Route::group(['prefix' => 'contact'], function () {
                 Route::post('/my-contacts', 'ContactsController@myContacts');
@@ -109,6 +108,7 @@ Route::group(['middleware' => ['json.response']], function () {
             });
         });
 
+		// working
         Route::namespace('Investment')->group(function (){
             Route::group(['prefix' => 'investment-opportunity'], function () {
                 Route::get('/', 'InvestmentOpportunityController@index');
@@ -118,7 +118,9 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::patch('/{id}', 'InvestmentOpportunityController@update');
                 Route::delete('/{id}', 'InvestmentOpportunityController@destroy');
                 Route::delete('/{id}/force', 'InvestmentOpportunityController@forceDestroy');
-            });
+			});
+			
+			//
         });
 
         Route::namespace('Currency')->group(function (){
@@ -139,8 +141,9 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
 
                 Route::group(['prefix' => ''], function () {
-                    Route::get('/read/{id}', 'NotificationController@read');
-                });
+					Route::get('/','NotificationController@index');
+					Route::get('/read/{id}', 'NotificationController@read');
+				});
 
             });
         });
@@ -215,6 +218,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 });
             });
 
+			// working
             Route::group(['prefix' => 'supplier'], function () {
                 Route::get('/', 'SuppliersController@index');
                 Route::post('/', 'SuppliersController@store');
@@ -224,6 +228,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
             });
 
+			
             Route::group(['prefix' => 'withdrawal'], function () {
 
                 Route::group(['prefix' => 'settings'], function () {
@@ -351,37 +356,53 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::post('/{id}', 'GroupSettingController@update');
             });
 
-            Route::group(['prefix' => 'group'], function () {
-                Route::get('/', 'GroupController@index');
-                Route::post('/', 'GroupController@store');
-                Route::get('/{id}', 'GroupController@show');
-                Route::delete('/{id}', 'GroupController@destroy');
-                Route::delete('/{id}/force', 'GroupController@forceDestroy');
-                Route::get('/me/{group_id}', 'GroupController@me');
-                Route::get('/init-group/{currency}', 'GroupController@beforeCreate');
-                Route::get('/members/{group_id}', 'GroupController@members');
-                Route::get('/admins/{group_id}', 'GroupController@admins');
-                Route::get('/contriburions/{group_id}', 'GroupController@contriburions');
-                Route::get('/wallet/{group_id}', 'GroupController@wallet');
-                Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
-                Route::post('/join', 'GroupController@join');
-                Route::get('/validate/{member_id}', 'GroupController@validateMember');
-                Route::get('/leave-request/{group_id}', 'GroupController@leaveRequest');
-                Route::post('/leave', 'GroupController@leave');
-                Route::post('/make-admin', 'GroupController@makeAdmin');
-                Route::post('/revoke-admin', 'GroupController@revokeAdmin');
-                Route::post('/make-approver', 'GroupController@makeApprover');
-                Route::post('/revoke-approver', 'GroupController@revokeApprover');
-                Route::get('/settings/{group_id}', 'GroupController@settings');
-                Route::get('/projects/{group_id}', 'GroupController@projects');
-                Route::get('/activities/{group_id}', 'GroupController@activities');
-                Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
-                Route::get('/withdrawals/{group_id}', 'GroupController@withdrawals');
-                Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
-                Route::get('/type/{type_id}', 'GroupController@byType');
-                Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
-                Route::get('/my-payments/{group_id}', 'GroupController@myPendingPayments');
-                Route::post('/{id}', 'GroupController@update');
+            // Testing APIS 
+
+            // Groups API
+            Route::group(['prefix' => 'group'],function () {
+					Route::get('/', 'GroupController@index');
+					Route::post('/', 'GroupController@store');
+					Route::get('/{id}', 'GroupController@show');
+					Route::delete('/{id}', 'GroupController@destroy');
+					Route::delete('/{id}/force', 'GroupController@forceDestroy');
+					Route::get('/me/{group_id}', 'GroupController@me');
+					Route::get('/init-group/{currency}', 'GroupController@beforeCreate');
+					Route::get('/members/{group_id}', 'GroupController@members');
+					Route::get('/admins/{group_id}', 'GroupController@admins');
+					Route::get('/contriburions/{group_id}', 'GroupController@contriburions');
+					Route::get('/wallet/{group_id}', 'GroupController@wallet');
+					Route::get('/approvers/{group_id}/{approver_type}', 'GroupController@approvers');
+					Route::post('/join', 'GroupController@join');
+					Route::get('/validate/{member_id}', 'GroupController@validateMember');
+					Route::get('/leave-request/{group_id}', 'GroupController@leaveRequest');
+					Route::post('/leave', 'GroupController@leave');
+					Route::post('/make-admin', 'GroupController@makeAdmin');
+					Route::post('/revoke-admin', 'GroupController@revokeAdmin');
+					Route::post('/make-approver', 'GroupController@makeApprover');
+					Route::post('/revoke-approver', 'GroupController@revokeApprover');
+					Route::get('/settings/{group_id}', 'GroupController@settings');
+					Route::get('/projects/{group_id}', 'GroupController@projects');
+					Route::get('/activities/{group_id}', 'GroupController@activities');
+					Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
+					Route::get('/withdrawals/{group_id}', 'GroupController@withdrawals');
+					Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
+					Route::get('/type/{type_id}', 'GroupController@byType');
+					Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
+					Route::get('/my-payments/{group_id}', 'GroupController@myPendingPayments');
+					Route::post('/{id}', 'GroupController@update');
+				}
+			);
+
+
+
+            // Group Types
+            Route::group(['prefix' => 'group-type'], function () {
+                Route::get('/', 'GroupTypeController@index');
+                Route::post('/', 'GroupTypeController@store');
+                Route::get('/{id}', 'GroupTypeController@show');
+                Route::patch('/{id}', 'GroupTypeController@update');
+                Route::delete('/{id}', 'GroupTypeController@destroy');
+                Route::delete('/{id}/force', 'GroupTypeController@forceDestroy');
             });
 
             Route::group(['prefix' => 'expense'], function () {
@@ -448,14 +469,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}/force', 'ActivityTypeController@forceDestroy');
             });
 
-            Route::group(['prefix' => 'group-type'], function () {
-                Route::get('/', 'GroupTypeController@index');
-                Route::post('/', 'GroupTypeController@store');
-                Route::get('/{id}', 'GroupTypeController@show');
-                Route::patch('/{id}', 'GroupTypeController@update');
-                Route::delete('/{id}', 'GroupTypeController@destroy');
-                Route::delete('/{id}/force', 'GroupTypeController@forceDestroy');
-            });
+
         });
     });
 });
