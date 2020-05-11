@@ -19,24 +19,32 @@
         </div>
         <div class="card-content">
           <b-field label="Title">
-            <b-input type="text" :value="invest.title"></b-input>
-          </b-field>
-          <b-field label="Amount">
-            <b-input type="number" step=".000000012" value="300000"></b-input>
+            <b-input type="text" v-model="invest.title"></b-input>
           </b-field>
           <b-field label="Description">
-            <b-input type="textarea" :value="invest.description"></b-input>
+            <b-input type="textarea" v-model="invest.description"></b-input>
           </b-field>
+
           <div class="field">
-            <b-checkbox :value="invest.featured">Featured</b-checkbox>
+            <b-checkbox v-model="invest.amount" :id="'amount'+invest.id">Has Amount</b-checkbox>
+          </div>
+          <div class="field">
+            <b-checkbox v-model="invest.featured" :id="'featured'+invest.id">Featured</b-checkbox>
           </div>
 
-          <b-upload v-model="form.image">
-            <a class="button is-primary">
-              <b-icon icon="upload"></b-icon>
-              <span>Upload Image</span>
-            </a>
-          </b-upload>
+          <div class="field">
+            <b-upload v-model="form.image">
+              <a class="button is-primary">
+                <b-icon icon="upload"></b-icon>
+                <span>Upload Image</span>
+              </a>
+            </b-upload>
+          </div>
+
+          <br />
+          <div>
+            <b-button type="is-dark" @click="editInvestment">Submit</b-button>
+          </div>
         </div>
       </div>
     </b-modal>
@@ -58,6 +66,11 @@ export default {
         image: ""
       }
     };
+  },
+  methods: {
+    editInvestment() {
+      console.log("Editing Evestment", this.invest);
+    }
   }
 };
 </script>
