@@ -16,7 +16,29 @@ class TransactionResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data = parent::toArray($request);
+        $data = [
+			"id" => $this->id,
+			"transaction_code" => $this->transaction_code,
+			"wallet_id" => $this->wallet_id,
+			"entry" => $this->entry,
+			"transaction_from" => $this->transaction_from,
+			"transaction_to" => $this->transaction_to,
+			"transaction_type" => $this->transaction_type,
+			"account_no" => $this->account_no,
+			"type" => $this->type,
+			"description" => $this->description,
+			"model" => $this->model,
+			"model_id" => $this->model_id,
+			"amount" => $this->amount,
+			"from_currency" => $this->from_currency,
+			"to_currency" => $this->to_currency,
+			"conversion_rate" => $this->conversion_rate,
+			"conversion_time" => $this->conversion_time,
+			"created_by" => $this->created_by,
+			"modified_by" => $this->modified_by,
+			"created_at" => $this->created_at->format('Y-m-d'),
+			"updated_at" => $this->updated_at->format('Y-m-d'),
+		];
         $data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
 //        $data['from'] = $this->getUser($data);
 //        $data['to'] = $this->getUser($data, 'to');
