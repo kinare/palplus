@@ -4235,7 +4235,7 @@ __webpack_require__.r(__webpack_exports__);
       isModalActive: false,
       trashObject: null,
       isLoading: false,
-      paginated: false,
+      paginated: true,
       perPage: 10
     };
   },
@@ -5059,6 +5059,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "EditInvestment",
   props: {
@@ -5073,6 +5081,11 @@ __webpack_require__.r(__webpack_exports__);
         image: ""
       }
     };
+  },
+  methods: {
+    editInvestment: function editInvestment() {
+      console.log("Editing Evestment", this.invest);
+    }
   }
 });
 
@@ -7189,6 +7202,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7203,17 +7235,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      type: '',
+      type: "",
       isModalActive: false,
       trashObject: null,
       isLoading: false,
-      paginated: false,
+      paginated: true,
       perPage: 10
     };
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     next(function (v) {
-      v.$store.dispatch('Wallet/getTransactions');
+      v.$store.dispatch("Wallet/getTransactions");
       v.type = to.params.type;
     });
   },
@@ -7221,13 +7253,13 @@ __webpack_require__.r(__webpack_exports__);
     transactions: function transactions() {
       var _this = this;
 
-      return this.$store.getters['Wallet/transactions'].filter(function (trans) {
+      return this.$store.getters["Wallet/transactions"].filter(function (trans) {
         return trans.entry === _this.type;
       });
     }
   },
   watch: {
-    '$route.params.type': {
+    "$route.params.type": {
       handler: function handler(n) {
         this.type = n;
       }
@@ -71680,21 +71712,13 @@ var render = function() {
                   { attrs: { label: "Title" } },
                   [
                     _c("b-input", {
-                      attrs: { type: "text", value: _vm.invest.title }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  { attrs: { label: "Amount" } },
-                  [
-                    _c("b-input", {
-                      attrs: {
-                        type: "number",
-                        step: ".000000012",
-                        value: "300000"
+                      attrs: { type: "text" },
+                      model: {
+                        value: _vm.invest.title,
+                        callback: function($$v) {
+                          _vm.$set(_vm.invest, "title", $$v)
+                        },
+                        expression: "invest.title"
                       }
                     })
                   ],
@@ -71706,7 +71730,14 @@ var render = function() {
                   { attrs: { label: "Description" } },
                   [
                     _c("b-input", {
-                      attrs: { type: "textarea", value: _vm.invest.description }
+                      attrs: { type: "textarea" },
+                      model: {
+                        value: _vm.invest.description,
+                        callback: function($$v) {
+                          _vm.$set(_vm.invest, "description", $$v)
+                        },
+                        expression: "invest.description"
+                      }
                     })
                   ],
                   1
@@ -71718,7 +71749,38 @@ var render = function() {
                   [
                     _c(
                       "b-checkbox",
-                      { attrs: { value: _vm.invest.featured } },
+                      {
+                        attrs: { id: "amount" + _vm.invest.id },
+                        model: {
+                          value: _vm.invest.amount,
+                          callback: function($$v) {
+                            _vm.$set(_vm.invest, "amount", $$v)
+                          },
+                          expression: "invest.amount"
+                        }
+                      },
+                      [_vm._v("Has Amount")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "field" },
+                  [
+                    _c(
+                      "b-checkbox",
+                      {
+                        attrs: { id: "featured" + _vm.invest.id },
+                        model: {
+                          value: _vm.invest.featured,
+                          callback: function($$v) {
+                            _vm.$set(_vm.invest, "featured", $$v)
+                          },
+                          expression: "invest.featured"
+                        }
+                      },
                       [_vm._v("Featured")]
                     )
                   ],
@@ -71726,28 +71788,52 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c(
-                  "b-upload",
-                  {
-                    model: {
-                      value: _vm.form.image,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "image", $$v)
-                      },
-                      expression: "form.image"
-                    }
-                  },
+                  "div",
+                  { staticClass: "field" },
                   [
                     _c(
-                      "a",
-                      { staticClass: "button is-primary" },
+                      "b-upload",
+                      {
+                        model: {
+                          value: _vm.form.image,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "image", $$v)
+                          },
+                          expression: "form.image"
+                        }
+                      },
                       [
-                        _c("b-icon", { attrs: { icon: "upload" } }),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Upload Image")])
-                      ],
-                      1
+                        _c(
+                          "a",
+                          { staticClass: "button is-primary" },
+                          [
+                            _c("b-icon", { attrs: { icon: "upload" } }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Upload Image")])
+                          ],
+                          1
+                        )
+                      ]
                     )
-                  ]
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        attrs: { type: "is-dark" },
+                        on: { click: _vm.editInvestment }
+                      },
+                      [_vm._v("Submit")]
+                    )
+                  ],
+                  1
                 )
               ],
               1
@@ -75837,7 +75923,7 @@ var render = function() {
     "div",
     [
       _c("hero-bar", { attrs: { "has-right-visible": true } }, [
-        _vm._v("\n        Wallets Transactions\n    ")
+        _vm._v("Wallets Transactions")
       ]),
       _vm._v(" "),
       _c(
@@ -75878,13 +75964,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.transaction_code) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.transaction_code))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75897,13 +75977,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.amount) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.amount))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75916,13 +75990,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.from_currency) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.from_currency))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75935,13 +76003,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.to_currency) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.to_currency))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75954,13 +76016,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.conversion_rate) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.conversion_rate))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75973,13 +76029,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.conversion_time) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.conversion_time))]
                           ),
                           _vm._v(" "),
                           _c(
@@ -75992,13 +76042,7 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.account_no) +
-                                  "\n                    "
-                              )
-                            ]
+                            [_vm._v(_vm._s(props.row.account_no))]
                           )
                         ]
                       }
@@ -95731,8 +95775,16 @@ var Investment = {
       });
     },
     deleteOpportunity: function deleteOpportunity(item_id) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('delete', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].opportunities, "/").concat(item_id)).then(function (res) {
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('delete', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].opportunities, "/").concat(item_id)).then(function () {
         context.dispatch('getOpportunities');
+      });
+    },
+    updateOpportunity: function updateOpportunity(_ref, data) {
+      var dispatch = _ref.dispatch;
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('patch', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].opportunities, "/").concat(data.id), item).then(function () {
+        return dispatch('getOpportunities');
+      })["catch"](function (err) {
+        return console.log(err);
       });
     }
   }

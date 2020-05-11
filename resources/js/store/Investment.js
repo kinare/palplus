@@ -22,9 +22,14 @@ const Investment = {
             })
         },
         deleteOpportunity(item_id) {
-            call('delete', `${endpoints.opportunities}/${item_id}`).then(res => {
+            call('delete', `${endpoints.opportunities}/${item_id}`).then(() => {
                 context.dispatch('getOpportunities');
             })
+        },
+        updateOpportunity({ dispatch }, data) {
+            call('patch', `${endpoints.opportunities}/${data.id}`, item).then(() => {
+                return dispatch('getOpportunities');
+            }).catch(err => console.log(err))
         }
     }
 };

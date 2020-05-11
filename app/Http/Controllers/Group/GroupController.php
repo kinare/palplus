@@ -105,15 +105,13 @@ class GroupController extends BaseController
     {
         try{
 			$type  = GroupType::find($request->type_id)->type;
-			if(type == 'Fundraising'){
-				echo "data";
-			}
-            /* check setup fee*/
+			// if(type == 'Fundraising'){
+			// 	echo "data";
+			// }
             $setup = GroupSetup::first();
             $wallet = Wallet::mine();
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
 			
-
             // if (!$wallet->canWithdraw($amount)){
             //     return response()->json([
             //         'message' => 'Insufficient funds'
@@ -125,7 +123,6 @@ class GroupController extends BaseController
             $model->fill($data);
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
-			
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
@@ -143,11 +140,11 @@ class GroupController extends BaseController
                 $model->avatar =  'avatar.png';
             }
 
-            $model->save();
-
+			$model->save();
+			
             //init group settings
             GroupSettingController::init($request, $model->id);
-
+			
             //make first member admin
             $member = new Members();
             $member->group_id = $model->id;
@@ -166,8 +163,7 @@ class GroupController extends BaseController
                 $amount,
                 'Group Setup Fee',
                 'Initial group setup fee'
-            );
-
+			);
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([

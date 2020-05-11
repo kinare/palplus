@@ -74,7 +74,7 @@ export default {
       isModalActive: false,
       trashObject: null,
       isLoading: false,
-      paginated: false,
+      paginated: true,
       perPage: 10
     };
   },
