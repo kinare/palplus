@@ -15,7 +15,14 @@ class PaypalWithdrawalRequestsResource extends JsonResource
      */
     public function toArray($request)
     {
-        $data =  parent::toArray($request);
+        $data = [
+			'id'=>$this->id,
+			'user_id'=>$this->user_id,
+			'url'=>$this->url,
+			'amount'=>$this->amount,
+			'created_at'=>$this->created_at->format('Y-m-d'),
+			'updated_at'=>$this->updated_at->format('Y-m-d')
+		];
         $data['user'] = User::find($data['user_id']);
         return $data;
 
