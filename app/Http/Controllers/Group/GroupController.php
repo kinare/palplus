@@ -479,7 +479,11 @@ class GroupController extends BaseController
 
             /*validate leave request*/
             $arrears = Group::leaveStatus($member);
-
+			/**'total_contributions' => $contributions,
+            'total_withdrawals' => $withdrawals,
+            'loan_balance' => $loans['balance'],
+            'leaveGroupFee' => $leaveGroupFee,
+            'total_withdrawable' => (float)$contributions - ((float)$withdrawals + (float)$loans['balance'] + $leaveGroupFee) */
 
             if ($arrears['loan_balance'] > 0)
                 return response()->json([
@@ -501,7 +505,7 @@ class GroupController extends BaseController
             }
 
             /* create withdrawal request for member */
-            if (($arrears['total_contributions'] - $arrears['total_withdrawals']) > 0){
+            if (($arrears['total_contributions'] - $arrears['total_withdrawals'] - $arrears['leaveGroupFee']) > 0){
                 Withdrawal::withdraw($member,  $arrears['total_contributions'] - $arrears['total_withdrawals']);
             }
 
@@ -519,11 +523,9 @@ class GroupController extends BaseController
             ], 400);
 
         }catch (Exception $e){
-            return $e;
-
-//            response()->json([
-//                'message' => $e
-//            ], 500);
+           response()->json([
+               'message' => $e
+           ], 500);
         }
     }
 
