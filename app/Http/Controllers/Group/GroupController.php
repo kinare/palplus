@@ -479,8 +479,6 @@ class GroupController extends BaseController
 
             /*validate leave request*/
             $arrears = Group::leaveStatus($member);
-
-
             if ($arrears['loan_balance'] > 0)
                 return response()->json([
                     'message' => 'You have an outstanding loan balance of '.$arrears['loan_balance'].' Clear the loan first'
@@ -501,8 +499,13 @@ class GroupController extends BaseController
             }
 
             /* create withdrawal request for member */
-            if (($arrears['total_contributions'] - $arrears['total_withdrawals']) > 0){
-                Withdrawal::withdraw($member,  $arrears['total_contributions'] - $arrears['total_withdrawals']);
+            if (($arrears['total_contributions'] - $arrears['total_withdrawals'] - $arrears['leaveGroupFee']) > 0){
+				$amount_withdrawals = $arrears['total_contributions'] - $arrears['leaveGroupFee'] - $arrears['total_withdrawals'] - $arrears['loan_balance'];
+				// $arrears['total_contributions'] - $arrears['total_withdrawals']
+				Withdrawal::withdraw($member, $amount_withdrawals);
+				return response()->json([
+					'message' => 'Request received successfully, withdrawable amount is being processed.'
+				], 400);
             }
 
             /* if total withdrawable is zero leave group */
@@ -514,18 +517,18 @@ class GroupController extends BaseController
                 ], 200);
             }
 
-            return response()->json([
-                'message' => 'Request received successfully, withdrawable amount is being processed. also clear your pending payments'
-            ], 400);
-
         }catch (Exception $e){
-            return $e;
-
-//            response()->json([
-//                'message' => $e
-//            ], 500);
+           response()->json([
+               'message' => $e
+           ], 500);
         }
-    }
+	}
+	
+
+	// public function LeaveNotification($member, $admin_id){
+	// 	$admin  = Member::find($admin_id);
+
+	// }
 
     /**
      * @SWG\Post(
