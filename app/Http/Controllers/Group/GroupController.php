@@ -32,6 +32,8 @@ use App\Payment;
 use App\Wallet;
 use App\Withdrawal;
 use App\WithdrawalSetting;
+use App\NotificationTypes;
+use App\Notification;
 use Auth;
 use Carbon\Carbon;
 use Exception;
@@ -466,10 +468,10 @@ class GroupController extends BaseController
 				if($member->is_admin){
 					// send the money to wallet
 					$group_wallet_amount_balance  = Wallet::group($group->id)->total_balance;
-					$user_wallet  = Wallet::mine();
-					$total_wallet_bal_amount  = $user_wallet->total_balance;
-					$user_wallet->total_balance  = ($total_wallet_bal_amount +  $group_wallet_amount_balance);
-					$user_wallet->save();
+					$wallet  = Wallet::mine();
+					$total_wallet_bal_amount  = $wallet->total_balance;
+					$wallet->total_balance  = ($total_wallet_bal_amount +  $group_wallet_amount_balance);
+					$wallet->save();
 				}
 				$member->forceDelete();
                 return response()->json([
@@ -503,12 +505,12 @@ class GroupController extends BaseController
 				$amount_withdrawals = $arrears['total_contributions'] - $arrears['leaveGroupFee'] - $arrears['total_withdrawals'] - $arrears['loan_balance'];
 				// $arrears['total_contributions'] - $arrears['total_withdrawals']
 				Withdrawal::withdraw($member, $amount_withdrawals);
-				$user_wallet = Wallet::where('user_id', auth()->user()->id)->first();
-				$user_wallet->total_balance = $amount_withdrawals;
-				$user_wallet->save();
+				// $user_wallet = Wallet::where('user_id', auth()->user()->id)->first();
+				// $user_wallet->total_balance = $amount_withdrawals;
+				// $user_wallet->save();
 
-				//Remove user from the group 
-				$group->members()->dettach($member->id);
+				// //Remove user from the group 
+				// $group->members()->dettach($member->id);
 				// Notify the admin 
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
@@ -532,10 +534,25 @@ class GroupController extends BaseController
 	}
 	
 
-	// public function LeaveNotification($member, $admin_id){
-	// 	$admin  = Member::find($admin_id);
-
-	// }
+	public function LeaveNotification($member, $group){
+		$type  = NotificationTypes::where('type', 'INFORMATION')->first();
+		$members  = $group->members();
+		$admin = '';
+		foreach ($members as $key) {
+			if($key->is_admin){
+				$admin  = $key;
+			}
+		}
+		$notify  = new Notification();
+		$notify->user_id = $admin->user_id;
+		$notify->notification_types_id = $type->id;
+		$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
+		$notify->subject = "Member Leaving group";
+		$notify->save();
+		if($notify){
+			return true;
+		}
+	}
 
     /**
      * @SWG\Post(
