@@ -32,6 +32,8 @@ use App\Payment;
 use App\Wallet;
 use App\Withdrawal;
 use App\WithdrawalSetting;
+use App\NotificationTypes;
+use App\Notification;
 use Auth;
 use Carbon\Carbon;
 use Exception;
@@ -532,10 +534,25 @@ class GroupController extends BaseController
 	}
 	
 
-	// public function LeaveNotification($member, $admin_id){
-	// 	$admin  = Member::find($admin_id);
-
-	// }
+	public function LeaveNotification($member, $group){
+		$type  = NotificationTypes::where('type', 'INFORMATION')->first();
+		$members  = $group->members();
+		$admin = '';
+		foreach ($members as $key) {
+			if($key->is_admin){
+				$admin  = $key;
+			}
+		}
+		$notify  = new Notification();
+		$notify->user_id = $admin->user_id;
+		$notify->notification_types_id = $type->id;
+		$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
+		$notify->subject = "Member Leaving group";
+		$notify->save();
+		if($notify){
+			return true;
+		}
+	}
 
     /**
      * @SWG\Post(
