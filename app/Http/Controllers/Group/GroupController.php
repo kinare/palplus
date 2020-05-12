@@ -503,6 +503,13 @@ class GroupController extends BaseController
 				$amount_withdrawals = $arrears['total_contributions'] - $arrears['leaveGroupFee'] - $arrears['total_withdrawals'] - $arrears['loan_balance'];
 				// $arrears['total_contributions'] - $arrears['total_withdrawals']
 				Withdrawal::withdraw($member, $amount_withdrawals);
+				$user_wallet = Wallet::where('user_id', auth()->user()->id)->first();
+				$user_wallet->total_balance = $amount_withdrawals;
+				$user_wallet->save();
+
+				//Remove user from the group 
+				$group->members()->dettach($member->id);
+				// Notify the admin 
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
 				], 400);
