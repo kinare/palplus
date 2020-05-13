@@ -24,7 +24,11 @@ class Group extends BaseModel
     public function settings()
     {
         return $this->hasMany('App\GroupSetting', 'id', 'setting_id');
-    }
+	}
+	
+	public static function currency($currency_id){
+		return Currency::find($currency_id);
+	}
 
     public function activities()
     {
