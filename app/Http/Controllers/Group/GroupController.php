@@ -469,6 +469,7 @@ class GroupController extends BaseController
 					// send the money to wallet
 					$group_wallet_amount_balance  = Wallet::group($group->id)->total_balance;
 					$wallet  = Wallet::mine();
+					// $amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
 					$total_wallet_bal_amount  = $wallet->total_balance;
 					$wallet->total_balance  = ($total_wallet_bal_amount +  $group_wallet_amount_balance);
 					$wallet->save();
@@ -507,20 +508,18 @@ class GroupController extends BaseController
 				$withdrawal = Withdrawal::withdraw($member, $amount_withdrawals);
 				
 				if($withdrawal){
-					$member_wallet = Wallet::where('user_id', $request->user()->id)->first();
-					$member_wallet->total_balance = $withdrawal->amount;
+					$member_wallet = Wallet::mine();
+					$amount  = $this->amount_after_currency_converstion($member_wallet->currencyShortDesc(), $withdrawal->amount);
+					$member_wallet->total_balance = $amount;
 					$member_wallet->save();
-
 					//Remove user from the group 
 					$group->members()->dettach($member->id);
 					// Notify the admin 
-
 				}
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
 				], 400);
             }
-
             /* if total withdrawable is zero leave group */
             if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
 				// force delete of member
@@ -547,14 +546,16 @@ class GroupController extends BaseController
 				$admin  = $key;
 			}
 		}
-		$notify  = new Notification();
-		$notify->user_id = $admin->user_id;
-		$notify->notification_types_id = $type->id;
-		$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
-		$notify->subject = "Member Leaving group";
-		$notify->save();
-		if($notify){
-			return true;
+		if(!empty($admin)){
+			$notify  = new Notification();
+			$notify->user_id = $admin->user_id;
+			$notify->notification_types_id = $type->id;
+			$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
+			$notify->subject = "Member Leaving group";
+			$notify->save();
+			if($notify){
+				return true;
+			}
 		}
 	}
 
@@ -1195,5 +1196,18 @@ class GroupController extends BaseController
                 'description' => $setup->description
             ]
         ];
-    }
+	}
+
+
+	public function amount_after_currency_converstion($currenyDesc, $amount){
+        $setup = GroupSetup::first();
+        $amount = Converter::Convert($setup->currency, $currenyDesc, $amount);
+        return [
+            'data' => [
+                'amount' => $amount['amount'],
+                'description' => $setup->description
+            ]
+        ];
+	}
+	
 }
