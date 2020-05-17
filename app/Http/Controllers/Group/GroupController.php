@@ -531,7 +531,9 @@ class GroupController extends BaseController
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
                 ], 200);
-            }
+			}
+			
+			
 
         }catch (Exception $e){
            response()->json([
