@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Wallet;
+use App\Http\Resources\GroupTypeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends JsonResource
@@ -26,6 +27,7 @@ class GroupResource extends JsonResource
 			'target_amount' => $this->target_amount,
 			'currency_id' => $this->currency_id,
 			'type_id' => $this->type_id,
+			'type' => new GroupTypeResource($this->type),
 			'setting_id' => $this->setting_id,
 			'loan_setting_id' => $this->loan_setting_id,
 			'withdrawal_setting_id' => $this->withdrawal_setting_id,

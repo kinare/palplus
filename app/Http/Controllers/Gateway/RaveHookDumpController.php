@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\RaveHookDumpResource;
 use App\RaveHookDump;
 use Illuminate\Http\Request;
+use App\Rave;
 
 class RaveHookDumpController extends BaseController
 {
@@ -115,8 +116,5 @@ class RaveHookDumpController extends BaseController
             }
         }
     }
-
-
-
 
 }
