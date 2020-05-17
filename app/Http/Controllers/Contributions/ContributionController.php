@@ -88,7 +88,7 @@ class ContributionController extends BaseController
                 $payment->save();
 			}
 			/***Notifying the user */
-			$notification_type = NotificationTypes::where('type', '')->first();
+			$notification_type = NotificationTypes::where('type', 'PAYMENT')->first();
 			Notification::create([
 				'subject' => 'Contributions',
 				'user_id' => $request->user()->id,
