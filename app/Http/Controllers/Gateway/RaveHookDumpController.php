@@ -45,7 +45,7 @@ class RaveHookDumpController extends BaseController
 
     public function store(Request $request)
     {
-            $body = @file_get_contents("php://input");
+            $body = file_get_contents("php://input");
 
             $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
 
