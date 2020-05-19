@@ -41,7 +41,8 @@ class Transaction extends BaseModel
 
 	public function setTransactionCodeAttribute(){
 		//get last record
-		$record = $this::latest()->first();
+
+		$record = Transaction::latest()->first();
 		$expNum = explode('-', $record->transaction_code);
 
 		//check first day in a year
