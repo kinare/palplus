@@ -16,6 +16,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+// Route::group(['prefix' => 'rave'], function () {
+//     Route::namespace('Gateway')->group(function (){
+//         Route::any('/hook', 'RaveHookDumpController@store');
+//     });
+// });
 
 Route::get('/home', 'HomeController@index')->name('home');
 
