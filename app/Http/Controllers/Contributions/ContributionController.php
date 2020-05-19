@@ -34,7 +34,7 @@ class ContributionController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
+	
     /**
      * @SWG\Post(
      *   path="/contribution",
@@ -42,9 +42,7 @@ class ContributionController extends BaseController
      *   summary="Contribute",
      *  security={
      *     {"bearer": {}},
-     *   },
-     *   @SWG\Parameter(name="contribution_types_id",in="query",description="contribution_types_id",required=true,type="integer"),
-     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+	 *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
@@ -65,8 +63,6 @@ class ContributionController extends BaseController
             return response()->json([
                 'message' => 'Failed, contribution amount should be '.$type->amount
             ], 401);
-
-
         //validate wallet
         $wallet = Wallet::mine();
         if (!$wallet->canWithdraw($request->amount))

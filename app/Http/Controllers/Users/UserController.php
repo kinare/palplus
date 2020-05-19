@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Account;
+use App\AccountType;
 use App\Contribution;
 use App\Group;
 use App\Http\Controllers\AccountingController;
@@ -473,14 +474,23 @@ class UserController extends BaseController
     public function deposit(Request $request){
 
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-        $account = Account::where('user_id', $request->user()->id)->first();
-        $transaction = new \App\Http\Controllers\Finance\Transaction();
-
-        $transaction->deposit($account, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
-        return response()->json([
+		$account = Account::where('user_id', $request->user()->id)->first();
+		// transactions
+		$transaction = new \App\Http\Controllers\Finance\Transaction();
+        $transaction->deposit($account->id, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
+		//depositAmount to User Wallet
+		$this->depositAmount($wallet, $amount);
+		return response()->json([
             'message' => 'Deposit successful'
         ], 200);
-    }
+	}
+	
+	public function depositAmount($wallet, $amount){
+		$wallet->total_deposits  = $wallet->total_deposits + $amount;
+		$wallet->total_balance  = $wallet->total_balance + $amount;
+		$wallet->save();
+		return $wallet;
+	}
 
     /**
      * @SWG\Get(
@@ -571,6 +581,11 @@ class UserController extends BaseController
 //        }
 //
 //        return 'success';
-    }
+	}
+	
+	public function depositAmountToAppAccount($amount){
+		$wallet  = Wallet::app();
+		return true;
+	}
 
 }
