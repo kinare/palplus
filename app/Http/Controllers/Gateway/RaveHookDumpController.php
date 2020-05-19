@@ -45,13 +45,20 @@ class RaveHookDumpController extends BaseController
 
     public function store(Request $request)
     {
-            $body = file_get_contents("php://input");
+			$body = @file_get_contents("php://input");
 
             $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
 
-            if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
+            if(!$signature){
                 exit();
-            }
+			}
+			
+			$local_signature = env('RAVE_SECRET_HASH');
+			// confirm the event's signature
+			if( $signature !== $local_signature ){
+				// silently forget this ever happened
+				exit();
+			}
 
             http_response_code(200);
 

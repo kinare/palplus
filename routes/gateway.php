@@ -23,6 +23,8 @@ Route::group(['prefix' => 'setup'], function () {
     });
 });
 
+// api/gateway/rave/hook
+
 Route::group(['prefix' => 'rave'], function () {
     Route::namespace('Gateway')->group(function (){
         Route::any('/hook', 'RaveHookDumpController@store');
