@@ -94,6 +94,4 @@ class Wallet extends BaseModel
     public static function app(){
         return Wallet::whereUserId(0)->whereGroupId(0)->first();
 	}
-	
-
 }

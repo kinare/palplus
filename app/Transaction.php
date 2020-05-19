@@ -29,18 +29,20 @@ class Transaction extends BaseModel
 	 * Depositing cash to account
 	 **/
 	public function deposit($account_id, $wallet_id, $amount, $type, $description){
-		$this->wallet_id = $wallet_id;
-		$this->account_no = $account_id;
-		$this->amount = $amount;
-		$this->type = $type;
-		$this->description = $description;
-		$this->save();
-		return $this;
+		$transaction = new Transaction();
+		$transaction->wallet_id = $wallet_id;
+		$transaction->account_no = $account_id;
+		$transaction->amount = $amount;
+		$transaction->type = $type;
+		$transaction->description = $description;
+		$transaction->save();
+		return $transaction;
 	}
 
 	public function setTransactionCodeAttribute(){
 		//get last record
-		$record = $this::latest()->first();
+
+		$record = Transaction::latest()->first();
 		$expNum = explode('-', $record->transaction_code);
 
 		//check first day in a year
