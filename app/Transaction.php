@@ -28,31 +28,21 @@ class Transaction extends BaseModel
 	 *
 	 * Depositing cash to account
 	 **/
-	public function deposit($account_id, $wallet_id, $amount, $type, $description){
-		$transaction = new Transaction();
-		$transaction->wallet_id = $wallet_id;
-		$transaction->account_no = $account_id;
-		$transaction->amount = $amount;
-		$transaction->type = $type;
-		$transaction->description = $description;
-		$transaction->save();
-		return $transaction;
-	}
 
-	public function setTransactionCodeAttribute(){
-		//get last record
+	// public function setTransactionCodeAttribute(){
+	// 	//get last record
 
-		$record = Transaction::latest()->first();
-		$expNum = explode('-', $record->transaction_code);
+	// 	$record = Transaction::latest()->first();
+	// 	$expNum = explode('-', $record->transaction_code);
 
-		//check first day in a year
-		if ( date('l',strtotime(date('Y-01-01'))) ){
-			$nextInvoiceNumber =  date('Y').'-00001';
-		} else {
-			//increase 1 with last invoice number
-			$nextInvoiceNumber = $expNum[0].'-'. $expNum[1]+1;
-		}
-		dd($nextInvoiceNumber);
-		$this->attributes['transaction_code'] = $nextInvoiceNumber;
-	}
+	// 	//check first day in a year
+	// 	if ( date('l',strtotime(date('Y-01-01'))) ){
+	// 		$nextInvoiceNumber =  date('Y').'-00001';
+	// 	} else {
+	// 		//increase 1 with last invoice number
+	// 		$nextInvoiceNumber = $expNum[0].'-'. $expNum[1]+1;
+	// 	}
+	// 	dd($nextInvoiceNumber);
+	// 	$this->attributes['transaction_code'] = $nextInvoiceNumber;
+	// }
 }
