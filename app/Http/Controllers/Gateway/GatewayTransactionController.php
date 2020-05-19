@@ -47,7 +47,7 @@ class GatewayTransactionController extends Controller
 				$wallet->total_balance = $wallet->total_balance - $amount;
 				$wallet->total_deposits = $wallet->total_deposits - $amount;
 				$wallet->save();
-				
+
         }catch (\Exception $e){
             return $e;
         }
