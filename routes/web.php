@@ -16,11 +16,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-// Route::group(['prefix' => 'rave'], function () {
-//     Route::namespace('Gateway')->group(function (){
-//         Route::any('/hook', 'RaveHookDumpController@store');
-//     });
-// });
+// start of rave callback
+Route::group(['prefix' => 'rave'], function () {
+    Route::namespace('Gateway')->group(function (){
+        Route::post('/callback/hook', 'RaveHookDumpController@store');
+    });
+});
+// end of rave callback hook
 
 Route::get('/home', 'HomeController@index')->name('home');
 
