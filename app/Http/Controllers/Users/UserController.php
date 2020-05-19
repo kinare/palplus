@@ -475,11 +475,8 @@ class UserController extends BaseController
 
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
 		$account = Account::where('user_id', $request->user()->id)->first();
-		// transactions
 		$transaction = new \App\Http\Controllers\Finance\Transaction();
-        $transaction->deposit($account->id, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
-		//depositAmount to User Wallet
-		$this->depositAmount($wallet, $amount);
+		$transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
 		return response()->json([
             'message' => 'Deposit successful'
         ], 200);
