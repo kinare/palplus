@@ -1267,22 +1267,6 @@
                     "Contributions"
                 ],
                 "summary": "Contribute",
-                "parameters": [
-                    {
-                        "name": "contribution_types_id",
-                        "in": "query",
-                        "description": "contribution_types_id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "amount",
-                        "in": "query",
-                        "description": "amount",
-                        "required": true,
-                        "type": "number"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success"
