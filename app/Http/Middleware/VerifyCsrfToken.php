@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-		'/api/gateway/rave/hook'
+		'/api/gateway/rave/hook',
+		'rave/callback'
     ];
 }
