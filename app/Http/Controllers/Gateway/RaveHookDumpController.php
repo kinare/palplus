@@ -47,8 +47,8 @@ class RaveHookDumpController extends BaseController
     {
 			$body = @file_get_contents("php://input");
 
-            $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
-
+            // retrieve the signature sent in the reques header's.
+			$signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
             if(!$signature){
                 exit();
 			}
