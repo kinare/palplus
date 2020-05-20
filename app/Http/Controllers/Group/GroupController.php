@@ -126,7 +126,7 @@ class GroupController extends BaseController
                 $attachment['file'] = $request->file('avatar');
                 $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
 
-                if (Storage::exists("groups/" . $model->code . '/' . $attachment['filename']))
+                if (Storage::disk('avatars')->exists("groups/" . $model->code . '/' . $attachment['filename']))
                     $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
 
                 Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
