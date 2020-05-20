@@ -13,7 +13,7 @@ class Group extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'access_level', 'type_id', 'country', 'currency_id'
+        'name', 'description', 'access_level', 'type_id', 'country', 'currency_id', //'target_amount'
     ];
 
     public function members()
@@ -24,7 +24,11 @@ class Group extends BaseModel
     public function settings()
     {
         return $this->hasMany('App\GroupSetting', 'id', 'setting_id');
-    }
+	}
+	
+	public static function currency($currency_id){
+		return Currency::find($currency_id);
+	}
 
     public function activities()
     {

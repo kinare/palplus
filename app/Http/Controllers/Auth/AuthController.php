@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth; 
 
 class AuthController extends Controller
 {
@@ -86,34 +87,39 @@ class AuthController extends Controller
         $request->validate([
             'phone' => 'required|string',
             'password' => 'required|string',
-        ]);
+		]);
 
-        $user = User::where('phone', $request->phone)->first();
-        if (!$user || !Hash::check($request->password, $user->password))
+		$user = User::where('phone', $request->phone)->first();
+        if (!$user || !Hash::check($request->password, $user->password)){
             return response()->json([
-                'message' => 'Login failed. Check your email or password'
+                'message' => 'Login failed. Check your phone or password'
             ] , 401);
 
-        if (!$user->activated())
+		}
+
+        if (!$user->activated()){
             return response()->json([
                 'message' => 'Please activate your account first'
             ], 401);
 
-            $form_params = [
-                'grant_type' => 'password',
-                'client_id' => env('PASSPORT_CLIENT_ID'),
-                'client_secret' => env('PASSPORT_CLIENT_SECRET'),
-                'username' => $request->phone,
-                'password' => $request->password,
-                'provider' => 'users',
+		}
 
-            ];
-            $tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
-            $response = app()->handle($tokenRequest);
-            $response = json_decode($response->getContent(), true);
-            $response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
-            $response = collect($response);
-            return $response;
+		$form_params = [
+            'grant_type' => 'password',
+            'client_id' => env('PASSPORT_CLIENT_ID'),
+            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+            'username' => $request->phone,
+            'password' => $request->password,
+            'provider' => 'users',
+            'scope' => '',
+        ];
+		$tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
+		$response = app()->handle($tokenRequest);
+		$response = json_decode($response->getContent(), true);
+		// $response['user'] = $user;
+		$response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
+		$response = collect($response);
+		return $response;
     }
 
     /**

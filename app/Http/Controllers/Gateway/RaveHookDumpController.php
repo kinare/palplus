@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\RaveHookDumpResource;
 use App\RaveHookDump;
 use Illuminate\Http\Request;
+use App\Rave;
 
 class RaveHookDumpController extends BaseController
 {
@@ -44,13 +45,19 @@ class RaveHookDumpController extends BaseController
 
     public function store(Request $request)
     {
-            $body = @file_get_contents("php://input");
-
-            $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
-
-            if(!$signature || $signature !== env('RAVE_SECRET_HASH') ){
+			$body = @file_get_contents("php://input");
+            // retrieve the signature sent in the reques header's.
+			$signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
+            if(!$signature){
                 exit();
-            }
+			}
+
+			$local_signature = env('RAVE_SECRET_HASH');
+			// confirm the event's signature
+			if( $signature !== $local_signature ){
+				// silently forget this ever happened
+				exit();
+			}
 
             http_response_code(200);
 
@@ -59,16 +66,18 @@ class RaveHookDumpController extends BaseController
             $model->save();
 
             $response = json_decode($body);
-            if (isset($response->status) ) {
 
+            dump($response);
+
+            if (isset($response->status) ) {
                 if ($response->status === 'successful')
-                    GatewayTransactionController::processTransaction($response->txRef);
+					GatewayTransactionController::processTransaction($response->txRef);
             }
 
             if (isset($response->transfer) ){
 
                 if ($response->transfer->status === 'SUCCESSFUL')
-                    GatewayTransactionController::processTransaction($response->transfer->reference);
+					GatewayTransactionController::processTransaction($response->transfer->reference);
             }
 
             exit();
@@ -114,8 +123,5 @@ class RaveHookDumpController extends BaseController
             }
         }
     }
-
-
-
 
 }

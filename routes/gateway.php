@@ -23,9 +23,12 @@ Route::group(['prefix' => 'setup'], function () {
     });
 });
 
+// api/gateway/rave/hook
+// api/gateway/rave/hook
+
 Route::group(['prefix' => 'rave'], function () {
     Route::namespace('Gateway')->group(function (){
-        Route::any('/hook', 'RaveHookDumpController@store');
+        Route::post('/hook', 'RaveHookDumpController@store');
 
         Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/transfer-countries', 'RaveController@getRaveTransferCountries');

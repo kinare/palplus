@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Contributions;
 
 use App\Contribution;
+use App\Notification;
 use App\ContributionType;
+use App\NotificationTypes;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\ContributionResource;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Members;
 use App\Payment;
 use App\Wallet;
@@ -31,7 +34,7 @@ class ContributionController extends BaseController
      *   @SWG\Response(response=500, description="internal server error")
      * )
      */
-
+	
     /**
      * @SWG\Post(
      *   path="/contribution",
@@ -39,17 +42,12 @@ class ContributionController extends BaseController
      *   summary="Contribute",
      *  security={
      *     {"bearer": {}},
-     *   },
-     *   @SWG\Parameter(name="contribution_types_id",in="query",description="contribution_types_id",required=true,type="integer"),
-     *   @SWG\Parameter(name="amount",in="query",description="amount",required=true,type="number"),
+	 *   },
      *   @SWG\Response(response=200, description="Success"),
      *   @SWG\Response(response=400, description="Not found"),
      *   @SWG\Response(response=500, description="internal server error")
      * )
-     * 'contribution_types_id',
-    'group_id',
-    'member_id',
-    'amount',
+     * 'contribution_types_id','group_id','member_id','amount',
      */
     public function contribute(Request $request){
 
@@ -65,8 +63,6 @@ class ContributionController extends BaseController
             return response()->json([
                 'message' => 'Failed, contribution amount should be '.$type->amount
             ], 401);
-
-
         //validate wallet
         $wallet = Wallet::mine();
         if (!$wallet->canWithdraw($request->amount))
@@ -86,8 +82,18 @@ class ContributionController extends BaseController
                 $payment = Payment::whereUserId($request->user()->id)->whereModel(ContributionType::class)->whereModelId($type->id)->first();
                 $payment->status = 'cleared';
                 $payment->save();
-            }
-
+			}
+			/***Notifying the user */
+			$notification_type = NotificationTypes::where('type', 'PAYMENT')->first();
+			Notification::create([
+				'subject' => 'Contributions',
+				'user_id' => $request->user()->id,
+				'created_by' =>$request->user()->id,
+				'notification_types_id' => $notification_type->id,
+				'payload' => null,
+				'message' => 'You have contributed  '. $wallet->currencyShortDesc() .' '. $request->amount . ' successfully.',
+			]);
+			// end of notifying user
         return response()->json([
             'message' => 'Contribution Successful'
         ], 200);

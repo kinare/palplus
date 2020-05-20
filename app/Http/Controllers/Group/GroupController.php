@@ -32,6 +32,8 @@ use App\Payment;
 use App\Wallet;
 use App\Withdrawal;
 use App\WithdrawalSetting;
+use App\NotificationTypes;
+use App\Notification;
 use Auth;
 use Carbon\Carbon;
 use Exception;
@@ -47,6 +49,7 @@ class GroupController extends BaseController
 {
  public function __construct()
  {
+     $this->middleware("auth:api");
      parent::__construct(Group::class, GroupResource::class);
  }
 
@@ -103,23 +106,25 @@ class GroupController extends BaseController
     public function store(Request $request)
     {
         try{
-            /* check setup fee*/
+			$type  = GroupType::find($request->type_id)->type;
+			// if(type == 'Fundraising'){
+			// 	echo "data";
+			// }
             $setup = GroupSetup::first();
-
             $wallet = Wallet::mine();
-            $amount = $this->beforeCreate($wallet->currencyShortDesc)['data']['amount'];
-
-            if (!$wallet->canWithdraw($amount)){
-                return response()->json([
-                    'message' => 'Insufficient funds'
-                ], 200);
-            }
+			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
+			
+            // if (!$wallet->canWithdraw($amount)){
+            //     return response()->json([
+            //         'message' => 'Insufficient funds'
+            //     ], 200);
+            // }
 
             $model = new $this->model();
-            $data = $request->all();
+			$data = $request->all();
             $model->fill($data);
-            $model->created_by = $request->user()->id;
-            $model->code = Str::random(40).Carbon::now()->timestamp;
+			$model->created_by = $request->user()->id;
+			$model->code = Str::random(40).Carbon::now()->timestamp;
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
@@ -137,11 +142,11 @@ class GroupController extends BaseController
                 $model->avatar =  'avatar.png';
             }
 
-            $model->save();
-
+			$model->save();
+			
             //init group settings
             GroupSettingController::init($request, $model->id);
-
+			
             //make first member admin
             $member = new Members();
             $member->group_id = $model->id;
@@ -160,17 +165,18 @@ class GroupController extends BaseController
                 $amount,
                 'Group Setup Fee',
                 'Initial group setup fee'
-            );
-
+			);
             return $this->response($model);
         }catch (Exception $exception){
-            return $exception;
-//            response()->json([
-//                'message' => $exception
-//            ]);
+            return response()->json([
+               'message' => $exception
+           ]);
         }
 
-    }
+	}
+	
+
+	
 
     /**
      * @SWG\Post(
@@ -447,27 +453,41 @@ class GroupController extends BaseController
                     'message' => 'You are not a member in this group'
                 ], 404);
 
-
             $group = Group::find($request->group_id);
             if (!$group)
                 return response()->json([
                     'message' => 'Group Not found'
                 ], 404);
 
-            $type = GroupType::find($group->type_id);
-
-            /* leave direct for fundraising */
+			$type = GroupType::find($group->type_id);
+			/* leave direct for fundraising */
             if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
-                $member->forceDelete();
+				// here do softDelete()
+				if($member->is_admin){
+					// send the money to wallet
+					$group_wallet  = Wallet::group($group->id);
+					$wallet  = Wallet::where('user_id', $member->user_id)->first();
+					$amount  = '';
+					if($group_wallet->currencyShortDesc() !== $wallet->currencyShortDesc()){
+						// dd($wallet);
+						$amount  = $this->amount_after_currency_converstion($wallet->currencyShortDesc(), $group_wallet->total_balance)['data']['amount'];
+					}
+					$amount  = $group_wallet->total_balance;
+					$total_wallet_bal_amount  = $wallet->total_balance;
+					$wallet->total_balance  = ($total_wallet_bal_amount +  $amount);
+					$wallet->save();
+				}
+				// $member->forceDelete();
+				$this->remove_member_and_nofify_admin($group, $member);
                 return response()->json([
-                    'message' => 'You left '. $group->name . ' successfully'
+                    'message' => 'You have left '. $group->name . ' successfully'
                 ], 200);
-            }
+			}
+			
+			// successfully removed the 'Tours-and-travel && Fundraising'
 
-            /*validate leave request*/
+            // /*validate leave request*/
             $arrears = Group::leaveStatus($member);
-
-
             if ($arrears['loan_balance'] > 0)
                 return response()->json([
                     'message' => 'You have an outstanding loan balance of '.$arrears['loan_balance'].' Clear the loan first'
@@ -488,30 +508,68 @@ class GroupController extends BaseController
             }
 
             /* create withdrawal request for member */
-            if (($arrears['total_contributions'] - $arrears['total_withdrawals']) > 0){
-                Withdrawal::withdraw($member,  $arrears['total_contributions'] - $arrears['total_withdrawals']);
+            if (($arrears['total_contributions'] - $arrears['total_withdrawals'] - $arrears['leaveGroupFee']) > 0){
+				$amount_withdrawals = $arrears['total_contributions'] - $arrears['leaveGroupFee'] - $arrears['total_withdrawals'] - $arrears['loan_balance'];
+				// $arrears['total_contributions'] - $arrears['total_withdrawals']
+				$withdrawal = Withdrawal::withdraw($member, $amount_withdrawals);
+				
+				if($withdrawal){
+					$member_wallet = Wallet::mine();
+					$amount  = $this->amount_after_currency_converstion($member_wallet->currencyShortDesc(), $withdrawal->amount);
+					$member_wallet->total_balance = $amount;
+					$member_wallet->save();
+					$this->remove_member_and_nofify_admin($group, $member);
+				}
+				return response()->json([
+					'message' => 'Request received successfully, withdrawable amount is being processed.'
+				], 400);
             }
-
             /* if total withdrawable is zero leave group */
             if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
+				// force delete of member
                 $member->forceDelete();
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
                 ], 200);
-            }
-
-            return response()->json([
-                'message' => 'Request received successfully, withdrawable amount is being processed. also clear your pending payments'
-            ], 400);
+			}
+			
+			
 
         }catch (Exception $e){
-            return $e;
-
-//            response()->json([
-//                'message' => $e
-//            ], 500);
+           response()->json([
+               'message' =>"An Error Occurred, ". $e
+           ], 500);
         }
-    }
+	}
+
+	/**Remove the member  from the group */
+
+	public function remove_member_and_nofify_admin($group, $member){
+		$group->members()->where('id',$member->id)->delete();
+	}
+	
+
+	public function LeaveNotification($member, $group){
+		$type  = NotificationTypes::where('type', 'INFORMATION')->first();
+		$members  = $group->members();
+		$admin = '';
+		foreach ($members as $key) {
+			if($key->is_admin){
+				$admin  = $key;
+			}
+		}
+		if(!empty($admin)){
+			$notify  = new Notification();
+			$notify->user_id = $admin->user_id;
+			$notify->notification_types_id = $type->id;
+			$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
+			$notify->subject = "Member Leaving group";
+			$notify->save();
+			if($notify){
+				return true;
+			}
+		}
+	}
 
     /**
      * @SWG\Post(
@@ -802,6 +860,8 @@ class GroupController extends BaseController
             ], 500);
         }
     }
+
+
 
     /**
  * @SWG\Get(
@@ -1148,5 +1208,18 @@ class GroupController extends BaseController
                 'description' => $setup->description
             ]
         ];
-    }
+	}
+
+
+	public function amount_after_currency_converstion($currenyDesc, $amount){
+        $setup = GroupSetup::first();
+        $amount = Converter::Convert($setup->currency, $currenyDesc, $amount);
+        return [
+            'data' => [
+                'amount' => $amount['amount'],
+                'description' => $setup->description
+            ]
+        ];
+	}
+	
 }

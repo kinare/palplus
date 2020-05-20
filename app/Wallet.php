@@ -33,14 +33,26 @@ class Wallet extends BaseModel
     {
         try{
             $wallet = new Wallet();
-            $wallet->type = $type;
-            $wallet->user_id = $model instanceof User ?$model->id : null;
+			$wallet->type = $type;
+            $wallet->user_id = $model  instanceof User? $model->id: null;
             $wallet->group_id =$model instanceof Group ?$model->id : null;
             $wallet->currency_id = $currency_id;
-            $wallet->save();
+			$wallet->save();
         }catch (\Exception $exception){
             throw $exception;
-        }
+		}
+		
+
+        // try{
+        //     $wallet = new Wallet();
+		// 	$wallet->type = $type;
+        //     $wallet->user_id = $user_id  ? User::find($user_id)->id : null;
+        //     $wallet->group_id =$model instanceof Group ?$model->id : null;
+        //     $wallet->currency_id = $currency_id;
+		// 	$wallet->save();
+        // }catch (\Exception $exception){
+        //     throw $exception;
+        // }
     }
 
     public static function mine()
@@ -81,7 +93,5 @@ class Wallet extends BaseModel
 
     public static function app(){
         return Wallet::whereUserId(0)->whereGroupId(0)->first();
-    }
-
-
+	}
 }

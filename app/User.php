@@ -86,5 +86,22 @@ class User extends Authenticatable
 
     public function loans(){
         return $this->hasMany('App\Loan')->where('deleted_at', NUll);
-    }
+	}
+	public function currency(){
+        return $this->belongsTo(\App\Currency::class, 'currency_id');
+	}
+	
+
+	/**
+	 * check account balance
+	 *
+	 * Check if the amount balance is greater than then amount to be withdrawn
+	 *
+	 * @param Type $amount -> amount to withdraw
+	 **/
+	public function checkAmount($amount)
+	{
+		$wallet  = Wallet::mine();
+		return $wallet->total_balance >  $amount;
+	}
 }
