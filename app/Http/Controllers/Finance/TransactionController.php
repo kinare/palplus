@@ -90,7 +90,7 @@ class TransactionController extends BaseController
                 $account->is_mpesa_lipa = '1';
                 $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip());
 				$mobile = new Mobile();
-				var_dump($mobile->transact($transaction));
+				// var_dump($mobile->transact($transaction));
                 return $mobile->transact($transaction);
 
             case 'PAYPAL' : // done
