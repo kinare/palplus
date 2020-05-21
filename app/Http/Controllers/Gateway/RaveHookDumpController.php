@@ -51,7 +51,7 @@ class RaveHookDumpController extends BaseController
             if(!$signature){
                 exit();
 			}
-			
+
 			$local_signature = env('RAVE_SECRET_HASH');
 			// confirm the event's signature
 			if( $signature !== $local_signature ){
@@ -66,8 +66,10 @@ class RaveHookDumpController extends BaseController
             $model->save();
 
             $response = json_decode($body);
+
+            dump($response);
+
             if (isset($response->status) ) {
-                // dump($response);
                 if ($response->status === 'successful')
 					GatewayTransactionController::processTransaction($response->txRef);
             }
