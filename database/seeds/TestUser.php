@@ -33,16 +33,6 @@ class TestUser extends Seeder
                 'phone_verified' => true,
                 'verification_code' => '',
                 'password' => \Illuminate\Support\Facades\Hash::make('1234'),
-            ],
-            [
-                'name' => 'Omambia Mogaka',
-                'email' => 'omambiadauglous@gmail.com',
-                'phone' => '+254743806016',
-                'currency_id' => '254',
-                'active' => true,
-                'phone_verified' => true,
-                'verification_code' => '',
-                'password' => \Illuminate\Support\Facades\Hash::make('123456'),
             ]
         ]);
 
