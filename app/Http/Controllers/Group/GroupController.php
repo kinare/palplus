@@ -107,18 +107,15 @@ class GroupController extends BaseController
     {
         try{
 			$type  = GroupType::find($request->type_id)->type;
-			// if(type == 'Fundraising'){
-			// 	echo "data";
-			// }
             $setup = GroupSetup::first();
             $wallet = Wallet::mine();
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
 			
-            // if (!$wallet->canWithdraw($amount)){
-            //     return response()->json([
-            //         'message' => 'Insufficient funds'
-            //     ], 200);
-            // }
+            if (!$wallet->canWithdraw($amount)){
+                return response()->json([
+                    'message' => 'Insufficient funds'
+                ], 200);
+            }
 
             $model = new $this->model();
 			$data = $request->all();
