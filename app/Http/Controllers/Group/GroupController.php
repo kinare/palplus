@@ -107,10 +107,9 @@ class GroupController extends BaseController
     {
         try{
 			$type  = GroupType::find($request->type_id)->type;
-            $setup = GroupSetup::first();
-            $wallet = Wallet::mine();
+			$setup = GroupSetup::first();
+			$wallet = Wallet::mine();
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
-			
             if (!$wallet->canWithdraw($amount)){
                 return response()->json([
                     'message' => 'Insufficient funds'
