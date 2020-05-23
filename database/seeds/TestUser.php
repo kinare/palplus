@@ -1,6 +1,8 @@
 <?php
 
 use App\User;
+use App\Wallet;
+
 use Illuminate\Database\Seeder;
 
 class TestUser extends Seeder
