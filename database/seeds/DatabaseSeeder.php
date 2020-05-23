@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call(SuperAdmin::class);
-        $this->call(TestUser::class);
+        // $this->call(TestUser::class);
          $this->call(ActivityTypesSeed::class);
          $this->call(GroupTypesSeed::class);
          $this->call(ApproverTypeSeeder::class);
