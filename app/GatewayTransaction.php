@@ -198,7 +198,7 @@ class GatewayTransaction extends BaseModel
         $transaction->payload = json_encode($data);
         $transaction->transaction = 'WITHDRAWAL';
         $transaction->created_by = Auth::user()->id;
-        $transaction->save();
+		$transaction->save();
         return $transaction;
     }
 

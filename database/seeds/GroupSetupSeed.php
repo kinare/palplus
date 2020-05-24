@@ -15,7 +15,7 @@ class GroupSetupSeed extends Seeder
         \App\GroupSetup::insert([
             'description' => 'Group Setup Fee',
             'currency' => 'USD',
-            'amount' => 5
+            'amount' => 2
         ]);
     }
 }

@@ -15,7 +15,7 @@ class TestUser extends Seeder
     public function run()
     {
         User::truncate();
-        User::insert([
+        $users = User::insert([
             [
                 'name' => 'Michael',
                 'email' => 'mykmau93@gmail.com',
@@ -36,7 +36,9 @@ class TestUser extends Seeder
                 'verification_code' => '',
                 'password' => \Illuminate\Support\Facades\Hash::make('1234'),
             ]
-        ]);
+		]);
+		
+		
 
 
     }
