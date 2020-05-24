@@ -247,7 +247,8 @@ class LoanController extends BaseController
 
         //if loan cleared
         if ($loan->balance_amount <= 0){
-            $loan->status = 'cleared';
+			$loan->status = 'cleared';
+			$loan->save();
             return response()->json([
                 'message' => 'Loan Cleared Successfully. Loan balance: '.$loan->balance_amount
             ], 200);
