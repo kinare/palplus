@@ -139,7 +139,8 @@ class TransactionController extends BaseController
                 return $transfer->send($transaction);
             case 'MOBILE MONEY' :
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
-                $transfer = new Transfer();
+				$transfer = new Transfer();
+				dump($transfer);
                 return $transfer->send($transaction);
             case 'PAYPAL' :
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
