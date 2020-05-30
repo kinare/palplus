@@ -119,7 +119,6 @@ class GroupController extends BaseController
             $model = new $this->model();
 			$data = $request->all();
 			$model->fill($data);
-			dd($request->user()->id);
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
 			
@@ -133,11 +132,14 @@ class GroupController extends BaseController
 
                 Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
 				$model->avatar = $attachment['filename'];
+				dd("If Statement");
 				dd($model);
             }else{
                 $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
                 Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
-                $model->avatar =  'avatar.png';
+				$model->avatar =  'avatar.png';
+				dd("Else");
+				dd($model);
             }
 			dd($model);
 			$model->save();
