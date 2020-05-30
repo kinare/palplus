@@ -110,7 +110,6 @@ class GroupController extends BaseController
 			$setup = GroupSetup::first();
 			$wallet = Wallet::mine();
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
-		   dd($amount);
 			if (!$wallet->canWithdraw($amount)){
                 return response()->json([
                     'message' => 'Insufficient funds'
@@ -122,6 +121,7 @@ class GroupController extends BaseController
             $model->fill($data);
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
+			dd($model);
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
