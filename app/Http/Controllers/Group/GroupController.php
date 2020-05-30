@@ -118,6 +118,7 @@ class GroupController extends BaseController
 
             $model = new $this->model();
 			$data = $request->all();
+			dd($data);
             $model->fill($data);
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
