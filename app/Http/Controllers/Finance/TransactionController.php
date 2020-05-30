@@ -17,6 +17,7 @@ use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
 use App\Lib\Rave\Transfer;
 use App\Transaction;
+use App\Converter;
 use App\Wallet;
 use Illuminate\Http\Request;
 
@@ -141,7 +142,7 @@ class TransactionController extends BaseController
 				$wallet  = Wallet::mine();
 				$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc())['data']['amount'];
 				dump("check Withdraw Amount" . $checkAmount);
-				
+
 				if(!$wallet->total_balance > $checkAmount){
 					return response()->json([
 						"message" => "You have insufficient amount. The amount should be more that ".$checkAmount
