@@ -122,26 +122,24 @@ class GroupController extends BaseController
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
 			
-            // if ($request->has('avatar') && $request->hasFile('avatar')){
-            //     $attachment = [];
-            //     $attachment['file'] = $request->file('avatar');
-            //     $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
+            if ($request->has('avatar') && $request->hasFile('avatar')){
+                $attachment = [];
+                $attachment['file'] = $request->file('avatar');
+                $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
 
-            //     if (Storage::disk('avatars')->exists("groups/" . $model->code . '/' . $attachment['filename']))
-            //         $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
+                if (Storage::disk('avatars')->exists("groups/" . $model->code . '/' . $attachment['filename']))
+                    $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
 
-            //     Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
-			// 	$model->avatar = $attachment['filename'];
-            // }else{
-            //     $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
-            //     Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
-			// 	$model->avatar =  'avatar.png';
-			// }
-			// $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
-			// dd($avatar);
-			// Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
+                Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
+				$model->avatar = $attachment['filename'];
+            }else{
+				dd("Else");
+				dd($model);
+                // $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
+                Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
+				$model->avatar =  'avatar.png';
+			}
 			$model->avatar =  'avatar.png';
-			dd($model);
 			$model->save();
 			
             //init group settings
