@@ -122,7 +122,7 @@ class GroupController extends BaseController
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
 			
-            if ($request->has('avatar') && $request->hasFile('avatar')){
+            if ($request->hasFile('avatar')){
                 $attachment = [];
                 $attachment['file'] = $request->file('avatar');
                 $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
@@ -133,9 +133,8 @@ class GroupController extends BaseController
                 Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
 				$model->avatar = $attachment['filename'];
             }else{
-				dd("Else");
-				dd($model);
-                // $avatar = Avatar::create($model->name)->getImageObject()->encode('png');
+				$avatar = Avatar::create($model->name)->getImageObject()->encode('png');
+				dd($avatar);
                 Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
 				$model->avatar =  'avatar.png';
 			}
