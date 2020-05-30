@@ -137,7 +137,16 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
-            case 'MOBILE MONEY' :
+			case 'MOBILE MONEY' :
+				$wallet  = Wallet::mine();
+				$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc())['data']['amount'];
+				dump("check Withdraw Amount" . $checkAmount);
+				
+				if(!$wallet->total_balance > $checkAmount){
+					return response()->json([
+						"message" => "You have insufficient amount. The amount should be more that ".$checkAmount
+					]);
+				}
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
 				dump($transfer);
@@ -252,7 +261,21 @@ class TransactionController extends BaseController
         return response()->json([
             'message' => 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee '.Wallet::mine()->currencyShortDesc().' '.$fee
         ], 200);
-    }
+	}
+
+
+	public function withdrawCheckAmount ($currency){
+		$setup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
+        $amount = Converter::Convert('USD', $currency, $setup->rate);
+        return [
+            'data' => [
+                'amount' => $amount['amount'],
+                'type' => $setup->type
+            ]
+        ];
+	}
+	
+	
 
 
 }

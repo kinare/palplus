@@ -228,9 +228,7 @@ Route::group(['middleware' => ['json.response']], function () {
                 Route::delete('/{id}/force', 'SuppliersController@forceDestroy');
             });
 
-			
             Route::group(['prefix' => 'withdrawal'], function () {
-
                 Route::group(['prefix' => 'settings'], function () {
                     Route::get('/', 'WithdrawalSettingController@index');
                     Route::post('/', 'WithdrawalSettingController@store');
