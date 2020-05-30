@@ -72,7 +72,7 @@ class ContactsController extends Controller
         }
 
         return response()->json([
-            'message' => 'No user found'
+            'message' => 'No contact was found'
         ], 404);
     }
 

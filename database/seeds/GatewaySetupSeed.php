@@ -13,7 +13,7 @@ class GatewaySetupSeed extends Seeder
     {
         \App\GatewaySetup::truncate();
         \App\GatewaySetup::insert([
-            ['type' => 'WITHDRAWAL', 'gateway' => 'RAVE', 'rate' =>  8.0,  'active' => 1],
+            ['type' => 'WITHDRAWAL', 'gateway' => 'RAVE', 'rate' =>  2.0,  'active' => 1],
             ['type' => 'DEPOSIT', 'gateway' => 'RAVE', 'rate' =>  0.0, 'active' => 1],
         ]);
     }
