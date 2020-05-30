@@ -121,9 +121,8 @@ class GroupController extends BaseController
 			$model->fill($data);
 			$model->created_by = $request->user()->id;
 			$model->code = Str::random(40).Carbon::now()->timestamp;
-			dd($model);
 			
-            if ($request->hasFile('avatar')){
+            if ($request->has('avatar') && $request->hasFile('avatar')){
                 $attachment = [];
                 $attachment['file'] = $request->file('avatar');
                 $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
