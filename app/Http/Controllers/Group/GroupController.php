@@ -133,8 +133,9 @@ class GroupController extends BaseController
                 Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
 				$model->avatar = $attachment['filename'];
             }else{
-				dd($model->name);
 				$avatar = Avatar::create($model->name)->getImageObject()->encode('png');
+				dd($avatar);
+
                 Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
 				$model->avatar =  'avatar.png';
 			}
