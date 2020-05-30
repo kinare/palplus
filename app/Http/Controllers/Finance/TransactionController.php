@@ -7,8 +7,9 @@ use App\AccountType;
 use App\GatewaySetup;
 use App\GatewayTransaction;
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Gateway\GatewayTransactionController;
 use App\Http\Resources\TransactionResource;
+use App\Http\Controllers\Currency\Converter;
+use App\Http\Controllers\Gateway\GatewayTransactionController;
 use App\Lib\Paypal\Checkout;
 use App\Lib\Paypal\Payout;
 use App\Lib\Paypal\Status;
@@ -17,7 +18,6 @@ use App\Lib\Rave\Card;
 use App\Lib\Rave\Mobile;
 use App\Lib\Rave\Transfer;
 use App\Transaction;
-use App\Converter;
 use App\Wallet;
 use Illuminate\Http\Request;
 
