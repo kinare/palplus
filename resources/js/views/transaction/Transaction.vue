@@ -60,7 +60,7 @@
               field="amount"
               sortable
               :searchable="true"
-            >{{ props.row.amount }}</b-table-column>
+            >{{props.row.to_currency}} {{ props.row.amount }}</b-table-column>
           </template>
 
           <section class="section" slot="empty">
