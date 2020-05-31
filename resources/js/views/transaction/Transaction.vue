@@ -49,6 +49,19 @@
               sortable
               :searchable="true"
             >{{props.row.to_currency}} {{ props.row.amount }}</b-table-column>
+            <b-table-column label="Status" field="status">
+              <template v-if="props.row.status === 'processing'">
+                <b-button type="is-info" style="text-transform: capitalize;">{{props.row.status}}</b-button>
+              </template>
+
+              <template v-if="props.row.status === 'pending'">
+                <b-button type="is-link" style="text-transform: capitalize;">{{props.row.status}}</b-button>
+              </template>
+
+              <template v-if="props.row.status === 'processed'">
+                <b-button type="is-success" style="text-transform: capitalize;">{{props.row.status}}</b-button>
+              </template>
+            </b-table-column>
           </template>
 
           <section class="section" slot="empty">
