@@ -26,17 +26,11 @@
               :searchable="true"
             >{{ props.row.user_name }}</b-table-column>
             <b-table-column
-              label="Transaction Type"
+              label="Type"
               field="type"
               sortable
               :searchable="true"
             >{{ props.row.type }}</b-table-column>
-            <b-table-column
-              label="Amount"
-              field="amount"
-              sortable
-              :searchable="true"
-            >{{ props.row.amount }}</b-table-column>
             <b-table-column
               label="From currency"
               field="from_currency"
@@ -50,7 +44,7 @@
               :searchable="true"
             >{{ props.row.to_currency }}</b-table-column>
             <b-table-column
-              label="conversion time"
+              label="Transaction Date"
               field="conversion_time"
               sortable
               :searchable="true"
@@ -61,6 +55,12 @@
               sortable
               :searchable="true"
             >{{ props.row.account_no }}</b-table-column>
+            <b-table-column
+              label="Amount"
+              field="amount"
+              sortable
+              :searchable="true"
+            >{{ props.row.amount }}</b-table-column>
           </template>
 
           <section class="section" slot="empty">
