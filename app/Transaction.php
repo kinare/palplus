@@ -25,7 +25,7 @@ class Transaction extends BaseModel
 
 
 
-	public function user(){
+	public function created_by(){
         return $this->belongsTo(\App\User::class, 'created_by');
 	}
 	/**
