@@ -136,6 +136,10 @@ class TransactionController extends BaseController
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
 				$wallet  = Wallet::mine();
+				// if(!$wallet->canWithdraw($request->amount))
+				// return response()->json([
+				// 	'message' => 'Insufficient fund. top up to continue'
+				// ], 401);
 				$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc())['data']['amount'];
 				dump("check Withdraw Amount" . $checkAmount);
 
