@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Wallet;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DahsboardTransactionsResource extends JsonResource
@@ -16,7 +17,8 @@ class DahsboardTransactionsResource extends JsonResource
     public function toArray($request)
     {
 
-        $data = parent::toArray($request);
+		$data = parent::toArray($request);
+		$data['created_by'] = new UserResource($this->created_by);
         $wallet = Wallet::find($data['wallet_id']);
         $data['owner'] = $wallet->type;
         $data['group'] = $wallet->group_id ;
