@@ -22,8 +22,8 @@ class DahsboardTransactionsResource extends JsonResource
         $wallet = Wallet::find($data['wallet_id']);
         $data['owner'] = $wallet->type;
         $data['group'] = $wallet->group_id ;
-        $data['user'] = User::find($wallet->user_id);
-        $data['user_id'] =  $wallet->user_id;
+        $data['user_name'] = User::find($wallet->user_id)->name;
+        $data['user'] =  $wallet->user_id;
         return $data;
     }
 }
