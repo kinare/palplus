@@ -39,10 +39,10 @@
             >{{ props.row.to_currency }}</b-table-column>
             <b-table-column
               label="User"
-              field="user"
+              field="user_name"
               sortable
               :searchable="true"
-            >{{ props.row.user.name }}</b-table-column>
+            >{{ props.row.user_name }}</b-table-column>
             <b-table-column
               label="conversion time"
               field="conversion_time"
