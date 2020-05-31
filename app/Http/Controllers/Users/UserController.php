@@ -477,7 +477,7 @@ class UserController extends BaseController
 			'amount' => 'required'
 		]);
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-		$account = Account::find('account_id');
+		$account = Account::find($request->account_id);
 		$transaction = new \App\Http\Controllers\Finance\Transaction();
 		$transaction->deposit($account, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
 		return response()->json([
