@@ -38,11 +38,11 @@
               :searchable="true"
             >{{ props.row.to_currency }}</b-table-column>
             <b-table-column
-              label="Conversion rate"
-              field="conversion_rate"
+              label="User"
+              field="user"
               sortable
               :searchable="true"
-            >{{ props.row.conversion_rate }}</b-table-column>
+            >{{ props.row.user.name }}</b-table-column>
             <b-table-column
               label="conversion time"
               field="conversion_time"
