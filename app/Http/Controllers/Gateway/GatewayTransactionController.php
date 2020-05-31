@@ -39,13 +39,13 @@ class GatewayTransactionController extends Controller
         try {
             $transaction = new Transaction();
             if ($gt->transaction === 'DEPOSIT')
-				$transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+				$transaction->deposit($account, $wallet, $amount, 'Depositing', 'Wallet deposit');
 				$wallet->total_balance = $wallet->total_balance + $amount;
 				$wallet->total_deposits = $wallet->total_deposits + $amount;
 				$wallet->save();
 
             if ($gt->transaction === 'WITHDRAWAL')
-				$transaction->withdraw($account, $wallet, $amount, 'Withdraw', 'Wallet withdrawal');
+				$transaction->withdraw($account, $wallet, $amount, 'Withdrawing', 'Wallet withdrawal');
 				$wallet->total_balance = $wallet->total_balance - $amount;
 				$wallet->total_deposits = $wallet->total_deposits - $amount;
 				$wallet->save();
