@@ -31,7 +31,7 @@
               sortable
               :searchable="true"
             >{{ props.row.type }}</b-table-column>
-            <b-table-column
+            <!-- <b-table-column
               label="From currency"
               field="from_currency"
               sortable
@@ -42,7 +42,7 @@
               field="to_currency"
               sortable
               :searchable="true"
-            >{{ props.row.to_currency }}</b-table-column>
+            >{{ props.row.to_currency }}</b-table-column>-->
             <b-table-column
               label="Transaction Date"
               field="conversion_time"
