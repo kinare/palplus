@@ -31,13 +31,13 @@
               sortable
               :searchable="true"
             >{{ props.row.type }}</b-table-column>
-            <!-- <b-table-column
-              label="From currency"
-              field="from_currency"
+            <b-table-column
+              label="Entry"
+              field="entry"
               sortable
               :searchable="true"
-            >{{ props.row.from_currency }}</b-table-column>
-            <b-table-column
+            >{{ props.row.entry }}</b-table-column>
+            <!-- <b-table-column
               label="To currency"
               field="to_currency"
               sortable
