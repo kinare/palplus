@@ -221,7 +221,7 @@ class DashboardController extends Controller
      * )
      */
     public function transactions(){
-        $transactions= new TransactionController(Transaction::class, TransactionResource::class);
+        $transactions= new TransactionController(Transaction::class, DahsboardTransactionsResource::class);
         return $transactions->index();
     }
 
