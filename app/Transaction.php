@@ -22,7 +22,12 @@ class Transaction extends BaseModel
         'conversion_rate',
         'conversion_time',
 	];
-	
+
+
+
+	public function user(){
+        return $this->belongsTo(\App\User::class, 'created_by');
+	}
 	/**
 	 * deposit
 	 *
