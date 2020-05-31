@@ -29,6 +29,7 @@ use App\Http\Controllers\PaypalWithdrawalRequestController;
 use App\Http\Controllers\Users\NextOfKinController;
 use App\Http\Controllers\Users\UserController;
 use App\Http\Resources\DahsboardTransactionsResource;
+use App\Http\Resources\TransactionResource;
 use App\Http\Resources\DashboardActivityResource;
 use App\Http\Resources\GroupActivityResource;
 use App\Http\Resources\GroupResource;
@@ -220,7 +221,7 @@ class DashboardController extends Controller
      * )
      */
     public function transactions(){
-        $transactions= new TransactionController(Transaction::class, DahsboardTransactionsResource::class);
+        $transactions= new TransactionController(Transaction::class, TransactionsResource::class);
         return $transactions->index();
     }
 
