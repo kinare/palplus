@@ -32,18 +32,6 @@
               :searchable="true"
             >{{ props.row.type }}</b-table-column>
             <b-table-column
-              label="Entry"
-              field="entry"
-              sortable
-              :searchable="true"
-            >{{ props.row.entry }}</b-table-column>
-            <!-- <b-table-column
-              label="To currency"
-              field="to_currency"
-              sortable
-              :searchable="true"
-            >{{ props.row.to_currency }}</b-table-column>-->
-            <b-table-column
               label="Transaction Date"
               field="conversion_time"
               sortable
