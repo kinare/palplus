@@ -111,11 +111,11 @@ class Card extends Rave
 
     public function confirm($data){
         $res = $this->verify($data['ref'], env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/verify');
-
-        /*
+		
+		/*
         todo update wallet
-        */
-
+		*/
+		
         return $res;
     }
 }

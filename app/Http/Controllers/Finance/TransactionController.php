@@ -65,9 +65,9 @@ class TransactionController extends BaseController
         $type = AccountType::find($account->account_type_id);
 
         switch ($type->type){
-            case 'CARD' : //
+            case 'CARD' : //done
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
-                $card = new Card();
+				$card = new Card();
                 return $card->transact($transaction, [
                     'cvv' => $request->cvv,
                     'expirymonth' => $request->expirymonth,
@@ -82,16 +82,12 @@ class TransactionController extends BaseController
                 return $bank->transact($transaction);
 
             case 'MOBILE MONEY' :// done
-                //todo implement for other mobile money options
-
-                //set relevant account field
                 $account->payment_type = 'mpesa';
                 $account->narration = 'Wallet deposit';
-                $account->is_mpesa = '1';
+				$account->is_mpesa = '1';
                 $account->is_mpesa_lipa = '1';
                 $transaction = GatewayTransaction::initMobile($account, $request->amount, $request->ip());
 				$mobile = new Mobile();
-				// var_dump($mobile->transact($transaction));
                 return $mobile->transact($transaction);
 
             case 'PAYPAL' : // done

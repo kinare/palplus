@@ -70,7 +70,7 @@ class ContactsController extends Controller
                 return new UserResource($user);
             }
         }
-
+		
         return response()->json([
             'message' => 'No contact was found'
         ], 404);

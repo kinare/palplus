@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Account;
 use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UserResource;
 
 class TransactionResource extends JsonResource
 {
@@ -34,7 +35,7 @@ class TransactionResource extends JsonResource
 			"to_currency" => $this->to_currency,
 			"conversion_rate" => $this->conversion_rate,
 			"conversion_time" => $this->conversion_time,
-			"created_by" => $this->created_by,
+			"created_by" => new UserResource($this->created_by),
 			"modified_by" => $this->modified_by,
 			"created_at" => $this->created_at->format('Y-m-d'),
 			"updated_at" => $this->updated_at->format('Y-m-d'),
