@@ -472,11 +472,14 @@ class UserController extends BaseController
      * @throws Exception
      */
     public function deposit(Request $request){
-
+		$request->validate([
+			'account_id' => 'required',
+			'amount' => 'required'
+		]);
         $wallet = Wallet::where('user_id', $request->user()->id)->first();
-		$account = Account::where('user_id', $request->user()->id)->first();
+		$account = Account::find('account_id');
 		$transaction = new \App\Http\Controllers\Finance\Transaction();
-		$transaction->deposit($account, $wallet, $amount, 'Deposit', 'Wallet deposit');
+		$transaction->deposit($account, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
 		return response()->json([
             'message' => 'Deposit successful'
         ], 200);
