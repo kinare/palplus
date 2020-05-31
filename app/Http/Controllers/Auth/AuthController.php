@@ -201,7 +201,8 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'message' => 'Account successfully activated. login to continue'
+			'message' => 'Account successfully activated.',
+			'user' => $user
         ], 200);
     }
 
