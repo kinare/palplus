@@ -481,7 +481,7 @@ class UserController extends BaseController
 		$transaction = new \App\Http\Controllers\Finance\Transaction();
 		$transaction->deposit($account, $wallet, $request->amount, 'Deposit', 'Wallet deposit');
 		return response()->json([
-            'message' => 'Deposit successful'
+            'message' => 'Deposit request made successful. Please wait for sometime.'
         ], 200);
 	}
 	
