@@ -143,7 +143,8 @@ class Transaction extends Accounting
                 'from_currency' => $account->currency,
                 'to_currency' => $wallet->currencyShortDesc(),
                 'conversion_rate' => serialize($converted->rate),
-                'conversion_time' => $converted->time,
+				'conversion_time' => $converted->time,
+				'status' => 'processed'
             ]);
 
         /* check the transaction status */
