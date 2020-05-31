@@ -35,12 +35,12 @@ class TransactionResource extends JsonResource
 			"to_currency" => $this->to_currency,
 			"conversion_rate" => $this->conversion_rate,
 			"conversion_time" => $this->conversion_time,
-			"created_by" => new UserResource($this->created_by),
+			"created_by" => $this->created_by,
 			"modified_by" => $this->modified_by,
 			"created_at" => $this->created_at->format('Y-m-d'),
 			"updated_at" => $this->updated_at->format('Y-m-d'),
 		];
-        $data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
+		$data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
 //        $data['from'] = $this->getUser($data);
 //        $data['to'] = $this->getUser($data, 'to');
         return $data;
