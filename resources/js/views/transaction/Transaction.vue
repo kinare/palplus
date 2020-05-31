@@ -114,9 +114,11 @@ export default {
           })
           .reverse();
       }
-      return this.$store.getters["Transaction/transactions"].filter(trans => {
-        return trans.entry === this.type;
-      });
+      return this.$store.getters["Transaction/transactions"]
+        .filter(trans => {
+          return trans.entry === this.type;
+        })
+        .reverse();
     }
   }
 };
