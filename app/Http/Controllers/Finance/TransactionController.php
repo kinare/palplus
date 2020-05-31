@@ -136,9 +136,11 @@ class TransactionController extends BaseController
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
 				$wallet  = Wallet::mine();
+				// if(!$wallet->canWithdraw($request->amount))
+				// return response()->json([
+				// 	'message' => 'Insufficient fund. top up to continue'
+				// ], 401);
 				$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc())['data']['amount'];
-				dump("check Withdraw Amount" . $checkAmount);
-
 				if(!$wallet->total_balance > $checkAmount){
 					return response()->json([
 						"message" => "You have insufficient amount. The amount should be more that ".$checkAmount
@@ -146,7 +148,6 @@ class TransactionController extends BaseController
 				}
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
-				dump($transfer);
                 return $transfer->send($transaction);
             case 'PAYPAL' :
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
