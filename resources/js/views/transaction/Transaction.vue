@@ -104,13 +104,15 @@ export default {
   computed: {
     transactions() {
       if (this.owner && this.owner_id) {
-        return this.$store.getters["Transaction/transactions"].filter(trans => {
-          return (
-            trans.entry === this.type &&
-            trans.owner === this.owner &&
-            trans[this.owner.toLowerCase()] === parseInt(this.owner_id)
-          );
-        });
+        return this.$store.getters["Transaction/transactions"]
+          .filter(trans => {
+            return (
+              trans.entry === this.type &&
+              trans.owner === this.owner &&
+              trans[this.owner.toLowerCase()] === parseInt(this.owner_id)
+            );
+          })
+          .reverse();
       }
       return this.$store.getters["Transaction/transactions"].filter(trans => {
         return trans.entry === this.type;
