@@ -135,9 +135,10 @@ class TransactionController extends BaseController
 			], 401);
 		}
 
-		$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
+		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
-		dd($wallet->total_balance);
+		dd($checkAmount);
+		dd((float)$wallet->total_balance);
 		
 		// find the withdraw fee rate setup ->rate %
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
