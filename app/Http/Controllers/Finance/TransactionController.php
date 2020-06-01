@@ -134,59 +134,87 @@ class TransactionController extends BaseController
 				'message' => 'Please withdraw with either Bank, mobile or Paypal account.'
 			], 401);
 		}
+		/**Withdraw check*/
+		
 
-		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
+
+
+
+
+
+
+		$ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
 		
 		// find the withdraw fee rate setup ->rate %
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
-		// Wallet balance 
 		$walletBalance  = (float)$wallet->total_balance;
-		// amount withdrawal
 		$amountWithdraw = (float)$request->amount;
-		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
-		$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
+		$minimumWithdrawalAmount  = (ceil($ceilingAmount/1000)*100)*2;
+		$defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
+		$transactionFees = "";
+		$transactionRateFees = (float)($amountWithdraw *($withdrawSetup->rate /100));
+		
 
+		if($transactionRateFees > $defaultTransactionFees ){
+			$transactionFees = $transactionRateFees;
+		}else{
+			$transactionFees = $defaultTransactionFees;
+		}
+		// Total Deduction = AmountWithdrawn  + transactionFees
+		$total_deduction_amount = $amountWithdraw + $transactionFees;
+		// Wallet balance 
+		// amount withdrawal
+		//$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
+
+		// conditions
+		// 1. Check that the wallet amount is greater than the  amount being withdrawn
 		if(!((float)$wallet->total_balance > $amountWithdraw)){
 			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($checkAmount  + $transactionFee) . ' Top up to continue. to be able to withdraw ' .$wallet->currencyShortDesc().' '. $checkAmount
-			], 401);
+				'message' => 'Insufficient fund. Please top up to continue'
+			], 400);
+		}	
+
+		//2. Ensure that Wallet Amount is more than the balance 
+		if(!((float)$wallet->total_balance > $total_deduction_amount)){
+			return response()->json([
+				'message' => 'Insufficient fund. Please top up to continue'
+			], 400);
 		}
 
-		if(!((float)$wallet->total_balance > $walletMoreThan2Dollors)){
+		// 3. Check that them minimum amount being withdrawn is more than $2 -> 200;
+		if(((float)$wallet->total_balance <= $minimumWithdrawalAmount)){
 			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($walletMoreThan2Dollors) . ' Top up to continue. to be able to withdraw ' .$wallet->currencyShortDesc().' '. $checkAmount
-			], 401);
+				'message' => 'You wallet balance should more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+			], 400);
 		}
 
 
-		if(!((float)$wallet->total_balance > $checkAmount)){
+		//4 Check what will be the balance after withdrawing the amount  show be 
+		// equal or greater than $minimumWithdrawalAmount
+
+		if(!((float)$wallet->total_balance - $total_deduction_amount >= $minimumWithdrawalAmount)){
 			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw  + $transactionFee) . ' Top up to continue.'
-			], 401);
+				'message' => 'You wallet balance  after withdrawing should  be equal to or more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+			], 400);
 		}
-		
-		if(!((float)$wallet->total_balance > ($amountWithdraw + $transactionFee))){
-			return response()->json([
-				'message' => '3. Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw  + $transactionFee) . ' Top up to continue.'
-			], 401);
-		}
+
 		// if all passess this steps  continue to withdraw  am deduct the user with transaction fee;
 		$appWallet  = Wallet::app();
         switch ($type->type){
 			case 'BANK ACCOUNT' :
 				//deduct fee from user wallet 
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
 				$wallet->save();
 
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
 				$wallet->save();
 
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
@@ -194,8 +222,8 @@ class TransactionController extends BaseController
 				return $transfer->send($transaction);
 
 			case 'PAYPAL' :
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
 				$wallet->save();
 
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
