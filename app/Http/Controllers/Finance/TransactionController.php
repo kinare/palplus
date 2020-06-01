@@ -137,16 +137,20 @@ class TransactionController extends BaseController
 
 		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
-		// dd($checkAmount);
-		dd((float)$wallet->total_balance);
+
+		if(!$wallet->total_balance > $checkAmount){
+			return response()->json([
+				'message' => 'Insufficient fund. top up to continue'
+			], 401);
+		}
 		
 		// find the withdraw fee rate setup ->rate %
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
 		// Wallet balance 
-		$walletBalance  = $wallet->total_balance;
+		$walletBalance  = (float)$wallet->total_balance;
 		// amount withdrawal
-		$amountWithdraw = $request->amount;
-		$transactionFee = ($amountWithdraw *($withdrawSetup->rate /100));
+		$amountWithdraw = (float)$request->amount;
+		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		// dd($transactionFee);
 		if(!$wallet->canWithdraw($request->amount)){
 			return response()->json([
@@ -154,11 +158,7 @@ class TransactionController extends BaseController
 			], 401);
 		}
 		
-		if(!$wallet->total_balance > $checkAmount){
-			return response()->json([
-				'message' => 'Insufficient fund. top up to continue'
-			], 401);
-		}
+		
 		if(!$wallet->total_balance > ($amountWithdraw + $transactionFee)){
 			return response()->json([
 				'message' => 'Insufficient fund. top up to continue'
@@ -170,15 +170,15 @@ class TransactionController extends BaseController
         switch ($type->type){
 			case 'BANK ACCOUNT' :
 				//deduct fee from user wallet 
-				$wallet->total_balance = $wallet->total_balance - $transactionFee;
-				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
-				$wallet->total_balance = $wallet->total_balance - $transactionFee;
-				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				dd($transaction);
@@ -186,8 +186,8 @@ class TransactionController extends BaseController
 				// return $transfer->send($transaction);
 				return '';
 			case 'PAYPAL' :
-				$wallet->total_balance = $wallet->total_balance - $transactionFee;
-				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
+				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payout();
