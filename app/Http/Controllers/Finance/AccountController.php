@@ -52,6 +52,8 @@ class AccountController extends BaseController
      *   @SWG\Parameter(name="billingzip",in="query",description="billingzip",required=false,type="string"),
      *   @SWG\Parameter(name="billingcity",in="query",description="billingcity",required=false,type="string"),
      *   @SWG\Parameter(name="billingaddress",in="query",description="billingaddress",required=false,type="string"),
+     *   @SWG\Parameter(name="expirymonth",in="query",description="expirymonth",required=false,type="string"),
+     *   @SWG\Parameter(name="expiryyear",in="query",description="expiryyear",required=false,type="string"),
      *   @SWG\Parameter(name="billingstate",in="query",description="billingstate",required=false,type="string"),
      *   @SWG\Parameter(name="billingcountry",in="query",description="billingcountry",required=false,type="string"),
      *   @SWG\Parameter(name="bvn",in="query",description="bvn",required=false,type="string"),
