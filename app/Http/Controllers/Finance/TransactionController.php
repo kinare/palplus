@@ -151,20 +151,14 @@ class TransactionController extends BaseController
 		// amount withdrawal
 		$amountWithdraw = (float)$request->amount;
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
-		// dd($transactionFee);
-		if(!$wallet->canWithdraw((float)$request->amount)){
-			return response()->json([
-				'message' => '2. Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
-			], 401);
-		}
 		
 		
-		if(!(float)$wallet->total_balance > ($amountWithdraw + $transactionFee)){
+		if(!$walletBalance > ($amountWithdraw + $transactionFee)){
 			return response()->json([
 				'message' => '3. Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 			], 401);
 		}
-
+		dd($walletBalance > ($amountWithdraw + $transactionFee));
 		// if all passess this steps  continue to withdraw  am deduct the user with transaction fee;
 		$appWallet  = Wallet::app();
         switch ($type->type){
