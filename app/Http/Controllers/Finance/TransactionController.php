@@ -150,13 +150,13 @@ class TransactionController extends BaseController
 		
 		if(!$walletBalance > ($amountWithdraw + $transactionFee)){
 			return response()->json([
-				'message' => '3. Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($checkAmount + $transactionFee) . ' Top up to continue.'
+				'message' => '3. Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw +$checkAmount + $transactionFee) . ' Top up to continue.'
 			], 401);
 		}
 
 		if(!((float)$wallet->total_balance > $checkAmount)){
 			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($checkAmount + $transactionFee) . ' Top up to continue.'
+				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw + $checkAmount + $transactionFee) . ' Top up to continue.'
 			], 401);
 		}
 		dd($walletBalance > ($amountWithdraw + $transactionFee));
