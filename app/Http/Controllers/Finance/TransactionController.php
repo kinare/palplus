@@ -146,10 +146,17 @@ class TransactionController extends BaseController
 		// amount withdrawal
 		$amountWithdraw = (float)$request->amount;
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
+		$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
 
 		if(!((float)$wallet->total_balance > $amountWithdraw)){
 			return response()->json([
 				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($checkAmount  + $transactionFee) . ' Top up to continue. to be able to withdraw ' .$wallet->currencyShortDesc().' '. $checkAmount
+			], 401);
+		}
+
+		if(!((float)$wallet->total_balance > $walletMoreThan2Dollors)){
+			return response()->json([
+				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($walletMoreThan2Dollors) . ' Top up to continue. to be able to withdraw ' .$wallet->currencyShortDesc().' '. $checkAmount
 			], 401);
 		}
 
@@ -185,7 +192,7 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
 				return $transfer->send($transaction);
-				
+
 			case 'PAYPAL' :
 				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
 				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
