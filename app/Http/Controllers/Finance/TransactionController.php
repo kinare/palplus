@@ -183,7 +183,6 @@ class TransactionController extends BaseController
 				$wallet->save();
 
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
-				dd($transaction);
 				$transfer = new Transfer();
 				return $transfer->send($transaction);
 				return '';
