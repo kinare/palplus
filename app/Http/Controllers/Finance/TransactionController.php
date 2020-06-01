@@ -150,14 +150,13 @@ class TransactionController extends BaseController
 		
 		if(!$walletBalance > ($amountWithdraw + $transactionFee)){
 			return response()->json([
-				'message' => '3. Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
+				'message' => '3. Insufficient fund. top up to continue.  You wallet balance should be more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 			], 401);
 		}
 
-
 		if(!((float)$wallet->total_balance > $checkAmount)){
 			return response()->json([
-				'message' => 'Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
+				'message' => 'Insufficient fund. top up to continue.  You wallet balance should be more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 			], 401);
 		}
 		dd($walletBalance > ($amountWithdraw + $transactionFee));
@@ -169,6 +168,7 @@ class TransactionController extends BaseController
 				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
 				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
+
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
@@ -176,15 +176,17 @@ class TransactionController extends BaseController
 				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
 				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
+
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				dd($transaction);
 				$transfer = new Transfer();
-				// return $transfer->send($transaction);
+				return $transfer->send($transaction);
 				return '';
 			case 'PAYPAL' :
 				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
 				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
 				$wallet->save();
+				
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payout();
                 return $pp->transact($transaction);
