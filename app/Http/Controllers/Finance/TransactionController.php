@@ -172,14 +172,14 @@ class TransactionController extends BaseController
 		// 1. Check that the wallet amount is greater than the  amount being withdrawn
 		if(!((float)$wallet->total_balance > $amountWithdraw)){
 			return response()->json([
-				'message' => 'Insufficient fund. Please top up to continue'
+				'message' => '1. Insufficient fund. Please top up to continue'
 			], 400);
 		}	
 
 		//2. Ensure that Wallet Amount is more than the balance 
 		if(!((float)$wallet->total_balance > $total_deduction_amount)){
 			return response()->json([
-				'message' => 'Insufficient fund. Please top up to continue'
+				'message' => '2. Insufficient fund. Please top up to continue'
 			], 400);
 		}
 
