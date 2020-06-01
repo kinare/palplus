@@ -153,7 +153,7 @@ class TransactionController extends BaseController
 		dd($amountWithdraw);
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		// dd($transactionFee);
-		if(!$wallet->canWithdraw($request->amount)){
+		if(!$wallet->canWithdraw((float)$request->amount)){
 			return response()->json([
 				'message' => 'Insufficient fund. top up to continue'
 			], 401);
