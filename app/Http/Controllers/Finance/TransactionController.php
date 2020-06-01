@@ -183,10 +183,9 @@ class TransactionController extends BaseController
 				$wallet->save();
 
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
-				dd($transaction);
 				$transfer = new Transfer();
 				return $transfer->send($transaction);
-				return '';
+				
 			case 'PAYPAL' :
 				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFee;
 				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFee;
