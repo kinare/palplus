@@ -138,11 +138,11 @@ class TransactionController extends BaseController
 		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
-		if(!((float)$wallet->total_balance > $checkAmount)){
-			return response()->json([
-				'message' => 'Insufficient fund. top up to continue'
-			], 401);
-		}
+		// if(!((float)$wallet->total_balance > $checkAmount)){
+		// 	return response()->json([
+		// 		'message' => 'Insufficient fund. top up to continue'
+		// 	], 401);
+		// }
 		
 		// find the withdraw fee rate setup ->rate %
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
@@ -153,7 +153,7 @@ class TransactionController extends BaseController
 		dd($amountWithdraw);
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		// dd($transactionFee);
-		if(!$wallet->canWithdraw($request->amount)){
+		if(!$wallet->canWithdraw((float)$request->amount)){
 			return response()->json([
 				'message' => 'Insufficient fund. top up to continue'
 			], 401);
