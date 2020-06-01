@@ -145,7 +145,7 @@ class TransactionController extends BaseController
 		$walletBalance  = $wallet->total_balance;
 		// amount withdrawal
 		$amountWithdraw = $request->amount;
-		$transactionFee = withdrawal($amountWithdraw *($withdrawSetup->rate /100));
+		$transactionFee = ($amountWithdraw *($withdrawSetup->rate /100));
 
 		if(!$wallet->canWithdraw($request->amount)){
 			return response()->json([
@@ -191,7 +191,7 @@ class TransactionController extends BaseController
                 return $pp->transact($transaction);
         }
 	}
-	
+
 
     public function payOut(Request $request){
 
