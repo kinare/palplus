@@ -140,7 +140,7 @@ class TransactionController extends BaseController
 
 		// if(!((float)$wallet->total_balance > $checkAmount)){
 		// 	return response()->json([
-		// 		'message' => 'Insufficient fund. top up to continue'
+		// 		'message' => 'Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 		// 	], 401);
 		// }
 		
@@ -150,19 +150,18 @@ class TransactionController extends BaseController
 		$walletBalance  = (float)$wallet->total_balance;
 		// amount withdrawal
 		$amountWithdraw = (float)$request->amount;
-		dd($amountWithdraw);
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		// dd($transactionFee);
 		if(!$wallet->canWithdraw((float)$request->amount)){
 			return response()->json([
-				'message' => 'Insufficient fund. top up to continue'
+				'message' => '2. Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 			], 401);
 		}
 		
 		
 		if(!(float)$wallet->total_balance > ($amountWithdraw + $transactionFee)){
 			return response()->json([
-				'message' => 'Insufficient fund. top up to continue'
+				'message' => '3. Insufficient fund. top up to continue.  You wallet show have more '.$wallet->currencyShortDesc() .' ' .$checkAmount
 			], 401);
 		}
 
