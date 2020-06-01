@@ -119,42 +119,79 @@ class TransactionController extends BaseController
             'account_id' => 'required',
         ]);
 
-        //get payment account
+        //get payment account and wallet
         $account = Account::find($request->account_id);
+		$wallet  = Wallet::mine();
 
         //if account not set
         if (!$account) return response()->json([
             'message' => 'Please add your account in account settings to proceed'
         ], 500);
 
-        $type = AccountType::find($account->account_type_id);
+		$type = AccountType::find($account->account_type_id);
+		if($type->type == 'CARD'){
+			return response()->json([
+				'message' => 'Please withdraw with either Bank, mobile or Paypal account.'
+			], 401);
+		}
 
+		$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
+		//check if the user has money if his wallet
+		
+		
+		// find the withdraw fee rate setup ->rate %
+		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
+		// Wallet balance 
+		$walletBalance  = $wallet->total_balance;
+		// amount withdrawal
+		$amountWithdraw = $request->amount;
+		$transactionFee = withdrawal($amountWithdraw *($withdrawSetup->rate /100));
+
+		if(!$wallet->canWithdraw($request->amount)){
+			return response()->json([
+				'message' => 'Insufficient fund. top up to continue'
+			], 401);
+		}
+		
+		if(!$wallet->total_balance > $checkAmount){
+			return response()->json([
+				'message' => 'Insufficient fund. top up to continue'
+			], 401);
+		}
+		if(!$wallet->total_balance > ($amountWithdraw + $transactionFee)){
+			return response()->json([
+				'message' => 'Insufficient fund. top up to continue'
+			], 401);
+		}
+
+		// if all passess this steps  continue to withdraw  am deduct the user with transaction fee;
+		$appWallet  = Wallet::app();
         switch ($type->type){
-            case 'BANK ACCOUNT' :
+			case 'BANK ACCOUNT' :
+				//deduct fee from user wallet 
+				$wallet->total_balance = $wallet->total_balance - $transactionFee;
+				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->save();
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
-				$wallet  = Wallet::mine();
-				// if(!$wallet->canWithdraw($request->amount))
-				// return response()->json([
-				// 	'message' => 'Insufficient fund. top up to continue'
-				// ], 401);
-				$checkAmount  = $this->withdrawCheckAmount($wallet->currencyShortDesc())['data']['amount'];
-				if(!$wallet->total_balance > $checkAmount){
-					return response()->json([
-						"message" => "You have insufficient amount. The amount should be more that ".$checkAmount
-					]);
-				}
+				$wallet->total_balance = $wallet->total_balance - $transactionFee;
+				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->save();
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
                 return $transfer->send($transaction);
-            case 'PAYPAL' :
+			case 'PAYPAL' :
+				$wallet->total_balance = $wallet->total_balance - $transactionFee;
+				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
+				$wallet->save();
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payout();
                 return $pp->transact($transaction);
         }
-    }
+	}
+	
 
     public function payOut(Request $request){
 
@@ -261,19 +298,14 @@ class TransactionController extends BaseController
         ], 200);
 	}
 
-
-	public function withdrawCheckAmount ($currency){
-		$setup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
-        $amount = Converter::Convert('USD', $currency, $setup->rate);
+	public function withdrawCheckAmount ($currency, $amount){
+        $amount = Converter::Convert('USD', $currency, $amount);
         return [
             'data' => [
                 'amount' => $amount['amount'],
-                'type' => $setup->type
+                'type' => "Convert amount"
             ]
         ];
 	}
 	
-	
-
-
 }
