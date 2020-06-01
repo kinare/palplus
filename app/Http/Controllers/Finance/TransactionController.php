@@ -137,7 +137,7 @@ class TransactionController extends BaseController
 
 		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
-		dd($checkAmount);
+		// dd($checkAmount);
 		dd((float)$wallet->total_balance);
 		
 		// find the withdraw fee rate setup ->rate %
