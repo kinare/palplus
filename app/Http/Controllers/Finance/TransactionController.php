@@ -138,7 +138,7 @@ class TransactionController extends BaseController
 		$checkAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
-		if(!(float)$wallet->total_balance > $checkAmount){
+		if(!((float)$wallet->total_balance > $checkAmount)){
 			return response()->json([
 				'message' => 'Insufficient fund. top up to continue'
 			], 401);
