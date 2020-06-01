@@ -157,12 +157,6 @@ class TransactionController extends BaseController
 				'message' => '3. Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw  + $transactionFee) . ' Top up to continue.'
 			], 401);
 		}
-
-		if(!((float)$wallet->total_balance > $checkAmount)){
-			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .($amountWithdraw  + $transactionFee) . ' Top up to continue.'
-			], 401);
-		}
 		dd($walletBalance > ($amountWithdraw + $transactionFee));
 		// if all passess this steps  continue to withdraw  am deduct the user with transaction fee;
 		$appWallet  = Wallet::app();
