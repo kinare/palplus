@@ -146,7 +146,7 @@ class TransactionController extends BaseController
 		// amount withdrawal
 		$amountWithdraw = $request->amount;
 		$transactionFee = ($amountWithdraw *($withdrawSetup->rate /100));
-
+		dd($transactionFee);
 		if(!$wallet->canWithdraw($request->amount)){
 			return response()->json([
 				'message' => 'Insufficient fund. top up to continue'
@@ -180,8 +180,10 @@ class TransactionController extends BaseController
 				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
 				$wallet->save();
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
+				dd($transaction);
 				$transfer = new Transfer();
-                return $transfer->send($transaction);
+				// return $transfer->send($transaction);
+				return '';
 			case 'PAYPAL' :
 				$wallet->total_balance = $wallet->total_balance - $transactionFee;
 				$wallet->total_balance = $wallet->total_withdrawals + $transactionFee;
