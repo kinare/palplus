@@ -148,7 +148,7 @@ class TransactionController extends BaseController
 		$transactionFee = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		if(!(float)$wallet->total_balance > $checkAmount){
 			return response()->json([
-				'message' => 'Insufficient fund. You wallet balance should be more than '.$wallet->currencyShortDesc() .' ' .( $checkAmount + $amountWithdraw  + $transactionFee) . ' Top up to continue.'
+				'message' => 'Insufficient funds'
 			], 401);
 		}
 
