@@ -80,7 +80,10 @@ class Card extends Rave
 
             }
         }catch (\Exception $exception){
-            dump($exception);
+			dump($exception);
+			return [
+				'message'=> "An error occurred " .$exception
+			];
         }
     }
 
@@ -105,8 +108,13 @@ class Card extends Rave
 
         if ($res['status'] === 'success')
             return $this->success($res['message']);
-
-        return $res;
+		$reponse  = $response = json_decode($res);
+		
+		var_dump($response);
+		if($reponse->status == 'successful'){
+			return "Your transaction was Successfully";
+		}
+        return "Your transaction failed. Contact ". env('APP_NAME');
     }
 
     public function confirm($data){
