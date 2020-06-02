@@ -69,9 +69,9 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
 				$card = new Card();
                 return $card->transact($transaction, [
-                    'cvv' => $request->cvv,
-                    'expirymonth' => $request->expirymonth,
-                    'expiryyear' => $request->expiryyear,
+                    'cvv' => $account->cvv,
+                    'expirymonth' => $account->expirymonth,
+                    'expiryyear' => $account->expiryyear,
                 ]);
 
             case 'BANK ACCOUNT' : //done
@@ -135,14 +135,6 @@ class TransactionController extends BaseController
 			], 401);
 		}
 		/**Withdraw check*/
-		
-
-
-
-
-
-
-
 		$ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
