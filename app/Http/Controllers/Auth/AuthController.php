@@ -310,7 +310,7 @@ class AuthController extends Controller
 		$tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
 		$response = app()->handle($tokenRequest);
 		$response = json_decode($response->getContent(), true);
-		// $response['user'] = $user;
+		$response['user'] = $user;
 		$response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
 		$response = collect($response);
 		return $response;
