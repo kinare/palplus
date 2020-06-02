@@ -28,10 +28,10 @@ class GatewayTransactionController extends Controller
             exit(0);
 
 		$account = Account::find($gt->type);
-		dump($account);
+		// dump($account);
 		
         $wallet = Wallet::whereUserId($gt->user_id)->first();
-		dump($wallet);
+		// dump($wallet);
 
         $data = json_decode($gt->payload);
         $amount = self::addTransactionFee('RAVE', $gt->transaction , $data->amount);
@@ -51,7 +51,9 @@ class GatewayTransactionController extends Controller
 				$wallet->save();
 
         }catch (\Exception $e){
-            return $e;
+            return [
+				'message' => "An Error Occurred"
+			];
         }
 
         if ($transaction){
