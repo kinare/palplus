@@ -44,11 +44,13 @@ class GatewayTransactionController extends Controller
 				$wallet->total_deposits = $wallet->total_deposits + $amount;
 				$wallet->save();
 
+
             if ($gt->transaction === 'WITHDRAWAL')
 				$transaction->withdraw($account, $wallet, $amount, 'Withdrawing', 'Wallet withdrawal');
 				$wallet->total_balance = $wallet->total_balance - $amount;
 				$wallet->total_deposits = $wallet->total_deposits - $amount;
 				$wallet->save();
+				
 
         }catch (\Exception $e){
             return [
@@ -58,7 +60,10 @@ class GatewayTransactionController extends Controller
 
         if ($transaction){
             $gt->status = 'done';
-            $gt->save();
+			$gt->save();
+			return [
+				'message' => "Your transaction was successful."
+			];
         }
     }
 
