@@ -109,8 +109,7 @@ class Card extends Rave
         if ($res['status'] === 'success')
             return $this->success($res['message']);
 		$reponse  = $response = json_decode($res);
-		
-		var_dump($response);
+
 		if($reponse->status == 'successful'){
 			return "Your transaction was Successfully";
 		}
