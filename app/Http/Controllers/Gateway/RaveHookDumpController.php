@@ -67,7 +67,7 @@ class RaveHookDumpController extends BaseController
 
             $response = json_decode($body);
 
-            dump($response);
+            // dump($response);
 
             if (isset($response->status) ) {
                 if ($response->status === 'successful')
