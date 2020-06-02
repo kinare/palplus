@@ -283,7 +283,7 @@ class TransactionController extends BaseController
         ]);
 
         $card = new Card();
-        return $card->otp($request->all());
+		return $card->otp($request->all());
     }
 
     public function paypalToken(Request $request){
