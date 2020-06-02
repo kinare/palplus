@@ -46,7 +46,8 @@ class Transaction extends Accounting
                 'from_currency' => $from->currencyShortDesc(),
                 'to_currency' => $to->currencyShortDesc(),
                 'conversion_rate' => serialize($converted->rate),
-                'conversion_time' => $converted->time,
+				'conversion_time' => $converted->time,
+				'status' => 'processed'
             ]);
             $this->state++;
         }
@@ -71,7 +72,8 @@ class Transaction extends Accounting
                 'from_currency' => $from->currencyShortDesc(),
                 'to_currency' => $to->currencyShortDesc(),
                 'conversion_rate' => serialize($converted->rate),
-                'conversion_time' => $converted->time,
+				'conversion_time' => $converted->time,
+				'status' => 'processed'
             ]);
             $this->state++;
         }
@@ -108,7 +110,8 @@ class Transaction extends Accounting
                 'from_currency' => $account->currency,
                 'to_currency' => $wallet->currencyShortDesc(),
                 'conversion_rate' => serialize($converted->rate),
-                'conversion_time' => $converted->time,
+				'conversion_time' => $converted->time,
+				'status' => 'processed'
             ]);
 
         /* check the transaction status */
@@ -119,7 +122,6 @@ class Transaction extends Accounting
     }
 
     public function deposit(Account $account ,Wallet $wallet, $amount, $type = null, $description = null){
-
         /* Convert currency between wallets */
         $converted = (object)Converter::Convert($account->currency , $wallet->currencyShortDesc(), $amount);
         $this->state++;
@@ -155,7 +157,7 @@ class Transaction extends Accounting
     }
 
     public function payout(Wallet $wallet, Account $account, $amount, $type = null, $description = null){
-        /* TODO implement payout */
+        /* TODO: implement payout */
     }
 
     protected function record($details){

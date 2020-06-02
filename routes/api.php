@@ -11,7 +11,8 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
-    });
+	});
+	
 
     Route::group(['prefix' => 'auth'], function () {
         Route::namespace('Auth')->group(function (){
@@ -30,7 +31,8 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['middleware' => 'auth:api'], function () {
                 Route::post('refresh', 'AuthController@refresh');
                 Route::get('logout', 'AuthController@logout');
-                Route::get('user', 'AuthController@user');
+				Route::post('confirm', 'AuthController@confirm_authenticate_user');
+				Route::get('user', 'AuthController@user');
             });
         });
     });

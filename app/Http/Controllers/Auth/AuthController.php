@@ -261,6 +261,61 @@ class AuthController extends Controller
 
         return $code;
 
-    }
+	}
+	
+
+	/**
+	 * Authenticate currently logged in user
+	 * to ensure that the correct user is using the application
+	 * and avoid fruads
+	 */
+
+	 public function confirm_authenticate_user(Request $request){
+		 $validate  = $request->validate([
+			 'password' => "required"
+		 ]);
+
+		 if(!$validate){
+			return [
+				'message' => "Your password is required"
+			];
+		 }
+
+		 // then authenticate the user 
+
+		 $user = User::where('phone', $request->user()->phone)->first();
+        if (!$user || !Hash::check($request->password, $user->password)){
+            return response()->json([
+                'message' => 'Login failed. Check your phone or password'
+            ] , 401);
+
+		}
+
+        if (!$user->activated()){
+            return response()->json([
+                'message' => 'Please activate your account first'
+            ], 401);
+
+		}
+
+		$form_params = [
+            'grant_type' => 'password',
+            'client_id' => env('PASSPORT_CLIENT_ID'),
+            'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+            'username' => $request->user()->phone,
+            'password' => $request->password,
+            'provider' => 'users',
+            'scope' => '',
+        ];
+		$tokenRequest = Request::create(url('/').'/oauth/token', 'POST', $form_params, [], [], ['HTTP_Accept' => 'application/json'] );
+		$response = app()->handle($tokenRequest);
+		$response = json_decode($response->getContent(), true);
+		// $response['user'] = $user;
+		$response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
+		$response = collect($response);
+		return $response;
+
+
+	 }
 
 }
