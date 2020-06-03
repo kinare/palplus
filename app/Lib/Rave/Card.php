@@ -53,10 +53,9 @@ class Card extends Rave
                     }
 					
 				}
-				//return $res
-				return [
-					'message'=> "Successfully processed your transaction"
-				];
+				
+				return $res;
+				
             }
 
             /* check for ressponse errors */
@@ -70,13 +69,12 @@ class Card extends Rave
             /*  check response for validation */
             if ($res['data']['chargeResponseCode'] === '00'){
                 /* 00 transaction successful */
-				 $this->success($res['data']['chargeResponseMessage']);
+			 $this->success($res['data']['chargeResponseMessage']);
 				return [
 					'message'=> "Successfully processed your transaction"
 				];
 
             }elseif($res['data']['chargeResponseCode'] === '02'){
-
                 /* 02 transaction needs validation */
                 if ($res['data']['authModelUsed'] === 'PIN')
                     /* 00 transaction successful */
@@ -109,7 +107,9 @@ class Card extends Rave
             Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
             return $this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
         }
-        return $res;
+        return [
+			'message'=> "Successfully processed transaction."
+		];
     }
 
     public function otp($data){
@@ -117,7 +117,10 @@ class Card extends Rave
         $res = $this->validate($data,env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/validatecharge');
 
         if ($res['status'] === 'success')
-            return $this->success($res['message']);
+			return $this->success($res['message']);
+		return [
+			'message'=> "Successfully processed transaction."
+		];
     }
 
     public function confirm($data){
@@ -126,7 +129,8 @@ class Card extends Rave
 		/*
         todo update wallet
 		*/
-		
-        return $res;
+        return [
+			'message'=> "Successfully processed transaction."
+		];
     }
 }
