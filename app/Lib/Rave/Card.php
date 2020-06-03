@@ -51,28 +51,29 @@ class Card extends Rave
                                 'ref' => $data['txRef']
                             ]);
                     }
-					// return $res;
-					if($res['status'] === 'successful'){
-						return [
-							'message'=> "Successfully processed your transaction"
-						];
-					}else{
-						return [
-							'message'=> "An error occurred when processing your transaction"
-						];
-					}
-                }
+					
+				}
+				//return $res
+				return [
+					'message'=> "Successfully processed your transaction"
+				];
             }
 
             /* check for ressponse errors */
             if (isset($res['status']) && $res['status'] === 'error'){
-                return $res;
+				// return $res;
+				return [
+					'message'=> "An error occurred when processing your transaction"
+				];
             }
 
             /*  check response for validation */
             if ($res['data']['chargeResponseCode'] === '00'){
                 /* 00 transaction successful */
-                return $this->success($res['data']['chargeResponseMessage']);
+				 $this->success($res['data']['chargeResponseMessage']);
+				return [
+					'message'=> "Successfully processed your transaction"
+				];
 
             }elseif($res['data']['chargeResponseCode'] === '02'){
 
