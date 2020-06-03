@@ -58,18 +58,32 @@ class Rave
             'PBFPubKey' => Config::getConfig('RAVE_PUBLIC_KEY'),
             'transaction_reference' => $data['flwRef'],
             'otp' => $data['otp']
-        ];
-
-        return $res = $this->execute($details, $url);
+		];
+		
+		$response = $this->execute($details, $url);
+		$res;
+		if($response['status'] === 'successful'){
+			$res = ['message' => 'Successfully processed your transaction'];
+		}else {
+			$res = ['message' => 'An error occurred during processing your transaction. Contact card owner'];
+		}
+        return $res;
     }
 
     public function verify($data, $url){
         $details = [
             'txref' => $data['txref'],
             'SECKEY' => Config::getConfig('RAVE_SECRET_KEY'),
-        ];
-
-        return $res = $this->execute($details, $url);
+		];
+		
+		$response = $this->execute($details, $url);
+		$res;
+		if($response['status'] === 'successful'){
+			$res = ['message' => 'Successfully processed your transaction'];
+		}else {
+			$res = ['message' => 'An error occurred during processing your transaction. Contact card owner'];
+		}
+        return $res;
     }
 
 }

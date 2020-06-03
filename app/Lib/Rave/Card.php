@@ -99,11 +99,7 @@ class Card extends Rave
             Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
             return $this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
 		}
-		if ($res['status'] === 'successful')
-			return $this->success($res['message']);
-
-		return "An Error Occcurred";
-        // return $res;
+        return $res;
     }
 
     public function otp($data){
@@ -112,9 +108,7 @@ class Card extends Rave
 
         if ($res['status'] === 'success')
 			return $this->success($res['message']);
-		if ($res['status'] === 'successful')
-			return $this->success($res['message']);
-		return "An Error Occcurred";
+		return $res;
     }
 
     public function confirm($data){
@@ -125,8 +119,6 @@ class Card extends Rave
 		*/
 		if ($res['status'] === 'successful')
 			return $this->success($res['message']);
-
-		return "An Error Occcurred";
-        // return $res;
+        return $res;
     }
 }
