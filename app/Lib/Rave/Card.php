@@ -112,6 +112,8 @@ class Card extends Rave
 		];
     }
 
+
+	
     public function otp($data){
         $data['flwRef'] = Cache::get($data['ref'])['data']['flwRef'];
         $res = $this->validate($data,env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/validatecharge');
