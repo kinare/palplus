@@ -50,8 +50,18 @@ class Card extends Rave
                                 'message' => 'add billing address',
                                 'ref' => $data['txRef']
                             ]);
-                    }
-                    return $res;
+					}
+					
+					if($res['status'] === 'successful'){
+						return [
+							'message'=> "Successfully processed your transaction"
+						];
+					}else{
+						return [
+							'message'=> "An error occurred when processing your transaction"
+						];
+					}
+                    // return $res;
                 }
             }
 
