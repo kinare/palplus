@@ -98,21 +98,17 @@ class Card extends Rave
         if ($res['status'] === 'success'){
             Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
 			$this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
-			
-			if($res['status'] === 'successful'){
-				return [
-					'message'=> "Successfully processed your transaction"
-				];
-			}else{
-				return [
-					'message'=> "An error occurred when processing your transaction"
-				];
-			}
+		}
+		if($res['status'] === 'successful'){
+			return [
+				'message'=> "Successfully processed your transaction"
+			];
+		}else{
+			return [
+				'message'=> "An error occurred when processing your transaction"
+			];
 		}
 		// return $res;
-		return [
-			'message'=> "An error occurred when processing your transaction"
-		];
     }
 
     public function otp($data){
