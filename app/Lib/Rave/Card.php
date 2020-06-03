@@ -51,7 +51,16 @@ class Card extends Rave
                                 'ref' => $data['txRef']
                             ]);
                     }
-                    return $res;
+					// return $res;
+					if($res['status'] === 'successful'){
+						return [
+							'message'=> "Successfully processed your transaction"
+						];
+					}else{
+						return [
+							'message'=> "An error occurred when processing your transaction"
+						];
+					}
                 }
             }
 
@@ -76,7 +85,7 @@ class Card extends Rave
                     return $this->link($res['data']['authurl']);
 
                 if ($res['data']['authModelUsed'] === 'ACCESS_OTP')
-					return $this->oneTimePassword($res['data']['chargeResponseMessage'], $data['txRef']);
+                    return $this->oneTimePassword($res['data']['chargeResponseMessage'], $data['txRef']);
 
             }
         }catch (\Exception $exception){
@@ -97,18 +106,9 @@ class Card extends Rave
         $res = $this->initiate($details, env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/charge');
         if ($res['status'] === 'success'){
             Cache::put($data['ref'], $res , Carbon::now()->addHours(12));
-			$this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
-		}
-		if($res['status'] === 'successful'){
-			return [
-				'message'=> "Successfully processed your transaction"
-			];
-		}else{
-			return [
-				'message'=> "An error occurred when processing your transaction"
-			];
-		}
-		// return $res;
+            return $this->oneTimePassword($res['data']['chargeResponseMessage'], $res['data']['txRef'] );
+        }
+        return $res;
     }
 
     public function otp($data){
@@ -116,18 +116,7 @@ class Card extends Rave
         $res = $this->validate($data,env('RAVE_ENDPOINT').'/flwv3-pug/getpaidx/api/validatecharge');
 
         if ($res['status'] === 'success')
-			return $this->success($res['message']);
-			
-		if($res['status'] === 'successful'){
-			return [
-				'message'=> "Successfully processed your transaction"
-			];
-		}else{
-		return [
-			'message'=> "An error occurred when processing your transaction"
-		];
-		}
-		// return $res;
+            return $this->success($res['message']);
     }
 
     public function confirm($data){
@@ -136,17 +125,7 @@ class Card extends Rave
 		/*
         todo update wallet
 		*/
-
-		if($res['status'] === 'successful'){
-			return [
-				'message'=> "Successfully processed your transaction"
-			];
-		}else{
-		return [
-			'message'=> "An error occurred when processing your transaction"
-		];
-		}
 		
-        // return $res;
+        return $res;
     }
 }
