@@ -5,7 +5,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/response', function (Request $request) {
+Route::post('/response', function (Request $request) {
 	$body = @file_get_contents("php://input");
 	http_response_code(200);
 	$response = json_decode($body);
