@@ -77,7 +77,6 @@ class Card extends Rave
 
                 if ($res['data']['authModelUsed'] === 'ACCESS_OTP')
                     return $this->oneTimePassword($res['data']['chargeResponseMessage'], $data['txRef']);
-
             }
         }catch (\Exception $exception){
 			dump($exception);
@@ -117,8 +116,6 @@ class Card extends Rave
 		/*
         todo update wallet
 		*/
-		if ($res['status'] === 'successful')
-			return $this->success($res['message']);
         return $res;
     }
 }
