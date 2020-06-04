@@ -59,7 +59,6 @@
             <div class="content">
                 @if($status === 'successful')
 				<p><span style="text-transform: capitalize;">{{$status}}</span> processed your transaction</p>
-				@endif
 				@else
 				<p>An error occurred during processing your tranctions. Please contact your Card Owenr</p>
 				@endif
