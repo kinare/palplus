@@ -6,11 +6,18 @@ Route::get('/', function () {
 });
 
 Route::get('/response', function (Request $request) {
-	$body = $request->route()->parameter('response');
-	// dd($body);
+	$body = $request->get('response');
 	$response = json_decode($body);
+	// dd($response->status);
+	$status  = "";
 
-	return view('response', ['status' => $response->status]);
+	if($response->status === 'successful'){
+		$status = $response->status;
+	}else{
+		$status = $response->status;
+	}
+	// dd($status);
+	return view('response')->with('status', $response->status);
 });
 
 Auth::routes();
