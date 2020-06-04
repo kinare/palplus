@@ -31,7 +31,7 @@ class GatewayTransaction extends BaseModel
             'billingzip' => $account->billingzip,
             'billingcity' => $account->billingcity,
 			'billingaddress' => $account->billingaddress,
-			'redirect_url' => 'http://165.227.103.196/api/gateway/rave/hook',
+			'redirect_url' => 'http://165.227.103.196/response',
             'billingstate' => $account->billingstate,
             'billingcountry' => $account->billingcountry,
             'IP' => $ip ?: '',
