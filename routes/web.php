@@ -6,8 +6,8 @@ Route::get('/', function () {
 });
 
 Route::post('/response', function (Request $request) {
-	$body = @file_get_contents("php://input");
-	http_response_code(200);
+	$body = $request->route()->parameter('response');
+	dd($body);
 	$response = json_decode($body);
 
 	return view('response', ['status' => $response->status]);
