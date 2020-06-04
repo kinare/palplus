@@ -143,7 +143,8 @@ class TransactionController extends BaseController
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
 		$walletBalance  = (float)$wallet->total_balance;
 		$amountWithdraw = (float)$request->amount;
-		$minimumWithdrawalAmount  = (ceil($ceilingAmount/1000)*100)*2;
+		$minimumWithdrawalAmount  = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->min_amount)['data']['amount'];
+		$maximumWithdrawalAmount  = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'];
 		$defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
 		$transactionFees = "";
 		$transactionRateFees = (float)($amountWithdraw *($withdrawSetup->rate /100));
@@ -161,10 +162,16 @@ class TransactionController extends BaseController
 		//$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
 
 		// conditions
-		// 1. Check that the wallet amount is greater than the  amount being withdrawn
+		// 0. Check that the wallet amount is greater than the  amount being withdrawn
 		if(!((float)$wallet->total_balance > $amountWithdraw)){
 			return response()->json([
 				'message' => 'Insufficient fund. Top up to continue'
+			], 400);
+		}
+		// 1. Check that the wallet amount is greater than the  amount being withdrawn
+		if(((float)$amountWithdraw < $minimumWithdrawalAmount)){
+			return response()->json([
+				'message' => 'Insufficient fund. Your balance should be more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
 			], 400);
 		}	
 
