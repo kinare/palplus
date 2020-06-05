@@ -164,7 +164,7 @@ class TransactionController extends BaseController
 		// conditions
 		if($minimumWithdrawalAmount > $amountWithdraw){
 			return response()->json([
-				'message' => 'Insufficient funds, Your balance is below the minimum withdrable amount of '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+				'message' => 'Failed, Your balance is below the minimum withdrable amount of '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
 			], 400);
 		}
 		// 0. Check that the wallet amount is greater than the  amount being withdrawn
