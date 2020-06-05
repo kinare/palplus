@@ -3,7 +3,6 @@
 
 namespace App\Lib\Rave;
 
-
 use App\Lib\Http\HttpClient;
 
 class Rave
