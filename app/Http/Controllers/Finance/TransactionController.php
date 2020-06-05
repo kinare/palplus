@@ -138,13 +138,13 @@ class TransactionController extends BaseController
 		$ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
-		
 		// find the withdraw fee rate setup ->rate %
-		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->first();
+		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();
+		
 		$walletBalance  = (float)$wallet->total_balance;
 		$amountWithdraw = (float)$request->amount;
-		$minimumWithdrawalAmount  = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->min_amount)['data']['amount'];
-		$maximumWithdrawalAmount  = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'];
+		$minimumWithdrawalAmount  =ceil(((integer) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->min_amount)['data']['amount'])/1000)*100 * $withdrawSetup->min_amount;
+		$maximumWithdrawalAmount  =ceil(((integer) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'])/1000)*100 * $withdrawSetup->max_amount;
 		$defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
 		$transactionFees = "";
 		$transactionRateFees = (float)($amountWithdraw *($withdrawSetup->rate /100));
@@ -162,18 +162,25 @@ class TransactionController extends BaseController
 		//$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
 
 		// conditions
+		if($minimumWithdrawalAmount > $amountWithdraw){
+			return response()->json([
+				'message' => 'You should withdraw a minimum amount of '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+			], 400);
+		}
 		// 0. Check that the wallet amount is greater than the  amount being withdrawn
 		if(!((float)$wallet->total_balance > $amountWithdraw)){
 			return response()->json([
 				'message' => 'Insufficient fund. Top up to continue'
 			], 400);
 		}
+		// dd($total_deduction_amount);
+	
 		// 1. Check that the wallet amount is greater than the  amount being withdrawn
-		if(((float)$amountWithdraw < $minimumWithdrawalAmount)){
-			return response()->json([
-				'message' => 'Insufficient fund. Your balance should be more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
-			], 400);
-		}	
+		// if(((float)$amountWithdraw < $minimumWithdrawalAmount)){
+		// 	return response()->json([
+		// 		'message' => 'Insufficient fund. Your balance should be more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+		// 	], 400);
+		// }	
 
 		//2. Ensure that Wallet Amount is more than the balance 
 		if(!((float)$wallet->total_balance > $total_deduction_amount)){
