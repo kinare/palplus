@@ -175,17 +175,17 @@ class TransactionController extends BaseController
 		}
 		// dd($total_deduction_amount);
 	
-		// 1. Check that the wallet amount is greater than the  amount being withdrawn
-		// if(((float)$amountWithdraw < $minimumWithdrawalAmount)){
-		// 	return response()->json([
-		// 		'message' => 'Insufficient fund. Your balance should be more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
-		// 	], 400);
-		// }	
+		//1. Check that the wallet amount is greater than the  amount being withdrawn
+		if(((float)$amountWithdraw < $minimumWithdrawalAmount)){
+			return response()->json([
+				'message' => 'Insufficient fund. Your balance should be more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+			], 400);
+		}	
 
 		//2. Ensure that Wallet Amount is more than the balance 
 		if(!((float)$wallet->total_balance > $total_deduction_amount)){
 			return response()->json([
-				'message' => 'Insufficient fund. Top up to continue'
+				'message' => 'nsufficient Funds, Your account balance is below '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
 			], 400);
 		}
 
