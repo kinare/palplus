@@ -64,7 +64,8 @@ class AuthController extends Controller
         return response()->json([
             'message' => ATController::sendSms((array)$user->phone, $user->verification_code)
         ]);
-    }
+	}
+	
 
     /**
      * @param Request $request
