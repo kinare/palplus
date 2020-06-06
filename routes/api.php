@@ -2,11 +2,18 @@
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\ATController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 */
+
+Route::get("/sms/test",function(){
+	$at  = ATController::sendSms(['+254743806016', '+254726476456'], "Testing the YUnited sms feature. !!");
+	return $at;
+});
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
