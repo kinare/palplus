@@ -82,7 +82,7 @@
 			<p class="go-back-to-app">
 			<a href="https://yunited.page.link">
 			<i class="fa fa-chevron-circle-left fa-24x"></i>
-			Get back to YUnited App</a>
+			Get back to your wallet</a>
 			</div>
         </div>
     </body>
