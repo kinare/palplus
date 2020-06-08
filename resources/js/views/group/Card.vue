@@ -44,6 +44,9 @@
             <user-avatar :avatar="group.avatar_url" class="image has-max-width is-aligned-center" />
             <br />
             <div class="column">
+              <b-field horizontal label="Group Type">
+                <b-input :value="group.type.description" custom-class="is-static" readonly />
+              </b-field>
               <b-field horizontal label="Created By">
                 <b-input :value="group.created_by.name" custom-class="is-static" readonly />
               </b-field>
