@@ -47,6 +47,19 @@
               <b-field horizontal label="Created By">
                 <b-input :value="group.created_by.name" custom-class="is-static" readonly />
               </b-field>
+
+              <b-field horizontal label="Email">
+                <b-input :value="group.created_by.email" custom-class="is-static" readonly />
+              </b-field>
+              <b-field horizontal label="Phone">
+                <b-input :value="group.created_by.phone" custom-class="is-static" readonly />
+              </b-field>
+              <b-field horizontal label="Country">
+                <b-input :value="group.country" custom-class="is-static" readonly />
+              </b-field>
+              <b-field horizontal label="Date of Creation">
+                <b-input :value="group.created_at" custom-class="is-static" readonly />
+              </b-field>
             </div>
           </div>
         </div>
