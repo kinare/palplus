@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Wallet;
 use App\Http\Resources\GroupTypeResource;
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends JsonResource
@@ -41,8 +40,8 @@ class GroupResource extends JsonResource
 			'avatar_url' => $this->avatar_url
 		];
 		$data['currency'] = Wallet::group($this->id)->walletCurrency();
-		$data['created_by'] = User::find($this->created_by);
-		
+		$data['created_by'] = User::find($this->created_by) ? User::find($this->created_by) : '' ;
+
         return $data;
     }
 }
