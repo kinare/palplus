@@ -2327,6 +2327,20 @@
                         "type": "string"
                     },
                     {
+                        "name": "expirymonth",
+                        "in": "query",
+                        "description": "expirymonth",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "expiryyear",
+                        "in": "query",
+                        "description": "expiryyear",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "billingstate",
                         "in": "query",
                         "description": "billingstate",
