@@ -38,6 +38,11 @@ class Group extends BaseModel
     public function type()
     {
         return $this->belongsTo('App\GroupType', 'type_id', 'id')->where('deleted_at', null);
+	}
+	
+	public function created_by()
+    {
+        return $this->belongsTo('App\User', 'created_by', 'id')->where('deleted_at', null);
     }
 
     public function invitations()

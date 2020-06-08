@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Wallet;
 use App\Http\Resources\GroupTypeResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends JsonResource
@@ -35,7 +36,7 @@ class GroupResource extends JsonResource
 			'active' => $this->active,
 			'reasons' => $this->reasons,
 			'status' => $this->status,
-			'created_by' => $this->created_by,
+			'created_by' => new UserResource($this->created_by),
 			'created_at' => $this->created_at->format('Y-m-d'),
 			'updated_at' => $this->updated_at->format('Y-m-d'),
 			'avatar_url' => $this->avatar_url
