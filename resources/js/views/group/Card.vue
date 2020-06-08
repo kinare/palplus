@@ -43,7 +43,7 @@
           <div class="column is-half">
             <user-avatar :avatar="group.avatar_url" class="image has-max-width is-aligned-center" />
             <br />
-            <div class="level-right">
+            <div class="column">
               <b-field horizontal label="Created By">
                 <b-input :value="group.created_by.name" custom-class="is-static" readonly />
               </b-field>
