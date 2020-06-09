@@ -22,7 +22,7 @@ class ATController extends Controller
         $options = [
             'to' => $to,
             'message' => $message,
-            'from' => $from,
+            'from' => 'PALSAVVY',
             'enqueue' => $enqueue
         ];
 
