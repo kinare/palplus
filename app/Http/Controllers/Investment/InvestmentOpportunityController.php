@@ -71,7 +71,7 @@ class InvestmentOpportunityController extends BaseController
         try{
             $model = new $this->model();
             $data = $request->all();
-            $model->fill($data);
+			$model->fill($data);
             $model->created_by = $request->user()->id;
             if ($request->hasFile('image')){
                 $attachment = [];
@@ -88,20 +88,22 @@ class InvestmentOpportunityController extends BaseController
                 Storage::disk('investments')->put("investments/".$request->user()->id.'/investment.png', (string) $avatar);
                 $model->image =  'investment.png';
             }
-            $model->save();
-
-            if ($request->featured){
-                $wallet = Wallet::mine();
-                $adSetup = AdvertSetup::whereType('INVESTMENT')->first();
-                $adRate = Converter::Convert($adSetup->currency, $wallet->walletCurrency(), $adSetup->rate)['amount'];
-
+			$wallet = Wallet::mine();
+			$adSetup = AdvertSetup::whereType('INVESTMENT')->first();
+			
+			
+			$adRate = Converter::convert($adSetup->currency, $wallet->currencyShortDesc(), (float)$adSetup->rate)['amount'];
+			dd($adRate);
+			if ($request->featured){
                 if (!$wallet->canWithdraw($adRate)){
                     $model->featured = 0;
                     $model->save();
                     return response()->json([
                         'message' => 'Your event would not be featured due to insufficient funds'
                     ]);
-                }
+				}
+				
+
 
                 $transaction = new Transaction();
                 $transaction->transact(
@@ -111,7 +113,27 @@ class InvestmentOpportunityController extends BaseController
                     'Ad Payment',
                     'Investment opportunity add payment'
                 );
-            }
+			}
+
+			//Create an investment opportunity deduct the min_amount
+			$wallet->total_balance =(float) $wallet->total_balance - (float)$adRate;
+			$wallet->total_balance =(float) $wallet->total_withdrawals + (float)$adRate;
+			$wall->save();
+			
+			//save the investment
+			$model->save();
+			
+			
+			if(!((float)$wallet->total_balance > (float)$adRate)){
+				return response()->json([
+					'message' => "Your investment was not created. You have insufficient funds"
+				]);
+			}
+
+
+            
+			
+			
             return $this->response($model);
         }catch (Exception $exception){
             return response()->json([
@@ -244,4 +266,16 @@ class InvestmentOpportunityController extends BaseController
      *
      * )
      */
+
+
+
+	public function convertAmount ($from, $currency, $amount){
+        $amount = Converter::Convert($from , $currency, $amount);
+        return [
+            'data' => [
+                'amount' => $amount['amount'],
+                'type' => "Convert amount"
+            ]
+        ];
+	}
 }

@@ -26,11 +26,10 @@ class Converter extends Controller
                 'time' => Carbon::now(),
             ];
 
-
         $self = new self();
-        $rates = $self->getRates($from, $to);
+		$rates = $self->getRates($from, $to);
         $rates = (array)json_decode($rates)->quotes;
-        $amount = ($amount/$rates[$self->base.$from]) * $rates[$self->base.$to] ;
+		$amount = ($amount/$rates[$self->base.$from]) * $rates[$self->base.$to] ;
         return [
             'amount' => round($amount, 2),
             'rate' => $rates,
