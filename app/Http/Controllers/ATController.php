@@ -18,14 +18,14 @@ class ATController extends Controller
 
     public static function sendSms(array $to, string $message,  string $from = null, bool $enqueue = false){
         $self = new self();
-        $sms = $self->at->sms();
+		$sms = $self->at->sms();
+		
         $options = [
             'to' => $to,
             'message' => $message,
             'from' => 'PALSAVVY',
             'enqueue' => $enqueue
         ];
-
         return $sms->send($options);
     }
 }
