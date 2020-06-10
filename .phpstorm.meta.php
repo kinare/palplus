@@ -5,13 +5,14 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2020-04-07 22:08:49.
+    * Generated on 2020-06-10 14:44:06.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -46,7 +47,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -176,6 +177,7 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -210,7 +212,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -340,6 +342,7 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -374,7 +377,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -504,6 +507,7 @@ namespace PHPSTORM_META {
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -538,7 +542,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -668,6 +672,7 @@ namespace PHPSTORM_META {
     ]));
     override(\App::make(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -702,7 +707,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -832,6 +837,7 @@ namespace PHPSTORM_META {
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -866,7 +872,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -996,6 +1002,7 @@ namespace PHPSTORM_META {
     ]));
     override(\app(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1030,7 +1037,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
@@ -1160,6 +1167,7 @@ namespace PHPSTORM_META {
     ]));
     override(\resolve(0), map([
         '' => '@',
+        'Asm89\Stack\CorsService' => \Asm89\Stack\CorsService::class,
         'Facade\IgnitionContracts\SolutionProviderRepository' => \Facade\Ignition\SolutionProviders\SolutionProviderRepository::class,
         'Facade\Ignition\DumpRecorder\DumpRecorder' => \Facade\Ignition\DumpRecorder\DumpRecorder::class,
         'Facade\Ignition\ErrorPage\Renderer' => \Facade\Ignition\ErrorPage\Renderer::class,
@@ -1194,7 +1202,7 @@ namespace PHPSTORM_META {
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
         'auth' => \Illuminate\Auth\AuthManager::class,
-        'auth.driver' => \Illuminate\Auth\SessionGuard::class,
+        'auth.driver' => \Illuminate\Auth\RequestGuard::class,
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'avatar' => \Laravolt\Avatar\Avatar::class,
