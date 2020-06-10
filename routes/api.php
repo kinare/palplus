@@ -9,11 +9,14 @@ use App\Http\Controllers\ATController;
 | API Routes
 |--------------------------------------------------------------------------
 */
-
-Route::get("/sms/test",function(){
-	$at  = ATController::sendSms(['+254743806016', '+254726476456'], "Testing the YUnited sms feature. !!");
-	return $at;
+// Helpers
+Route::get("/countries",function(){
+	$countries = \App\Country::all(); 
+	return response()->json($countries);
 });
+// End of Helpers
+
+
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -57,7 +60,7 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::get('/', 'CurrencyController@index');
             Route::post('/convert', 'CurrencyController@convert');
         });
-    });
+	});
 
     Route::group(['middleware' => 'auth:api'], function () {
 
