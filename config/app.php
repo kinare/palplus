@@ -177,7 +177,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ModelServiceProvider::class,
 		L5Swagger\L5SwaggerServiceProvider::class,
-		FruitCake\Cors\CorsServiceProvider::class,
 
     ],
 
