@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ATController;
+use App\Http\Resource\LoginResource;
 use App\Http\Controllers\Controller;
 use App\Notifications\SignupActivate;
 use App\User;
@@ -120,6 +121,8 @@ class AuthController extends Controller
 		$response['user'] = $user;
 		$response['expires_in'] = \Carbon\Carbon::now()->addSecond($response['expires_in'])->toDateTimeString();
 		$response = collect($response);
+
+		// return new LoginResource($response);
 		return $response;
     }
 
