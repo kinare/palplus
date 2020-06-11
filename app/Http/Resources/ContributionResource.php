@@ -18,6 +18,7 @@ class ContributionResource extends JsonResource
      */
     public function toArray($request)
     {
+		$data = parent::toArray($request);
 		return [
 			"id" => $this->id,
 			"group_id" => $this->group_id,

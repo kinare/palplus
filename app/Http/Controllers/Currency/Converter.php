@@ -28,6 +28,7 @@ class Converter extends Controller
 
         $self = new self();
 		$rates = $self->getRates($from, $to);
+		dd($rates);
         $rates = (array)json_decode($rates)->quotes;
 		$amount = ($amount/$rates[$self->base.$from]) * $rates[$self->base.$to] ;
         return [
@@ -38,6 +39,7 @@ class Converter extends Controller
     }
 
     public function getRates($from, $to){
+		dd($this->buildUrl($from, $to));
         return HttpClient::get($this->buildUrl($from, $to));
     }
 
