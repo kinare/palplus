@@ -16,9 +16,10 @@ class HttpClient{
     public static function get($url, $options = []){
         try{
             $client = new Client();
-            $res =  $client->request('GET', $url, $options);
+			$res =  $client->request('GET', $url, $options);
             return $res->getBody();
         }catch (ClientException $exception){
+			dd($exception);
             return $exception;
         }
 

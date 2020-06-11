@@ -57,8 +57,6 @@ class TransactionController extends BaseController
 
         //get payment account
 		$account = Account::find($request->account_id);
-		$ceilingAmount  =Converter::Convert('USD', 'KES', 10);
-		dd($ceilingAmount);
 
         //if account not set
         if (!$account)
