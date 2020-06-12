@@ -216,7 +216,14 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'wallet'], function () {
                 Route::get('/', 'WalletController@index');
                 Route::get('/{id}', 'WalletController@show');
+			});
+			
+			// money transfer start 
+			Route::group(['prefix' => 'money'], function () {
+                Route::post('/send', 'MoneyTransfer@send_money_another_app_user');
+                Route::post('/contribute-group-admin', 'MoneyTransfer@contribute_group_admin');
             });
+			// end of money transfer
 
             Route::group(['prefix' => 'transaction'], function () {
                 Route::group(['prefix' => 'wallet'], function () {
