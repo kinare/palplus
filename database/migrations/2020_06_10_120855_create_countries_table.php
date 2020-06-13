@@ -17,6 +17,8 @@ class CreateCountriesTable extends Migration
 			$table->bigIncrements('id');
 			$table->string('name');
 			$table->string('dial_code');
+			$table->string('currency_name');
+			$table->string('currency_code');
 			$table->string('code');
             $table->timestamps();
         });
