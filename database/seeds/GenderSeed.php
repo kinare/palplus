@@ -22,11 +22,13 @@ class GenderSeed extends Seeder
 
 		$file = file_get_contents(base_path('database/seeds/countries.json'));
         $data = json_decode($file, true);
-        foreach($data as $county_data){
+        foreach($data as $key => $country_data){
             $county  = Country::create([
-                'name' => $county_data["name"],
-                'dial_code' => $county_data["dial_code"] ? $county_data["dial_code"]: "",
-                'code' => $county_data["code"] ?  $county_data["code"]: ''
+				'name' => ucfirst($country_data["CLDR display name"]) ? ucfirst($country_data["CLDR display name"]) : '' ,
+				'currency_name' =>$country_data['ISO4217-currency_name'] ? $country_data['ISO4217-currency_name'] : '', 
+				'currency_code' =>$country_data['ISO4217-currency_alphabetic_code'] ? $country_data['ISO4217-currency_alphabetic_code'] : '', 
+                'dial_code' => $country_data["Dial"] ? '+'.$country_data["Dial"]: "",
+                'code' => $country_data["ISO3166-1-Alpha-2"] ?  $country_data["ISO3166-1-Alpha-2"]: ''
             ]);
         }
     }
