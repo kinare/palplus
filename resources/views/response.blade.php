@@ -75,11 +75,6 @@
 				@endif
             </div>
 			<br>
-
-			<p class="go-back-to-app">
-			<a href="https://yunited.page.link/wallet">
-			<i class="fa fa-chevron-circle-left fa-24x"></i>
-			Go Back to My Wallet</a>
 			</div>
         </div>
     </body>
