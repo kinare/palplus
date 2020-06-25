@@ -382,7 +382,7 @@ Route::group(['middleware' => ['json.response']], function () {
 					Route::get('/{id}', 'GroupController@show');
 					Route::delete('/{id}', 'GroupController@destroy');
 					Route::delete('/{id}/force', 'GroupController@forceDestroy');
-					Route::get('/me/{group_id}', 'GroupTypeController@me');
+					Route::get('/me/{group_id}', 'GroupController@me');
 					Route::get('/init-group/{currency}', 'GroupController@beforeCreate');
 					Route::get('/members/{group_id}', 'GroupController@members');
 					Route::get('/admins/{group_id}', 'GroupController@admins');
