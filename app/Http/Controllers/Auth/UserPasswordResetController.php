@@ -89,11 +89,10 @@ class UserPasswordResetController extends PasswordResetController
         ]);
         }
         $user  = User::wherePhone($passwordReset->email)->first();
-        dd($user);
         if($passwordReset && $user){
             return response()->json([
                 "message" => "Success",
-                "phone" => $passwordReset->email,
+                "phone" => $$user->phone,
                 'token' => $token
             ]);
         }
