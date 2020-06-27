@@ -48,6 +48,7 @@ class AccountResource extends JsonResource
             "created_at"=> $this->created_at,
             "updated_at"=> $this->updated_at,
             "deleted_at"=> $this->deleted_at
+            "label"=> AccountType::find($this->account_type_id)->type .' '.  $this->number
         ];
     }
 }
