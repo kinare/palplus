@@ -92,7 +92,7 @@ class UserPasswordResetController extends PasswordResetController
         if($passwordReset && $user){
             return response()->json([
                 "message" => "Success",
-                "phone" => $$user->phone,
+                "phone" => $user->phone,
                 'token' => $token
             ]);
         }
