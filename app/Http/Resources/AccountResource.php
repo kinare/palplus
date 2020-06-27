@@ -16,7 +16,6 @@ class AccountResource extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent=>:toArray($request);
 
         return [
             "id"=>$this->id,
@@ -33,7 +32,7 @@ class AccountResource extends JsonResource
             "currency"=> $this->currency,
             "country"=> $this->country,
             "cvv"=> $this->cvv,
-            "payment_type"=> this->payment_type,
+            "payment_type"=> $this->payment_type,
             "accountbank"=> $this->accountbank,
             "passcode"=> $this->passcode,
             "bvn"=> $this->bvn,

@@ -331,7 +331,8 @@ class UserController extends BaseController
     public function accounts(Request $request)
     {
         try{
-            return new AccountResource($request->user()->accounts()->get());
+            $accounts = Account::where("user_id", $request->user()->id)->get();
+            return AccountResource::collection($accounts);
         }catch (Exception $exception){
             return response()->json([
                 'message' => $exception->getMessage()
