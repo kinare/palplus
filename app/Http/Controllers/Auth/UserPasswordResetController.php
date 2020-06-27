@@ -88,6 +88,7 @@ class UserPasswordResetController extends PasswordResetController
             "message" => "Verification code is invalid"
         ]);
         }
+        dd($passwordReset);
         $user  = User::wherePhone($passwordReset->phone)->first();
         if($passwordReset && $user){
             return response()->json([
