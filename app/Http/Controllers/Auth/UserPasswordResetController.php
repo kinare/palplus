@@ -82,9 +82,14 @@ class UserPasswordResetController extends PasswordResetController
 
 
     public function find($token){
-        $passwordRest = PasswordReset::where(['token' => $token])->first();
+        $passwordReset = PasswordReset::where(['token' => $token])->first();
+        if(!$passwordReset){
+            return response()->json([
+            "message" => "Verification code is invalid"
+        ]);
+        }
         $user  = User::wherePhone($passwordReset->phone)->first();
-        if($passwordRest && $user){
+        if($passwordReset && $user){
             return response()->json([
                 "message" => "Success",
                 "phone" => $passwordReset->phone,
