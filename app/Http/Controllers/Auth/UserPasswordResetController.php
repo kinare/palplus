@@ -62,7 +62,8 @@ class UserPasswordResetController extends PasswordResetController
         if ($model && $passwordReset)
             //send sms
             return response()->json([
-                'message' => ATController::sendSms((array)$model->phone, $passwordReset->token)
+                'message' => ATController::sendSms((array)$model->phone, $passwordReset->token),
+                'token' => $passwordReset->token
             ]);
     }
 
@@ -78,6 +79,22 @@ class UserPasswordResetController extends PasswordResetController
      * )
      *
      */
+
+
+    public function find($token){
+        $passwordRest = PasswordReset::where(['token' => $request->token])->first();
+        $user  = User::wherePhone($passwordReset->phone)->first();
+        if($passwordRest && $user){
+            return response()->json([
+                "message" => "Success",
+                "phone" => $passwordReset->phone,
+                'token' => $token
+            ]);
+        }
+        return response()->json([
+            "message" => "Not Found"
+        ]);
+    }
 
     /**
      * @SWG\Post(
