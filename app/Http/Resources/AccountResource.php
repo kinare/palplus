@@ -45,9 +45,9 @@ class AccountResource extends JsonResource
             "billingcountry"=> $this->billingcountry,
             "created_by"=> $this->created_by,
             "modified_by"=> $this->modified_by,
-            "created_at"=> $this->created_at,
-            "updated_at"=> $this->updated_at,
-            "deleted_at"=> $this->deleted_at,
+            "created_at"=> $this->created_at->format('Y-m-d'),
+            "updated_at"=> $this->updated_at->format('Y-m-d'),
+            "deleted_at"=> $this->deleted_at->format('Y-m-d'),
             "label"=> AccountType::find($this->account_type_id)->type .' '.  $this->number
         ];
     }
