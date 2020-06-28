@@ -117,7 +117,7 @@ class InvestmentOpportunityController extends BaseController
 			//Create an investment opportunity deduct the min_amount
 			$wallet->total_balance =(float) $wallet->total_balance - (float)$adRate;
 			$wallet->total_balance =(float) $wallet->total_withdrawals + (float)$adRate;
-			$wall->save();
+			$wallet->save();
 			
 			//save the investment
 			$model->save();
