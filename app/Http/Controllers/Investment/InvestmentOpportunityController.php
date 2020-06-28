@@ -93,7 +93,6 @@ class InvestmentOpportunityController extends BaseController
 			
 			
 			$adRate = Converter::convert($adSetup->currency, $wallet->currencyShortDesc(), (float)$adSetup->rate)['amount'];
-			dd($adRate);
 			if ($request->featured){
                 if (!$wallet->canWithdraw($adRate)){
                     $model->featured = 0;
