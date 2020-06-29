@@ -28,6 +28,7 @@ class InvestmentOpportunityResource extends JsonResource
 			'updated_at'=>$this->updated_at->format('Y-m-d'),
 		];
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
+        $data["image"] => $this->getAvatarUrlAttribute();
         return $data;
     }
 }
