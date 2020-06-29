@@ -19,7 +19,7 @@ class InvestmentOpportunityResource extends JsonResource
 			'id'=>$this->id,
 			'title'=>$this->title,
 			'description'=>$this->description,
-			'image'=>$this->image,
+			// 'image'=>$this->image,
 			'featured'=>$this->featured,
 			'amount'=>$this->amount,
 			'created_by'=>$this->created_by,
@@ -28,7 +28,7 @@ class InvestmentOpportunityResource extends JsonResource
 			'updated_at'=>$this->updated_at->format('Y-m-d'),
 		];
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
-        $data["image"] => $this->getAvatarUrlAttribute();
+        $data["image"] = $this->getAvatarUrlAttribute();
         return $data;
     }
 }
