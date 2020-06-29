@@ -474,7 +474,6 @@ class GroupController extends BaseController
 					$wallet->save();
 				}
 				$member->delete();
-				$this->remove_member_and_nofify_admin($group, $member);
                 return response()->json([
                     'message' => 'You have left '. $group->name . ' successfully'
                 ], 200);
@@ -514,7 +513,7 @@ class GroupController extends BaseController
 					$amount  = $this->amount_after_currency_converstion($member_wallet->currencyShortDesc(), $withdrawal->amount);
 					$member_wallet->total_balance = $amount;
 					$member_wallet->save();
-					$this->remove_member_and_nofify_admin($group, $member);
+                    $member->delete();
 				}
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
@@ -539,10 +538,6 @@ class GroupController extends BaseController
 	}
 
 	/**Remove the member  from the group */
-
-	public function remove_member_and_nofify_admin($group, $member){
-		$group->members()->where('id',$member->id)->delete();
-	}
 	
 
 	public function LeaveNotification($member, $group){
