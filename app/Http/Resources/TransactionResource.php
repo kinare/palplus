@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\User;
 use App\Account;
 use App\Wallet;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,7 +36,7 @@ class TransactionResource extends JsonResource
 			"to_currency" => $this->to_currency,
 			"conversion_rate" => $this->conversion_rate,
 			"conversion_time" => $this->conversion_time,
-			"created_by" => $this->created_by,
+			"created_by" => $this->created_by ? User::find($this->created_by) : null,
 			"modified_by" => $this->modified_by,
 			"created_at" => $this->created_at->format('Y-m-d'),
 			"updated_at" => $this->updated_at->format('Y-m-d'),

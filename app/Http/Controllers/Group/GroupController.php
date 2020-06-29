@@ -473,7 +473,7 @@ class GroupController extends BaseController
 					$wallet->total_balance  = ($total_wallet_bal_amount +  $amount);
 					$wallet->save();
 				}
-				// $member->forceDelete();
+				$member->delete();
 				$this->remove_member_and_nofify_admin($group, $member);
                 return response()->json([
                     'message' => 'You have left '. $group->name . ' successfully'
