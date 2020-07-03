@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contact;
 use App\Contact;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\ContactResource;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -97,5 +98,13 @@ class ContactsController extends Controller
             array_push($ids, $contact->contact_user_id);
         }
         return UserResource::collection(User::whereIn('id', $ids)->get());
+    }
+
+
+    /**
+    Get a single contact to use
+    */
+    public function getContact($id){
+        return new ContactResource(Contact::find($id));
     }
 }
