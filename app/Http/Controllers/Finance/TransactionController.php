@@ -210,26 +210,26 @@ class TransactionController extends BaseController
         switch ($type->type){
 			case 'BANK ACCOUNT' :
 				//deduct fee from user wallet 
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				$wallet->save();
+				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
+				// $wallet->save();
 
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				$wallet->save();
+				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
+				// $wallet->save();
 
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
 				return $transfer->send($transaction);
 
 			case 'PAYPAL' :
-				$wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				$wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				$wallet->save();
+				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
+				// $wallet->save();
 
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payout();
