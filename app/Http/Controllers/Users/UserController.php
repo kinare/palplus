@@ -275,7 +275,8 @@ class UserController extends BaseController
     public function groups(Request $request)
     {
         try{
-            $memberships = Members::where('user_id', $request->user()->id)->get();
+            $memberships = Members::where('user_id', $request->user()->id)
+                            ->where('deleted_at', null)->get();
             $groupIds = [];
             foreach ($memberships as $membership){
                 array_push($groupIds, $membership->group_id);

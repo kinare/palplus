@@ -19,9 +19,9 @@ class CreateWalletsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('group_id')->nullable();
             $table->unsignedInteger('currency_id');
-            $table->decimal('total_balance', 8, 2)->default(0);
-            $table->decimal('total_deposits', 8, 2)->default(0);;
-            $table->decimal('total_withdrawals', 8, 2)->default(0);;
+            $table->decimal('total_balance', 20, 2)->default(0);
+            $table->decimal('total_deposits', 20, 2)->default(0);;
+            $table->decimal('total_withdrawals', 20, 2)->default(0);;
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('modified_by')->nullable();
             $table->timestamps();
