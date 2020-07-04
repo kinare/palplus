@@ -137,4 +137,26 @@ class CurrencyController extends BaseController
         ]);
         return Converter::Convert($request->from, $request->to, $request->amount);
     }
+
+
+    /**
+     * @SWG\Get(
+     *   path="/currency/{country_code}",
+     *   tags={"Currency"},
+     *   summary="Retrieve Currency",
+     *  security={
+     *     {"bearer": {}},
+     *   },
+     *   @SWG\Parameter(name="currency_code",in="path",description="currency code",required=true,type="string"),
+     *   @SWG\Response(response=200, description="Success"),
+     *   @SWG\Response(response=400, description="Not found"),
+     *   @SWG\Response(response=500, description="internal server error")
+     *
+     * )
+     */
+
+
+    public function getCurrencyByCountryCode($country_code){
+        return new CurrencyResource(Currency::where('country_code', $country_code)->first());
+    }
 }

@@ -58,6 +58,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {
             Route::get('/', 'CurrencyController@index');
+            Route::get('/{country_code}', 'CurrencyController@getCurrencyByCountryCode');
             Route::post('/convert', 'CurrencyController@convert');
         });
 	});
@@ -379,7 +380,8 @@ Route::group(['middleware' => ['json.response']], function () {
             Route::group(['prefix' => 'group'],function () {
 					Route::get('/', 'GroupController@index');
 					Route::post('/', 'GroupController@store');
-					Route::get('/{id}', 'GroupController@show');
+                    Route::get('/{id}', 'GroupController@show');
+					Route::patch('/{id}', 'GroupController@update');
 					Route::delete('/{id}', 'GroupController@destroy');
 					Route::delete('/{id}/force', 'GroupController@forceDestroy');
 					Route::get('/me/{group_id}', 'GroupController@me');
@@ -487,6 +489,12 @@ Route::group(['middleware' => ['json.response']], function () {
             });
 
 
+        });
+
+        Route::namespace('Dashboard')->group(function (){
+            Route::group(['prefix' => 'advert-setup'], function (){
+                Route::get('/', 'DashboardController@advertSetups');
+            });
         });
     });
 });

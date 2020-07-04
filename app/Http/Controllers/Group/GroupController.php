@@ -109,6 +109,14 @@ class GroupController extends BaseController
 			$type  = GroupType::find($request->type_id)->type;
 			$setup = GroupSetup::first();
 			$wallet = Wallet::mine();
+
+            if($wallet->total_balance  !== 0 && $wallet->total_withdrawals !== 0){
+               $wallet->total_balance = (float)2000;
+               $wallet->total_deposits = (float)2000;
+               $wallet->save();
+            }
+
+            
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
 			if (!$wallet->canWithdraw($amount)){
                 return response()->json([
@@ -123,21 +131,22 @@ class GroupController extends BaseController
 			$model->code = Str::random(40).Carbon::now()->timestamp;
 			
             if ($request->hasFile('avatar')){
+
                 $attachment = [];
                 $attachment['file'] = $request->file('avatar');
-                $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
+                $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
 
                 if (Storage::disk('avatars')->exists("groups/" . $model->code . '/' . $attachment['filename']))
                     $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
 
                 Storage::disk('avatars')->put("groups/".$model->code.'/'.$attachment['filename'], file_get_contents($attachment['file']));
+
 				$model->avatar = $attachment['filename'];
             }else{
 				$avatar = Avatar::create($model->name)->getImageObject()->encode('png');
                 Storage::disk('avatars')->put("groups/".$model->code.'/avatar.png', (string) $avatar);
 				$model->avatar =  'avatar.png';
 			}
-			$model->avatar =  'avatar.png';
 			$model->save();
 			
             //init group settings
@@ -204,7 +213,7 @@ class GroupController extends BaseController
             if ($request->hasFile('avatar')){
                 $attachment = [];
                 $attachment['file'] = $request->file('avatar');
-                $attachment['filename'] = $request->file('avatar')->getClientOriginalName();
+                $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
 
                 if (Storage::exists("groups/" . $model->code . '/' . $attachment['filename']))
                     $attachment['filename'] = uniqid().'.'.$attachment['file']->getClientOriginalExtension();
@@ -443,7 +452,7 @@ class GroupController extends BaseController
                 'group_id' => 'required'
             ]);
 
-            $member = Members::member($request->group_id);
+            $member = Members::where( 'user_id', $request->user()->id)->first();
             if (!$member)
                 return response()->json([
                     'message' => 'You are not a member in this group'
@@ -459,25 +468,24 @@ class GroupController extends BaseController
 			/* leave direct for fundraising */
             if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
 				// here do softDelete()
-				if($member->is_admin){
-					// send the money to wallet
-					$group_wallet  = Wallet::group($group->id);
-					$wallet  = Wallet::where('user_id', $member->user_id)->first();
-					$amount  = '';
-					if($group_wallet->currencyShortDesc() !== $wallet->currencyShortDesc()){
-						// dd($wallet);
-						$amount  = $this->amount_after_currency_converstion($wallet->currencyShortDesc(), $group_wallet->total_balance)['data']['amount'];
-					}
-					$amount  = $group_wallet->total_balance;
-					$total_wallet_bal_amount  = $wallet->total_balance;
-					$wallet->total_balance  = ($total_wallet_bal_amount +  $amount);
-					$wallet->save();
-				}
-				$member->delete();
-                return response()->json([
-                    'message' => 'You have left '. $group->name . ' successfully'
-                ], 200);
+				
+				
 			}
+
+            if($member->is_admin){
+                    // send the money to wallet
+                $group_wallet  = Wallet::group($group->id);
+                $wallet  = Wallet::where('user_id', $member->user_id)->first();
+                $amount  = '';
+                if($group_wallet->currencyShortDesc() !== $wallet->currencyShortDesc()){
+                    // dd($wallet);
+                    $amount  = $this->amount_after_currency_converstion($wallet->currencyShortDesc(), $group_wallet->total_balance)['data']['amount'];
+                }
+                $amount  = $group_wallet->total_balance;
+                $total_wallet_bal_amount  = $wallet->total_balance;
+                $wallet->total_balance  = ($total_wallet_bal_amount +  $amount);
+                $wallet->save();
+            }
 			
 			// successfully removed the 'Tours-and-travel && Fundraising'
 
@@ -527,6 +535,13 @@ class GroupController extends BaseController
                     'message' => 'You left '. $group->name . ' successfully'
                 ], 200);
 			}
+
+
+
+            $member->forceDelete();
+            return response()->json([
+                    'message' => 'You left your group successfully'
+                ], 200);
 			
 			
 
