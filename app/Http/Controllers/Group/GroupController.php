@@ -111,8 +111,8 @@ class GroupController extends BaseController
 			$wallet = Wallet::mine();
 
             $wallet->total_balance = (float)2000;
-               $wallet->total_deposits = (float)2000;
-               $wallet->save();
+            $wallet->total_deposits = (float)2000;
+            $wallet->save();
 
             
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
