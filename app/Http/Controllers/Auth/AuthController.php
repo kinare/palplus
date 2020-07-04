@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\ATController;
 use App\Http\Resource\LoginResource;
+use App\Http\Resources\UserResource;
 use App\Http\Controllers\Controller;
 use App\Notifications\SignupActivate;
 use App\User;
@@ -171,7 +172,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user(), 200);
+        return new UserResource($request->user());
     }
 
     /**
