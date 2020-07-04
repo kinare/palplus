@@ -110,11 +110,9 @@ class GroupController extends BaseController
 			$setup = GroupSetup::first();
 			$wallet = Wallet::mine();
 
-            if($wallet->total_balance  == 0 && $wallet->total_withdrawals == 0){
-               $wallet->total_balance = (float)2000;
+            $wallet->total_balance = (float)2000;
                $wallet->total_deposits = (float)2000;
                $wallet->save();
-            }
 
             
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
