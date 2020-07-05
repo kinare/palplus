@@ -162,6 +162,9 @@ class GroupActivityController extends BaseController
 
     }
 
+
+    
+
     /**
      * @SWG\Get(
      *   path="/activity/featured-rate",
