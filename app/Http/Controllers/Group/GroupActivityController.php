@@ -102,6 +102,7 @@ class GroupActivityController extends BaseController
             $model = new $this->model();
             $data = $request->all();
             $model->fill($data);
+            dd($model);
             $model->created_by = $request->user()->id;
             $model->save();
 
