@@ -103,7 +103,7 @@ class GroupActivityController extends BaseController
             $data = $request->all();
             $model->fill($data);
             $model->created_by = $request->user()->id;
-            // $model->save();
+            $model->save();
 
             if ($request->hasFile('avatar')){
                 $attachment = [];
@@ -121,10 +121,8 @@ class GroupActivityController extends BaseController
                 $model->avatar =  'avatar.png';
             }
 
-            // $model->save();
+            $model->save();
 
-            dd($request->user()->id);
-            dd($request->group_id);
 
             dd(Members::where("user_id", 2)->where('group_id', 11)->first());
 
