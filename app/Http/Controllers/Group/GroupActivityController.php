@@ -120,6 +120,7 @@ class GroupActivityController extends BaseController
                 Storage::disk('avatars')->put("activities/".$model->id.'/avatar.png', (string) $avatar);
                 $model->avatar =  'avatar.png';
             }
+
             $model->save();
 
             //make first creator first member
@@ -129,6 +130,9 @@ class GroupActivityController extends BaseController
             $actMember->activity_id = $model->id;
             $actMember->status = $model->booking_fee ? 'inactive' : 'active';
             $actMember->save();
+
+            dd($actMember);
+
 
             if ($request->featured){
                 $wallet = Wallet::mine();
