@@ -122,7 +122,7 @@ class GroupActivityController extends BaseController
             }
 
             $model->save();
-
+            dd($model);
 
 
             //make first creator first member
@@ -133,7 +133,6 @@ class GroupActivityController extends BaseController
             $actMember->status = $model->booking_fee ? 'inactive' : 'active';
             $actMember->save();
 
-            dd($actMember);
 
 
 
