@@ -123,7 +123,7 @@ class GroupActivityController extends BaseController
 
             // $model->save();
 
-            dd(Members::where("user_id", 2)->where('group_id', 11)->first(););
+            dd(Members::where("user_id", 2)->where('group_id', 11)->first());
 
 
 
