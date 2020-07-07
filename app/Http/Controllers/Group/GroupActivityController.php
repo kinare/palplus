@@ -123,15 +123,17 @@ class GroupActivityController extends BaseController
 
             $model->save();
 
-            dd($actMember);
+
 
             //make first creator first member
             $actMember = new ActivityMembers();
-            $actMember->group_id = $model->group_id;
+            $actMember->group_id = $request->group_id;
             $actMember->member_id = Members::member($model->group_id)->id;
             $actMember->activity_id = $model->id;
             $actMember->status = $model->booking_fee ? 'inactive' : 'active';
             $actMember->save();
+
+            dd($actMember);
 
 
 
