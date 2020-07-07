@@ -893,7 +893,45 @@ class GroupController extends BaseController
                 'message' => $e->getMessage()
             ], 500);
         }
-    }
+	}
+	
+
+	   /**
+		 * @SWG\Post(
+		 *   path="/group/accept-leave",
+		 *   tags={"Group"},
+		 *   summary="Admin Accept Member Leave Group",
+		 *  security={
+		 *     {"bearer": {}},
+		 *   },
+		 *  @SWG\Parameter(name="group_id",in="path",description="Group Id",required=true,type="string"),
+		 *  @SWG\Parameter(name="member_id",in="path",description="Member Id",required=true,type="string"),
+		 *   @SWG\Response(response=200, description="Success"),
+		 *   @SWG\Response(response=400, description="Not found"),
+		 *   @SWG\Response(response=500, description="internal server error")
+		 *
+		 * )
+		 */
+		public function adminsAcceptLeave()
+		{
+			$request->validate([
+				'group_id' => 'requried',
+				'member_id' => 'requried'
+			]);
+			try{
+				$group = Group::find($request->group_id);
+				$member = Members::where('group_id', $request->group_id)
+								   ->where('id', $request->member_id)->first();
+				$member->forceDelete();
+				return response()->json([
+					'message' => "Successfully accepted leave request or leave withdrawal request"
+				]);
+			}catch (Exception $e){
+				return response()->json([
+					'message' => $e->getMessage()
+				], 500);
+			}
+		}
 
     /**
      * @SWG\Get(
