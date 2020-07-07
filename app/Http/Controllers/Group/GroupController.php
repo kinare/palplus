@@ -492,7 +492,7 @@ class GroupController extends BaseController
 
 			// Fundraising Group &&  Tour  travel Group
             if($type->type === 'Fundraising' || $type->type === 'Tours-and-travel' ){
-				$this->leaveNotification($member, $group);
+				$this->leaveNotification($member, $group, "Member Leaving Group");
 				$member->forceDelete();
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
@@ -532,7 +532,7 @@ class GroupController extends BaseController
 					$member_wallet->save();
                     $member->delete();
 				}
-				$this->leaveNotification($member, $group);
+				$this->leaveNotification($member, $group, "Member Withdrawal Request");
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
 				], 400);
@@ -541,7 +541,7 @@ class GroupController extends BaseController
             if((int)($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
 				// force delete of member
 				// $member->forceDelete();
-				$this->leaveNotification($member, $group);
+				$this->leaveNotification($member, $group, "Member Leaving Group");
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
                 ], 200);
@@ -556,24 +556,22 @@ class GroupController extends BaseController
 
 	/**Remove the member  from the group */
 	
-	public function leaveNotification($member, $group){
+	public function leaveNotification($member, $group, $subject){
 		$type  = NotificationTypes::where('type', 'INFORMATION')->first();
 		$members  = $group->members();
 		$admin = '';
 		foreach ($members as $key) {
 			if($key->is_admin){
-				$admin  = $key;
-			}
-		}
-		if(!empty($admin)){
-			$notify  = new Notification();
-			$notify->user_id = $admin->user_id;
-			$notify->notification_types_id = $type->id;
-			$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
-			$notify->subject = "Member Leaving group";
-			$notify->save();
-			if($notify){
-				return true;
+				$notify  = new Notification();
+				$notify->user_id = $key->user_id;
+				$notify->notification_types_id = $type->id;
+				$notify->message  = $member->user()->name ." Has left ". $group->name . "group";
+				$notify->subject = $subject;
+				$notify->save();
+				if($notify){
+					return true;
+				}
+				
 			}
 		}
 	}
