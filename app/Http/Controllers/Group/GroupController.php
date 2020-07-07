@@ -450,53 +450,64 @@ class GroupController extends BaseController
                 'group_id' => 'required'
             ]);
 
-            $member = Members::where( 'user_id', $request->user()->id)->first();
+			$message = '';
+						
+			$member = Members::where('user_id', $request->user()->id)
+							->where('group_id', $request->group_id)->first();
             if (!$member)
                 return response()->json([
                     'message' => 'You are not a member in this group'
-                ], 404);
+				], 404);
+				
+			if($member->is_admin){
+				return response()->json([
+					'message' => "You are an admin. You can't leave your group."
+				]);
+			}
 
-            $group = Group::find($request->group_id);
+			$group = Group::find($request->group_id);
+			
             if (!$group)
                 return response()->json([
                     'message' => 'Group Not found'
-                ], 404);
+				], 404);
+				
 
+			// Group Type
 			$type = GroupType::find($group->type_id);
-			/* leave direct for fundraising */
-            if ($type->type === 'Tours-and-travel' || $type->type === 'Fundraising'){
-				// here do softDelete()
-				
-				
-			}
 
-            if($member->is_admin){
-                    // send the money to wallet
-                $group_wallet  = Wallet::group($group->id);
-                $wallet  = Wallet::where('user_id', $member->user_id)->first();
-                $amount  = '';
-                if($group_wallet->currencyShortDesc() !== $wallet->currencyShortDesc()){
-                    // dd($wallet);
-                    $amount  = $this->amount_after_currency_converstion($wallet->currencyShortDesc(), $group_wallet->total_balance)['data']['amount'];
-                }
-                $amount  = $group_wallet->total_balance;
-                $total_wallet_bal_amount  = $wallet->total_balance;
-                $wallet->total_balance  = ($total_wallet_bal_amount +  $amount);
-                $wallet->save();
+			// Arrears -> 
+			/**
+			 * ['
+			 * total_contributions', 
+			 * 'total_withdrawals', 
+			 * 'loan_balance', 
+			 * 'leaveGroupFee', 
+			 * 'total_withdrawable' 
+			 * ];
+			 */
+			$arrears = Group::leaveStatus($member);
+
+
+
+			// Fundraising Group &&  Tour  travel Group
+            if($type->type === 'Fundraising' || $type->type === 'Tours-and-travel' ){
+				$this->leaveNotification($member, $group);
+				$member->forceDelete();
+                return response()->json([
+                    'message' => 'You left '. $group->name . ' successfully'
+                ], 200);
             }
-			
-			// successfully removed the 'Tours-and-travel && Fundraising'
 
-            // /*validate leave request*/
-            $arrears = Group::leaveStatus($member);
-            if ($arrears['loan_balance'] > 0)
+            // // Savings and Investment Group && Merry Go Round Group
+            if ((int)$arrears['loan_balance'] > 0)
                 return response()->json([
                     'message' => 'You have an outstanding loan balance of '.$arrears['loan_balance'].' Clear the loan first'
                 ], 401);
 
 
             /* create leave group fee pending payment*/
-            if ($arrears['leaveGroupFee'] > 0){
+            if ((int)$arrears['leaveGroupFee'] > 0){
                 Payment::init([
                     'user_id' => $member->user_id,
                     'group_id' => $member->group_id,
@@ -509,11 +520,11 @@ class GroupController extends BaseController
             }
 
             /* create withdrawal request for member */
-            if (($arrears['total_contributions'] - $arrears['total_withdrawals'] - $arrears['leaveGroupFee']) > 0){
+            if ((int)($arrears['total_contributions'] - $arrears['total_withdrawals'] - $arrears['leaveGroupFee']) > 0){
 				$amount_withdrawals = $arrears['total_contributions'] - $arrears['leaveGroupFee'] - $arrears['total_withdrawals'] - $arrears['loan_balance'];
 				// $arrears['total_contributions'] - $arrears['total_withdrawals']
 				$withdrawal = Withdrawal::withdraw($member, $amount_withdrawals);
-				
+
 				if($withdrawal){
 					$member_wallet = Wallet::mine();
 					$amount  = $this->amount_after_currency_converstion($member_wallet->currencyShortDesc(), $withdrawal->amount);
@@ -521,27 +532,20 @@ class GroupController extends BaseController
 					$member_wallet->save();
                     $member->delete();
 				}
+				$this->leaveNotification($member, $group);
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
 				], 400);
             }
             /* if total withdrawable is zero leave group */
-            if(($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
+            if((int)($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
 				// force delete of member
-                $member->forceDelete();
+				// $member->forceDelete();
+				$this->leaveNotification($member, $group);
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
                 ], 200);
 			}
-
-
-
-            $member->forceDelete();
-            return response()->json([
-                    'message' => 'You left your group successfully'
-                ], 200);
-			
-			
 
         }catch (Exception $e){
            response()->json([
@@ -552,8 +556,7 @@ class GroupController extends BaseController
 
 	/**Remove the member  from the group */
 	
-
-	public function LeaveNotification($member, $group){
+	public function leaveNotification($member, $group){
 		$type  = NotificationTypes::where('type', 'INFORMATION')->first();
 		$members  = $group->members();
 		$admin = '';
