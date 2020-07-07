@@ -122,8 +122,9 @@ class GroupActivityController extends BaseController
             }
 
             // $model->save();
-            dd($request->user()->id());
-            $member  = Members::where("user_id", $request->user()->id)->where('group_id', $request->id)->first();
+            $member  = Members::where("user_id", $request->user()->id)->where('group_id', $request->group_id)->first();
+
+            dd($member);
 
 
 
