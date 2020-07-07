@@ -124,10 +124,6 @@ class GroupActivityController extends BaseController
             $model->save();
 
 
-            dd(Members::where("user_id", 2)->where('group_id', 11)->first());
-
-
-
             //make first creator first member
             $actMember = new ActivityMembers();
             $actMember->group_id = $model->group_id;
