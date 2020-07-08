@@ -404,6 +404,7 @@ Route::group(['middleware' => ['json.response']], function () {
 					Route::get('/activities/{group_id}', 'GroupController@activities');
 					Route::get('/loan-settings/{group_id}', 'GroupController@loanSettings');
 					Route::get('/withdrawals/{group_id}', 'GroupController@withdrawals');
+					Route::get('/accept-leave', 'GroupController@adminsAcceptLeave');
 					Route::get('/withdrawal-settings/{group_id}', 'GroupController@withdrawalSettings');
 					Route::get('/type/{type_id}', 'GroupController@byType');
 					Route::get('/pending-payments/{group_id}', 'GroupController@pendingPayments');
