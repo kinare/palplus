@@ -109,11 +109,6 @@ class GroupController extends BaseController
 			$type  = GroupType::find($request->type_id)->type;
 			$setup = GroupSetup::first();
 			$wallet = Wallet::mine();
-
-            $wallet->total_balance = (float)2000;
-            $wallet->total_deposits = (float)2000;
-            $wallet->save();
-
             
 			$amount = $this->beforeCreate($wallet->currencyShortDesc())['data']['amount'];
 			if (!$wallet->canWithdraw($amount)){
