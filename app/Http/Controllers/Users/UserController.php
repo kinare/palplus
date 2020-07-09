@@ -83,6 +83,7 @@ class UserController extends BaseController
      *   },
      *   @SWG\Parameter(name="name",in="path",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="email",in="path",description="name",required=true,type="string"),
+     *   @SWG\Parameter(name="location",in="path",description="location",required=false,type="string"),
      *   @SWG\Parameter(name="country_code",in="path",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="phone",in="path",description="name",required=true,type="string"),
      *   @SWG\Parameter(name="password",in="path",description="password",required=false,type="integer"),
