@@ -17,6 +17,14 @@ Route::get("/countries",function(){
 // End of Helpers
 
 
+Route::namespace('Currency')->group(function (){
+    Route::group(['prefix' => 'currency'], function () {
+        Route::get('/', 'CurrencyController@index');
+        Route::get('/{country_code}', 'CurrencyController@getCurrencyByCountryCode');
+    });
+});
+
+
 Route::group(['middleware' => ['json.response']], function () {
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -57,8 +65,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
     Route::namespace('Currency')->group(function (){
         Route::group(['prefix' => 'currency'], function () {
-            Route::get('/', 'CurrencyController@index');
-            Route::get('/{country_code}', 'CurrencyController@getCurrencyByCountryCode');
             Route::post('/convert', 'CurrencyController@convert');
         });
 	});
