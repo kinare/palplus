@@ -43,7 +43,7 @@ class TransactionResource extends JsonResource
 		];
 		$data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
        // $data['from'] = $this->transaction_from ? Wallet::find((int)$this->transaction_from)->user()->name: '';
-       $data['from'] = $this->getUser($data);
+       // $data['from'] = $this->getUser($data);
         return $data;
     }
 
