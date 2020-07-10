@@ -32,6 +32,7 @@ class PaymentResource extends JsonResource
 		];
         $data['currency'] = Wallet::group($this->group_id)->walletCurrency();
         $data['name'] = User::find($data['user_id'])->name;
+        $data['group'] = \App\Group::find($this->group_id);
         return $data;
     }
 }
