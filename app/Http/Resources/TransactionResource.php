@@ -33,8 +33,6 @@ class TransactionResource extends JsonResource
 			"model_id" => $this->model_id,
 			"amount" => $this->amount,
             "from_currency" => $this->from_currency,
-            "from" => $this->transaction_from ? \App\User::find($this->transaction_from) : '',
-			"to" => $this->transaction_to ? \App\User::find($this->transaction_to) : '',
 			"to_currency" => $this->to_currency,
 			"conversion_rate" => $this->conversion_rate,
 			"conversion_time" => $this->conversion_time,
@@ -44,8 +42,8 @@ class TransactionResource extends JsonResource
 			"updated_at" => $this->updated_at->format('Y-m-d'),
 		];
 		$data['currency'] = Wallet::find($data['wallet_id'])->walletCurrency();
-//        $data['from'] = $this->getUser($data);
-//        $data['to'] = $this->getUser($data, 'to');
+       // $data['from'] = $this->transaction_from ? Wallet::find((int)$this->transaction_from)->user()->name: '';
+       $data['from'] = $this->getUser($data);
         return $data;
     }
 
