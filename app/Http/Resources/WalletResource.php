@@ -17,6 +17,7 @@ class WalletResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['currency'] = $this->walletCurrency();
+        $data['user'] = $this->user_id > 0 ? \App\User::find($this->user_id) : 0;
         return  $data;
     }
 }
