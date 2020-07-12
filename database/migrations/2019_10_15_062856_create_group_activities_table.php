@@ -31,9 +31,9 @@ class CreateGroupActivitiesTable extends Migration
             $table->boolean('booking_fee')->default(false);
             $table->boolean('installments')->default(false);
             $table->unsignedInteger('no_of_installments')->nullable();
-            $table->decimal('booking_fee_amount', 8, 2)->default(0);
-            $table->decimal('instalment_amount', 8, 2)->default(0);
-            $table->decimal('total_cost', 8, 2)->nullable();
+            $table->decimal('booking_fee_amount', 12, 2)->default(0);
+            $table->decimal('instalment_amount', 12, 2)->default(0);
+            $table->decimal('total_cost', 12, 2)->nullable();
             $table->string('created_by')->nullable();
             $table->string('modified_by')->nullable();
             $table->timestamps();

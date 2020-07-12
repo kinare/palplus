@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.2",
         "ext-curl": "*",
-        "ext-http": "*",
         "ext-json": "*",
         "ext-openssl": "*",
         "africastalking/africastalking": "^2.3",
@@ -25,8 +24,8 @@
         "paypal/rest-api-sdk-php": "^1.14",
         "smartins/passport-multiauth": "^4.1",
         "srmklive/paypal": "~1.0",
-        "zircote/swagger-php": "2.*",
-        "yiisoft/yii2-httpclient": "~2.0.0"
+        "yiisoft/yii2-httpclient": "~2.0.0",
+        "zircote/swagger-php": "2.*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

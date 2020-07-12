@@ -18,13 +18,13 @@ class CreateGroupProjectsTable extends Migration
             $table->unsignedInteger('group_id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->decimal('estimated_cost', 8,2)->nullable();;
-            $table->decimal('actual_cost', 8, 2)->nullable();;
+            $table->decimal('estimated_cost', 15,2)->nullable();;
+            $table->decimal('actual_cost', 15, 2)->nullable();;
             $table->date('start_date')->nullable();;
             $table->date('end_date')->nullable();;
             $table->string('location')->nullable();;
             $table->boolean('allow_contributions')->default(false);
-            $table->decimal('contribution_amount', 8, 2)->nullable();;
+            $table->decimal('contribution_amount', 15, 2)->nullable();;
             $table->unsignedInteger('contribution_frequency')->nullable();;
             $table->boolean('enable_reminders')->default(false);
             $table->unsignedInteger('created_by')->nullable();
