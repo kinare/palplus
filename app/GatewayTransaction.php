@@ -31,7 +31,7 @@ class GatewayTransaction extends BaseModel
             'billingzip' => $account->billingzip,
             'billingcity' => $account->billingcity,
 			'billingaddress' => $account->billingaddress,
-			'redirect_url' => 'https://yunited.co.ke/response',
+			'redirect_url' => 'https://yunited.co.ke:9443/response',
             'billingstate' => $account->billingstate,
             'billingcountry' => $account->billingcountry,
             'IP' => $ip ?: '',
@@ -165,7 +165,7 @@ class GatewayTransaction extends BaseModel
             'narration' => 'Yunited wallet withdrawal',
             'currency' => $account->currency,
             'reference' => 'PP-'.Carbon::now()->timestamp.'_PMCKDU_1',
-            'callback_url' => 'https://yunited.co.ke/api/gateway/rave/hook',
+            'callback_url' => 'https://yunited.co.ke:9443/api/gateway/rave/hook',
             'beneficiary_name' => $account->beneficiary,
         ];
 
@@ -187,7 +187,7 @@ class GatewayTransaction extends BaseModel
             'amount' => $amount,
             'narration' => 'Yunited wallet withdrawal',
             'currency' => $account->currency,
-            'callback_url' => 'https://yunited.co.ke/api/gateway/rave/hook',
+            'callback_url' => 'https://yunited.co.ke:9443/api/gateway/rave/hook',
             'reference' => 'PP-'.Carbon::now()->timestamp.'_PMCKDU_1',
             'beneficiary_name' => $account->beneficiary,
         ];
