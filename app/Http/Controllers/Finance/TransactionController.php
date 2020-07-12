@@ -209,8 +209,8 @@ class TransactionController extends BaseController
 		$appWallet  = Wallet::app();
 
         //deduct fee from user wallet 
-        $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-        $wallet->total_withdrawals = (float)$wallet->total_withdrawals + (float)$transactionFees;
+        $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees  - (float)$request->amount;
+        $wallet->total_withdrawals = (float)$wallet->total_withdrawals + (float)$transactionFees + (float)$request->amount;
         $wallet->save();
 
 
