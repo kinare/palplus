@@ -5,11 +5,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-<<<<<<< HEAD
-    * Generated on 2020-06-10 14:44:06.
-=======
-    * Generated on 2020-07-12 06:12:57.
->>>>>>> 60e428a9f5f94a76ed96dcb8b602c4d202c49dc4
+    * Generated on 2020-07-12 10:59:10.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -23,6 +19,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -45,8 +42,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -188,6 +183,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -210,8 +206,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -353,6 +347,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -375,8 +370,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -518,6 +511,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -540,8 +534,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -683,6 +675,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -705,8 +698,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -848,6 +839,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -870,8 +862,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -1013,6 +1003,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -1035,8 +1026,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
@@ -1178,6 +1167,7 @@ namespace PHPSTORM_META {
         'Facade\Ignition\IgnitionConfig' => \Facade\Ignition\IgnitionConfig::class,
         'Facade\Ignition\LogRecorder\LogRecorder' => \Facade\Ignition\LogRecorder\LogRecorder::class,
         'Facade\Ignition\QueryRecorder\QueryRecorder' => \Facade\Ignition\QueryRecorder\QueryRecorder::class,
+        'Illuminate\Auth\Middleware\RequirePassword' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
@@ -1200,8 +1190,6 @@ namespace PHPSTORM_META {
         'League\OAuth2\Server\ResourceServer' => \League\OAuth2\Server\ResourceServer::class,
         'NunoMaduro\Collision\Contracts\Adapters\Phpunit\Listener' => \NunoMaduro\Collision\Adapters\Phpunit\Listener::class,
         'NunoMaduro\Collision\Contracts\Provider' => \NunoMaduro\Collision\Provider::class,
-        'Psr\Http\Message\ResponseInterface' => \Zend\Diactoros\Response::class,
-        'Psr\Http\Message\ServerRequestInterface' => \Zend\Diactoros\ServerRequest::class,
         'SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider' => \SMartins\PassportMultiauth\Http\Middleware\AddCustomProvider::class,
         'Whoops\Handler\HandlerInterface' => \Facade\Ignition\ErrorPage\IgnitionWhoopsHandler::class,
         'adaptive_payments' => \Srmklive\PayPal\Services\AdaptivePayments::class,
