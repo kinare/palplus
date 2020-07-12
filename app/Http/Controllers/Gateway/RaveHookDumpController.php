@@ -46,6 +46,8 @@ class RaveHookDumpController extends BaseController
     public function store(Request $request)
     {
 			$body = @file_get_contents("php://input");
+
+            dump(json_decode($body));
             // retrieve the signature sent in the reques header's.
 			$signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
             if(!$signature){
@@ -66,8 +68,6 @@ class RaveHookDumpController extends BaseController
             $model->save();
 
             $response = json_decode($body);
-
-            	dump($response);
 
             if (isset($response->status) ) {
                 if ($response->status === 'successful')
