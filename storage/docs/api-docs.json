@@ -1904,6 +1904,39 @@
                 ]
             }
         },
+        "/currency/{country_code}": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Retrieve Currency",
+                "parameters": [
+                    {
+                        "name": "currency_code",
+                        "in": "path",
+                        "description": "currency code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/dashboard": {
             "get": {
                 "tags": [
@@ -6277,6 +6310,46 @@
                         "name": "group_id",
                         "in": "path",
                         "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/group/accept-leave": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Admin Accept Member Leave Group",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "member_id",
+                        "in": "path",
+                        "description": "Member Id",
                         "required": true,
                         "type": "string"
                     }
@@ -10731,6 +10804,13 @@
                         "in": "path",
                         "description": "name",
                         "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "path",
+                        "description": "location",
+                        "required": false,
                         "type": "string"
                     },
                     {
