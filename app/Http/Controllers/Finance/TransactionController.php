@@ -207,36 +207,34 @@ class TransactionController extends BaseController
 
 		// if all passess this steps  continue to withdraw  am deduct the user with transaction fee;
 		$appWallet  = Wallet::app();
+
+        //deduct fee from user wallet 
+        $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
+        $wallet->total_withdrawals = (float)$wallet->total_withdrawals + (float)$transactionFees;
+        $wallet->save();
+
+
+        // Save to  App wallet
+        $appWallet->total_balance = (float)$appWallet->total_balance + (float)$transactionFees;
+        $appWallet->total_deposits = (float)$appWallet->total_deposits + (float)$transactionFees;
+        $appWallet->save();
+
         switch ($type->type){
 			case 'BANK ACCOUNT' :
-				//deduct fee from user wallet 
-				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				// $wallet->save();
-
                 $transaction = GatewayTransaction::bankTransfer($account, $request->amount);
                 $transfer = new Transfer();
                 return $transfer->send($transaction);
 			case 'MOBILE MONEY' :
-				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				// $wallet->save();
-
                 $transaction = GatewayTransaction::mobileTransfer($account, $request->amount);
 				$transfer = new Transfer();
 				return $transfer->send($transaction);
 
 			case 'PAYPAL' :
-				// $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees;
-				// $wallet->total_balance = (float)$wallet->total_withdrawals + (float)$transactionFees;
-				// $wallet->save();
-
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount);
                 $pp = new Payout();
                 return $pp->transact($transaction);
         }
 	}
-
 
     public function payOut(Request $request){
 
