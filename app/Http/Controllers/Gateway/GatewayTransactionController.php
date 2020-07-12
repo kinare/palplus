@@ -47,10 +47,10 @@ class GatewayTransactionController extends Controller
 
             if ($gt->transaction === 'WITHDRAWAL')
 				$transaction->withdraw($account, $wallet, $amount, 'Withdrawing', 'Wallet withdrawal');
-				$wallet->total_balance = $wallet->total_balance - $amount;
-                $wallet->total_deposits = $wallet->total_deposits - $amount;
-				$wallet->total_withdrawals = $wallet->total_withdrawals + $amount;
-				$wallet->save();
+				// $wallet->total_balance = $wallet->total_balance - $amount;
+    //             $wallet->total_deposits = $wallet->total_deposits - $amount;
+				// $wallet->total_withdrawals = $wallet->total_withdrawals + $amount;
+				// $wallet->save();
 				
 
         }catch (\Exception $e){
