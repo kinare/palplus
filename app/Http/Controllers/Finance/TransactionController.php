@@ -335,11 +335,6 @@ class TransactionController extends BaseController
             $fee = $this->getTransactionFees((float)$request->amount, Wallet::mine());
 
         }
-
-        $message = 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee '.Wallet::mine()->currencyShortDesc().' '.$fee;
-
-        dd($message);
-
         return response()->json([
             'message' => 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee '.Wallet::mine()->currencyShortDesc().' '.$fee
         ], 200);
