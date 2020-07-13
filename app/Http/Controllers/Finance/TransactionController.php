@@ -66,7 +66,7 @@ class TransactionController extends BaseController
 
         switch ($type->type){
             case 'CARD' : //done
-                $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
+                $transaction = GatewayTransaction::initCard($account, $amount, $request->ip());
 				$card = new Card();
                 return $card->transact($transaction, [
                     'cvv' => $account->cvv,
@@ -142,19 +142,16 @@ class TransactionController extends BaseController
 		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();
 		
 		$walletBalance  = (float)$wallet->total_balance;
+
 		$amountWithdraw = (float)$request->amount;
+
+
 		$minimumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->min_amount)['data']['amount'];
 		$maximumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'];
-		$defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
-		$transactionFees = "";
-		$transactionRateFees = (float)($amountWithdraw *($withdrawSetup->rate /100));
 		
+		$transactionFees = $this->getTransactionFees($amountWithdraw, $wallet);
 
-		if($transactionRateFees > $defaultTransactionFees ){
-			$transactionFees = $transactionRateFees;
-		}else{
-			$transactionFees = $defaultTransactionFees;
-		}
+
 		// Total Deduction = AmountWithdrawn  + transactionFees
 		$total_deduction_amount = $amountWithdraw + $transactionFees;
 		// Wallet balance 
@@ -333,8 +330,15 @@ class TransactionController extends BaseController
         $fee = 0;
 
         if ($type->type === 'CARD' || $type->type === 'BANK ACCOUNT' || $type->type === 'MOBILE MONEY'){
-            $fee = (float)GatewayTransactionController::addTransactionFee('RAVE', $request->type, $request->amount) - (float)$request->amount;
+            // $raveAmount = (float)GatewayTransactionController::addTransactionFee('RAVE', $request->type, $request->amount) - (float)$request->amount;
+
+            $fee = $this->getTransactionFees((float)$request->amount, Wallet::mine());
+
         }
+
+        $message = 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee '.Wallet::mine()->currencyShortDesc().' '.$fee;
+
+        dd($message);
 
         return response()->json([
             'message' => 'You are about to make a '.mb_strtolower($request->type).' of '.Wallet::mine()->currencyShortDesc().' '. $request->amount.'. Transaction fee '.Wallet::mine()->currencyShortDesc().' '.$fee
@@ -350,5 +354,24 @@ class TransactionController extends BaseController
             ]
         ];
 	}
+
+
+    public function getTransactionFees($amount,$wallet){
+        $transactionFees = "";
+
+        $ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
+        $withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();
+        $defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
+        $transactionRateFees = (float)((float)$amount *($withdrawSetup->rate /100));
+        
+
+        if($transactionRateFees > $defaultTransactionFees ){
+            $transactionFees = $transactionRateFees;
+        }else{
+            $transactionFees = $defaultTransactionFees;
+        }
+
+        return $transactionFees;
+    }
 	
 }

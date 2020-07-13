@@ -52,5 +52,4 @@ $app->useStoragePath(env('APP_STORAGE', base_path() . '/storage'));
 | from the actual running of the application and sending responses.
 |
 */
-
 return $app;
