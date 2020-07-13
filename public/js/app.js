@@ -94084,7 +94084,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apiBaseUrl", function() { return apiBaseUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appName", function() { return appName; });
-var apiBaseUrl = "https://yunited.co.ke/api/dashboard/";
+var apiBaseUrl = "https://yunited.co.ke:9443/api/dashboard/";
 var appName = process.env.VUE_APP_NAME;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
@@ -94527,6 +94527,7 @@ var AuthStore = {
     },
     user: function user(context) {
       Object(_api__WEBPACK_IMPORTED_MODULE_2__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].user).then(function (res) {
+        console.log(res.data);
         context.commit("SET_USER", res.data.data);
       });
     },
@@ -95941,30 +95942,30 @@ var Member = {
   },
   actions: {
     getMembers: function getMembers(context) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].members).then(function (res) {
-        context.commit('SET_MEMBERS', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].members).then(function (res) {
+        context.commit("SET_MEMBERS", res.data.data);
       });
     },
     getMember: function getMember(context, id) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].member(id)).then(function (res) {
-        context.commit('SET_MEMBER', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].member(id)).then(function (res) {
+        context.commit("SET_MEMBER", res.data.data);
       });
     },
     getNok: function getNok(context) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].nok).then(function (res) {
-        context.commit('SET_NOK', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].nok).then(function (res) {
+        context.commit("SET_NOK", res.data.data);
       });
     },
     toggleMemberActive: function toggleMemberActive(_ref, data) {
       var dispatch = _ref.dispatch;
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleMemberActive, data).then(function (res) {
-        dispatch('getMembers');
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleMemberActive, data).then(function (res) {
+        dispatch("getMembers");
       });
     },
     suspendMember: function suspendMember(_ref2, data) {
       var dispatch = _ref2.dispatch;
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].suspendMember, data).then(function (res) {
-        dispatch('getMembers');
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].suspendMember, data).then(function (res) {
+        dispatch("getMembers");
       });
     }
   }

@@ -44,6 +44,7 @@ const AuthStore = {
 
         user: context => {
             call("get", endpoints.user).then(res => {
+                console.log(res.data)
                 context.commit("SET_USER", res.data.data);
             });
         },
