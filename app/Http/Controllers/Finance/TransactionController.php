@@ -331,8 +331,13 @@ class TransactionController extends BaseController
 
         if ($type->type === 'CARD' || $type->type === 'BANK ACCOUNT' || $type->type === 'MOBILE MONEY'){
             // $raveAmount = (float)GatewayTransactionController::addTransactionFee('RAVE', $request->type, $request->amount) - (float)$request->amount;
+            $fee = (float)0;
+            if($request->type == "WITHDRAWAL"){
+                $fee = $this->getTransactionFees((float)$request->amount, Wallet::mine());
+            }
 
-            $fee = $this->getTransactionFees((float)$request->amount, Wallet::mine());
+
+            
 
         }
         return response()->json([
