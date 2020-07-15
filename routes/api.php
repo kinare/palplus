@@ -20,6 +20,7 @@ Route::get("/countries",function(){
 Route::namespace('Currency')->group(function (){
     Route::group(['prefix' => 'currency'], function () {
         Route::get('/', 'CurrencyController@index');
+        Route::get('/{id}', 'CurrencyController@show');
         Route::get('/{country_code}', 'CurrencyController@getCurrencyByCountryCode');
     });
 });
