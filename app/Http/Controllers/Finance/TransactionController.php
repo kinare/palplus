@@ -66,7 +66,7 @@ class TransactionController extends BaseController
 
         switch ($type->type){
             case 'CARD' : //done
-                $transaction = GatewayTransaction::initCard($account, $amount, $request->ip());
+                $transaction = GatewayTransaction::initCard($account, $request->amount, $request->ip());
 				$card = new Card();
                 return $card->transact($transaction, [
                     'cvv' => $account->cvv,
