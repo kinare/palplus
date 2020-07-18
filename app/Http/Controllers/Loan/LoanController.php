@@ -85,28 +85,28 @@ class LoanController extends BaseController
         if (Loan::hasLoan($member))
             return response()->json([
                 'message' => 'You have an active loan, clear the loan to apply again'
-            ], 500);
+            ]);
 
 
         if (!Loan::isQualified($member))
             return response()->json([
                 'message' => 'You dont qualify to apply for this loan'
-            ], 500);
+            ]);
 
         if (!Contribution::hasContributions($member))
             return response()->json([
                 'message' => 'You dont qualify to apply for this loan. Contribute/save more to increase loan limit'
-            ], 500);
+            ]);
 
         if (!Group::hasFunds($group))
             return response()->json([
                 'message' => 'Insufficient group funds'
-            ], 500);
+            ]);
 
         if ($request->loan_amount > $this->limit($member->group_id)['data']['limit'])
             return response()->json([
                 'message' => 'Your loan amount is over your limit'
-            ], 500);
+            ]);
 
         $setting =  LoanSetting::whereGroupId($group->id)->first();
 
@@ -125,7 +125,7 @@ class LoanController extends BaseController
 
         return response()->json([
             'message' => 'Your loan application has been successfully submitted for approval'
-        ], 500);
+        ]);
 
     }
 
