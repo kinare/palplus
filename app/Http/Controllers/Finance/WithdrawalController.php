@@ -17,6 +17,8 @@ use App\WithdrawalApprovalEntry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\NotificationTypes;
+use App\Notification;
 
 class WithdrawalController extends BaseController
 {
@@ -67,20 +69,52 @@ class WithdrawalController extends BaseController
             'amount' => 'required',
         ]);
 
-        $group = Group::find($request->group_id);
-        $member = Members::member($group->id);
+        $group = Group::find($request->group_id);        
+        $member = Members::where("user_id", $request->user()->id)->where('group_id', $request->group_id)->first();
+
+        if(!$member){
+            return response()->json([
+                'message' => 'You are not a member if this group'
+            ]);   
+        }
+        if(!$member->is_admin){
+            return response()->json([
+                'message' => "You can't perform this action, you are not the group admin."
+            ]);
+        }
+        if(!$group){
+             return response()->json([
+                'message' => "This group doesn't exist."
+            ]);
+        }
 
         $wallet = Wallet::group($group->id);
         if (!$wallet->canWithdraw($request->amount))
             return response()->json([
                 'message' => 'Insufficient Group funds'
-            ], 403);
+            ]);
+        $withdrawal = Withdrawal::withdraw($member, $request->amount);
+        $this->WithdrawalNotification($group);
 
-        $withdrawal = Withdrawal::withdraw($member,  $request->amount);
         return response()->json([
 			'message' => 'Successful. Your withdrawal request is being processed',
-			$withdrawal => $withdrawal
-        ], 200);
+			"withdrawal" => $withdrawal
+        ]);
+
+    }
+
+
+    public function WithdrawalNotification($group){
+        $type  = NotificationTypes::where('type', 'INFORMATION')->first();
+        $members  = $group->members();
+        foreach ($members as $key) {
+            $notify  = new Notification();
+            $notify->user_id = $key->user_id;
+            $notify->notification_types_id = $type->id;
+            $notify->message  = $member->user()->name ." Has requested for withdrawal  from". $group->name . "group. Please take your time to accept";
+            $notify->subject = "Withdrawal Request";
+            $notify->save();
+        }
     }
 
     /**

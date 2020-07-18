@@ -13,6 +13,7 @@ class GatewayTransaction extends BaseModel
         'user_id',
         'type',
         'payload',
+        'transaction_fees'
     ];
 
     public static function initCard(Account $account, $amount, $ip= null, $fingerPrint = null) {

@@ -21,6 +21,7 @@ class Transaction extends BaseModel
         'to_currency',
         'conversion_rate',
         'conversion_time',
+        'transaction_fees'
 	];
 
 
