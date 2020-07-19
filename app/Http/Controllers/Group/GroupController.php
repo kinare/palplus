@@ -368,14 +368,14 @@ class GroupController extends BaseController
             if ($member)
                 return response()->json([
                     'message' => 'You are already a member'
-                ], 404);
+                ]);
 
 
             $group = Group::find($request->group_id);
             if (!$group)
                 return response()->json([
                     'message' => 'Group Not found'
-                ], 404);
+                ]);
 
             if ($group->access_level === 'private')
                 return response()->json([
@@ -451,7 +451,7 @@ class GroupController extends BaseController
             if (!$member)
                 return response()->json([
                     'message' => 'You are not a member in this group'
-				], 404);
+				]);
 				
 			if($member->is_admin){
 				return response()->json([
@@ -464,7 +464,7 @@ class GroupController extends BaseController
             if (!$group)
                 return response()->json([
                     'message' => 'Group Not found'
-				], 404);
+				]);
 				
 
 			// Group Type
@@ -497,7 +497,7 @@ class GroupController extends BaseController
             if ((int)$arrears['loan_balance'] > 0)
                 return response()->json([
                     'message' => 'You have an outstanding loan balance of '.$arrears['loan_balance'].' Clear the loan first'
-                ], 401);
+                ]);
 
 
             /* create leave group fee pending payment*/
@@ -529,7 +529,7 @@ class GroupController extends BaseController
 				$this->leaveNotification($member, $group, "Member Withdrawal Request");
 				return response()->json([
 					'message' => 'Request received successfully, withdrawable amount is being processed.'
-				], 400);
+				]);
             }
             /* if total withdrawable is zero leave group */
             if((int)($arrears['total_withdrawable'] - $arrears['leaveGroupFee']) === 0) {
@@ -538,13 +538,13 @@ class GroupController extends BaseController
 				$this->leaveNotification($member, $group, "Member Leaving Group");
                 return response()->json([
                     'message' => 'You left '. $group->name . ' successfully'
-                ], 200);
+                ]);
 			}
 
         }catch (Exception $e){
            response()->json([
                'message' =>"An Error Occurred, ". $e
-           ], 500);
+           ]);
         }
 	}
 
@@ -598,13 +598,13 @@ class GroupController extends BaseController
             if (!$member)
                 return response()->json([
                     'message' => 'Member Not found'
-                ], 404);
+                ]);
 
             $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
             if (!$user->is_admin)
                 return response()->json([
                     'message' => 'Unauthorised'
-                ], 404);
+                ]);
 
 
             $member->is_admin = true;
@@ -650,13 +650,13 @@ class GroupController extends BaseController
             if (!$member)
                 return response()->json([
                     'message' => 'Member Not found'
-                ], 404);
+                ]);
 
             $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
             if (!$user->is_admin)
                 return response()->json([
                     'message' => 'Unauthorised'
-                ], 404);
+                ]);
 
             $member->is_admin = false;
             $member->modified_by = $request->user()->id;
@@ -703,13 +703,13 @@ class GroupController extends BaseController
             if (!$member)
                 return response()->json([
                     'message' => 'Member Not found'
-                ], 404);
+                ]);
 
             $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
             if (!$user->is_admin)
                 return response()->json([
                     'message' => 'Unauthorised'
-                ], 404);
+                ]);
 
             if ($request->approver_type === 'LOAN'){
                 $member->loan_approver = true;
@@ -762,13 +762,13 @@ class GroupController extends BaseController
             if (!$member)
                 return response()->json([
                     'message' => 'Member Not found'
-                ], 404);
+                ]);
 
             $user =  Members::where(['user_id' => $request->user()->id, 'group_id' => $request->group_id])->first();
             if (!$user->is_admin)
                 return response()->json([
                     'message' => 'Unauthorised'
-                ], 404);
+                ]);
 
             if ($request->approver_type === 'LOAN'){
                 $member->loan_approver = false;
@@ -1002,7 +1002,7 @@ class GroupController extends BaseController
             if (!$me)
                 return response()->json([
                     'message' => 'You are not in any group.'
-                ], 404);
+                ]);
 
             return new MemberResource($me);
         }catch (Exception $e){
