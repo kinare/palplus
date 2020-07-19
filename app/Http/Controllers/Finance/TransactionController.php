@@ -206,9 +206,13 @@ class TransactionController extends BaseController
 		$appWallet  = Wallet::app();
 
 
+        /// to Be Removed
+
         $wallet->total_balance = (float)$wallet->total_balance - (float)$transactionFees  - (float)$request->amount;
         $wallet->total_withdrawals = (float)$wallet->total_withdrawals + (float)$transactionFees + (float)$request->amount;
         $wallet->save();
+
+        // end of to be removed
 
 
         // // Save to  App wallet
