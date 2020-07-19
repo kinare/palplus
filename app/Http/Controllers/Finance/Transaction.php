@@ -92,27 +92,45 @@ class Transaction extends Accounting
         $this->state++;
 
         /* Credit the to wallet */
-        $debit = $this->debit($wallet, $converted->amount);
+        // $debit = $this->debit($wallet, $converted->amount);
         $this->state++;
 
-        if ($debit)
-            $this->record([
-                'transaction_code' => 'PP-'.Carbon::now()->timestamp,
-                'wallet_id' => $wallet->id,
-                'entry' => 'debit',
-                'transaction_from' => $wallet->id,
-                'transaction_to' => $account->id,
-                'transaction_type' => 'external',
-                'account_no' => $account->number,
-                'type' => $type,
-                'description' => $description,
-                'amount' => $converted->amount,
-                'from_currency' => $account->currency,
-                'to_currency' => $wallet->currencyShortDesc(),
-                'conversion_rate' => serialize($converted->rate),
-				'conversion_time' => $converted->time,
-				'status' => 'processed'
-            ]);
+        $this->record([
+            'transaction_code' => 'PP-'.Carbon::now()->timestamp,
+            'wallet_id' => $wallet->id,
+            'entry' => 'debit',
+            'transaction_from' => $wallet->id,
+            'transaction_to' => $account->id,
+            'transaction_type' => 'external',
+            'account_no' => $account->number,
+            'type' => $type,
+            'description' => $description,
+            'amount' => $converted->amount,
+            'from_currency' => $account->currency,
+            'to_currency' => $wallet->currencyShortDesc(),
+            'conversion_rate' => serialize($converted->rate),
+            'conversion_time' => $converted->time,
+            'status' => 'processed'
+        ]);
+
+        // if ($debit)
+    //         $this->record([
+    //             'transaction_code' => 'PP-'.Carbon::now()->timestamp,
+    //             'wallet_id' => $wallet->id,
+    //             'entry' => 'debit',
+    //             'transaction_from' => $wallet->id,
+    //             'transaction_to' => $account->id,
+    //             'transaction_type' => 'external',
+    //             'account_no' => $account->number,
+    //             'type' => $type,
+    //             'description' => $description,
+    //             'amount' => $converted->amount,
+    //             'from_currency' => $account->currency,
+    //             'to_currency' => $wallet->currencyShortDesc(),
+    //             'conversion_rate' => serialize($converted->rate),
+				// 'conversion_time' => $converted->time,
+				// 'status' => 'processed'
+    //         ]);
 
         /* check the transaction status */
         if ($this->state >= 2)
@@ -159,6 +177,7 @@ class Transaction extends Accounting
     public function payout(Wallet $wallet, Account $account, $amount, $type = null, $description = null){
         /* TODO: implement payout */
     }
+    
 
     protected function record($details){
         $transaction = new TransactionRecords();
