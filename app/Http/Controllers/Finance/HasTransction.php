@@ -32,7 +32,7 @@ trait HasTransction
     public function link($link){
         return response()->json([
             'code' => 3,
-            'message' => 'finish transaction through the link provided',
+            'message' => 'Please wait as we redirect you OR follow the link to complete the transaction',
             'url' => $link,
         ],200);
     }
