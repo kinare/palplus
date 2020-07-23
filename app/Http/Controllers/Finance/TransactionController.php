@@ -117,8 +117,9 @@ class TransactionController extends BaseController
         $request->validate([
             'amount' => 'required',
             'account_id' => 'required',
-        ]);
-
+		]);
+		
+		/*
         //get payment account and wallet
         $account = Account::find($request->account_id);
 		$wallet  = Wallet::mine();
@@ -134,7 +135,6 @@ class TransactionController extends BaseController
 				'message' => 'Please withdraw with either Bank, mobile or Paypal account.'
 			]);
 		}
-		/**Withdraw check*/
 		$ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
 		//check if the user has money if his wallet
 
@@ -233,7 +233,13 @@ class TransactionController extends BaseController
                 $transaction = GatewayTransaction::initPaypalPayout($account, $request->amount, (float)$transactionFees);
                 $pp = new Payout();
                 return $pp->transact($transaction);
-        }
+		}
+		***/
+		
+		return response()->json([
+			'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
+		], 400);
+
 	}
 
 
