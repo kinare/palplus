@@ -19,6 +19,7 @@ use App\Lib\Rave\Mobile;
 use App\Lib\Rave\Transfer;
 use App\Transaction;
 use App\Wallet;
+use App\UserSetup;
 use Illuminate\Http\Request;
 
 class TransactionController extends BaseController
@@ -119,7 +120,6 @@ class TransactionController extends BaseController
             'account_id' => 'required',
 		]);
 		
-		/*
         //get payment account and wallet
         $account = Account::find($request->account_id);
 		$wallet  = Wallet::mine();
@@ -127,7 +127,12 @@ class TransactionController extends BaseController
         //if account not set
         if (!$account) return response()->json([
             'message' => 'Please add your account in account settings to proceed'
-        ]);
+		]);
+		if($request->user()->status  != 'active'){
+			return response()->json([
+				'message' => 'Your account has been suspended please contact admin on support@yunited.app'
+			], 400);
+		}
 
 		$type = AccountType::find($account->account_type_id);
 		if($type->type == 'CARD'){
@@ -139,8 +144,17 @@ class TransactionController extends BaseController
 		//check if the user has money if his wallet
 
 		// find the withdraw fee rate setup ->rate %
-		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();
-
+		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();	
+		if(!$withdrawSetup){
+			return response()->json([
+				'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
+			], 400);
+		}
+		if(!$withdrawSetup->active){
+			return response()->json([
+				'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
+			], 400);
+		}
 		
 		$walletBalance  = (float)$wallet->total_balance;
 
@@ -149,15 +163,42 @@ class TransactionController extends BaseController
 
 		$minimumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), (float)$withdrawSetup->min_amount)['data']['amount'];
 		$maximumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'];
-		
+		$maximumWithdrawalLimitPerday  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(),$withdrawSetup->limit_per_day)['data']['amount'];
 		$transactionFees = $this->getTransactionFees($amountWithdraw, $wallet);
-
-
+		
+		
 		// Total Deduction = AmountWithdrawn  + transactionFees
 		$total_deduction_amount = $amountWithdraw + $transactionFees;
-		// Wallet balance 
-		// amount withdrawal
-		//$walletMoreThan2Dollors = (float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 2)['data']['amount'];
+		// Not more that the withdrawable amount
+		if($amountWithdraw > $maximumWithdrawalAmount){
+			return response()->json([
+				'message' => 'Failed, You cannot withdraw amount more than  '. $wallet->currencyShortDesc() .' ' . (float)$maximumWithdrawalAmount . ' per transaction'
+			], 400);
+		}
+		/**
+		 * User Setup 
+		 */
+		$user_setup_allow_withdrawal = UserSetup::allowWithdraw($request->user()->id, $amountWithdraw);
+
+		$user_setup = UserSetup::setup($request->user()->id, $amountWithdraw, $maximumWithdrawalLimitPerday);
+
+		$today_user_setup = UserSetup::
+							whereDate('created_at', '=', date('Y-m-d'))
+							->where('user_id', $request->user()->id)->first();
+	
+		if(!$user_setup_allow_withdrawal) {
+			return response()->json([
+				'message' => 'Failed, You have reached maximum withdrawal amount for today of '. $wallet->currencyShortDesc() .' ' . $maximumWithdrawalLimitPerday . ' Your balance to withdrawal is '.  $wallet->currencyShortDesc(). " ". ($maximumWithdrawalLimitPerday - (float)$today_user_setup->balance_to_withdrawal)
+			], 400);
+		}
+		// dd($maximumWithdrawalLimitPerday);
+		dd(UserSetup::find(3));
+		if(!$user_setup){
+			return response()->json([
+				'message' => 'Failed, Please try again!! '
+			], 400);
+		}
+
 		// conditions
 		if($minimumWithdrawalAmount > $amountWithdraw){
 			return response()->json([
@@ -234,11 +275,11 @@ class TransactionController extends BaseController
                 $pp = new Payout();
                 return $pp->transact($transaction);
 		}
-		***/
 		
-		return response()->json([
-			'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
-		], 400);
+		
+		// return response()->json([
+		// 	'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
+		// ], 400);
 
 	}
 

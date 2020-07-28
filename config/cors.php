@@ -14,20 +14,15 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
-
-<<<<<<< HEAD
     /*
      * You can enable CORS for 1 or multiple paths.
      * Example: ['api/*']
      */
-    'paths' => [],
     /*
     * Matches the request method. `[*]` allows all methods.
     */
-=======
     'paths' => ['api/*'],
 
->>>>>>> 00c7b748645537dff8bc74915f49a4b2ad80a61e
     'allowed_methods' => ['*'],
 
     'allowed_origins' => ['*'],

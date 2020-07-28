@@ -83,6 +83,7 @@ Route::group(['prefix' => ''], function () {
             Route::group(['prefix' => 'advert-setup'], function (){
                 Route::get('/', 'DashboardController@advertSetups');
                 Route::post('/', 'DashboardController@saveAdvertSetup');
+                Route::patch('/{id}', 'DashboardController@saveAdvertSetup');
                 Route::get('/{id}', 'DashboardController@advertSetup');
             });
 

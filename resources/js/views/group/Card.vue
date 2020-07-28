@@ -128,38 +128,38 @@ import HeroBar from "../../components/HeroBar";
 export default {
   name: "Card",
   components: { UserAvatar, CardComponent, HeroBar },
-  data: function() {
+  data: function () {
     return {
       isModalActivateActive: false,
       isModalSuspendActive: false,
       reason: "",
-      id: ""
+      id: "",
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(v => {
+    next((v) => {
       v.$store.dispatch("Group/getGroup", to.params.id);
     });
   },
   computed: {
     group() {
       return this.$store.getters["Group/group"];
-    }
+    },
   },
   methods: {
-    transaction: function(id) {
+    transaction: function (id) {
       alert(id);
     },
 
-    toggleActive: function(id) {
+    toggleActive: function (id) {
       this.isModalActivateActive = true;
       this.id = id;
     },
 
-    onOkToggleActive: function() {
+    onOkToggleActive: function () {
       this.$store.dispatch("Group/toggleActiveGroup", {
         id: this.id,
-        reason: this.reason
+        reason: this.reason,
       });
 
       this.reason = "";
@@ -167,22 +167,22 @@ export default {
       this.isModalActivateActive = false;
     },
 
-    suspend: function(id) {
+    suspend: function (id) {
       this.isModalSuspendActive = true;
       this.id = id;
     },
 
-    onOkSuspend: function() {
+    onOkSuspend: function () {
       this.$store.dispatch("Group/suspendGroup", {
         id: this.id,
-        reason: this.reason
+        reason: this.reason,
       });
 
       this.reason = "";
       this.id = "";
       this.isModalSuspendActive = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

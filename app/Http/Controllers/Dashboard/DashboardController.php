@@ -356,9 +356,14 @@ class DashboardController extends Controller
     }
 
     public function suspendMember(Request $request){
-        $user = User::find($request->id);
-        $user->status = 'suspended';
-        $user->active = false;
+		$user = User::find($request->id);
+		if($user->status == 'suspended'){
+			$user->status = 'active';
+			$user->active = true;
+		}else{
+			$user->status = 'suspended';
+			$user->active = false;
+		}
         $user->reasons = $request->reason;
         $user->save();
         return response()->json([
