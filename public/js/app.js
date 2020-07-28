@@ -5517,6 +5517,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5527,12 +5544,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     next(function (v) {
-      v.$store.dispatch('Member/getMember', to.params.id);
+      v.$store.dispatch("Member/getMember", to.params.id);
     });
   },
   computed: {
     member: function member() {
-      return this.$store.getters['Member/member'];
+      return this.$store.getters["Member/member"];
+    }
+  },
+  methods: {
+    suspendItem: function suspendItem(user_id) {
+      this.$store.dispatch("Member/suspendMember", {
+        id: user_id
+      });
+      this.$store.dispatch("Member/getMember", this.$route.params.id);
     }
   }
 });
@@ -6204,6 +6229,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6304,6 +6335,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -6317,26 +6349,26 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       setting: {
-        type: '',
-        rate: '',
-        gateway: '',
-        active: ''
+        type: "",
+        rate: "",
+        gateway: "",
+        active: ""
       }
     };
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     next(function (v) {
-      if (to.params.id) v.$store.dispatch('Setup/getSetup', to.params.id);
+      if (to.params.id) v.$store.dispatch("Setup/getSetup", to.params.id);
     });
   },
   computed: {
     setup: function setup() {
-      return this.$store.getters['Setup/setup'];
+      return this.$store.getters["Setup/setup"];
     }
   },
   methods: {
     saveSetting: function saveSetting() {
-      this.$store.dispatch('Setup/saveSetup', this.setting);
+      this.$store.dispatch("Setup/saveSetup", this.setting);
       this.$router.go(-1);
     }
   },
@@ -72749,20 +72781,79 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "b-field",
-            { attrs: { label: "Status" } },
-            [
-              _c("b-input", {
-                attrs: {
-                  value: _vm.member.active ? "active" : "inactive",
-                  "custom-class": "is-static",
-                  readonly: ""
-                }
-              })
-            ],
-            1
-          ),
+          _vm.member.active
+            ? [
+                _c(
+                  "b-field",
+                  { attrs: { label: "Status" } },
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        attrs: { required: "" },
+                        on: {
+                          change: function($event) {
+                            return _vm.deactivateMember(_vm.member.id)
+                          }
+                        },
+                        model: {
+                          value: _vm.member.active,
+                          callback: function($$v) {
+                            _vm.$set(_vm.member, "active", $$v)
+                          },
+                          expression: "member.active"
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Active")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Inactive")
+                        ])
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ]
+            : [
+                _c(
+                  "b-field",
+                  { attrs: { label: "Status" } },
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        attrs: { required: "" },
+                        on: {
+                          change: function($event) {
+                            return _vm.activateMember(_vm.member.id)
+                          }
+                        },
+                        model: {
+                          value: _vm.member.active,
+                          callback: function($$v) {
+                            _vm.$set(_vm.member, "active", $$v)
+                          },
+                          expression: "member.active"
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { value: "1" } }, [
+                          _vm._v("Active")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "0" } }, [
+                          _vm._v("Inactive")
+                        ])
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ],
           _vm._v(" "),
           _c(
             "b-field",
@@ -72779,9 +72870,37 @@ var render = function() {
             1
           ),
           _vm._v(" "),
+          _c(
+            "b-field",
+            { attrs: { label: "Active" } },
+            [
+              _c("b-input", {
+                attrs: {
+                  value: _vm.member.status,
+                  "custom-class": "is-static",
+                  readonly: ""
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-button",
+            {
+              staticClass: "is-primary",
+              on: {
+                click: function($event) {
+                  return _vm.suspendItem(_vm.member.id)
+                }
+              }
+            },
+            [_vm._v("Save")]
+          ),
+          _vm._v(" "),
           _c("hr")
         ],
-        1
+        2
       )
     ],
     1
@@ -74010,6 +74129,19 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
+                                label: "Limit Per Day",
+                                field: "limit_per_day",
+                                sortable: "",
+                                searchable: true
+                              }
+                            },
+                            [_vm._v(_vm._s(props.row.limit_per_day))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-table-column",
+                            {
+                              attrs: {
                                 label: "Created at",
                                 field: "created_at",
                                 sortable: "",
@@ -74152,7 +74284,7 @@ var render = function() {
     "div",
     [
       _c("hero-bar", { attrs: { "has-right-visible": true } }, [
-        _vm._v("\n        Gateway Setup\n    ")
+        _vm._v("Gateway Setup")
       ]),
       _vm._v(" "),
       _c("section", { staticClass: "section is-main-section" }, [
@@ -74249,6 +74381,24 @@ var render = function() {
                             _vm.$set(_vm.setting, "max_amount", $$v)
                           },
                           expression: "setting.max_amount"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    { attrs: { label: "Withdrawal Limt Per Day Amount" } },
+                    [
+                      _c("b-input", {
+                        attrs: { type: "number" },
+                        model: {
+                          value: _vm.setting.limit_per_day,
+                          callback: function($$v) {
+                            _vm.$set(_vm.setting, "limit_per_day", $$v)
+                          },
+                          expression: "setting.limit_per_day"
                         }
                       })
                     ],
@@ -94084,7 +94234,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apiBaseUrl", function() { return apiBaseUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appName", function() { return appName; });
-var apiBaseUrl = "https://yunited.co.ke:9443/api/dashboard/";
+var apiBaseUrl = "http://localhost:8000//api/dashboard/";
 var appName = process.env.VUE_APP_NAME;
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
@@ -95572,13 +95722,13 @@ var Admin = {
   },
   actions: {
     getAdmins: function getAdmins(context) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].admins).then(function (res) {
-        context.commit('SET_ADMINS', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].admins).then(function (res) {
+        context.commit("SET_ADMINS", res.data.data);
       });
     },
     getAdmin: function getAdmin(context, id) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].getAdmin(id)).then(function (res) {
-        context.commit('SET_ADMIN', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].getAdmin(id)).then(function (res) {
+        context.commit("SET_ADMIN", res.data.data);
       });
     },
     invite: function invite(context, data) {
@@ -95588,39 +95738,39 @@ var Admin = {
     },
     save: function save(data) {
       Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].saveAdmin(data.id), data).then(function (res) {
-        Event.$emit("ApiSuccess", 200, 'Saved');
+        Event.$emit("ApiSuccess", 200, "Saved");
       });
     },
     validate: function validate(context, token) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].validate, token).then(function (res) {
-        context.commit('SET_ADMIN', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].validate, token).then(function (res) {
+        context.commit("SET_ADMIN", res.data.data);
       });
     },
     inviteAdmin: function inviteAdmin(context, email) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].inviteAdmin, email).then(function () {
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].inviteAdmin, email).then(function () {
         /*successfullly invited*/
       });
     },
     saveAdmin: function saveAdmin(context, data) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('post', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].saveAdmin(data.id), data).then(function () {
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("post", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].saveAdmin(data.id), data).then(function () {
         /*successfullly invited*/
       });
     },
     toggleStatus: function toggleStatus(_ref, id) {
       var dispatch = _ref.dispatch;
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleStatus(id)).then(function () {
-        dispatch('getAdmins');
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].toggleStatus(id)).then(function () {
+        dispatch("getAdmins");
       });
     },
     "delete": function _delete(_ref2, id) {
       var dispatch = _ref2.dispatch;
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('delete', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].deleteAdmin(id)).then(function () {
-        dispatch('getAdmins');
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("delete", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].deleteAdmin(id)).then(function () {
+        dispatch("getAdmins");
       });
     },
     getStats: function getStats(context) {
-      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])('get', _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].stats).then(function (res) {
-        context.commit('SET_STATS', res.data.data);
+      Object(_modules_api__WEBPACK_IMPORTED_MODULE_1__["default"])("get", _endpoints__WEBPACK_IMPORTED_MODULE_0__["default"].stats).then(function (res) {
+        context.commit("SET_STATS", res.data.data);
       });
     }
   }

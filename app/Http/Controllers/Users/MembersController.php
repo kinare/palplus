@@ -133,7 +133,10 @@ class MembersController extends BaseController
     public function activate($id)
     {
         $member = Members::find($id);
-        $member->activate();
+		$member->activate();
+		$user  = User::find($member->user_id);
+		$user->activate = "active";
+		$user->save();
         return new MemberResource($member);
     }
 
@@ -154,7 +157,10 @@ class MembersController extends BaseController
      */
     public function deactivate($id)
     {
-        $member = Members::find($id);
+		$member = Members::find($id);
+		$user  = User::find($member->user_id);
+		$user->activate = "suspended";
+		$user->save();
         $member->deActivate();
         return new MemberResource($member);
     }

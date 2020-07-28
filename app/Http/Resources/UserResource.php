@@ -30,7 +30,7 @@ class UserResource extends JsonResource
 			"active" => $this->active,
 			"location" => $this->location,
 			"country_code" => $this->country_code,
-			"created_at" => $this->created_at->format("Y-m-d"),
+			"created_at" => $this->created_at ? $this->created_at->format('Y-m-d'): '',
 			"deleted_at" => $this->deleted_at ? $this->deleted_at->format('Y-m-d'): '',
 			"updated_at" => $this->updated_at ? $this->updated_at->format('Y-m-d'): ''
 		];

@@ -12,7 +12,8 @@ class GatewaySetup extends BaseModel
       'rate',
       'active',
       'max_amount',
-      'min_amount'
+	  'min_amount',
+	  'limit_per_day'
     ];
 
     public static function getSetup($gateway, $type){

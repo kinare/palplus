@@ -47,6 +47,12 @@
               :searchable="true"
             >{{ props.row.max_amount }}</b-table-column>
             <b-table-column
+              label="Limit Per Day"
+              field="limit_per_day"
+              sortable
+              :searchable="true"
+            >{{ props.row.limit_per_day }}</b-table-column>
+            <b-table-column
               label="Created at"
               field="created_at"
               sortable
@@ -100,24 +106,24 @@ export default {
       trashObject: null,
       isLoading: false,
       paginated: true,
-      perPage: 10
+      perPage: 10,
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(v => {
+    next((v) => {
       v.$store.dispatch("Setup/getSetups", to.params.id);
     });
   },
   computed: {
     setups() {
       if (this.$route.params.type) {
-        return this.$store.getters["Setup/setups"].filter(s => {
+        return this.$store.getters["Setup/setups"].filter((s) => {
           return s.type.toLowerCase() === this.$route.params.type.toLowerCase();
         });
       }
       return this.$store.getters["Setup/setups"];
-    }
-  }
+    },
+  },
 };
 </script>
 
