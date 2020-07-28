@@ -20,7 +20,6 @@ class CreateUserSetupsTable extends Migration
 			$table->decimal('balance_to_withdrawal', 15, 0)->default(10);
 			$table->decimal('maximum_withdrawal_amount', 15, 0)->default(10);
             $table->timestamps();
-            $table->timestamps();
         });
     }
 
