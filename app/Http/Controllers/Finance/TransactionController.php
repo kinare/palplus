@@ -162,6 +162,7 @@ class TransactionController extends BaseController
 
 
 		$minimumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), (float)$withdrawSetup->min_amount)['data']['amount'];
+		$minimumWalletBalanceAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), (float)2)['data']['amount'];
 		$maximumWithdrawalAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), $withdrawSetup->max_amount)['data']['amount'];
 		$maximumWithdrawalLimitPerday  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(),$withdrawSetup->limit_per_day)['data']['amount'];
 		$transactionFees = $this->getTransactionFees($amountWithdraw, $wallet);
@@ -204,8 +205,8 @@ class TransactionController extends BaseController
 			], 400);
 		}
 
-		// 3. Check that them minimum amount being withdrawn is more than $2 -> 200;
-		if(((float)$wallet->total_balance <= $minimumWithdrawalAmount)){
+		// 3. Check that the wallet amount is greater than $2 -> 200;
+		if(((float)$wallet->total_balance < $minimumWalletBalanceAmount)){
 			return response()->json([
 				'message' => 'You wallet balance should more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
 			], 400);
@@ -215,11 +216,11 @@ class TransactionController extends BaseController
 		//4 Check what will be the balance after withdrawing the amount  show be 
 		// equal or greater than $minimumWithdrawalAmount
 
-		if(!((float)$wallet->total_balance - $total_deduction_amount >= $minimumWithdrawalAmount)){
-			return response()->json([
-				'message' => 'You wallet balance  after withdrawing should  be equal to or more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
-			], 400);
-		}
+		// if(!((float)$wallet->total_balance - $total_deduction_amount >= $minimumWithdrawalAmount)){
+		// 	return response()->json([
+		// 		'message' => 'You wallet balance  after withdrawing should  be equal to or more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+		// 	], 400);
+		// }
 
 		/**
 		 * User Setup 
