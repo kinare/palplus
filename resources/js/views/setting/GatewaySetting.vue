@@ -33,25 +33,25 @@
               field="rate"
               sortable
               :searchable="true"
-            >{{ props.row.rate }}</b-table-column>
+            >{{ props.row.rate }} %</b-table-column>
             <b-table-column
               label="Minimum amount"
               field="min_amount"
               sortable
               :searchable="true"
-            >{{ props.row.min_amount }}</b-table-column>
+            >$ {{ props.row.min_amount }}</b-table-column>
             <b-table-column
               label="Maximum amount"
               field="max_amount"
               sortable
               :searchable="true"
-            >{{ props.row.max_amount }}</b-table-column>
+            >$ {{ props.row.max_amount }}</b-table-column>
             <b-table-column
-              label="Limit Per Day"
+              label="Amount Limit Per Day"
               field="limit_per_day"
               sortable
               :searchable="true"
-            >{{ props.row.limit_per_day }}</b-table-column>
+            >$ {{ props.row.limit_per_day }}</b-table-column>
             <b-table-column
               label="Created at"
               field="created_at"
