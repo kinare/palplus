@@ -192,7 +192,6 @@ class TransactionController extends BaseController
 			], 400);
 		}
 		// dd($maximumWithdrawalLimitPerday);
-		dd(UserSetup::find(3));
 		if(!$user_setup){
 			return response()->json([
 				'message' => 'Failed, Please try again!! '
