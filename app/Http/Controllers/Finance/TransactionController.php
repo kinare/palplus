@@ -228,7 +228,7 @@ class TransactionController extends BaseController
 		$user_setup_allow_withdrawal = UserSetup::allowWithdraw($request->user()->id, $amountWithdraw);
 
 		$user_setup = UserSetup::setup($request->user()->id, $amountWithdraw, $maximumWithdrawalLimitPerday);
-
+		
 		$today_user_setup = UserSetup::
 							whereDate('created_at', '=', date('Y-m-d'))
 							->where('user_id', $request->user()->id)->first();
@@ -242,6 +242,12 @@ class TransactionController extends BaseController
 		if(!$user_setup){
 			return response()->json([
 				'message' => 'Failed, Please try again!! '
+			], 400);
+		}
+
+		if(!((float)$user_setup->balance_to_withdrawal < (float)$maximumWithdrawalLimitPerday)){
+			return response()->json([
+				'message' => 'Failed, You have reached your daily maxmium withdrawal amount of ' . $wallet->currencyShortDesc() .' ' . $maximumWithdrawalLimitPerday
 			], 400);
 		}
 
