@@ -175,29 +175,7 @@ class TransactionController extends BaseController
 				'message' => 'Failed, You cannot withdraw amount more than  '. $wallet->currencyShortDesc() .' ' . (float)$maximumWithdrawalAmount . ' per transaction'
 			], 400);
 		}
-		/**
-		 * User Setup 
-		 */
-		$user_setup_allow_withdrawal = UserSetup::allowWithdraw($request->user()->id, $amountWithdraw);
-
-		$user_setup = UserSetup::setup($request->user()->id, $amountWithdraw, $maximumWithdrawalLimitPerday);
-
-		$today_user_setup = UserSetup::
-							whereDate('created_at', '=', date('Y-m-d'))
-							->where('user_id', $request->user()->id)->first();
-	
-		if(!$user_setup_allow_withdrawal) {
-			return response()->json([
-				'message' => 'Failed, You have reached maximum withdrawal amount for today of '. $wallet->currencyShortDesc() .' ' . $maximumWithdrawalLimitPerday . ' Your balance to withdrawal is '.  $wallet->currencyShortDesc(). " ". ($maximumWithdrawalLimitPerday - (float)$today_user_setup->balance_to_withdrawal)
-			], 400);
-		}
-		// dd($maximumWithdrawalLimitPerday);
-		dd(UserSetup::find(3));
-		if(!$user_setup){
-			return response()->json([
-				'message' => 'Failed, Please try again!! '
-			], 400);
-		}
+		
 
 		// conditions
 		if($minimumWithdrawalAmount > $amountWithdraw){
@@ -240,6 +218,29 @@ class TransactionController extends BaseController
 		if(!((float)$wallet->total_balance - $total_deduction_amount >= $minimumWithdrawalAmount)){
 			return response()->json([
 				'message' => 'You wallet balance  after withdrawing should  be equal to or more than '. $wallet->currencyShortDesc() .' ' . $minimumWithdrawalAmount
+			], 400);
+		}
+
+		/**
+		 * User Setup 
+		 */
+		$user_setup_allow_withdrawal = UserSetup::allowWithdraw($request->user()->id, $amountWithdraw);
+
+		$user_setup = UserSetup::setup($request->user()->id, $amountWithdraw, $maximumWithdrawalLimitPerday);
+
+		$today_user_setup = UserSetup::
+							whereDate('created_at', '=', date('Y-m-d'))
+							->where('user_id', $request->user()->id)->first();
+	
+		if(!$user_setup_allow_withdrawal) {
+			return response()->json([
+				'message' => 'Failed, You have reached maximum withdrawal amount for today of '. $wallet->currencyShortDesc() .' ' . $maximumWithdrawalLimitPerday . ' Your balance to withdrawal is '.  $wallet->currencyShortDesc(). " ". ($maximumWithdrawalLimitPerday - (float)$today_user_setup->balance_to_withdrawal)
+			], 400);
+		}
+		// dd($maximumWithdrawalLimitPerday);
+		if(!$user_setup){
+			return response()->json([
+				'message' => 'Failed, Please try again!! '
 			], 400);
 		}
 
