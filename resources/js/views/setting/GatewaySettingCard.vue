@@ -17,15 +17,15 @@
               <b-input v-model="setting.gateway" />
             </b-field>
 
-            <b-field label="Minimum Amount">
+            <b-field label="Minimum Amount Per Trans($)">
               <b-input type="number" v-model="setting.min_amount" />
             </b-field>
 
-            <b-field label="Maximum Amount">
+            <b-field label="Maximum Amount Per Trans($)">
               <b-input type="number" v-model="setting.max_amount" />
             </b-field>
 
-            <b-field label="Withdrawal Limt Per Day Amount">
+            <b-field label="Max Limit Amount Per Day($)">
               <b-input type="number" v-model="setting.limit_per_day" />
             </b-field>
 

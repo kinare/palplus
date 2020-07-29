@@ -74096,14 +74096,14 @@ var render = function() {
                                 searchable: true
                               }
                             },
-                            [_vm._v(_vm._s(props.row.rate))]
+                            [_vm._v(_vm._s(props.row.rate) + " %")]
                           ),
                           _vm._v(" "),
                           _c(
                             "b-table-column",
                             {
                               attrs: {
-                                label: "Minimum amount",
+                                label: "Minimum Amount Per Trans($)",
                                 field: "min_amount",
                                 sortable: "",
                                 searchable: true
@@ -74116,7 +74116,7 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
-                                label: "Maximum amount",
+                                label: "Maximum Amount Per Trans($",
                                 field: "max_amount",
                                 sortable: "",
                                 searchable: true
@@ -74129,7 +74129,7 @@ var render = function() {
                             "b-table-column",
                             {
                               attrs: {
-                                label: "Limit Per Day",
+                                label: "Max Limit Amount Per Day($)",
                                 field: "limit_per_day",
                                 sortable: "",
                                 searchable: true
@@ -74353,7 +74353,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-field",
-                    { attrs: { label: "Minimum Amount" } },
+                    { attrs: { label: "Minimum Amount Per Trans($)" } },
                     [
                       _c("b-input", {
                         attrs: { type: "number" },
@@ -74371,7 +74371,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-field",
-                    { attrs: { label: "Maximum Amount" } },
+                    { attrs: { label: "Maximum Amount Per Trans($)" } },
                     [
                       _c("b-input", {
                         attrs: { type: "number" },
@@ -74389,7 +74389,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "b-field",
-                    { attrs: { label: "Withdrawal Limt Per Day Amount" } },
+                    { attrs: { label: "Max Limit Amount Per Day($)" } },
                     [
                       _c("b-input", {
                         attrs: { type: "number" },
