@@ -33,7 +33,7 @@
               field="rate"
               sortable
               :searchable="true"
-            >{{ props.row.rate }} %</b-table-column>
+            >{{ props.row.rate }}</b-table-column>
             <b-table-column
               label="Minimum Amount Per Trans($)"
               field="min_amount"
