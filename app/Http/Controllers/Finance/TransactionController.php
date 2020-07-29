@@ -150,11 +150,6 @@ class TransactionController extends BaseController
 				'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
 			], 400);
 		}
-		if(!$withdrawSetup->active){
-			return response()->json([
-				'message' => 'Oooop! We apologize for the inconvenience caused. We are working to bring the service up'
-			], 400);
-		}
 		
 		$walletBalance  = (float)$wallet->total_balance;
 
