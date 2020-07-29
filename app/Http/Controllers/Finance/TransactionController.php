@@ -244,6 +244,7 @@ class TransactionController extends BaseController
 				'message' => 'Failed, Please try again!! '
 			], 400);
 		}
+		// Check the amount to limit per day
 
 		if(!((float)$user_setup->balance_to_withdrawal < (float)$maximumWithdrawalLimitPerday)){
 			return response()->json([
@@ -419,10 +420,11 @@ class TransactionController extends BaseController
         $transactionFees = "";
 
         $ceilingAmount  =(float) $this->withdrawCheckAmount($wallet->currencyShortDesc(), 1)['data']['amount'];
-        $withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();
-        $defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
-        $transactionRateFees = (float)((float)$amount *($withdrawSetup->rate /100));
-        
+		$withdrawSetup = \App\GatewaySetup::where('type', 'WITHDRAWAL')->where('active', true)->first();	
+		$defaultTransactionFees  = (ceil($ceilingAmount/1000)*100)*1;
+		if($withdrawSetup->rate){
+			$transactionRateFees = (float)((float)$amount *($withdrawSetup->rate /100));
+		}        
 
         if($transactionRateFees > $defaultTransactionFees ){
             $transactionFees = $transactionRateFees;
