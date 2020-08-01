@@ -18,7 +18,7 @@ export default {
   components: {
     FooterBar,
     AsideMenu,
-    NavBar
+    NavBar,
   },
   computed: {
     menu() {
@@ -27,8 +27,13 @@ export default {
           {
             to: "/dashboard",
             icon: "desktop-mac-dashboard",
-            label: "Dashboard"
-          }
+            label: "Dashboard",
+          },
+          {
+            to: "/communication",
+            icon: "desktop-mac-dashboard",
+            label: "Communicate",
+          },
         ],
         [
           {
@@ -37,25 +42,25 @@ export default {
             menu: [
               {
                 to: "/wallets",
-                label: "Wallets"
+                label: "Wallets",
               },
               {
                 to: "/wallets-transactions/credit",
-                label: "Deposits"
+                label: "Deposits",
               },
               {
                 to: "/wallets-transactions/debit",
-                label: "Withdrawals"
-              }
-            ]
-          }
+                label: "Withdrawals",
+              },
+            ],
+          },
         ],
         [
           {
             to: "/currency-rates",
             icon: "cash",
-            label: "Currency rates"
-          }
+            label: "Currency rates",
+          },
         ],
         [
           {
@@ -65,32 +70,32 @@ export default {
               {
                 to: "/admins",
                 icon: "account-supervisor",
-                label: "View admin users"
+                label: "View admin users",
               },
               {
                 to: "/admin-card",
                 icon: "account-plus",
-                label: "New admin"
-              }
-            ]
-          }
+                label: "New admin",
+              },
+            ],
+          },
         ],
         [
           {
             to: "/groups",
             label: "Groups",
-            icon: "account-group"
+            icon: "account-group",
           },
           {
             to: "/members",
             label: "Members",
-            icon: "account-supervisor-circle"
+            icon: "account-supervisor-circle",
           },
           {
             to: "/reportings",
             label: "Reportings",
-            icon: "whistle"
-          }
+            icon: "whistle",
+          },
         ],
         [
           {
@@ -99,29 +104,29 @@ export default {
             menu: [
               {
                 to: "/group-withdrawal-requests",
-                label: "Group withdrawal requests"
+                label: "Group withdrawal requests",
               },
               {
                 to: "/transactions/credit",
-                label: "Deposits"
+                label: "Deposits",
               },
               {
                 to: "/transactions/debit",
-                label: "Withdrawals"
+                label: "Withdrawals",
               },
               {
                 to: "/paypal-withdrawal",
-                label: "Paypal Withdrawal"
-              }
-            ]
-          }
+                label: "Paypal Withdrawal",
+              },
+            ],
+          },
         ],
         [
           {
             to: "/investment-opportunity",
             label: "Investment opportunity",
-            icon: "cash-usd"
-          }
+            icon: "cash-usd",
+          },
         ],
         [
           {
@@ -130,14 +135,14 @@ export default {
             menu: [
               {
                 to: "/loans/approved",
-                label: "Pending loans"
+                label: "Pending loans",
               },
               {
                 to: "/loans/cleared",
-                label: "Paid loans"
-              }
-            ]
-          }
+                label: "Paid loans",
+              },
+            ],
+          },
         ],
         [
           {
@@ -146,29 +151,29 @@ export default {
             menu: [
               {
                 to: "/setups/withdrawal",
-                label: "Withdrawal"
+                label: "Withdrawal",
               },
               {
                 to: "/setups/deposit",
-                label: "Deposit"
+                label: "Deposit",
               },
               {
                 to: "/advert-setups",
-                label: "Ad setup"
+                label: "Ad setup",
               },
               {
                 to: "/group-setups",
-                label: "Group setup"
-              }
-            ]
-          }
-        ]
+                label: "Group setup",
+              },
+            ],
+          },
+        ],
       ];
-    }
+    },
   },
   created() {
     this.$store.dispatch("Auth/user");
-  }
+  },
 };
 </script>
 

@@ -23,6 +23,7 @@
     "bulma-helpers": "^0.3.8",
     "chart.js": "^2.9.2",
     "core-js": "^2.6.10",
+    "libphonenumber-js": "^1.7.55",
     "moment": "^2.22.0",
     "numeral": "^2.0.6",
     "vue-chartjs": "^3.5.0",

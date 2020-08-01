@@ -71,6 +71,7 @@ Route::group(['prefix' => ''], function () {
             Route::get('/reportings', 'DashboardController@reportings');
             Route::post('/suspend-group', 'DashboardController@suspendGroup');
             Route::post('/suspend-member', 'DashboardController@suspendMember');
+            Route::post('/send-sms', 'DashboardController@sendMessage');
             Route::post('/toggle-group-active', 'DashboardController@toggleGroupActive');
             Route::post('/toggle-member-active', 'DashboardController@toggleMemberActive');
 
