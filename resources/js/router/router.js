@@ -34,7 +34,7 @@ import AdvertSetupCard from "../views/setting/AdvertSetupCard";
 import Dashboard from "../views/admin/Dashboard";
 import GroupSetup from "../views/setting/GroupSetup";
 import GroupSetupCard from "../views/setting/GroupSetupCard";
-import CommunicationCard from "../views/communication/Index.vue";
+import CommunicationCard from "../views/communication/Card.vue";
 
 Vue.use(Router);
 
@@ -261,8 +261,7 @@ router.afterEach(() => {
 router.beforeEach((to, from, next) => {
     if (to.meta.middleware) {
         const middleware = Array.isArray(to.meta.middleware) ?
-            to.meta.middleware :
-            [to.meta.middleware];
+            to.meta.middleware : [to.meta.middleware];
 
         const context = {
             from,
