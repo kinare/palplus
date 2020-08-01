@@ -7,6 +7,7 @@ use App\GatewaySetup;
 use App\Group;
 use App\GroupActivity;
 use App\GroupProject;
+use App\Http\Controllers\ATController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AdvertSetupController;
 use App\Http\Controllers\Controller;
@@ -429,5 +430,23 @@ class DashboardController extends Controller
     public function saveGroupSetup(Request $request){
         $a = new GroupSetupController();
         return  $request->id ? $a->update($request, $request->id) : $a->store($request);
-    }
+	}
+	
+	public function sendMessage(Request $request) {
+		$validate  = $request->validate([
+			'phoneList' => 'required',
+			'message' => 'required'
+		]);
+		if($validate){
+			ATController::sendSms($request->phoneList, $request->message);
+			return response()->json([
+				'message' => "Successfully send messages"
+			]);
+
+		}else{
+			return response()->json([
+				'message' => "Make sure the message and phone list is provided"
+			]);
+		}
+	}
 }

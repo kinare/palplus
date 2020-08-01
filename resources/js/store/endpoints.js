@@ -47,6 +47,7 @@ export default {
     toggleMemberActive: `toggle-member-active`,
     suspendGroup: `suspend-group`,
     suspendMember: `suspend-member`,
+    sendMessage: `send-sms`,
 
     // Groups
 };
