@@ -19,6 +19,7 @@ export default {
     currency: `currency`,
     groups: `groups`,
     group: (id) => `group/${id}`,
+    group_details: `group`,
     myGroups: (id) => `my-groups/${id}`,
     activity: `activity`,
     memberActivity: (id) => `member-activity/${id}`,
@@ -48,6 +49,7 @@ export default {
     suspendGroup: `suspend-group`,
     suspendMember: `suspend-member`,
     sendMessage: `send-sms`,
+    currency: `currency`,
 
     // Groups
 };
