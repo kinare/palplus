@@ -1,6 +1,6 @@
 /* Core */
-import Vue from 'vue'
-import Buefy from 'buefy'
+import Vue from "vue";
+import Buefy from "buefy";
 
 /* Router & Store */
 import router from "./router/router";
@@ -10,14 +10,15 @@ import store from "./store/store";
 import { Listener, Status } from "./mixins";
 
 /* Styles */
-import '../scss/main.scss'
-import '@mdi/font/css/materialdesignicons.css'
+import "../scss/main.scss";
+import "@mdi/font/css/materialdesignicons.css";
+import "vue-select/dist/vue-select.css";
 
 /* Vue. Component in recursion */
-import AsideMenuList from './components/AsideMenuList'
+import AsideMenuList from "./components/AsideMenuList";
 
 /* Utilities */
-import { filters, helper, validator} from "./utils";
+import { filters, helper, validator } from "./utils";
 
 Vue.config.productionTip = true;
 Vue.use(Buefy);
@@ -27,16 +28,16 @@ window.validator = validator;
 Event = new Vue();
 Vue.prototype.appName = process.env.MIX_VUE_APP_NAME;
 
-filters.forEach(f => {
+filters.forEach((f) => {
     Vue.filter(f.name, f.execute);
 });
 
 /* These components are used in recursion algorithm */
-Vue.component('AsideMenuList', AsideMenuList);
+Vue.component("AsideMenuList", AsideMenuList);
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     router,
     store,
-    mixins : [Listener, Status]
+    mixins: [Listener, Status],
 });

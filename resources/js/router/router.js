@@ -22,8 +22,6 @@ import Card from "../views/group/Card";
 import Payments from "../views/transaction/Payments";
 import MembershipSetting from "../views/setting/MembershipSetting";
 import LoanSetting from "../views/setting/LoanSetting";
-import Activity from "../views/group/Activity";
-import Project from "../views/group/Project";
 import NextOfKin from "../views/member/NextOfKin";
 import GatewaySetting from "../views/setting/GatewaySetting";
 import PaypalRequests from "../views/transaction/PaypalRequests";
@@ -35,6 +33,15 @@ import Dashboard from "../views/admin/Dashboard";
 import GroupSetup from "../views/setting/GroupSetup";
 import GroupSetupCard from "../views/setting/GroupSetupCard";
 import CommunicationCard from "../views/communication/Card.vue";
+
+/**
+ * GROUP Details
+ */
+import Activity from "../views/group/Activity";
+import Project from "../views/group/Project";
+/**
+ * END OF GRoup Details
+ */
 
 Vue.use(Router);
 
@@ -261,7 +268,8 @@ router.afterEach(() => {
 router.beforeEach((to, from, next) => {
     if (to.meta.middleware) {
         const middleware = Array.isArray(to.meta.middleware) ?
-            to.meta.middleware : [to.meta.middleware];
+            to.meta.middleware :
+            [to.meta.middleware];
 
         const context = {
             from,

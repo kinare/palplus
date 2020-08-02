@@ -27,11 +27,12 @@
     "libphonenumber-js": "^1.7.55",
     "numeral": "^2.0.6",
     "vue-chartjs": "^3.5.0",
-    "vue-router": "^3.1.6",
-    "vue-scrollto": "^2.18.1",
-    "vue-toasted": "^1.1.28",
-    "vuex": "^3.4.0",
-    "vuex-persist": "^2.2.0"
+    "vue-router": "^3.1.3",
+    "vue-scrollto": "^2.17.1",
+    "vue-select": "^3.10.7",
+    "vue-toasted": "^1.1.27",
+    "vuex": "^3.1.1",
+    "vuex-persist": "^2.1.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
