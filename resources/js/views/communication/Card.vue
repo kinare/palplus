@@ -50,7 +50,7 @@
                             :key="index"
                             :label="phone"
                         >
-                            <button class="button">{{ phone }}</button>
+                            <p class="button">{{ phone }}</p>
                         </b-tooltip>
                         <b-button
                             class="button"

@@ -18,6 +18,7 @@ import WithdrawalRequest from "../views/transaction/WithdrawalRequest";
 import Transaction from "../views/transaction/Transaction";
 import Investment from "../views/investment/Investment";
 import Loan from "../views/loan/Loan";
+import GroupChats from "../views/group/Chats";
 import Card from "../views/group/Card";
 import Payments from "../views/transaction/Payments";
 import MembershipSetting from "../views/setting/MembershipSetting";
@@ -48,10 +49,12 @@ Vue.use(Router);
 const router = new Router({
     mode: "history",
     base: process.env.BASE_URL,
-    routes: [{
+    routes: [
+        {
             path: "/",
             component: palplus,
-            children: [{
+            children: [
+                {
                     path: "/",
                     redirect: "/dashboard",
                 },
@@ -110,6 +113,12 @@ const router = new Router({
                     path: "/group-card/:id",
                     name: "Group Card",
                     component: Card,
+                    meta: { middleware: auth },
+                },
+                {
+                    path: "/group-chats/:id",
+                    name: "Group Card",
+                    component: GroupChats,
                     meta: { middleware: auth },
                 },
                 {
@@ -267,9 +276,9 @@ router.afterEach(() => {
 
 router.beforeEach((to, from, next) => {
     if (to.meta.middleware) {
-        const middleware = Array.isArray(to.meta.middleware) ?
-            to.meta.middleware :
-            [to.meta.middleware];
+        const middleware = Array.isArray(to.meta.middleware)
+            ? to.meta.middleware
+            : [to.meta.middleware];
 
         const context = {
             from,
@@ -279,7 +288,7 @@ router.beforeEach((to, from, next) => {
         };
         const nextMiddleware = nextFactory(context, middleware, 1);
 
-        return middleware[0]({...context, next: nextMiddleware });
+        return middleware[0]({ ...context, next: nextMiddleware });
     }
 
     return next();

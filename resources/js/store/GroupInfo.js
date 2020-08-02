@@ -1,7 +1,7 @@
 import endpoints from "./endpoints";
 import call from "../modules/api";
 
-const Member = {
+const GroupInfo = {
     namespaced: true,
     state: {
         members: [],
@@ -27,14 +27,17 @@ const Member = {
     },
 
     actions: {
-        getMembers: (context) => {
-            call("get", endpoints.members).then((res) => {
-                context.commit("SET_MEMBERS", res.data.data);
-            });
+        getMembers: (context, group_id) => {
+            call("get", endpoints.group_details + `/members/${group_id}`).then(
+                (res) => {
+                    console.log("members", group_id);
+                    context.commit("SET_MEMBERS", res.data.data);
+                }
+            );
         },
 
         getMember: (context, id) => {
-            call("get", endpoints.member(id)).then((res) => {
+            call("get", endpoints.group_details).then((res) => {
                 context.commit("SET_MEMBER", res.data.data);
             });
         },
@@ -59,4 +62,4 @@ const Member = {
     },
 };
 
-export default Member;
+export default GroupInfo;
