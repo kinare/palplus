@@ -158,7 +158,7 @@ const router = new Router({
                     meta: { middleware: auth },
                 },
                 {
-                    path: "/transactions/:type?/:owner?/:id?",
+                    path: "/transactions/:type?/:owner?/:id?/:title?",
                     name: "Transactions",
                     component: Transaction,
                     meta: { middleware: auth },

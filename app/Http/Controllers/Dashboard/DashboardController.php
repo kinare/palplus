@@ -157,8 +157,7 @@ class DashboardController extends Controller
      * )
      */
     public function groups(){
-        $groups= new GroupController();
-        return $groups->index();
+        return GroupResource::collection(Group::all());
     }
 
     /**

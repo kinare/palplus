@@ -1,6 +1,9 @@
 <template>
   <div>
-    <hero-bar :has-right-visible="true">Transactions</hero-bar>
+    <hero-bar :has-right-visible="true">
+      <span v-if="$route.params.title">{{$route.params.title}}</span>
+      Transactions
+    </hero-bar>
     <section class="section is-main-section">
       <card-component title="Transactions" class="has-table has-mobile-sort-spaced">
         <b-table
@@ -103,11 +106,11 @@ export default {
       trashObject: null,
       isLoading: false,
       paginated: true,
-      perPage: 10
+      perPage: 10,
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(v => {
+    next((v) => {
       v.$store.dispatch("Transaction/getTransactions");
       v.type = to.params.type;
       v.owner = to.params.owner;
@@ -118,7 +121,7 @@ export default {
     transactions() {
       if (this.owner && this.owner_id) {
         return this.$store.getters["Transaction/transactions"]
-          .filter(trans => {
+          .filter((trans) => {
             return (
               trans.entry === this.type &&
               trans.owner === this.owner &&
@@ -128,12 +131,12 @@ export default {
           .reverse();
       }
       return this.$store.getters["Transaction/transactions"]
-        .filter(trans => {
+        .filter((trans) => {
           return trans.entry === this.type;
         })
         .reverse();
-    }
-  }
+    },
+  },
 };
 </script>
 

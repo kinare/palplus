@@ -5051,74 +5051,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -5961,61 +5893,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ModalBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/ModalBox */ "./resources/js/components/ModalBox.vue");
 /* harmony import */ var _components_CardComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/CardComponent */ "./resources/js/components/CardComponent.vue");
 /* harmony import */ var _components_HeroBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/HeroBar */ "./resources/js/components/HeroBar.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -7506,6 +7383,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TitleBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/TitleBar */ "./resources/js/components/TitleBar.vue");
 /* harmony import */ var _components_CardComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/CardComponent */ "./resources/js/components/CardComponent.vue");
 /* harmony import */ var _components_HeroBar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/HeroBar */ "./resources/js/components/HeroBar.vue");
+//
+//
+//
 //
 //
 //
@@ -78460,7 +78340,8 @@ var render = function() {
                                           attrs: {
                                             to:
                                               "transactions/credit/Group/" +
-                                              props.row.id
+                                              props.row.id +
+                                              "/Deposits"
                                           }
                                         },
                                         [_vm._v("deposits")]
@@ -78472,7 +78353,8 @@ var render = function() {
                                           attrs: {
                                             to:
                                               "transactions/debit/Group/" +
-                                              props.row.id
+                                              props.row.id +
+                                              "/Withdrawals"
                                           }
                                         },
                                         [_vm._v("withdrawals")]
@@ -80559,9 +80441,11 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(
-                                      props.row.active ? "active" : "inactive"
-                                    )
+                                    "\n              " +
+                                      _vm._s(
+                                        props.row.active ? "active" : "inactive"
+                                      ) +
+                                      "\n            "
                                   )
                                 ]
                               )
@@ -80631,7 +80515,8 @@ var render = function() {
                                           attrs: {
                                             to:
                                               "transactions/credit/User/" +
-                                              props.row.id
+                                              props.row.id +
+                                              "/Deposists"
                                           }
                                         },
                                         [_vm._v("deposits")]
@@ -80643,7 +80528,8 @@ var render = function() {
                                           attrs: {
                                             to:
                                               "transactions/debit/User/" +
-                                              props.row.id
+                                              props.row.id +
+                                              "/Withdrawals"
                                           }
                                         },
                                         [_vm._v("withdrawals")]
@@ -83223,7 +83109,10 @@ var render = function() {
     "div",
     [
       _c("hero-bar", { attrs: { "has-right-visible": true } }, [
-        _vm._v("Transactions")
+        _vm.$route.params.title
+          ? _c("span", [_vm._v(_vm._s(_vm.$route.params.title))])
+          : _vm._e(),
+        _vm._v("\n    Transactions\n  ")
       ]),
       _vm._v(" "),
       _c(
@@ -103212,7 +103101,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
         middleware: _middleware__WEBPACK_IMPORTED_MODULE_9__["auth"]
       }
     }, {
-      path: "/transactions/:type?/:owner?/:id?",
+      path: "/transactions/:type?/:owner?/:id?/:title?",
       name: "Transactions",
       component: _views_transaction_Transaction__WEBPACK_IMPORTED_MODULE_17__["default"],
       meta: {
