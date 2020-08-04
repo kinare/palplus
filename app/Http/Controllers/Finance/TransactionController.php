@@ -239,6 +239,11 @@ class TransactionController extends BaseController
 				'message' => 'Failed, Please try again!! '
 			], 400);
 		}
+		// if($user_setup->balance_to_withdrawal == null){
+		// 	return response()->json([
+		// 		'message' => 'Failed, Please try again!! '
+		// 	], 400);
+		// }
 		// Check the amount to limit per day
 
 		if(!((float)$user_setup->balance_to_withdrawal < (float)$maximumWithdrawalLimitPerday)){

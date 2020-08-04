@@ -21,13 +21,11 @@ class UserSetup extends Model
 			return true;
 		}
 
-		$balance_after_withdrawal =(float)$setup->maximum_withdrawal_amount - ((float)$setup->total_withdrawal + $amount);
-		if((int)$balance_after_withdrawal <= 0){
-			return false;
-		}
-
-
-		
+		// $balance_after_withdrawal =(float)$setup->maximum_withdrawal_amount - ((float)$setup->total_withdrawal + $amount);
+		// if((int)$balance_after_withdrawal <= 0){
+		// 	return false;
+		// }
+			
 		// then calculate the amount
 		if((float)$setup->balance_to_withdrawal >= (float)$setup->maximum_withdrawal_amount){
 			return false;
