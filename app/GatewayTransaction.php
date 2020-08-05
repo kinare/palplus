@@ -64,7 +64,7 @@ class GatewayTransaction extends BaseModel
 			'email' => $account->email,
 			'cardno' => $account->cardno,
 			'expiryyear' =>$account->expiryyear,
-			'expirymonth' =>$axxount->expirymonth,
+			'expirymonth' =>$account->expirymonth,
             'phonenumber' => $account->phonenumber,
             'firstname' => $account->firstname,
             'lastname' => $account->lastname,
