@@ -76,8 +76,8 @@ class TransactionController extends BaseController
                 ]);
 
             case 'BANK ACCOUNT' : //done
-                $account->payment_type = 'account';
-                $account->accountbank = '232';
+                // $account->payment_type = 'account';
+                // $account->accountbank = '232';
                 $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
                 $bank = new BankAccount();
                 return $bank->transact($transaction);
@@ -227,6 +227,7 @@ class TransactionController extends BaseController
 		$today_user_setup = UserSetup::
 							whereDate('created_at', '=', date('Y-m-d'))
 							->where('user_id', $request->user()->id)->first();
+
 	
 		if(!$user_setup_allow_withdrawal) {
 			return response()->json([
@@ -234,7 +235,7 @@ class TransactionController extends BaseController
 			], 400);
 		}
 		// dd($maximumWithdrawalLimitPerday);
-		if(!$user_setup){
+		if(!$today_user_setup){
 			return response()->json([
 				'message' => 'Failed, Please try again!! '
 			], 400);
@@ -246,7 +247,7 @@ class TransactionController extends BaseController
 		// }
 		// Check the amount to limit per day
 
-		if(!((float)$user_setup->balance_to_withdrawal < (float)$maximumWithdrawalLimitPerday)){
+		if(!((float)$today_user_setup->balance_to_withdrawal < (float)$maximumWithdrawalLimitPerday)){
 			return response()->json([
 				'message' => 'Failed, You have reached your daily maxmium withdrawal amount of ' . $wallet->currencyShortDesc() .' ' . $maximumWithdrawalLimitPerday
 			], 400);

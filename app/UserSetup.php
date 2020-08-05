@@ -20,18 +20,19 @@ class UserSetup extends Model
 		if(!$setup){
 			return true;
 		}
-
-		// $balance_after_withdrawal =(float)$setup->maximum_withdrawal_amount - ((float)$setup->total_withdrawal + $amount);
-		// if((int)$balance_after_withdrawal <= 0){
-		// 	return false;
-		// }
+		if($setup){
+			$balance_after_withdrawal =(float)$setup->maximum_withdrawal_amount - ((float)$setup->total_withdrawal + $amount);
+			if((int)$balance_after_withdrawal <= 0){
+				return false;
+			}
+			// then calculate the amount
+			if((float)$setup->balance_to_withdrawal >= (float)$setup->maximum_withdrawal_amount){
+				return false;
+			}
 			
-		// then calculate the amount
-		if((float)$setup->balance_to_withdrawal >= (float)$setup->maximum_withdrawal_amount){
-			return false;
-		}
-		
-		if(((float)$balance_after_withdrawal < (float)$setup->maximum_withdrawal_amount)){
+			if(((float)$balance_after_withdrawal < (float)$setup->maximum_withdrawal_amount)){
+				return true;
+			}
 			return true;
 		}
 		return false;
@@ -58,6 +59,7 @@ class UserSetup extends Model
 			$setup->balance_to_withdrawal = (float)$setup->balance_to_withdrawal +  $amount;
 			$setup->save();
 			return true;
+
 		}else if(!$setup){
 			$new_setup = new UserSetup();
 			$new_setup->user_id = $user_id;

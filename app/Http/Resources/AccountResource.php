@@ -35,6 +35,7 @@ class AccountResource extends JsonResource
             "payment_type"=> $this->payment_type,
             "accountbank"=> $this->accountbank,
             "passcode"=> $this->passcode,
+            "cardno"=> $this->cardno,
             "bvn"=> $this->bvn,
             "expirymonth"=> $this->expirymonth,
             "expiryyear"=> $this->expiryyear,
