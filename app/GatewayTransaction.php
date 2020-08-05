@@ -71,7 +71,8 @@ class GatewayTransaction extends BaseModel
             'IP' => $ip ?: '',
             'txRef' => 'PP-'.Carbon::now()->timestamp,
             'device_fingerprint' => $fingerPrint,
-        ];
+		];
+		
 
         $transaction = new self();
         $transaction->user_id = Auth::user()->id;

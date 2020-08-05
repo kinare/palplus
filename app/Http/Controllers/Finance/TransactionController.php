@@ -76,7 +76,7 @@ class TransactionController extends BaseController
                 ]);
 
             case 'BANK ACCOUNT' : //done
-                // $account->payment_type = 'account';
+                $account->payment_type = 'account';
                 // $account->accountbank = '232';
                 $transaction = GatewayTransaction::initAccount($account, $request->amount, $request->ip());
                 $bank = new BankAccount();
