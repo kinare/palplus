@@ -56,7 +56,7 @@ class GatewayTransaction extends BaseModel
             'accountbank' => $account->accountbank ?: '',
             'accountnumber' => $account->number,
             'currency' => $account->currency,
-            'payment_type' => $account->payment_type ?: '',
+            'payment_type' => $account->payment_type ? $account->payment_type : 'account',
             'country' =>$account->country,
             'amount' => $amount,
             'passcode' => $account->passcode ?: '',
